@@ -19,7 +19,10 @@
     "pack:Menu": "nx build menu && npm pack ./dist/libs/menu --pack-destination ./artifacts",
     "pack:ModuloAPK": "nx build ModuloAPK && npm pack ./dist/libs/ModuloAPK --pack-destination ./artifacts",
     "pack:Pivot": "nx build Pivot && npm pack ./dist/libs/Pivot --pack-destination ./artifacts",
-    "pack:Settings": "nx build Settings && npm pack ./dist/libs/Settings --pack-destination ./artifacts"
+    "pack:Settings": "nx build Settings && npm pack ./dist/libs/Settings --pack-destination ./artifacts",
+    "version:bump": "node tools/release-version.mjs",
+    "version:check": "node tools/release-version.mjs --dry-run",
+    "version:init-tags": "node tools/release-version.mjs --init-tags"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.2.14",

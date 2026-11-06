@@ -22,5 +22,25 @@
     "test": {
       "cache": true
     }
+  },
+  "release": {
+    "projectsRelationship": "independent",
+    "projects": [
+      "*"
+    ],
+    "releaseTagPattern": "{projectName}@{version}",
+    "version": {
+      "currentVersionResolver": "disk",
+      "updateDependents": "never",
+      "git": {
+        "commit": true,
+        "tag": true,
+        "commitMessage": "chore(release): aggiornamento versioni"
+      }
+    },
+    "changelog": {
+      "projectChangelogs": false,
+      "workspaceChangelog": false
+    }
   }
 }
