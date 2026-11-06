@@ -8,6 +8,7 @@
 //   node tools/release-version.mjs minor        -> minor sui progetti modificati
 //   node tools/release-version.mjs --dry-run    -> mostra cosa farebbe, senza modificare nulla
 //   node tools/release-version.mjs --init-tags  -> crea i tag iniziali con le versioni attuali
+//   node tools/release-version.mjs --projects=menu,Combo -> considera solo questi progetti
 import { execSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -16,6 +17,8 @@ const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const initTags = args.includes('--init-tags');
 const bump = args.find((a) => ['patch', 'minor', 'major'].includes(a)) ?? 'patch';
+const onlyArg = args.find((a) => a.startsWith('--projects='));
+const only = onlyArg ? new Set(onlyArg.slice('--projects='.length).split(',').filter(Boolean)) : null;
 
 const sh = (cmd) => execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const tagExists = (tag) => {
@@ -32,6 +35,7 @@ for (const dir of ['apps', 'libs']) {
     const packageJson = join(root, 'package.json');
     if (!existsSync(projectJson) || !existsSync(packageJson)) continue;
     const name = JSON.parse(readFileSync(projectJson, 'utf8')).name;
+    if (only && !initTags && !only.has(name)) continue;
     const version = JSON.parse(readFileSync(packageJson, 'utf8')).version;
     projects.push({ name, root, version, tag: `${name}@${version}` });
   }
@@ -45,6 +49,20 @@ if (initTags) {
   }
   console.log('\nRicorda di inviarli a GitHub con:  git push --tags');
   process.exit(0);
+}
+
+if (only && projects.length !== only.size) {
+  const found = new Set(projects.map((p) => p.name));
+  console.error(`✖ Progetti non trovati: ${[...only].filter((n) => !found.has(n)).join(', ')}`);
+  process.exit(1);
+}
+
+// Il commit di versione includerebbe anche file già in stage: meglio fermarsi.
+try { sh('git diff --cached --quiet'); } catch {
+  if (!dryRun) {
+    console.error('✖ Ci sono file in stage (git add) non committati: committali o togli lo stage prima di aggiornare le versioni.');
+    process.exit(1);
+  }
 }
 
 if (sh('git status --porcelain')) {
