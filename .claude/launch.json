@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "frame-component-lib",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nx",
+        "serve",
+        "frame-component-lib",
+        "--port",
+        "4299"
+      ],
+      "port": 4299
+    },
+    {
+      "name": "Mappe",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nx",
+        "serve",
+        "Mappe",
+        "--port",
+        "4298"
+      ],
+      "port": 4298
+    }
+  ]
+}

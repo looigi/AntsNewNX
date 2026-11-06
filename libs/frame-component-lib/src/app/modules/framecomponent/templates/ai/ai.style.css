@@ -225,19 +225,24 @@
     color: #334155;
 }
 
-.good {
+.confirmed {
   background: #dcfce7;
-  color: #087f3a;
+  color: #2fb315;
 }
 
-.medium {
+.excluded {
     background: #f3f081;
-    color: #636309;
+    color: #2fb315;
  }
 
-.bad {
+.inconclusive {
+  background: #bdf9f6;
+  color: #1ce3f1;
+}
+
+.not_applicable {
   background: #f9bdbd;
-  color: #f11c1c;
+  color: #edf11c;
 }
 
 /* SEZIONE DESTRA CHAT */
@@ -377,4 +382,30 @@ h2{
 
 .graph-wrapper .etichetta-entrata {
   fill: #1a4f8b;
+}
+
+/* Barretta colorata a sinistra dei tab di Expert Investigation, per distinguerli per categoria.
+   Per una nuova categoria: aggiungere una classe .tab-categoria--<nome> che imposta --colore-categoria. */
+.tab-categoria {
+  display: inline-block;
+  border-left: 4px solid var(--colore-categoria, #2e9e4f);
+  border-radius: 1px;
+  padding-left: 6px;
+  line-height: 1.2;
+}
+
+.tab-categoria--marrone {
+  --colore-categoria: #174394;
+}
+
+.tab-categoria--verde {
+  --colore-categoria: #2e9e4f;
+}
+
+.tab-categoria--blu {
+  --colore-categoria: #1d4ed8;
+}
+
+.tab-categoria--viola {
+  --colore-categoria: #8b2e9e;
 }

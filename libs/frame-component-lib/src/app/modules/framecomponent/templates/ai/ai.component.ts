@@ -10,6 +10,12 @@ import ExternalUtilities from "../../ExternalUtilities.component";
 import { environment } from "../../../../../environments/environment";
 // import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { GraphComponent } from '@swimlane/ngx-graph';
+// ngx-graph anima le frecce con selection.transition(), che esiste solo dopo il caricamento di d3-transition. ngx-graph
+// lo importa senza nomi (import 'd3-transition') e si dichiara "sideEffects": false, quindi il build di Angular può
+// eliminare quell'import: errore "linkSelection.attr(...).transition is not a function" (es. spostando un nodo).
+// Qui lo si importa con un nome usato nel codice (D3_TRANSITION_CARICATO) così il modulo resta sempre incluso.
+import { transition as d3Transition } from 'd3-transition';
+const D3_TRANSITION_CARICATO = typeof d3Transition === 'function';
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
 import { hash } from "ol/tilecoord";
@@ -277,8 +283,8 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
     orientation: 'TB',
     // Margine a sinistra: le descrizioni sopra/sotto i nodi possono essere più larghe del nodo
     marginX: 40,
-    // Spazio sopra il primo livello per l'INVESTIGATION_GOAL scritto sopra i nodi iniziali
-    marginY: 30
+    // Spazio sopra il primo livello per INVESTIGATION_GOAL ed expected_information_gain scritti sopra i nodi iniziali
+    marginY: 44
   };
 
   // Dimensioni reali del grafo disegnato (larghezza, altezza) e timer per misurarle dopo ogni disegno
@@ -605,7 +611,7 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   ngOnInit(): void {        
     this.LeggeSimbolici();
-    logConsole('AI: Entro in ngOnInit', new Date().toLocaleString());
+    logConsole('AI: Entro in ngOnInit', new Date().toLocaleString(), 'd3-transition caricato:', D3_TRANSITION_CARICATO);
   }
 
   nonDeveAggiornare = false;
@@ -1897,6 +1903,39 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
       : unaRiga;
   }
 
+  // Campo contenuto nella struttura ai_req della riga (oggetto oppure JSON in stringa; accettato anche v_aireq).
+  // Se la struttura non c'è o non lo contiene, si cerca il campo direttamente nella riga.
+  campoAiReq(riga, nome: string): string {
+    if (!riga) {
+      return '';
+    }
+    for (const nomeStruttura of ['ai_req', 'v_aireq']) {
+      const chiave = Object.keys(riga).find(k => k.toUpperCase().replace(/[^A-Z0-9]/g, '') === nomeStruttura.toUpperCase().replace(/[^A-Z0-9]/g, ''));
+      if (chiave === undefined) {
+        continue;
+      }
+      let struttura = riga[chiave];
+      if (typeof struttura === 'string') {
+        try {
+          struttura = JSON.parse(struttura);
+        } catch (e) {
+          struttura = undefined;
+        }
+      }
+      // Può arrivare anche come array con un solo elemento
+      if (Array.isArray(struttura)) {
+        struttura = struttura[0];
+      }
+      if (struttura && typeof struttura === 'object') {
+        const valore = this.campoRiga(struttura, nome);
+        if (valore) {
+          return valore;
+        }
+      }
+    }
+    return this.campoRiga(riga, nome);
+  }
+
   // Punto dell'arco a una frazione t del percorso (0 = inizio, 1 = fine): 0.25 per la descrizione in uscita,
   // 0.75 per quella in entrata
   puntoSuArco(link, t: number): { x: number, y: number } {
@@ -1954,8 +1993,6 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
           id: element.NODE_PATH,
           // Ultima riga del nodo: la valutazione dell'obiettivo al posto dello stato (lo stato resta nell'icona a destra)
           label: element.NODE_PATH + "\n" + element.TITLE + "\n" + this.campoRiga(element, 'GOAL_ASSESSMENT'),
-          // Valutazione 'inconclusive': il nodo viene sottolineato in rosso
-          inconcludente: this.campoRiga(element, 'GOAL_ASSESSMENT').toUpperCase() === 'INCONCLUSIVE',
           icona: (colonnaStato && this.iconaDaGriglia(colonnaStato, element)) || this.iconaStatoNodo(element.STATUS),
           iconaSinistra: this.iconaDaGriglia(colonnaSinistra, element),
           titoloIconaSinistra: colonnaSinistra ? element[colonnaSinistra.key] : '',
@@ -2031,6 +2068,12 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
         const obiettivo = this.campoRiga(n.riga, 'INVESTIGATION_GOAL');
         n.obiettivoIniziale = obiettivo;
         n.obiettivoInizialeBreve = this.abbreviaEtichetta(obiettivo);
+        // Expected gain del nodo iniziale, scritto sotto l'obiettivo (subito sopra il nodo)
+        const guadagno = this.campoAiReq(n.riga, 'EXPECTED_INFORMATION_GAIN');
+        n.guadagnoAtteso = guadagno;
+        n.guadagnoAttesoBreve = guadagno ? this.abbreviaEtichetta('Expected gain: ' + guadagno) : '';
+
+        console.log('Nodo iniziale', n.riga, 'guadagno atteso:', guadagno);
       }
     });
 
@@ -2271,11 +2314,16 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
 
   // Si apre sul tab Prompt (posizione 2, dopo System Prompt e Investigation Memory Instructions)
   tabSelezionato2 = 2;
+  tabSelezionato3 = 0;
   systemPrompt = '';
   summaryInstruction = '';
 
   onTabSelect2(e) {
     this.tabSelezionato2 = e.index;
+  }
+
+  onTabSelect3(e) {
+    this.tabSelezionato3 = e.index;
   }
 
   ritornoDimensioniColonneAI(e) {
@@ -3016,20 +3064,25 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
               const titolo = "<div class='row-user'><div class='user-bubble'>" + element.title + "</div></div><br />";
               const summary = JSON.parse(element.summary);
               let confidenza = '';
-              let valConfidenza = 0;
+              let testoConfidenza = '';
 
+              /* let valConfidenza = 0;
               if (summary && summary.executive_summary && summary.executive_summary.confidence) {
                 valConfidenza = +summary.executive_summary.confidence;
 
                 if (valConfidenza < 0.5) {
-                  confidenza = 'good';
+                  confidenza = 'bad';
                 } else {
                   if (valConfidenza >= 0.5 && valConfidenza <= 0.8) {
                     confidenza = 'medium';
                   } else {
-                    confidenza = 'bad';
+                    confidenza = 'good';
                   }
                 }
+              } */
+
+              if (summary && summary.executive_summary && summary.executive_summary.goal_assessment) {
+                testoConfidenza = summary.executive_summary.goal_assessment;
               }
 
               let causa = '';
@@ -3052,10 +3105,14 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
                     "<strong>Most problem root cause:</strong> " + causa + "<br />" +
                     "<strong>Problem:</strong> " + problema + "<br />" +
                     "</div>" +
-                    "<div class='chips'>" +
-                      "<div class='chip " + confidenza + "'>Confidence: " + valConfidenza + "</div>" +
-                      // "<div class='chip'>Domain: " + "</div>" +
+                    "Conclusion:<br />" +
+                    "<div style='width: 100%;'>" + 
+                      "<div style='float: left; padding-top: 6px;'>Assessment:&nbsp;</div>" +
+                      "<div style='float: left' class='chips'>" +
+                        "<div class='chip " + testoConfidenza + "'>" + testoConfidenza + "</div>" +
+                      "</div>" +
                     "</div>" +
+                    "<div style='clear: both;'></div>" +
                   "</div>" +
                 "</div>" +
                 "<br />";

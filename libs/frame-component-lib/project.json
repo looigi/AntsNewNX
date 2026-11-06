@@ -22,6 +22,67 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-demo": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/demo/frame-component-lib",
+          "browser": ""
+        },
+        "index": "libs/frame-component-lib/src/index.html",
+        "browser": "libs/frame-component-lib/src/main.ts",
+        "polyfills": [
+          "zone.js",
+          "@angular/localize/init"
+        ],
+        "tsConfig": "libs/frame-component-lib/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/frame-component-lib/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/frame-component-lib/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "libs/frame-component-lib/src/styles.css",
+          "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "node_modules/sweetalert2/src/sweetalert2.scss",
+          "node_modules/@progress/kendo-theme-default/dist/all.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "buildTarget": "frame-component-lib:build-demo:development"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "frame-component-lib:build-demo:production"
+        }
+      }
     }
   }
 }

@@ -45,69 +45,79 @@
       </ng-template>
 
       <ng-template kendoTabContent>
-        <div style="float: left; width: 100%; overflow: auto; white-space: nowrap;">
-          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
-            Tc Run Code
-          </div>
-          <div style="float: left; width: 70%; overflow:hidden; white-space: nowrap; text-align: left;">
-            {{tc_run_code ? tc_run_code : ''}}
-          </div>
-          <div style="clear: both;"></div>
-          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
-            Investigation
-          </div>
-          <div style="float: left; width: 70%; overflow:hidden; white-space: nowrap; text-align: left;">
-            <input type="text" [(ngModel)]="tc_run_failure" style="width: calc(100% - 10px); resize: none; height: calc(100% - 25px);" />
-          </div>
-          <div style="clear: both;"></div>
-          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
-            Type
-          </div>
-          <div style="float: left; width: 30%;">
-            <app-combo-component
-              [Tipologia]="'Combo'"
-              [userName]="userName"
-              [data]="listaTypes"
-              [campoId]="'VALUE_STR'"
-              [accettaNuovi]="false"
-              [campoTesto]="'VALUE_STR'"
-              [NomeCombo]="'cmbFoldersLT'"
-              [pulisceValoriDiBase]="true"
-              [ricordaUltimoValore]='false'
-              [valoreDefault]="typeScelto"
-              [visibileElimina]="false"
-              [testoDisabilitato]="true"
+        <!-- New Investigation: riquadro con i campi, sotto l'icona con il messaggio e il pulsante di avvio -->
+        <div class="ni-contenitore">
+          <div class="ni-riquadro">
+            <div class="ni-riga">
+              <div class="ni-etichetta">Tc Run Code</div>
+              <div class="ni-campo">
+                <div class="ni-valore-fisso" [title]="tc_run_code ? tc_run_code : ''">{{tc_run_code ? tc_run_code : ''}}</div>
+              </div>
+            </div>
 
-              (selezioneEffettuata)="selectType($event)"
-            >
-            </app-combo-component>
-          </div>
-          <div style="clear: both;"></div>
-          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
-            Ver
-          </div>
-          <div style="float: left; width: 30%;">
-            <app-combo-component
-              [Tipologia]="'Combo'"
-              [userName]="userName"
-              [data]="listaFolders1"
-              [campoId]="'VALUE_STR'"
-              [accettaNuovi]="false"
-              [campoTesto]="'VALUE_STR'"
-              [NomeCombo]="'cmbFolders1'"
-              [pulisceValoriDiBase]="true"
-              [ricordaUltimoValore]='false'
-              [valoreDefault]="verDefaultNI"
-              [visibileElimina]="false"
-              [testoDisabilitato]="true"
+            <div class="ni-riga">
+              <div class="ni-etichetta">Investigation</div>
+              <div class="ni-campo">
+                <input type="text" class="ni-input" [(ngModel)]="tc_run_failure" />
+              </div>
+            </div>
 
-              (selezioneEffettuata)="selectFilterFolderNI($event)"
-            >
-            </app-combo-component>
+            <div class="ni-riga">
+              <div class="ni-etichetta">Type</div>
+              <div class="ni-campo ni-combo">
+                <app-combo-component
+                  [Tipologia]="'Combo'"
+                  [userName]="userName"
+                  [data]="listaTypes"
+                  [campoId]="'VALUE_STR'"
+                  [accettaNuovi]="false"
+                  [campoTesto]="'VALUE_STR'"
+                  [NomeCombo]="'cmbFoldersLT'"
+                  [pulisceValoriDiBase]="true"
+                  [ricordaUltimoValore]='false'
+                  [valoreDefault]="typeScelto"
+                  [visibileElimina]="false"
+                  [testoDisabilitato]="true"
+
+                  (selezioneEffettuata)="selectType($event)"
+                >
+                </app-combo-component>
+              </div>
+            </div>
+
+            <div class="ni-riga">
+              <div class="ni-etichetta">Ver</div>
+              <div class="ni-campo ni-combo">
+                <app-combo-component
+                  [Tipologia]="'Combo'"
+                  [userName]="userName"
+                  [data]="listaFolders1"
+                  [campoId]="'VALUE_STR'"
+                  [accettaNuovi]="false"
+                  [campoTesto]="'VALUE_STR'"
+                  [NomeCombo]="'cmbFolders1'"
+                  [pulisceValoriDiBase]="true"
+                  [ricordaUltimoValore]='false'
+                  [valoreDefault]="verDefaultNI"
+                  [visibileElimina]="false"
+                  [testoDisabilitato]="true"
+
+                  (selezioneEffettuata)="selectFilterFolderNI($event)"
+                >
+                </app-combo-component>
+              </div>
+            </div>
           </div>
-          <div style="clear: both;"></div>
-          <div style="width: 100%; text-align: center; height: auto; overflow: hidden;">
-            <div style = "width: 150px; margin: 0 auto; cursor: pointer; color: white; text-align: center; border: 1px solid #999; background-color: #cf4b11; border-radius: 3px;" (click)="startNI()">Start Investigation</div>
+
+          <div class="ni-messaggio">
+            <img *ngIf="Utils.linkIcone" class="ni-icona-ai" [src]="Utils.linkIcone + '/gif/start_investigation_V01_sfondo_variabile.gif'" />
+            <div class="ni-separatore"></div>
+            <div class="ni-testo-messaggio">Investigation will start for this Tc Run.</div>
+          </div>
+
+          <div class="ni-pulsante" (click)="startNI()">
+            <span class="ni-play">&#9654;</span>
+            <span>Start Investigation</span>
           </div>
         </div>
       </ng-template>

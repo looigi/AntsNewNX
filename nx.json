@@ -42,5 +42,8 @@
       "projectChangelogs": false,
       "workspaceChangelog": false
     }
+  },
+  "tui": {
+    "enabled": false
   }
 }

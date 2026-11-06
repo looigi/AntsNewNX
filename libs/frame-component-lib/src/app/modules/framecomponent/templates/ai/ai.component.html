@@ -64,7 +64,7 @@
               </app-ants-grid-lib>
 
               <div *ngIf="caricamentoDatiInCorso" class="k-i-loading"
-                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000; background-color: #72727208 !important;"
               ></div>
             </div>
           </as-split-area>
@@ -111,7 +111,7 @@
                 </app-ants-grid-lib>
 
                 <div *ngIf="caricamentoDatiInCorsoGriglia2 == true && apertaGriglia2" class="k-i-loadingRT">
-                  <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+                  <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">                  
                 </div>
               </as-split-area>
               <as-split-area [size]="50">
@@ -216,15 +216,25 @@
                           [attr.stroke-width]="selectedNodeId === node.id ? 4 : 0">
                         </svg:rect>
 
-                        <!-- Nodo iniziale: il suo INVESTIGATION_GOAL sopra il nodo, abbreviato (testo completo nel tooltip) -->
+                        <!-- Nodo iniziale: il suo INVESTIGATION_GOAL sopra il nodo, abbreviato (testo completo nel tooltip);
+                             se c'è l'EXPECTED_GAIN, l'obiettivo sale di una riga e sotto compare il guadagno atteso -->
                         <svg:text *ngIf="node.obiettivoInizialeBreve"
+                          class="etichetta-arco etichetta-entrata"
+                          [attr.x]="node.dimension.width / 2"
+                          [attr.y]="node.guadagnoAttesoBreve ? -26 : -12"
+                          text-anchor="middle"
+                          dominant-baseline="central">
+                          <svg:title>Investigation goal: {{ node.obiettivoIniziale }}</svg:title>
+                          {{ node.obiettivoInizialeBreve }}
+                        </svg:text>
+                        <svg:text *ngIf="node.guadagnoAttesoBreve"
                           class="etichetta-arco etichetta-entrata"
                           [attr.x]="node.dimension.width / 2"
                           y="-12"
                           text-anchor="middle"
                           dominant-baseline="central">
-                          <svg:title>Investigation goal: {{ node.obiettivoIniziale }}</svg:title>
-                          {{ node.obiettivoInizialeBreve }}
+                          <svg:title>Expected gain: {{ node.guadagnoAtteso }}</svg:title>
+                          {{ node.guadagnoAttesoBreve }}
                         </svg:text>
 
                         <!-- Nodo finale: la sua CONCLUSION sotto il nodo, abbreviata (testo completo nel tooltip) -->
@@ -237,19 +247,6 @@
                           <svg:title>Conclusion: {{ node.conclusioneFinale }}</svg:title>
                           {{ node.conclusioneFinaleBreve }}
                         </svg:text>
-
-                        <!-- Valutazione 'inconclusive': riga rossa dentro il nodo, lungo il bordo inferiore
-                             (rientrata di 3 px ai lati per non uscire dagli angoli arrotondati) -->
-                        <svg:rect *ngIf="node.inconcludente"
-                          x="3"
-                          [attr.y]="node.dimension.height - 5"
-                          [attr.width]="node.dimension.width - 6"
-                          height="4"
-                          rx="2"
-                          ry="2"
-                          fill="#d32f2f">
-                          <svg:title>Inconclusive</svg:title>
-                        </svg:rect>
 
                         <!-- Le icone stanno su un fondino rotondo chiaro (non bianco pieno), così restano leggibili sul colore del nodo -->
 
@@ -346,7 +343,13 @@
                   </div>
                   <div style="clear: both;"></div>
                 </div>
-                <div style="width: 100%; height: 40px; float: left; text-align: right;">
+                <div *ngIf="salvataggioPDF || caricamentoNodi || caricamentoEventiInCorso2" style="width: 30px; height: 40px; float: left;">
+                  <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/gif/spinner.gif'" style="width: 100%; height: 100%;">
+                </div>
+                <div *ngIf="!salvataggioPDF && !caricamentoNodi && !caricamentoEventiInCorso2" style="width: 30px; height: 40px; float: left;">
+                  &nbsp;
+                </div>
+                <div style="width: calc(100% - 30px); height: 40px; float: left; text-align: right;">
                   <button *ngIf="chatMode1" class="bottoneNextNode primary" (click)="exportToHTML()">Export to HTML</button>
                 </div>
                 <div [innerHTML]="chatMode1"
@@ -362,9 +365,9 @@
                 </div>
                 <div style="clear: both;"></div>
 
-                <div *ngIf="salvataggioPDF" class="k-i-loading"
+                <!-- <div *ngIf="salvataggioPDF" class="k-i-loading"
                   style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
-                ></div>
+                ></div> -->
               </div>
               <!-- Senza position: relative, lo spinner di caricamento copre l'intera colonna (che durante il caricamento
                    torna in cima e non scorre) e non solo la parte dei nodi -->
@@ -420,12 +423,12 @@
                       </textarea>
                   </div>
 
-                  <div *ngIf="caricamentoNodi || caricamentoEventiInCorso2" style="
+                  <!-- <div *ngIf="caricamentoNodi || caricamentoEventiInCorso2" style="
                     position: absolute; 
                     left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.55);       
                     display: flex; justify-content: center; align-items: center;">
                     <img [src]="Utils.linkIcone + '/spinner.gif'" style="width: 125px; height: 125px;" >
-                  </div>
+                  </div> -->
                 </section>
               </div>
             </div>
@@ -445,7 +448,7 @@
               <!-- Il numero in [selected] deve essere la posizione del tab (0 = primo): onTabSelect2 salva quella -->
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 0">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="System prompt sent to the LLM (parameter AIREQ_SYSTEM_PROMPT)">
                     System Prompt
                   </span>
@@ -458,7 +461,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 1">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="Instructions used to build the Investigation Memory (parameter AIREQ_SUMMARY_INSTRUCTION)">
                     Investigation Memory Instructions
                   </span>
@@ -479,9 +482,9 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 2">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="Defines the instruction or request executed by the Investigation Node">
-                    Prompt
+                    Node Prompt
                   </span>
                 </ng-template>
                 
@@ -495,8 +498,8 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 3">
                 <ng-template kendoTabTitle>
-                  <span
-                    title="">
+                  <span class="tab-categoria tab-categoria--verde"
+                    title="Runtime context for this node execution, including the assigned goal, selection reason, and execution-specific metadata">
                     Execution Context
                   </span>
                 </ng-template>
@@ -518,7 +521,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 4">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="Semantic Investigation Memory received from previous nodes in the Investigation Graph. It displays the concatenation of the Investigation Memory generated by the parent nodes represented by the incoming arcs of the graph">
                     Incoming Investigation Memory
                   </span>
@@ -544,7 +547,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 5">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="">
                     Reference Knowledge
                   </span>
@@ -557,54 +560,67 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 6">
                 <ng-template kendoTabTitle>
-                  <span
-                    title="Displays the retrieval execution used to collect the Data passed to the Investigation Node">
-                    Data Retrieval
+                  <span class="tab-categoria tab-categoria--verde"
+                    title="">
+                    Prompt Data
                   </span>
                 </ng-template>
-
+                
                 <ng-template kendoTabContent>
-                    <jsone-component                
-                      [debug]="debug"
-                      [lista]="api_call"
-                      [linkIcone]="Utils.linkIcone"
-                      [numeroFrame]="NumeroFrame"
-                      [frameAttivo]="frameAttivo"
-                      [dimensioneDiv]="dimeJsonWindow"
-                      [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
-                    >
-                    </jsone-component>
-                </ng-template>      
+                  <kendo-tabstrip (tabSelect)="onTabSelect3($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%; ">
+                    <kendo-tabstrip-tab [selected]="tabSelezionato3 == 0">
+                      <ng-template kendoTabTitle>
+                        <span
+                          title="Structured data, events, KPIs, traces, and contextual information provided to the prompt execution">
+                          Data
+                        </span>
+                      </ng-template>
+
+                      <ng-template kendoTabContent>
+                        <!-- <div style="float: left; width: 100%; height: 100%; overflow: auto; border: 1px solid #cccccc;"> -->
+                          <!-- <div [innerHTML]="resultPrompt" style="overflow: auto; user-select: auto; line-height: 15px; text-align: left; height: 100%; padding: 2px;"></div> -->
+                          <textarea *ngIf="tipoResultPrompt == 'text'" [(ngModel)]="resultPrompt" disabled style="tab-size: 4; font-family: Courier; resize: none; white-space: pre; overflow: auto; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
+                          <jsone-component  
+                            [debug]="debug"
+                            [lista]="resultPrompt"
+                            [linkIcone]="Utils.linkIcone"
+                            [numeroFrame]="NumeroFrame"
+                            [frameAttivo]="frameAttivo"
+                            [eseguiRondella]="false"
+                          >
+                          </jsone-component>
+                        <!-- </div> -->
+                      </ng-template>      
+                    </kendo-tabstrip-tab>
+
+                    <kendo-tabstrip-tab [selected]="tabSelezionato3 == 1">
+                      <ng-template kendoTabTitle>
+                        <span
+                          title="Data-retrieval requests and parameters used by this node execution, including selected functions, events, measures, and time range">
+                          Data Retrieval
+                        </span>
+                      </ng-template>
+
+                      <ng-template kendoTabContent>
+                          <jsone-component                
+                            [debug]="debug"
+                            [lista]="api_call"
+                            [linkIcone]="Utils.linkIcone"
+                            [numeroFrame]="NumeroFrame"
+                            [frameAttivo]="frameAttivo"
+                            [dimensioneDiv]="dimeJsonWindow"
+                            [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
+                          >
+                          </jsone-component>
+                      </ng-template>      
+                    </kendo-tabstrip-tab>
+                  </kendo-tabstrip>
+                </ng-template>
               </kendo-tabstrip-tab>
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 7">
                 <ng-template kendoTabTitle>
-                  <span
-                    title="Structured data, events, KPIs, traces, and contextual information provided to the prompt execution">
-                    Prompt Data
-                  </span>
-                </ng-template>
-
-                <ng-template kendoTabContent>
-                  <!-- <div style="float: left; width: 100%; height: 100%; overflow: auto; border: 1px solid #cccccc;"> -->
-                    <!-- <div [innerHTML]="resultPrompt" style="overflow: auto; user-select: auto; line-height: 15px; text-align: left; height: 100%; padding: 2px;"></div> -->
-                    <textarea *ngIf="tipoResultPrompt == 'text'" [(ngModel)]="resultPrompt" disabled style="tab-size: 4; font-family: Courier; resize: none; white-space: pre; overflow: auto; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
-                    <jsone-component  
-                      [debug]="debug"
-                      [lista]="resultPrompt"
-                      [linkIcone]="Utils.linkIcone"
-                      [numeroFrame]="NumeroFrame"
-                      [frameAttivo]="frameAttivo"
-                      [eseguiRondella]="false"
-                    >
-                    </jsone-component>
-                  <!-- </div> -->
-                </ng-template>      
-              </kendo-tabstrip-tab>
-
-              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 8">
-                <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="Semantic Investigation Memory propagated to subsequent Investigation Nodes">
                     Output Investigation Memory
                   </span>
@@ -629,9 +645,9 @@
                 </ng-template>
               </kendo-tabstrip-tab>
 
-              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 9">
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 8">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="LLM response generated from the current prompt execution in a human-readable format">
                     Answer
                   </span>
@@ -680,9 +696,9 @@
                 </ng-template>      
               </kendo-tabstrip-tab>
 
-              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 10">
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 9">
                 <ng-template kendoTabTitle>
-                  <span
+                  <span class="tab-categoria tab-categoria--verde"
                     title="Add a new Investigation Node to the current Investigation Case. Select in the grid the parent nodes whose Investigation Memory will be propagated to the new node">
                     Add Next Investigation Node
                   </span>
