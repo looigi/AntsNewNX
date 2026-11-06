@@ -1,0 +1,41 @@
+{
+    "dataSource": {
+        "type": "csv",
+        "filename": "/assets/data/1.csv"
+    },
+    "slice": {
+        "reportFilters": [
+            {
+                "uniqueName": "O.Line.Code"
+            },
+            {
+                "uniqueName": "TcRunId"
+            }
+        ],
+        "rows": [
+            {
+                "uniqueName": "ErrorCause"
+            }
+        ],
+        "columns": [
+            {
+                "uniqueName": "[Measures]"
+            },
+            {
+                "uniqueName": "VoiceCallDropped"
+            }
+        ],
+        "measures": [
+            {
+                "uniqueName": "TcRunId",
+                "aggregation": "count",
+                "availableAggregations": [
+                    "count",
+                    "distinctcount"
+                ]
+            }
+        ]
+    },
+    "version": "2.7.13",
+    "creationDate": "2019-09-10T09:38:49.939Z"
+}

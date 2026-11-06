@@ -1,0 +1,20 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+.popupClass {
+  width: auto;
+  padding: 3px;
+}

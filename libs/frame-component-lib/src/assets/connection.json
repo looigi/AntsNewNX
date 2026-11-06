@@ -1,0 +1,5 @@
+{
+  "indirizzoServer": "http://localhost:2727/",
+  "indirizzoGEOServer": "http://10.100.7.26:8080/geoserver/",
+  "righePerEventi": 30
+}

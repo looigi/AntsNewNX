@@ -1,0 +1,32 @@
+.avviso {
+    position: absolute;
+    right: 1px;
+    top: 28px;
+    width: auto;
+    height: 25px;
+    padding: 4px;
+    background-color: yellow;
+    border: 1px solid #999;
+    border-radius: 3px;
+    box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+}
+
+.oscura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.attesa {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    width: 100px;
+    height: 100px;
+}

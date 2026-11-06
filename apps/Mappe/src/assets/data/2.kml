@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <Document>
+      <name>Prova</name>
+      <Placemark>
+        <ExtendedData>
+          <Data name="valore">
+            <value>1</value>
+          </Data>
+        </ExtendedData>
+
+        <Point>
+          <coordinates>
+            9.44683,46.21662,1
+          </coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <ExtendedData>
+          <Data name="valore">
+            <value>5</value>
+          </Data>
+        </ExtendedData>
+
+        <Point>
+          <coordinates>
+            9.44559,46.21893,1
+          </coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <ExtendedData>
+          <Data name="valore">
+            <value>10</value>
+          </Data>
+        </ExtendedData>
+
+        <Point>
+          <coordinates>
+           9.43155,46.21943,1
+          </coordinates>
+        </Point>
+      </Placemark>
+
+    </Document>
+</Kml>

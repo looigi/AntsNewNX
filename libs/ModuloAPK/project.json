@@ -1,0 +1,27 @@
+{
+  "name": "ModuloAPK",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ModuloAPK/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/ModuloAPK"
+      ],
+      "options": {
+        "project": "libs/ModuloAPK/ng-package.json",
+        "tsConfig": "libs/ModuloAPK/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ModuloAPK/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

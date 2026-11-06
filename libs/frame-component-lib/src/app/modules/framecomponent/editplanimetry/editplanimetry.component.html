@@ -1,0 +1,152 @@
+<!--
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+      (edge)="checkEdge($event, Utils)" [bounds]="myBounds" [inBounds]="true"
+-->
+
+  <div #myBounds *ngIf="mascheraVisibile2" class="drag-boundary"
+    [ngClass]="{ 'top-b': !Utils.edge?.top, 'bottom-b': !Utils.edge?.bottom, 'left-b': !Utils.edge?.left, 'right-b': !Utils.edge?.right }"
+    style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  >
+    <div ngDraggable *ngIf="mascheraVisibile2" [handle]="handleMenu" class="finestraEditPiantina resizable"
+      style=" background-color: #fff; padding: 0px; z-index: 1649;"
+    >
+    <div kendoTooltip class="barraSuperiore">
+      <div #handleMenu class="drag-block-handle" style="float: left; width: calc(100% - 100px); height: 20px; text-align: center; margin-top: 2px;">Edit Planimetry</div>
+      <div style="width: 100px; float: left;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" class="immaginiChiusura" (click)="chiudiMenu('0')" title="Close" style="margin-top: -3px; width: 32px; height: 32px;">
+      </div>
+    </div>
+
+    <div style="width:100%; height: calc(100% - 26px); padding: 3px; overflow: auto;">
+      <div style="width: 100%;">
+        <div style="width: 20%; float: left;">
+          Step
+        </div>
+        <div style="width: 80%; float: left;">
+          <input class="casellaTesto"
+            type = "text"
+            (blur)="cambioStep($event.target['value'])"
+            style="text-align: left;"
+            value="{{step}}" />
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%;">
+        <div style="width: 20%; float: left;">
+          Lat 1
+        </div>
+        <div style="width: 80%; float: left;">
+          <input class="casellaTesto"
+            type = "text"
+            (blur)="cambioLat1($event.target['value'])"
+            style="text-align: left;"
+            value="{{lat1}}" />
+        </div>
+        <!-- <div style="width: 20%; float: left;">
+          <img src="assets/img/icons/arrow-up.png" class="immaginiChiusura" (click)="lat1Su()" title="">
+          <img src="assets/img/icons/arrow-down.png" class="immaginiChiusura" (click)="lat1Giu()" title="">
+        </div> -->
+      </div>
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%;">
+        <div style="width: 20%; float: left;">
+          Lng 1
+        </div>
+        <div style="width: 80%; float: left;">
+          <input class="casellaTesto"
+            type = "text"
+            (blur)="cambioLng1($event.target['value'])"
+            style="text-align: left;"
+            value="{{lng1}}" />
+        </div>
+        <!-- <div style="width: 20%; float: left;">
+          <img src="assets/img/icons/arrow-up.png" class="immaginiChiusura" (click)="lng1Su()" title="">
+          <img src="assets/img/icons/arrow-down.png" class="immaginiChiusura" (click)="lng1Giu()" title="">
+        </div> -->
+      </div>
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%;">
+        <div style="width: 20%; float: left;">
+          Lat 2
+        </div>
+        <div style="width: 80%; float: left;">
+          <input class="casellaTesto"
+            type = "text"
+            (blur)="cambioLat2($event.target['value'])"
+            style="text-align: left;"
+            value="{{lat2}}" />
+        </div>
+        <!-- <div style="width: 20%; float: left;">
+          <img src="assets/img/icons/arrow-up.png" class="immaginiChiusura" (click)="lat2Su()" title="">
+          <img src="assets/img/icons/arrow-down.png" class="immaginiChiusura" (click)="lat2Giu()" title="">
+        </div> -->
+      </div>
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%;">
+        <div style="width: 20%; float: left;">
+          Lng 2
+        </div>
+        <div style="width: 80%; float: left;">
+          <input class="casellaTesto"
+            type = "text"
+            (blur)="cambioLng2($event.target['value'])"
+            style="text-align: left;"
+            value="{{lng2}}" />
+        </div>
+        <!-- <div style="width: 20%; float: left;">
+          <img src="assets/img/icons/arrow-up.png" class="immaginiChiusura" (click)="lng2Su()" title="">
+          <img src="assets/img/icons/arrow-down.png" class="immaginiChiusura" (click)="lng2Giu()" title="">
+        </div> -->
+      </div>
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%; margin-top: 10px;">
+        <div style =" width: 33%; float: left;">
+          <div style="width: 100%; text-align: center;">
+            Move
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/arrow-up.png'" style="width: 25px; height: 25px;" (click)="spostaSu()" title="">
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/arrow-left-c.png'" style="width: 25px; height: 25px;" (click)="spostaSinistra()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/NeverRun.png'" style="width: 25px; height: 25px;" (click)="centra()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/arrow-right-c.png'" style="width: 25px; height: 25px;" (click)="spostaDestra()" title="">
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/arrow-down.png'" style="width: 25px; height: 25px;" (click)="spostaGiu()" title="">
+          </div>
+        </div>
+        <div style =" width: 33%; float: left;">
+          <div style="width: 100%; text-align: center;">
+            Size
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center; margin-top: 25px;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/minus.png'" style="width: 25px; height: 25px;" (click)="sizeMeno()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/NeverRun.png'" style="width: 25px; height: 25px;" (click)="centraSize()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/plus.png'" style="width: 25px; height: 25px;" (click)="sizePiu()" title="">
+          </div>
+        </div>
+        <div style =" width: 34%; float: left;">
+          <div style="width: 100%; text-align: center;">
+            Rotation
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center; margin-top: 25px;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/rotateSx.png'" style="width: 25px; height: 25px;" (click)="ruotaSinistra()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/NeverRun.png'" style="width: 25px; height: 25px;" (click)="centraRuota()" title="">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/rotateDx.png'" style="width: 25px; height: 25px;" (click)="ruotaDestra()" title="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

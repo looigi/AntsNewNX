@@ -1,0 +1,745 @@
+
+<app-barra-superiore
+  [nomeApp]="nomiMaschere[qualeGriglia]"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [debug]="false"
+  [sessioneID]="sessionID"
+  [gruppo]="groupName"
+  [visualizzaSecondoMenu]="mascheraAntenne || mascheraCluster"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="Utils.urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (apreMenu2Emit)="apreMenu2()"
+  (statoServerEmit)="statoServer = $event"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+  (coloreSfondoEmit)="coloreStatoServer = $event"
+  (comandoVocaleEmit)="comandoVocaleEmit($event)"
+>
+</app-barra-superiore>
+
+<div #divContenitore style="width: 100%; height: calc(100vh - 35px); overflow: hidden; float: left;">
+  <div style="width: 100%; height: 100%; display: flex; ">
+    <!-- <div style = "width: 24px; height: 100%; float: left; padding-left: 2px; padding-right: 2px; margin-top: -1px; background-color: white;">
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/hamburger.png'" class="immagini" style="height: 20px; width: 20px;" (mouseover)="menuVisibile = true" />
+    </div>
+  -->
+    <div style="width: 100%; float: left;">
+      <div style="width: 100%; height: 100%; display: block;">
+        <app-antenna
+          *ngIf="qualeGriglia==1"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+          [cambiatoSetAntenne]="rigaSelezionataAntenne"
+          [netTechP]="netTech"
+          [freeTextP]="freeText"
+          [bandwidthP]="bandwidth"
+          [dateFromP]="dateFrom"
+          [dateToP]="dateTo"
+          [viewModeP2]="viewModeP2"
+          [codeLikeP]="codeLike"
+          [chP]="ch"
+          [bsicP]="bsic"
+          [scrP]="scr"
+          [pciP]="pci"
+          [territoryP]="territory"
+          [additionalLayer]="additionalLayer"
+          [slaValueGlobale]="slaValueGlobale"
+          [datiAddLayers]="datiAddLayers"
+          [datiSla]="datiSLA"
+          [datiSlaDT]="datiSlaDT"
+          [exportKMLAttivo]="exportKML"
+          [syncGridToMap]="syncGridToMap2"
+          [sceltaGriglia]="mascheraScelta"
+          [bUploadFile]="uploadFile"
+          [puoCaricare]="puoCaricareAntenne"
+
+          (impostateDate)="impostaDate($event)"
+          (cambioAdditionalLayer)="cambioAdditionalLayer($event)"
+          (cambioAddLayer)="cambioAddLayer($event)"
+          (uploadFileChiuso)="chiudeUpload($event)"
+        >
+        </app-antenna>
+
+        <app-cluster
+          *ngIf="qualeGriglia==2"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [cambiatoSetAntenne]="rigaSelezionataAntenne"
+          [userName]="userName"
+          [cambiatoSetCluster]="rigaSelezionataCluster"
+          [additionalLayer]="additionalLayer"
+          [exportKMLAttivo]="exportKML"
+        >
+        </app-cluster>
+
+        <app-plmn
+          *ngIf="qualeGriglia==3"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-plmn>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: 5px; top: 1px; width: 33px;
+  height: 33px; z-index: 2000; padding: 3px; background-color: #fff;" title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div> -->
+
+<div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: calc(50% - 35px); top: 2px; width: 70px;
+  height: 33px; z-index: 2000; text-align: center; padding: 3px; background-color: #d8d888; border: 1px solid #999; border-radius: 3px;"
+  [style.opacity]="opacitaCAM" (mouseover)="opacitaCAM = 1" (mouseout)="opacitaCAM = .1"
+  title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/delete2.png'" class="immagini" style="height: 25px; width: 25px;" (click)="pulisciPassword()">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div>
+
+<div
+  [style.opacity]="menuVisibile ? 1 : 0"
+  [style.width]="dimeDrawer"
+  [style.left]="menuVisibile ? '0px' : '-500px'"
+  (mouseover)="over1()"
+  (mouseleave)="leave1()"
+  style="position: absolute; border-right: 1px solid #999; display: flex; top: 35px; height: 100%;
+          background-color: #f4f4f4; z-index: 5000;">
+  <div [style.width]="dimeDrawer" style="float: left; overflow: auto;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    padding-bottom: 50px;
+    ">
+    <!-- (chiusuraEmit)="chiudeDrawer($event)" -->
+    <app-menu
+      [debug]="modalitaDebug"
+      [MenuVisibile]="menuVisibile"
+      [showButtons]="true"
+      [Altezza]="35"
+      [posizione]="'relative'"
+      [sessionID]="sessionID"
+      [voceSelezionata]="'DataDictionaries'"
+      [chiudiTutteVoci]="vociChiuseMenu"
+      [statoServer]="statoServer"
+      [statoManutenzione]="statoManutenzione"
+      [coloreStatoServer]="coloreStatoServer"
+      [comandoVocale]="comandoVocale"
+      [platFormName]="platformName"
+
+      (platFormNameEmit)="prendePlatFormName($event)"
+      (dataAttualeEmit)="prendeDateNowH($event)"
+      (symbTsEmit)="prendeSymb_TimeStamp($event)"
+      (chiusuraEmit)="chiudeDrawer($event)"
+      (premutoEmit)="premutoVoceMenu($event)"
+      (lettoConfigJSON)="lettoJSON($event)"
+      (userManualEmit)="fDownloadUserManual($event)"
+    >
+    </app-menu>
+  </div>
+</div>
+
+<div
+  [style.left]="menuVisibile2 ? '0px' : '-500px'"
+  [style.opacity]="menuVisibile2 ? 1 : 0"
+  [style.width]="dimeDrawer2"
+  (mouseover)="over2()"
+  (mouseleave)="leave2()"
+  style="position: absolute; border-right: 1px solid #999; left: 0px; top: 35px; height: 100vh; z-index: 5000;"
+  >
+  <div
+    style="width: 100%; height: 35px; z-index: 5005;
+      background-color: #4d6c87; padding: 2px; float: left;">
+    <div style="width: calc(100% - 35px); float: left; padding-left: 5px; color: white; padding-top: 5px;">
+      Context Menu
+    </div>
+    <div style="width: 35px; float: left; text-align: right;">
+      <img *ngIf="Utils && Utils.linkIcone"
+        [src]="Utils.linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35' alt=''
+        style="cursor: pointer;" (click)="chiudeDrawer2($event);">
+    </div>
+  </div>
+  <div
+    style="float: left; border-right: 1px solid #999; height: calc(100% - 70px); width: 100%;
+            background-color: white;
+            -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      overflow-y: auto; overflow-x: hidden;
+    ">
+    <div
+      [style.width]="dimeDrawer2"
+      style="padding: 2px; margin-bottom: 65px; height: auto;">
+
+      <div *ngIf="mascheraAntenne" style="width: 100%; height: auto;">
+        <div style="width: 100%; height: 200px; float: left;">
+          <p-accordion [multiple]="false" (valueChange)="changeStateAccordion(1)">
+            <p-accordion-panel value="menu1">
+              <p-accordion-header style="padding: 0px;">
+                <span style="margin-left: 10px;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/EventLog.png'" class="immagini" style="height: 20px; width: 20px;">
+                  Cell Set
+                </span>
+              </p-accordion-header>
+
+              <p-accordion-content>
+                <!--
+                  *ngIf="datiGrigliaAntenne"
+                  [datiNuovi]="datiGrigliaAntenne && datiGrigliaAntenne.DataTable"
+                  [ManualResize]="effettuaAutoFitAntenne"
+                -->
+                <app-ants-grid-lib
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="'Antenne'"
+                  [titleDaDatiGriglia]="true"
+                  [DimensioneFont]= "12"
+                  [data]="datiGrigliaAntenne"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaGA1M'"
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [impostaSelezione]="selezioneAntenne"
+                  [AutoResize]="true"
+                  [righeAutomatiche]="false"
+                  [paginazione]="'scrollable'"
+                  [linkIcone]="Utils.linkIcone"
+                  
+                  [newKeyVisibile]='true'
+                  [newKeyPersistant]="true"
+
+                  (cellClick)="clickSelezioneAntenne($event)"
+                  (lastSelectedOfGrid)='lastSelectedOfGridAntenne($event)'
+                  (refresh)='refreshGrid1Antenne($event, false)'
+                  (resetLayout)='refreshGrid1Antenne($event, true)'
+                  
+                  (newKeyPressed)="apreUpload()"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneAntenne1($event)"
+                >
+                </app-ants-grid-lib>
+                <br />
+              </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel value="menu2">
+              <p-accordion-header style="padding: 0px;">
+                <span style="margin-left: 10px;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/Filter.png'" class="immagini" style="height: 20px; width: 20px;">
+                  Filter
+                </span>
+              </p-accordion-header>
+              <p-accordion-content>
+                <div style = "width: 100%; float: left; padding-right: 3px;">
+                  <!-- <div style="width: calc(100% - 30px); float: left;"> -->
+                  <div class="divFloat" >
+                    <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                      &nbsp;From
+                    </div>
+                    <div style="width: 60%; float: left; margin-top: 5px">
+                      <!-- <angular2-date-picker
+                        name="dateFrom"
+                        [(ngModel)]="dateFrom2"
+                        [settings]="{
+                          color: '#999',
+                          bigBanner: true,
+                          timePicker: true,
+                          defaultOpen: false,
+                          format: 'yyyy-MM-dd HH:mm'
+                        }"
+                        style="font-size: 13px !important;">
+                      </angular2-date-picker> -->
+
+                      <app-calendario
+                        [Utils]="Utils"
+                        [dataPassata]="dateFrom"
+                        [formatoPopup]="'DATAORA'"
+                        [formato]="'yyyy-MM-dd HH:mm:ss'"
+                        [chiusuraAutomatica]="true"
+                        [larghezzaData]="175"
+
+                        (dataSelezionata)="dateFrom = $event"
+                      >
+                      </app-calendario>
+                    </div>
+                  </div>
+                  <div class="divFloat" >
+                    <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;"
+                      title="Map coverage and cells are related to this time."
+                    >
+                      &nbsp;To
+                    </div>
+                    <div style="width: 60%; float: left; margin-top: 5px;">
+                      <!-- <angular2-date-picker name="dateTo" [(ngModel)]="dateTo2"
+                        [settings]="{
+                          bigBanner: true,
+                          timePicker: true,
+                          defaultOpen: false,
+                          format: 'yyyy-MM-dd HH:mm'
+                        }"
+                        style="font-size: 13px !important;">
+                      </angular2-date-picker> -->
+
+                      <app-calendario
+                        [Utils]="Utils"
+                        [dataPassata]="dateTo"
+                        [formatoPopup]="'DATAORA'"
+                        [formato]="'yyyy-MM-dd HH:mm:ss'"
+                        [chiusuraAutomatica]="true"
+                        [larghezzaData]="175"
+
+                        (dataSelezionata)="dateTo = $event"
+                      >
+                      </app-calendario>
+                    </div>
+                  </div>
+
+                  <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                    <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                      &nbsp;Set NetTech and Band as<br/>&nbsp;for the selected layer
+                    </div>
+                    <div style="width: 60%; float: left; margin-top: 5px;">
+                      <input type="checkbox" [(ngModel)]="setNetTech"
+                              (change)="checkSetNetText($event)" />
+                    </div>
+
+                    <div style="clear: both; margin-bottom: 10px;"></div>
+                    <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                      <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                        &nbsp;Sync grid to map
+                      </div>
+                      <div style="width: 60%; float: left; margin-top: 5px;">
+                        <input type="checkbox" [(ngModel)]="syncGridToMap"
+                                (change)="checkSyncGridToMap($event)" />
+                      </div>
+
+                      <div style="clear: both; margin-bottom: 10px;"></div>
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Net Tech
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <!-- <input type ="text" [(ngModel)]="netTech2" style="width: 100%;" (keyup)="pressioneEnter($event)"> -->
+                          <app-combo-component
+                            *ngIf="datiNetTech"
+                            [data]="datiNetTech"
+                            [userName]="userName"
+                            [NomeCombo]="'NetTech_G'"
+                            [campoId]="'VALUE_STR'"
+                            [campoTesto]="'VALUE_STR'"
+                            [valoreDefault]="netTech2P"
+                            [ricordaUltimoValore]='true'
+                            [pulisceValoriDiBase]='true'
+                            [campoFiltro]="'VALUE_STR'"
+                            [visibileElimina]="false"
+
+                            (selezioneEffettuata)="nonChiudereDrawer2 = true; selectNetTech($event)"
+                            (ritornoValoreAttuale)="ritornoValoreDaComboNT($event)"
+
+                            (eventoOpen)="impostaNonChiudere2(true)"
+                            (eventoClose)="impostaNonChiudere2(false)"
+                          >
+                          </app-combo-component>
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Band
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <!-- <input type ="text" [(ngModel)]="bandwidth2" style="width: 100%;" (keyup)="pressioneEnter($event)"> -->
+                          <app-combo-component
+                            *ngIf="datiBandWidth"
+                            [data]="datiBandWidth"
+                            [userName]="userName"
+                            [NomeCombo]="'Band_G'"
+                            [campoId]="'VALUE_STR'"
+                            [campoTesto]="'VALUE_STR'"
+                            [valoreDefault]="bandwidth2"
+                            [ricordaUltimoValore]='true'
+                            [pulisceValoriDiBase]='true'
+                            [campoFiltro]="'VALUE_STR'"
+                            [visibileElimina]="false"
+
+                            (selezioneEffettuata)="nonChiudereDrawer2 = true; selectBandwidth($event)"
+                            (ritornoValoreAttuale)="ritornoValoreDaComboBW($event)"
+
+                            (eventoOpen)="impostaNonChiudere2(true)"
+                            (eventoClose)="impostaNonChiudere2(false)"
+                          >
+                          </app-combo-component>
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Ch
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="number" [(ngModel)]="ch2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaCH()">
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Bsic
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="number" [(ngModel)]="bsic2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaBSIC()">
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Scr
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="number" [(ngModel)]="scr2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaSCR()">
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Pci
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="number" [(ngModel)]="pci2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaPCI()">
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                          &nbsp;Territory
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <!-- <input type ="text" [(ngModel)]="territory2" style="width: 100%;" (keyup)="pressioneEnter($event)"> -->
+                          <app-combo-component
+                            *ngIf="datiTerritory"
+                            [Tipologia]="'Combo'"
+                            [data]="datiTerritory"
+                            [userName]="userName"
+                            [NomeCombo]="'Territory_G'"
+                            [campoId]="'VALUE_STR'"
+                            [campoTesto]="'VALUE_STR'"
+                            [valoreDefault]="territory2"
+                            [ricordaUltimoValore]='true'
+                            [pulisceValoriDiBase]='false'
+                            [campoFiltro]="'VALUE_STR'"
+                            [accettaNuovi]="false"
+                            [visibileElimina]="false"
+
+                            (selezioneEffettuata)="nonChiudereDrawer2 = true; selectTerritory($event)"
+                            (ritornoValoreAttuale)="ritornoValoreDaComboTE($event)"
+
+                            (eventoOpen)="impostaNonChiudere2(true)"
+                            (eventoClose)="impostaNonChiudere2(false)"
+                          >
+                          </app-combo-component>
+                        </div>
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;"
+                          title="Filter searches in site_code, check_result, description, status_description, xcgi"
+                        >
+                          &nbsp;Free Text
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="text" [(ngModel)]="freeText2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaFREE()">
+                        </div>
+                      </div>
+
+                    <!-- </div>
+                    <div style="width: calc(100% - 30px); float: left;"> -->
+                    <!--   <div style ="width: 350px; float: left;">
+                        &nbsp;
+                      </div>
+                      </div>
+                    </div>
+                    <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                      <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                        &nbsp;View Mode
+                      </div>
+                      <div style="width: 60%; float: left; margin-top: 5px;">
+                        <input type ="text" [(ngModel)]="viewMode2" style="width: 100%;" (keyup)="pressioneEnter($event)">
+                      </div>
+                    </div> -->
+
+                      <div *ngIf="comboVisibile" style="width: 40%; float: left; margin-top: 7px !important; white-space: nowrap; font-weight: bold;">
+                        <span class="testo grassetto scuro">Additional Layer</span>
+                      </div>
+                      <div *ngIf="comboVisibile" style="width: 60%; float: left; margin-top: 5px;">
+                        <app-combo-component
+                          *ngIf="datiAddLayers"
+                          [data]="datiAddLayers"
+                          [userName]="userName"
+                          [NomeCombo]="'AddLayerDD_G'"
+                          [campoId]="'CODE'"
+                          [campoTesto]="'VALUE_STR'"
+                          [valoreDefault]="additionalLayer2"
+                          [ricordaUltimoValore]='true'
+                          [pulisceValoriDiBase]='true'
+                          [campoFiltro]="'VALUE_STR'"
+
+                          (selezioneEffettuata)="nonChiudereDrawer2 = true; selectAdditionalLayer($event)"
+                          (ritornoValoreAttuale)="ritornoValoreDaComboAL($event)"
+
+                          (eventoOpen)="impostaNonChiudere2(true)"
+                          (eventoClose)="impostaNonChiudere2(false)"
+                        >
+                        </app-combo-component>
+                      </div>
+
+                      <div style="width: 40%; float: left; margin-top: 7px !important; white-space: nowrap; font-weight: bold; color: #353535;"
+                        title="SLA is used to colour field strengths"
+                      >
+                        <span class="testo grassetto scuro">SLA</span>
+                      </div>
+                      <div style="width: 60%; float: left; margin-top: 5px;">
+                        <app-combo-component
+                          *ngIf="datiSlaDTi"
+                          [data]="datiSlaDTi"
+                          [campoId]="'ID'"
+                          [userName]="userName"
+                          [NomeCombo]="'SLA_DD'"
+                          [campoRaggruppamento]="'FOLDER'"
+                          [campoTesto]="'NAME'"
+                          [campoFiltro]="'NAME'"
+                          [ricordaUltimoValore]="true"
+                          [pulisceValoriDiBase]="true"
+                          [valoreDefault]="slaValueGlobale"
+                          [pulisceFiltro]="pulisceFiltroSG"
+                          [visibileElimina]="false"
+
+                          (selezioneEffettuata)="nonChiudereDrawer2 = true; selectSla($event)"
+                          (ritornoValoreAttuale)="ritornoValoreDaComboSLA($event)"
+
+                          (eventoOpen)="impostaNonChiudere2(true)"
+                          (eventoClose)="impostaNonChiudere2(false)"
+                        >
+                        </app-combo-component>
+                      </div>
+
+                      <div style="width: 100%; margin-top: 5px; text-align: right;">
+                        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/OpenTcRun.png'" class="immagini" style="height: 25px; width: 25px;"
+                        (click)="esegueRicerca($event)">
+                      </div>
+
+                      <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" title="If populated, this filter is alternative to the others" style="margin-top: 30px;">
+                        <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;"
+                        >
+                          &nbsp;Code Like
+                        </div>
+                        <div style="width: 60%; float: left; margin-top: 5px;">
+                          <input type ="text" [(ngModel)]="codeLike2" style="width: 100%;" (keyup)="pressioneEnter($event)" (blur)="aggiornaCL()">
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <br />
+              </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel value="menu3">
+              <p-accordion-header style="padding: 0px;">
+                <span style="margin-left: 10px;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/UnselectAll.png'" class="immagini" style="height: 20px; width: 20px;">
+                  View
+                </span>
+              </p-accordion-header>
+              <p-accordion-content>
+                <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                  <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                    &nbsp;Cell List
+                  </div>
+                  <div style="width: 60%; float: left; margin-top: 5px;">
+                    <input id="cellList" type="radio" class="custom-control-input" value="CellList" name="mask" [(ngModel)]="mascheraScelta" (click)="sceltaMaschera('CellList')">
+                  </div>
+                </div>
+                <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                  <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                    &nbsp;Cell Analysis
+                  </div>
+                  <div style="width: 60%; float: left; margin-top: 5px;">
+                    <input id="cellAnalysis" type="radio" class="custom-control-input" value="CellAnalysis" name="mask" [(ngModel)]="mascheraScelta" (click)="sceltaMaschera('CellAnalysis')">
+                  </div>
+                </div>
+                <div *ngIf="mascheraScelta == 'CellAnalysis'" class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                  <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;"
+                    title="To select in TAB “Cell Analysis” different statitistics"
+                  >
+                    &nbsp;View Mode Analysis
+                  </div>
+                  <div style="width: 60%; float: left; margin-top: 5px;">
+                    <app-combo-component
+                      *ngIf="datiViewModeA"
+                      [data]="datiViewModeA"
+                      [userName]="userName"
+                      [NomeCombo]="'ViewModeA_G'"
+                      [campoId]="'VALUE_STR'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="viewModeP2"
+                      [ricordaUltimoValore]='true'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'VALUE_STR'"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectViewMode2($event)"
+                      (ritornoValoreAttuale)="ritornoValoreDaComboVM($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+                </div>
+                <div class="divFloat" (mouseenter)="nonChiudereDrawer = true;" (mouseleave)="nonChiudereDrawer = false;" >
+                  <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold; color: #353535;">
+                    &nbsp;Coverage Files
+                  </div>
+                  <div style="width: 60%; float: left; margin-top: 5px;">
+                    <input id="coverageFiles" type="radio" class="custom-control-input" value="CoverageFiles" name="mask" [(ngModel)]="mascheraScelta" (click)="sceltaMaschera('CoverageFiles')">
+                  </div>
+                </div>
+
+                <br />
+              </p-accordion-content>
+            </p-accordion-panel>
+          </p-accordion>
+
+          <div *ngIf="caricamentoDatiInCorsoAntenne == true" class="k-i-loading"
+            style="position: relative; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;">
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="mascheraCluster" style="width: 100%; height: 300px; background-color: white;">
+        <div style="width: 100%; height: 100%;">
+          <div style="width: 20%; height: 40px; float: left; background-color: white; font-weight: bold; color: #353535;">
+            Cell Set
+          </div>
+          <div style="width: 80%; height: 100%; float: left;">
+            <app-ants-grid-lib
+              *ngIf="datiGrigliaAntenne"
+              [sessioneAttuale]="sessionService.getToken()"
+              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+              [indirizzoServer]="indirizzoServer"
+              [modalita]="'Griglia'"
+              [title]="'Antenne'"
+              [titleDaDatiGriglia]="true"
+              [data]="datiGrigliaAntenne"
+              [userName]="userName"
+              [maskName]="userName + '_grigliaGA1M'"
+              [DimensioneFont]="12"
+              [newKeyVisibile]='false'
+              [refreshKeyVisibile]='true'
+              [editKeyVisibile]='false'
+              [deleteKeyVisibile]='false'
+              [infoKeyVisibile]='true'
+              [confirmKeyVisibile]="false"
+              [selezioneMultipla]='false'
+              [impostaSelezione]="selezioneAntenne"
+              [AutoResize]="true"
+              [DimensioneFont]="12"
+              [righeAutomatiche]="false"
+              [paginazione]="'scrollable'"
+              [datiNuovi]="datiGrigliaAntenne && datiGrigliaAntenne.DataTable"
+              [linkIcone]="Utils.linkIcone"
+
+              (cellClick)="clickSelezioneAntenne($event)"
+              (lastSelectedOfGrid)='lastSelectedOfGridAntenne($event)'
+              (refresh)='refreshGrid1Antenne($event, false)'
+              (resetLayout)='refreshGrid1Antenne($event, true)'
+              (ritornoDimensioniColonne)="ritornoDimensioniColonneAntenne2($event)"
+            >
+            </app-ants-grid-lib>
+          </div>
+        </div>
+
+        <div style="width: 100%; height: 250px;">
+          <div style="width: 20%; height: 100%; float: left; background-color: white; font-weight: bold; color: #353535;">
+            Cluster
+          </div>
+          <div style="width: 80%; height: 100%; float: left;">
+            <app-ants-grid-lib
+              *ngIf="datiGrigliaCluster"
+              [sessioneAttuale]="sessionService.getToken()"
+              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+              [indirizzoServer]="indirizzoServer"
+              [modalita]="'Griglia'"
+              [title]="'Cluster'"
+              [titleDaDatiGriglia]="true"
+              [data]="datiGrigliaCluster"
+              [userName]="userName"
+              [maskName]="userName + '_grigliaCL1M'"
+              [DimensioneFont]= "12"
+              [newKeyVisibile]='false'
+              [refreshKeyVisibile]='true'
+              [editKeyVisibile]='false'
+              [deleteKeyVisibile]='false'
+              [infoKeyVisibile]='true'
+              [confirmKeyVisibile]="false"
+              [selezioneMultipla]='false'
+              [impostaSelezione]="selezioneCluster"
+              [AutoResize]="true"
+              [righeAutomatiche]="false"
+              [paginazione]="'scrollable'"
+              [datiNuovi]="datiGrigliaCluster && datiGrigliaCluster.DataTable"
+              [linkIcone]="Utils.linkIcone"
+
+              (cellClick)="clickSelezioneCluster($event)"
+              (lastSelectedOfGrid)='lastSelectedOfGridCluster($event)'
+              (refresh)='refreshGrid1Cluster($event, false)'
+              (resetLayout)='refreshGrid1Cluster($event, true)'
+              (ritornoDimensioniColonne)="ritornoDimensioniColonneCluster($event)"
+            >
+            </app-ants-grid-lib>
+          </div>
+        </div>
+        <div *ngIf="caricamentoDatiInCorsoCluster == true" class="k-i-loading"
+          style="position: relative; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+        ></div>
+
+        <div style="width: 49%; float: left; margin-top: 7px !important;">
+          <span class="testo grassetto scuro">Additional Layer</span>
+        </div>
+        <div style="width: 48%; float: left;">
+          <app-combo-component
+            *ngIf="datiAddLayers"
+            [data]="datiAddLayers"
+            [userName]="userName"
+            [NomeCombo]="'AddLayer_G'"
+            [campoId]="'CODE'"
+            [campoTesto]="'VALUE_STR'"
+            [valoreDefault]="additionalLayer2"
+            [ricordaUltimoValore]='true'
+            [pulisceValoriDiBase]='true'
+            [campoFiltro]="'VALUE_STR'"
+
+            (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAdditionalLayer($event)"
+            (ritornoValoreAttuale)="ritornoValoreDaComboAL($event)"
+
+            (eventoOpen)="impostaNonChiudere2(true)"
+            (eventoClose)="impostaNonChiudere2(false)"
+          >
+          </app-combo-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

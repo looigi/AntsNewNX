@@ -1,0 +1,75 @@
+{
+    "dataSource": {
+        "type": "csv",
+        "filename": "/assets/data/2.csv"
+    },
+    "slice": {
+        "rows": [
+            {
+                "uniqueName": "TcRunId"
+            },
+            {
+                "uniqueName": "EndDate"
+            },
+            {
+                "uniqueName": "ErrorCause"
+            },
+            {
+                "uniqueName": "ExecutionDate"
+            },
+            {
+                "uniqueName": "O.Line.Code"
+            },
+            {
+                "uniqueName": "OT.CallSetupSuccessful"
+            },
+            {
+                "uniqueName": "StartDate"
+            },
+            {
+                "uniqueName": "Status"
+            },
+            {
+                "uniqueName": "T.Line.Code"
+            },
+            {
+                "uniqueName": "StatusDescription"
+            },
+            {
+                "uniqueName": "OT.MosScoreAvg"
+            },
+            {
+                "uniqueName": "OT.CallSetupTime"
+            },
+            {
+                "uniqueName": "TestCaseName"
+            },
+            {
+                "uniqueName": "TestScenario"
+            },
+            {
+                "uniqueName": "TO.MosScoreAvg"
+            },
+            {
+                "uniqueName": "VoiceCallDropped"
+            }
+        ],
+        "columns": [
+            {
+                "uniqueName": "[Measures]"
+            }
+        ],
+        "measures": [
+            {
+                "uniqueName": "TcRunId",
+                "aggregation": "count",
+                "availableAggregations": [
+                    "count",
+                    "distinctcount"
+                ]
+            }
+        ]
+    },
+    "version": "2.7.13",
+    "creationDate": "2019-09-10T10:48:53.617Z"
+}

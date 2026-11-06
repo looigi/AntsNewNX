@@ -1,0 +1,15 @@
+npx nx reset
+-- builda tutto
+npx nx run-many -t build --all --skip-nx-cache
+
+-- builda un componente
+npx nx build menu --configuration=production
+
+ -- Per lanciare l'app di test
+npx nx serve menu
+
+-- per estrarre gli errori di compilazione su un file di testo
+npx nx build DataDictionaries --skip-nx-cache 2>&1 | Tee-Object -FilePath "build-errors.txt"
+
+-- Per compilare solamente l'app senza le librerie
+npx nx build DataDictionaries --skip-nx-cache --excludeTaskDependencies

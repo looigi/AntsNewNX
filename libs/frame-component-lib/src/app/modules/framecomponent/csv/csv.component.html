@@ -1,0 +1,84 @@
+<div #divContenitore *ngIf="visualizzaGrigliaExport"
+  style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"
+>
+
+
+<!--
+  <div #myBounds *ngIf="visualizzaGrigliaExport"
+  class="drag-boundary"
+  style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"
+>
+
+
+  ngDraggable ngResizable
+
+      [handle]="handleMenu"
+
+
+    class="mascheraGrigliaExport"
+-->
+  <div #myBoundsCSV ngDraggable [handle]="handleMenuCSV"
+    [ngClass]="{ 'top-b': !Utils.edge?.top, 'bottom-b': !Utils.edge?.bottom, 'left-b': !Utils.edge?.left, 'right-b': !Utils.edge?.right }"
+    class="mascheraGrigliaExport drag-block resizable" (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true"
+
+    [style.left]="daIstogramma == true ? '0px' : '20%'"
+    [style.top]="daIstogramma == true ? '0px' : '20%'"
+    [style.width]="daIstogramma == true ? '100%' : '60%'"
+    [style.height]="daIstogramma == true ? '100%' : '60%'"
+
+    [style.zIndex]="daIstogramma == true ? '999' : '9999'"
+    >
+    <!--
+      class="drag-block-handle"
+    -->
+    <div class="barraSuperiore2">
+      <div #handleMenuCSV style="width: 90%; float: left; text-align: left;">
+        <span style="font-weight: bold;">CSV Data</span>
+      </div>
+      <div style="width: 10%; float: right; text-align: right;">
+        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && daIstogramma == false" [src]="Utils.linkIcone + '/icons/close_context.png'" title="Cancel" width="25px" height="25px"
+          (click)="fChiusuraCSV()" style="cursor: pointer; margin-top: -3px; z-index: 9999;">
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+    <div style="
+            float: left;"
+        [style.width]="daIstogramma == false ? 'calc(100% - 10px)' : '100%'"
+        [style.height]="daIstogramma == false ? 'calc(100% - 35px)' : '100%'"
+        [style.padding]="daIstogramma == false ? '5px' : '0px'"
+      >
+      <app-ants-grid-lib
+        *ngIf="datiGrigliaExport2"
+        [sessioneAttuale]="sessionID2"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeFrame2"
+        [cambioTitolo]="nomeFrame2"
+        [titleDaDatiGriglia] = "false"
+        [data]="datiGrigliaExport2"
+        [userName]="userName"
+        [maskName]="'grigliaExport_' + NumeroFrame + '_' + frameAttivo"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='false'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [ricordaSelezione]='false'
+        [impostaSelezione]="selezioneGE"
+        [AutoResize]="true"
+        [righeAutomatiche]="true"
+        [linkIcone]="Utils.linkIcone"
+        [ManualResize]="effettuaAutoFitCSV"
+
+        (cellClick)="selezioneRigaCSV($event)"
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneCSV($event)"
+      >
+      </app-ants-grid-lib>
+    </div>
+  </div>
+</div>
+
+

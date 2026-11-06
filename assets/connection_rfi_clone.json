@@ -1,0 +1,13 @@
+{ 
+	"Proxy": "false",
+	"eventsDisplayedRows": 200,
+	"facadeServerAddressLocale": "http://10.100.7.26:2727/",
+	"facadeServerAddressViaProxy": "http://10.100.7.26:2727/",
+	"linkIcone": "https://antsgraclient.ants-aubay.it/gdpsondamistral/geoantsweb/assets/img",
+	"portable": true,
+	"serverGEOServer": "https://antsgraclient.ants-aubay.it/gdpsondamistral/geoserver/",
+	"serverPostRest": "http://10.100.7.71:3000",
+	"serverPostRestOracle": "http://10.100.7.71:3002",
+	"urlAnalytics": "https://ants-speedtest.kb.eu-west-1.aws.found.io:9243/s/coop-dev/app/dashboards#/view/bd804620-d5b5-11ec-a1b4-e3dfd7b74b8b?_g=(filters:!())",
+	"urlRoot": "http://10.100.7.71/"
+}

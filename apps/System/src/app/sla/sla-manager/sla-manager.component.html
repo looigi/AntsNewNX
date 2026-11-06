@@ -1,0 +1,60 @@
+<div style="width: 100%; height: 100%;">
+  <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px; float: left;">
+    <div #handleInfo style="text-align: center; width: 90%; float: left; margin-top: 2px;">SLA Manager</div>
+    <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+      class="immaginiChiusura" style="z-index: 5003;">
+  </div>
+  <div style="width: 100%; height: calc(100% - 30px); margin-top: 30px; float: left;">
+    <app-ants-grid-lib
+      *ngIf="listaDatiThr"
+      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+      [indirizzoServer]="indirizzoServer"
+      [modalita]="'Griglia'"
+      [DimensioneFont]='12'
+      [title]="'SLA Thr'"
+      [data]="listaDatiThr"
+      [userName]="userName"
+      [maskName]="'GrigliaAlberoThr'"
+      [newKeyVisibile]='false'
+      [editKeyVisibile]='true'
+      [deleteKeyVisibile]='false'
+      [infoKeyVisibile]='true'
+      [refreshKeyVisibile]="true"
+      [confirmKeyVisibile]='false'
+      [selezioneMultipla]='false'
+      [ricordaSelezione]='true'
+      [rinfrescaGriglia]='refreshGrigliaThr'
+      [raggruppabile]='true'
+      [campiPerRaggruppamento]="'FOLDER'"
+      [collassaTutto]="false"
+      [AutoResize]="false"
+      [ManualResize]="effettuaAutoFitThr"
+      [datiNuovi]="listaDatiThr && listaDatiThr.DataTable"
+
+      [righeAutomatiche]="false"
+      [linkIcone]="Utils.linkIcone"
+
+      (confirmKeyPressed)='premutoTastoConfirm($event)'
+      (cellClick)='cellClickGridSLAThr($event)'
+      (lastSelectedOfGrid)='lastSelectedOfGridSLAThr($event)'
+      (editKeyPressed)='tastoEditPremutoThr($event)'
+      (refresh)='refreshSlaThr($event, false)'
+      (resetLayout)='refreshSlaThr($event, true)'
+      (ritornoDimensioniColonne)="ritornoDimensioniColonneSlaThr($event)"
+    >
+    </app-ants-grid-lib>
+  </div>
+</div>
+
+<sla-edit-thr-component
+  [visibile]="editSlaThrVisibile"
+  [userName]="userName"
+  [dati]="SLAThrSelected2"
+  [misure]="misure"
+  [Utils]="Utils"
+  [sessionID]="sessionID"
+
+  (visibileEmit)="visibileDaMascheraSlaThrEdit($event)"
+  (refreshData)="refreshSlaThr($event, false)"
+>
+</sla-edit-thr-component>

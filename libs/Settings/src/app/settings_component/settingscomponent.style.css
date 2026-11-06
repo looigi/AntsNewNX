@@ -1,0 +1,156 @@
+.finestraMenu {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    /* margin-top: 3%; */
+    margin-left: 7%;
+    /* border: 1px solid #999; */
+    background-color: #f5eecf;
+    width: 650px;
+    height: 650px;
+    max-height: 90%;
+    /* overflow-x: hidden;
+    overflow-y: hidden;
+    min-width: 270px; */
+    padding: 1px;
+    z-index: 1650;
+    box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    border: 0px;
+  }
+  
+  .barraSuperiore {
+    height: 26px;
+    width: 100%;
+    display: block;
+    /* margin-bottom: 2px; */
+    background-color: #565656;
+    color: white; /* #545454; */
+    float: left;
+    /* border: 1px solid #f6f6f6; */
+    text-align: center;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .finestraMenu {
+      margin-top: 50px;
+      margin-left: 0px;
+      width: 100%;
+    }
+  }
+  
+  .riga {
+    width: 100%;
+    height: auto;
+    min-height: 35px;
+    margin-top: 2px;
+    /* border-bottom: 1px solid #999; */
+  }
+
+  .riga2 {
+    width: 100%;
+    height: auto;
+    text-align: left;
+  }
+  
+  .titolo {
+    /* background-color: #0a0; */
+    width: 25%;
+    float: left;
+    /* height: 40px;
+    margin-top: 16px !important; */
+    text-align: left;
+  }
+  
+  .titoloTesto {
+    /* background-color: #0a0; */
+    width: 25%;
+    float: left;
+    padding-top: 5px;
+    /* height: 40px;
+    margin-top: 16px !important; */
+    text-align: left;
+  }
+  
+  .titoloCombo {
+    /* background-color: #0a0; */
+    margin-top: -3px;
+    width: 25%;
+    float: left;
+    padding-top: 5px;
+    /* height: 40px;
+    margin-top: 16px !important; */
+    text-align: left;
+  }
+  
+  .contenuto {
+    /* background-color: #a00; */
+    width: 74%;
+    float:left;
+    /* margin-top: 4px;
+    height: 40px; */
+    text-align: right;
+  }
+  
+  .contenutoCheckBox {
+    /* background-color: #a00; */
+    width: 74%;
+    float: left;
+    padding-top: 4px;
+    /* margin-top: 10px;
+    height: 40px; */
+    text-align: right;
+  }
+  
+  .contenutoPerCombo {
+    /* background-color: #a00; */
+    width: 74%;
+    float: left;
+    /* margin-top: 10px;
+    height: 40px; */
+    text-align: right;
+  }
+  
+  .resto {
+    width: 34%;
+    float: left;
+  }
+  
+  .finestraCentrale {
+    max-width: 99%;
+    min-width: 95%;
+    /* overflow: auto; */
+  }
+  
+  .k-i-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(128,128,128,.2);
+    /* background-color: rgba(255,255,255,.3); */
+    color: #ff6757;
+    z-index: 999;
+  }
+  
+  .finestraFilter {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    width: 35%;
+    padding: 3px;
+    padding-top: 35px;
+    height: auto;
+    left: 50%;
+    top: 25%;
+    z-index: 6000;
+  }
+
+  .immaginiIcone {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }

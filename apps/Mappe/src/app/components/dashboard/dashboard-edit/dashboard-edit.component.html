@@ -1,0 +1,140 @@
+<div *ngIf="mascheraVisibile" class="bloccaSfondo" style="z-index: 5003;"></div>
+
+<div #myBounds *ngIf="mascheraVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+>
+  <div *ngIf="mascheraVisibile" ngDraggable [handle]="handleInfo" class="mascheraPrincipale drag-block resizable"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+    (visibileEmit)="mascheraVisibile = false;">
+    <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px;">
+      <div #handleInfo style="text-align: center; width: 87%; float: left; margin-top: 3px;">Dashboard Edit</div>
+      <div style="width: 12%; float: right; text-align: right;">
+        <img *ngIf="Utilities.linkIcone" [src]="Utilities.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+          class="immaginiChiusura" style="float: right;">
+        <img kendoTooltip [src]="Utilities.linkIcone + '/icons/check-circle_white.png'" class="immaginiChiusura"
+          style="width: 25px; height: 25px; float: right; margin-top: 1px;" title="Save" (click)="salvaDatiPR()">
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 5px;">
+    <!-- <ul style="margin-top: 30px; padding: 4px; margin-right: 3px;">
+      <li>
+        <div class="casellaLi25">
+          <span class="testo scuro">DASHBOARD NAME: </span>
+        </div>
+        <div class="contenuto casellaLi75">
+          <input type="text" class="testo" style="width: 100%;" value="{{name}}" [(ngModel)]="name">
+        </div> -->
+
+        <div class="titolo" style="margin-top: 13px !important;">
+          <span class="testo scuro">Dashboard Name:</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="name"
+            (onblur)="cambioValoreName()"
+            value="{{name}}" />
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo">
+          <span class="testo scuro">Description: </span>
+        </div>
+        <div class="contenuto">
+          <textarea
+            style="width: 100%; border: 1px solid #ebebeb; color: #656565;"
+            [(ngModel)]="description"
+            value="{{description}}" >
+          </textarea>
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo" style="margin-top: 14px !important;">
+          <span class="testo scuro">Folder: </span>
+        </div>
+        <div class="contenuto">
+          <app-combo-component
+            [Tipologia]="'Combo'"
+            [data] = "dashboardGroup2"
+            [userName]="userName"
+            [NomeCombo]="'DashFolder'"
+            [campoId]="'VALUE_STR'"
+            [campoTesto]="'VALUE_STR'"
+            [campoFiltro]="'VALUE_STR'"
+            [valoreDefault]="folder"
+            [accettaNuovi]="true"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]="false"
+            [pulisceValoriDiBase]="pulisceFiltro"
+
+            (selezioneEffettuata)="selectFolder($event)"
+          >
+          </app-combo-component>
+        </div>
+        <div style="clear: both;"></div>
+
+        <div *ngIf="nuovoVecchio === 'VECCHIO'" class="titolo" style="margin-top: 14px !important;">
+          <span class="testo scuro">Is Public: </span>
+        </div>
+        <div *ngIf="nuovoVecchio === 'VECCHIO'" class="contenuto" style="text-align: left;">
+          <input type="checkbox" [(ngModel)]="isPublic2"
+            (change)="checkIsPublic($event)" />
+        </div>
+        <div *ngIf="nuovoVecchio === 'VECCHIO'" style="clear: both;"></div>
+
+        <div class="titolo" style="margin-top: 14px !important;">
+          <span class="testo scuro">Show Time Cursor: </span>
+        </div>
+        <div class="contenuto" style="text-align: left;">
+          <input type="checkbox" [(ngModel)]="showTimeCursor"
+            (change)="checkShowTimeCursor($event)" />
+        </div>
+        <div  style="clear: both;"></div>
+
+        <!-- <div class="casellaLi50">
+          <span class="titolo">FOLDER: </span>
+        </div>
+        <div class="casellaLi50">
+          <app-combo-component
+            [data] = "dashboardGroup2"
+            [userName]="userName"
+            [NomeCombo]="'DashFolder'"
+            [campoId]="'VALUE_STR'"
+            [campoTesto]="'VALUE_STR'"
+            [campoFiltro]="'VALUE_STR'"
+            [valoreDefault]="folder"
+            [accettaNuovi]="true"
+
+            (selezioneEffettuata)="selectFolder($event)"
+          >
+          </app-combo-component> -->
+
+          <!-- <select style="width: 100%;" (ngModelChange)="selectFolder($event)" [(ngModel)]="selFolder">
+            <option value="A"><span>Antenne</span></option>
+            <option value="P"><span>Path</span></option>
+            <option value="C"><span>Coverage</span></option>
+          </select>
+        </div> -->
+      <!-- </li>
+      <li style="margin-top: 5px;">
+        <div class="casellaLi50" style="margin-top: 4px;">
+          <span class="titolo">GEO_ACT_SET_ID_1: </span>
+        </div>
+        <div class="casellaLi50">
+          <input type="textarea" style="width: 100%;" value="{{geo_act_set_id_1}}" [(ngModel)]="geo_act_set_id_1">
+        </div>
+      </li>
+      <li style="margin-top: 5px;">
+        <div class="casellaLi50" style="margin-top: 4px;">
+          <span class="titolo">GEO_ACT_SET_ID_2: </span>
+        </div>
+        <div class="casellaLi50">
+          <input type="textarea" style="width: 100%;" value="{{geo_act_set_id_2}}" [(ngModel)]="geo_act_set_id_2">
+        </div>
+      </li>
+    </ul> -->
+    </div>
+  </div>
+</div>

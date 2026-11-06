@@ -1,0 +1,91 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">User Profile</h4>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <!-- <form [formGroup]="profileForm" (ngSubmit)="onSubmit()"> -->
+    <div style="width: 100%;">
+      <div style="width: 70%; float: left;">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="center-block" style="font-weight: bold;">
+              Server Info:
+            </label>
+            <br />
+            <label style="width: 100%;">
+              {{dbInfo2}}
+            </label>
+              <!-- <input class="form-control" formControlName="name" disabled > -->
+          </div>
+          <div class="form-group">
+            <label class="center-block" style="font-weight: bold;">
+              Name:
+            </label>
+            <br />
+            <label style="width: 100%;">
+              {{userName2}}
+            </label>
+              <!-- <input class="form-control" formControlName="name" disabled > -->
+          </div>
+          <div class="form-group">
+            <label class="center-block" style="font-weight: bold;">Group Name:
+            </label>
+            <br />
+            <!-- <input class="form-control" formControlName="groupName" disabled> -->
+            <label style="width: 100%;">
+              {{groupName2}}
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block" style="font-weight: bold;">Profile Name:
+            </label>
+            <br />
+            <!-- <input class="form-control" formControlName="profileName" disabled> -->
+            <label style="width: 100%;">
+              {{profileName2}}
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block" style="font-weight: bold;">Profile Description:
+            </label>
+            <!-- <textarea class="form-control" formControlName="profileDescription" disabled style="height: 60px;"></textarea> -->
+            <label style="width: 100%;">
+              {{profileDesc2}}
+            </label>
+          </div>
+        </div>
+      </div>      
+      
+      <div style="width: 30%; float: left; height: 150px; text-align: center; padding: 5px;">
+        <img style="width: 140px; height: 140px;" [src]="PathIcone + '/icons/user-128.png'" />
+      </div>
+    </div>
+      <!-- <div class="form-group">
+        <label class="center-block">Email:
+          <input class="form-control" formControlName="email">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Description:
+          <input class="form-control" formControlName="description">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Mobile:
+          <input class="form-control" formControlName="mobile">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Client Path:
+          <input class="form-control" formControlName="clientPath">
+        </label>
+      </div> -->
+
+  <div class="modal-footer">
+    <!-- <button class="btn btn-outline-dark" type="submit" class="btn btn-success">Salva</button>-->
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+  </div>
+<!-- </form> -->
+</ng-template>

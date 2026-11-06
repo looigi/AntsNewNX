@@ -1,0 +1,7 @@
+.mascheraCentrale {
+  width: 100%;
+  height: calc(100% - 35px);
+  position: absolute;
+  top: 35px;
+  left: 0px;
+}

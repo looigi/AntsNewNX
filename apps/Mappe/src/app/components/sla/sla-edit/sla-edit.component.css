@@ -1,0 +1,46 @@
+.mascheraPrincipale {
+  position: fixed;
+  overflow: hidden;
+  top: 31vh;
+  left: 25vh;
+  width: 60vh;
+  height: 50vh;
+  background-color: white;
+  /* border: 1px solid #999; */
+  z-index: 5006;
+  box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+  border: 0px;
+}
+
+li {
+  margin-top: 10px;
+  height: 25px;
+}
+
+.barraSuperiore {
+  height: 26px;
+  width: 100%;
+  display: block;
+  /* margin-bottom: 2px; */
+  background-color: #565656;
+  color: white; /* #545454; */
+  float: left;
+  /* border: 1px solid #f6f6f6; */
+  text-align: center;
+}
+
+.titolo {
+  /* background-color: #0a0; */
+  width: 35%;
+  float: left;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.contenuto {
+  /* background-color: #a00; */
+  width: 64%;
+  float:left;
+  margin-top: 10px;
+  text-align: right;
+}

@@ -1,0 +1,266 @@
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+body {
+  position: absolute;
+  /* top: 0px; */
+  width: 100%;
+  /* margin: 0;
+  margin-top: 35px; */
+  height: calc(100vh - 35px);
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  overflow: hidden;
+}
+
+.immagini {
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+.k-i-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(128,128,128,.2);
+  /* background-color: rgba(255,255,255,.3); */
+  color: #ff6757;
+  z-index: 999;
+}
+
+
+/* ACCORDION */
+.ui-accordion .ui-accordion-content {
+  overflow: auto;
+}
+
+.ui-accordion .ui-accordion-header {
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.ui-accordion .ui-accordion-header-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body .ui-accordion .ui-accordion-content {
+  border: 0px !important;
+  padding: 0px;
+}
+
+body .ui-accordion .ui-accordion-header a {
+  /* pannello non attivo */
+  background-color: #e4e4e4;
+  border: 0px;
+  height: 26px;
+  padding-top: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:hover a {
+  /* pannello non attivo */
+  background-color: #d00;
+  border: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  /* pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: #fff;
+  background-color:#f16221;
+  border: 0px;
+}
+
+.ui-accordion .ui-accordion-header {
+  margin-top: 0px;
+}
+
+body .ui-corner-all {
+  border-radius: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
+  /* hover pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: #333;
+  background-color: #929292;
+  border: 0px;
+}
+
+.wc-date-popover {
+  position: fixed !important;
+  top: 12% !important;
+  left: 45% !important;
+}
+
+/* MASCHERE DI MODIFICA */
+.mascheraModifica {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+  width: 75%;
+  padding-top: 35px;
+  height: auto;
+  max-height: 90%;
+  left: 10%;
+  top: 25%;
+  z-index: 2000;
+}
+
+@media screen and (max-width: 650px) {
+  .mascheraModifica {
+    left: 0px !important;
+    margin-left: 0px !important;
+    width: 100% !important;
+  }
+}
+
+.oscura {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 1999;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  opacity: .35;
+}
+
+.bottoniIntestazione {
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  text-align: right;
+  height: 35px;
+  top: 0px;
+  padding: 5px;
+  border-bottom: 1px solid #bbb;
+}
+
+.modificaDati {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  overflow: auto;
+  display: contents;
+}
+
+.immagini {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+
+/* BARRA DI SCORRIMENTO */
+/* width */
+::-webkit-scrollbar {
+  width: 21px;
+  border-radius: 2px;
+}
+
+/* height */
+::-webkit-scrollbar {
+  height: 21px;
+  border-radius: 2px;
+}
+
+/* Overflow Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(238, 238, 238);
+}
+
+/* Overflow Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f16221;
+}
+
+.swal2-container {
+  z-index: 99999 !important;
+}
+
+.k-filtercell {
+  width: 100% !important;
+}
+
+.k-filtercell > span > .k-widget, .k-filtercell > span > .k-textbox, .k-filtercell .k-filtercell-wrapper > .k-widget, .k-filtercell .k-filtercell-wrapper > .k-textbox {
+  width: 100% !important;
+}
+
+.k-numerictextbox *, .k-numerictextbox *::before, .k-numerictextbox *::after {
+  box-sizing: border-box;
+  border: 1px solid #ebebeb;
+}
+
+/* COPIARE NEI VARI MODULI: ACCORDION */
+.p-accordion .p-accordionheader .p-accordionheader-toggle-icon,
+.p-accordion .p-accordionheader svg {
+    display: none !important;
+}
+
+/* elimina eventuale separazione dell'header */
+.p-accordion .p-accordionheader {
+    padding-left: 10px !important;
+    height: 35px !important;
+}
+
+/* Header accordion aperto */
+.p-accordionpanel-active > .p-accordionheader {
+    background-color: #f16221 !important;
+    color: white !important;
+    border-left: 4px solid #f15c21 !important;
+}
+
+/* Contenuto del pannello aperto */
+.p-accordionpanel-active > .p-accordioncontent {
+    background-color: #fafafa !important;
+}
+/* elimina spazio tra accordion */
+.p-accordion .p-accordionpanel {
+    margin-bottom: 0 !important;
+}
+
+/* elimina eventuale separazione dell'header */
+.p-accordion .p-accordionheader {
+    border-radius: 0 !important;
+    background-color: #e5e2e2 !important;
+    color: #353535 !important;
+    height: 30px !important;
+    margin-bottom: 2px !important;
+}
+
+/* elimina padding extra del contenuto */
+.p-accordion .p-accordioncontent-content {
+    padding: 0 !important;
+    background-color: white !important;
+}
+/* COPIARE NEI VARI MODULI: ACCORDION */
+
+.k-grid-header, .k-grid-header-wrap, .k-grouping-header, .k-grid .k-table-th, .k-grid td, .k-grid .k-table-td, .k-grid-footer, .k-grid-footer-wrap, .k-grid-content-locked, .k-grid-footer-locked, .k-grid-header-locked, .k-filter-row > .k-table-th, .k-filter-row > td, .k-filter-row > .k-table-td {
+  border: 0px !important;
+}
+
+input {
+  color: #353535 !important;
+  background-color: white !important;
+}
+
+input::placeholder {
+  color: #ff8888 !important
+}
+
+.k-checkbox:checked, .k-checkbox.k-checked {
+    border-color: #ff6358 !important;
+    color: white !important;
+    background-color: #ff6358 !important;
+}

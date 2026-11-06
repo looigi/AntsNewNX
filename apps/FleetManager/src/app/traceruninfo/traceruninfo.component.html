@@ -1,0 +1,137 @@
+<!-- <kendo-tabstrip (tabSelect)="onTabSelect($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+  <kendo-tabstrip-tab [title]="'&nbsp;&nbsp;&nbsp;Info'"
+    [selected]="tabSelezionato == 0">
+    <ng-template kendoTabContent>
+
+  <as-split direction="horizontal" >
+    <as-split-area [size]="40"> -->
+          <kendo-tabstrip (tabSelect)="onTabChanged($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+          <!-- <mat-tab-group #tabgroup id="tabgroup" animationDuration="0ms" (selectedTabChange)="onTabChanged($event);">
+            <mat-tab label="TcRun Prm and Measr"> -->
+            <kendo-tabstrip-tab >
+              <ng-template kendoTabTitle>
+                <span>TcRun Prm and Measr</span>
+              </ng-template>
+              <ng-template kendoTabContent>
+                <div style="width: 100%; height: 100%;">
+                  <span *ngIf="datiTcRunFile === null" style="width: 100%; text-align: left;">
+                    No data to be displayed
+                  </span>
+
+                  <app-ants-grid-lib
+                    [sessioneAttuale]="sessionID2"
+                    [debug]="debug"
+                    [indirizzoServer]="indirizzoServer"
+                    [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                    [modalita]="'Griglia'"
+                    [title]="'Tc Run Info'"
+                    [data]="datiTcRunInfo"
+                    [userName]="userName2"
+                    [maskName]="nomeGrigliaTII2"
+                    [newKeyVisibile]='false'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [selezioneMultipla]='false'
+                    [ricordaSelezione]='false'
+                    [impostaSelezione]='selezionatoTII2'
+                    [DimensioneFont]='12'
+                    [datiNuovi]="datiTcRunInfo && datiTcRunInfo.DataTable"
+                    [messaggioWarning]="messaggioWarningTcRunInfo"
+                    [paginazione]="'scrollable'"
+                    [AutoResize]="false"
+                    [ManualResize]="effettuaAutoFitInfo"
+                    [linkIcone]="Utils.linkIcone"
+                    [raggruppabile]="true"
+                    [campiPerRaggruppamento]="'SECTION_NAME'"
+
+                    (cellClick)="clickRigaINFO($event)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRunInfo($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <!--
+                    [ManualResize]="effettuaAutoFitInfo"
+                    
+                    [datiNuovi]="datiTcRunInfo && datiTcRunInfo.DataTable"
+                    [ManualResize]="effettuaAutoFitInfo"
+                  -->
+
+                  <div *ngIf="caricamentoTcRunInCorso1 == true" class="k-i-loading" style="position: relative; width: 100%; height: 110%;"></div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+
+  <!--   </ng-template>
+  </kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Files'"
+    [selected]="tabSelezionato == 1">
+    <ng-template kendoTabContent>
+    </as-split-area>
+    <as-split-area [size]="50" style="overflow: hidden;">
+      </mat-tab> -->
+
+            <kendo-tabstrip-tab>
+              <ng-template kendoTabTitle>
+                <span>TcRun Files</span>
+              </ng-template>
+              <ng-template kendoTabContent>
+                <div style="width: 100%; height: 100%;">
+                  <span *ngIf="datiTcRunFile === null" style="width: 100%; text-align: left;">
+                    No data to be displayed
+                  </span>
+
+                  <app-ants-grid-lib
+                    [debug]="debug"
+                    [sessioneAttuale]="sessionID2"
+                    [indirizzoServer]="indirizzoServer"
+                    [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                    [modalita]="'Griglia'"
+                    [title]="'Tc Run Files'"
+                    [data]="datiTcRunFile"
+                    [userName]="userName2"
+                    [maskName]="nomeGrigliaTIF2"
+                    [newKeyVisibile]='false'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [selezioneMultipla]='false'
+                    [ricordaSelezione]='false'
+                    [impostaSelezione]='selezionatoTIF2'
+                    [datiNuovi]="datiTcRunFile && datiTcRunFile.DataTable"
+                    [messaggioWarning]="messaggioWarningTcRunFile"
+                    [DimensioneFont]='12'
+                    [paginazione]="'scrollable'"
+                    [righePerPaginaVirtuale]="999"
+                    [AutoResize]="false"
+                    [ManualResize]="effettuaAutoFitFile"
+                    [linkIcone]="Utils.linkIcone"
+
+                    (cellClick)="clickRigaTI($event)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRunInfo2($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <div *ngIf="caricamentoTcRunInCorso2 == true && !modalitaRealTimeAttiva" class="k-i-loading"></div>
+                  <div *ngIf="caricamentoTcRunInCorso2 == true && modalitaRealTimeAttiva" class="k-i-loadingRT">
+                    <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+                  </div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+    <!--  </mat-tab>
+    </mat-tab-group> -->
+    <!-- </ng-template>
+  </kendo-tabstrip-tab>
+</kendo-tabstrip>
+  </as-split-area>
+</as-split> -->
+
+<div *ngIf="mostraPopup" class="oscura"></div>
+<div *ngIf="mostraPopup" class="popup">
+  Please wait...<br />Downloading
+</div>
+

@@ -1,0 +1,125 @@
+<div style="width: 100%; height: 100%; display: flex;">
+  <!-- <as-split direction="horizontal" (dragEnd)="dragEnd1($event)">
+    <as-split-area [size]="20">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaCL1'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [linkIcone]="Utils.linkIcone"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event)'
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: relative; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="80"> -->
+      <as-split direction="horizontal" (dragEnd)="dragEnd2($event)">
+        <as-split-area [size]="25">
+          <app-ants-grid-lib
+            *ngIf="datiGriglia2"
+            [sessioneAttuale]="sessionService.getToken()"
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="nomeGriglia2"
+            [titleDaDatiGriglia] = "true"
+            [data]="datiGriglia2"
+            [userName]="userName"
+            [maskName]="userName + '_grigliaCL2'"
+            [newKeyVisibile]='false'
+            [refreshKeyVisibile]='true'
+            [editKeyVisibile]='false'
+            [deleteKeyVisibile]='false'
+            [infoKeyVisibile]='true'
+            [confirmKeyVisibile]="false"
+            [selezioneMultipla]='false'
+            [impostaSelezione]="selezione2"
+            [AutoResize]="true"
+            [righeAutomatiche]="false"
+            [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+            [messaggioWarning]="messaggioWarning2"
+            [linkIcone]="Utils.linkIcone"
+
+            [paginazione]="'scrollable'"
+            [pageSize]="Utils.limitPerVirtual"
+            [DimensioneFont]='12'
+
+            (cellClick)="clickSelezione2($event)"
+            (lastSelectedOfGrid)='lastSelectedOfGrid2($event)'
+            (refresh)='refreshGrid2($event, false)'
+            (resetLayout)='refreshGrid2($event, true)'
+            (detectCambioPagina)="cambioPagina($event)"
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneGriglia2($event)"
+          >
+          </app-ants-grid-lib>
+
+          <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+            style="position: relative; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+          ></div>
+        </as-split-area>
+        <as-split-area [size]="75" style="overflow: hidden;">
+          <!-- <app-frame
+            [userName]="userName"
+            [sessioneID]="sessionService.getToken()"
+            [UtilityPassata]="Utils"
+            [modalita]="'Cluster'"
+            [refreshMappa]="refreshMappa"
+            [posizionaCentro]="centro"
+            [nomeLayer]="nomeLayer"
+          >
+          </app-frame> -->
+          <app-frame-dd
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [userName]="userName"
+            [sessioneID]="sessionService.getToken()"
+            [UtilityPassata]="Utils"
+            [refreshMappa]="refreshMappa"
+            [activitySetID]="actSetIdScelto"
+            [activitySetName]="actSetNameScelto"
+            [agnGroupId]="agnGroupID"
+            [agnGroup]="agnGroup"
+            [actSetNameFM]="actSetNameFM"
+            [centraMappa]="centro"
+            [stringaAGNoACTp]="stringaAGNCode"
+            [lastDays]="lastDays2"
+            [nomeProgetto]="'DD;Cluster'"
+            [nomeAntennaDD]="nomeLayerAntenna"
+            [parametriDD]="parametriDD"
+            [nomeClusterDD]="nomeLayer"
+            [additionalLayer]="additionalLayer2"
+            [exportKMLAttivo]="exportKMLAttivo"
+            [opacity]="opacity"
+
+            (coordinateDaClickSuMappa)="clickSuMappa($event)"
+            (cambioBBoxEmit)="cambioBBOX($event)"
+            (opacityEmit)="cambiaOpacity($event)"
+          >
+          </app-frame-dd>
+        </as-split-area>
+      </as-split>
+    <!-- </as-split-area>
+  </as-split> -->
+</div>

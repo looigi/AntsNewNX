@@ -1,0 +1,16 @@
+.bottoniIntestazione {
+  position: absolute;
+  width: 350px;
+  left: 0px;
+  text-align: right;
+  height: 35px;
+  top: 0px;
+  padding: 5px;
+  border-bottom: 1px solid #bbb;
+}
+
+.immaginiIcone {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}

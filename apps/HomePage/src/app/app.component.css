@@ -1,0 +1,89 @@
+.contenitore {
+  position: absolute;
+  /* top: 10%; */
+  /* left: 10%; */
+  width: 95%;
+  height: 90%;
+  margin: 20px;
+  margin-top: 50px;
+  overflow: hidden;
+  /* border: 1px solid #999;
+
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  -webkit-border-radius: 1.25em 1.25em 1.25em 1.25em;
+  -moz-border-radius: 1.25em 1.25em 1.25em 1.25em;
+  border-radius: 1.25em 1.25em 1.25em 1.25em; */
+}
+
+.divImmagine {
+  width: 100%;
+  height: 75%;
+  background-repeat: no-repeat;
+  /* background-size: contain; */
+  background-position: center;
+}
+
+.bottone {
+  float: left;
+  width: 20%;
+  height: 50%;
+  overflow: hidden;
+  /* background-color: #efefef; */
+  /* background-blend-mode: luminosity;
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  vertical-align: middle;
+  display: table;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6); */
+  text-align: center;
+  /* border: 1px solid #e6e6e6; */
+  cursor: pointer;
+
+  /* -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  border-color: #c5c5c5;
+  zoom: 1;
+  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  color: #444444;
+
+  -webkit-border-radius: 1.25em 1.25em 1.25em 1.25em;
+  -moz-border-radius: 1.25em 1.25em 1.25em 1.25em;
+  border-radius: 1.25em 1.25em 1.25em 1.25em;
+
+  margin: 5px; */
+}
+
+.bottone:hover {
+  text-decoration: none;
+  background-color: #f8fce3;
+  background-blend-mode: normal;
+}
+
+.immagine {
+  width: 100%;
+  height: 70vh;
+  object-fit: contain;
+    -webkit-object-fit: contain;
+}
+
+.bottone:active {
+  background-image: none;
+  outline: 0;
+
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.testoImmagini {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+}
+

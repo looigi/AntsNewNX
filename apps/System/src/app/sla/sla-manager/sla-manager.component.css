@@ -1,0 +1,50 @@
+  .mascheraPrincipale {
+    position: fixed;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    /* border: 1px solid #999; */
+    z-index: 5003;
+    box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    border: 0px;
+  }
+
+  .immaginiChiusura {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 2px;
+    float: right;
+    margin-top: -1px;
+  }
+
+  .barraSuperiore {
+    height: 26px;
+    width: 100%;
+    display: block;
+    /* margin-bottom: 2px; */
+    background-color: #565656;
+    color: white; /* #545454; */
+    float: left;
+    /* border: 1px solid #f6f6f6; */
+    text-align: center;
+  }
+
+  .bloccaSfondo {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .3;
+    z-index: 5002;
+  }
+
+  li {
+    margin-top: 10px;
+    height: 25px;
+  }

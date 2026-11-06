@@ -1,0 +1,51 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "paths": {
+      "modulo-apk": [
+        "libs/ModuloAPK/public_api.ts"
+      ],
+      "menu": [
+        "libs/menu/public_api.ts"
+      ],
+      "calendario": [
+        "libs/Calendario/public_api.ts"
+      ],
+      "combo": [
+        "libs/Combo/public_api.ts"
+      ],
+      "pivot": [
+        "libs/Pivot/public_api.ts"
+      ],
+      "ants-grid-lib": [
+        "libs/AntsGridLib/public_api.ts"
+      ],
+      "activitySet": [
+        "libs/ActivitySet/public_api.ts"
+      ],
+      "settings_component": [
+        "libs/Settings/public_api.ts"
+      ],
+      "jsoncomponent": [
+        "libs/JsonComponent/public_api.ts"
+      ],
+      "barra-superiore": [
+        "libs/BarraSuperiore/public_api.ts"
+      ],
+      "frame-component-lib": [
+        "libs/frame-component-lib/public_api.ts"
+      ],
+      "barrasuperiore": [
+        "libs/BarraSuperiore/public_api.ts"
+      ],
+      "combocomponent": [
+        "libs/Combo/public_api.ts"
+      ],
+      "actsetcomponent": [
+        "libs/ActivitySet/public_api.ts"
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+
+/* DATA */
+::ng-deep .wc-date-container {
+  color: #a9a9a9 !important;
+  border: 1px solid #a9a9a9 !important;
+}
+
+::ng-deep .wc-date-container > span {
+  color:#a9a9a9 !important;
+}
+
+::ng-deep .wc-date-container > i {
+  font-size: 20px !important;
+  color: #a9a9a9 !important;
+}

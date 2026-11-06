@@ -1,0 +1,147 @@
+
+
+<!-- <div *ngIf="sceltaFilter == true" style="width: 100%; height: 23px; margin-top: 1px; background-color: white;"> -->
+    <div class="mascheraModificaSF drag-boundary resizable" ngDraggable [handle]="handleMenuMT"
+    >
+        <div class="bottoniIntestazione" style="background-color: #565656;">
+            <div #handleMenuMT class="drag-block" style="width: calc(100% - 100px); float: left; text-align: left; color: white;">
+                Filter and column settings
+            </div>
+            <div style="width: 100px; float: left; text-align: right; margin-top: -4px;">
+                <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/icons/check-circle_white.png'" style="width: 30px; height: 30px; cursor: pointer;" title="Apply Filter" (click)="inviaFiltri(true);" >
+                <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/icons/test_filter.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Test actual filter" (click)="inviaFiltri(false);" >
+                <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/icons/close_context.png'" (click)="chiudeSceltaFilter()" title="Close" class="immaginiIcone">
+            </div>
+        </div>
+    
+        <div style="width: 100%; float: left; height: 100%; overflow: hidden;">
+            <div style="width: 100%; height: 100%; float: left; overflow: hidden;">
+                <div style="width: 100%; float: left; height: 140px; overflow: auto;">
+                    <!-- <div style="width: 100%; float: left;">
+                    </div>
+
+                    <div style="width: 100%; float: left;"> -->
+                        <div style="width: 100px; float: left; margin-top: 10px; font-weight: bold;" [title]="toolTip">
+                            Filter Include
+                        </div>
+                        <div style="width: calc(100% - 110px); float: left; margin-top: 10px;">
+                            <!--
+                            (keydown)="eventFiletrTastoPremuto($event)"
+                            (paste)="eventFilterPaste($event)"
+                            -->
+                            <textarea type="text"
+                                (keyup.enter)="eventFiltersEmit(false);"
+                                [title]="filtroImpostato"
+                                [(ngModel)]="filtroImpostato" 
+                                style="width: 100%; max-width: 100%; height: 26px; border: 1px solid #e3e0e0; resize: auto !important;">
+                            </textarea>
+                        </div>
+                        <div style="clear: both;"></div>
+                        
+                        <div style="width: 100px; float: left; margin-top: 10px; font-weight: bold;" [title]="toolTipExclude">
+                            Filter Exclude
+                        </div>
+                        <div style="width: calc(100% - 110px); float: left; margin-top: 10px;">
+                            <!--
+                            (keydown)="eventFiletrTastoPremuto($event)"
+                            (paste)="eventFilterPaste($event)"
+                            -->
+                            <textarea type="text"
+                                (keyup.enter)="eventFiltersEmit(false);"
+                                [title]="toolTipExclude"
+                                [(ngModel)]="filtroEscluso" 
+                                style="width: 100%; max-width: 100%; height: 26px; border: 1px solid #e3e0e0; resize: auto !important;">
+                            </textarea>
+                        </div>
+                        <div style="clear: both;"></div>
+
+                        <div style="width: 200px; float: left; margin-top: 10px; font-weight: bold;" [title]="'Show column compressed'">
+                            Show column compressed
+                        </div>
+                        <div style="width: calc(100% - 210px); float: left; margin-top: 10px;">
+                            <input type="checkbox" [checked]="columnCompressed"
+                                (click)="checkColumnCompressed()" style="float: left;" />
+                        </div>
+                        <div style="clear: both;"></div>
+                    <!-- </div> -->
+                </div>
+
+                <div style="width: 100%; float: left; margin-top: 10px; height: 60px; overflow: auto;">
+                    To display a Message Field in a column, select the field in the message and click the arrow next to the row.<br />
+                    To seach a field “e.f.g” in all the subnodes of “a.b.c” edit the string as “a,b,c,**,e.f.g”<br />
+                    To display a Measure in a column, select the Measure from the combo and click the arrow next to the row.
+                </div>
+
+                <div *ngIf="filtriAttivi2" style="width: 100%; float: left; height: calc(100% - 350px); padding-top: 3px; overflow: auto;">
+                    <div *ngFor="let m of filtriAttivi2.filtriAttivi; let i = index" [attr.data-index]="i"
+                        style="width: 100%; float: left;">
+                        <div *ngIf="i + 1 < 21" style="width: 45px; float: left; font-weight: bold;">
+                            Col {{i + 1}}
+                        </div>
+                        <div *ngIf="i + 1 < 21" style="width: 150px; float: left; margin-right: 5px;">
+                            <input type="text"
+                                (keyup.enter)="eventFiltersEmit(false);"
+                                [title]="m.NomeColonna"
+                                [(ngModel)]="m.NomeColonna" style="width: 100%; height: 100%; border: 1px solid #e3e0e0;" />
+                        </div>
+                        <div *ngIf="i + 1 < 21" style="width: calc(100% - 240px); float: left;">
+                            <input type="text"
+                                (keyup.enter)="eventFiltersEmit(false);"
+                                dir="rtl"
+                                [title]="m.Campo"
+                                [(ngModel)]="m.Campo" style="width: 100%; height: 100%; border: 1px solid #e3e0e0;" />
+                        </div>
+                        <div *ngIf="i + 1 < 21" style="width: 40px; float: left; margin-top: -4px; text-align: right">
+                            <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+                                [src]="linkIcone + '/icons/baseline_arrow_circle_left_black_24dp.png'" style="width: 30px; height: 30px; cursor: pointer;" 
+                                title="{{tagIconaApplica}}" 
+                                (click)="prendeComeEventoCol(i);" >
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; height: 20px; float: left; font-weight: bold;">Actual selected Measure/Message Field</div>
+                <div style="width: 100%; height: 80px; overflow: auto; float: left; text-align: left;">
+                    {{filtroAttivoPass}}
+                </div>
+
+                <div style="width: 100%; height: 50px; float: left;">
+                    <div class="titoloCombo">
+                        <span class="testo grassetto scuro">Measure</span>
+                    </div>
+                    <div class="contenutoPerCombo">
+                      <div style="width: 100%; float: left; margin-right: 5px;">
+                        <app-combo-component
+                          [Tipologia]="'Combo'"
+                          [data] = "measureData"
+                          [userName]="userName"
+                          [NomeCombo]="'FilterMeasure_' + numeroFrame"
+                          [campoId]="'CODE'"
+                          [campoRaggruppamento]="'FOLDER'"
+                          [campoTesto]="'DISPLAY_NAME'"
+                          [valoreDefault]="misuraSelezionata"
+                          [ricordaUltimoValore]='false'
+                          [pulisceValoriDiBase]='true'
+                          [campoFiltro]="'DISPLAY_NAME'"
+                          [pulisceFiltro]="true"
+    
+                          (selezioneEffettuata)="selectMisuraFilter($event)"
+                        >
+                        </app-combo-component>
+                      </div>
+                    </div>                    
+                </div>
+
+                <!-- <div style="width: 100%; height: 20px; float: left; font-weight: bold;" [style.color]="messaggioFieldList.length > 15 ? 'red' : 'black'">{{messaggioFieldList}}</div>
+                <div style="width: 100%; height: 20%; overflow: auto; float: left; text-align: left;">
+                    <div *ngFor="let filtro of vociTrovateJson" (click)="clickSuFiltro(filtro)"
+                        [style.background-color]="filtro.Selezionato == true ? '#f4511e' : filtro.RigaPari ? 'transparent' : '#ededed'"
+                        style="cursor: pointer;"
+                    >
+                        {{filtro}}
+                    </div>
+                </div> -->
+
+        </div>
+    </div>
+</div>

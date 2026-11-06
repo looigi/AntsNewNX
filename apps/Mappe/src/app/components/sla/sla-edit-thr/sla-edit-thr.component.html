@@ -1,0 +1,174 @@
+<div *ngIf="mascheraVisibile" class="bloccaSfondo" style="z-index: 5005;"></div>
+
+<div #myBounds *ngIf="mascheraVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+>
+  <div *ngIf="mascheraVisibile" ngDraggable [handle]="handleInfo" class="mascheraPrincipale drag-block"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+    (visibileEmit)="mascheraVisibile = false;" class="resizable">
+    <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px;">
+      <div #handleInfo style="text-align: center; width: 80%; float: left; margin-top: 2px;">SLA Thr Edit</div>
+
+      <div style="float: right;">
+        <img kendoTooltip [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immagini" style="margin-top: 1px; width: 25px; height: 25px; float: left;" title="Save" (click)="salvaDati()">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+        class="immaginiChiusura">
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 5px;">
+
+      <div class="titolo">
+        <span class="testo scuro">Name:</span>
+      </div>
+      <div class="contenuto">
+        <input class="casellaTesto"
+          readonly="true"
+          style="border: 1px solid #ebebeb; text-align: left;"
+          type = "text"
+          [(ngModel)]="geo_measure_dfn_code"
+          value="{{geo_measure_dfn_code}}" />
+      </div>
+      <div style="clear: both;"></div>
+
+      <br />
+
+      <table width = "100%" cellpadding = "2" cellspacing="2">
+        <tr>
+          <td class="casella" style="background-color: #ff0000; color: black;">
+            Critical
+          </td>
+          <td class="casella editabile">
+            <input class="casellaTesto editabile"
+              style="border: 0px"
+              type = "text"
+              [(ngModel)]="thr_value_1"
+              value="{{thr_value_1}}" />
+          </td>
+          <td class="casella" style="background-color: #ffb837; color: black;">
+            Major
+          </td>
+          <td class="casella editabile">
+            <input class="casellaTesto editabile"
+              style="border: 0px"
+              type = "text"
+              [(ngModel)]="thr_value_2"
+              value="{{thr_value_2}}" />
+          </td>
+          <td  class="casella" style="background-color: #ffff00; color: black;">
+            Minor
+          </td>
+          <td  class="casella editabile">
+            <input class="casellaTesto editabile"
+              style="border: 0px"
+              type = "text"
+              [(ngModel)]="thr_value_3"
+              value="{{thr_value_3}}" />
+          </td>
+          <td  class="casella" style="background-color: #b9ff00; color: black;">
+            Warning
+          </td>
+          <td  class="casella editabile">
+            <input class="casellaTesto editabile"
+              style="border: 0px"
+              type = "text"
+              [(ngModel)]="thr_value_4"
+              value="{{thr_value_4}}" />
+          </td>
+          <td  class="casella" style="background-color: #00e200; color: black;">
+            Clear
+          </td>
+        </tr>
+        <tr>
+          <td>
+
+          </td>
+          <td class="casella">
+            Thr 1
+          </td>
+          <td>
+
+          </td>
+          <td class="casella">
+            Thr 2
+          </td>
+          <td>
+
+          </td>
+          <td class="casella">
+            Thr 3
+          </td>
+          <td>
+
+          </td>
+          <td class="casella">
+            Thr 4
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      </table>
+<!--        <div class="titolo">
+          <span class="testo scuro">Critical:</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="thr_value_1"
+            value="{{thr_value_1}}" />
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo">
+          <span class="testo scuro">Major:</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="thr_value_2"
+            value="{{thr_value_2}}" />
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo">
+          <span class="testo scuro">Minor:</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="thr_value_3"
+            value="{{thr_value_3}}" />
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo">
+          <span class="testo scuro">Warning:</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="thr_value_4"
+            value="{{thr_value_4}}" />
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="titolo">
+          <span class="testo scuro">Clear</span>
+        </div>
+        <div class="contenuto">
+          <input class="casellaTesto"
+            style="border: 1px solid #ebebeb; text-align: left;"
+            type = "text"
+            [(ngModel)]="thr_value_5"
+            value="{{thr_value_5}}" />
+        </div>
+        <div style="clear: both;"></div>-->
+
+    </div>
+  </div>
+</div>

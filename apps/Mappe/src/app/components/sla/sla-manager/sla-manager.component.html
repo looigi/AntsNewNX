@@ -1,0 +1,187 @@
+<!-- <div *ngIf="mascheraVisibile" class="bloccaSfondo"></div>
+
+<div #myBounds *ngIf="mascheraVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+>
+  <div *ngIf="mascheraVisibile" ngDraggable ngResizable [handle]="handleInfo" class="mascheraPrincipale"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+    (visibileEmit)="mascheraVisibile = false;">
+-->
+  <div *ngIf="mascheraVisibile" class="mascheraPrincipale"
+    (visibileEmit)="mascheraVisibile = false;">
+    <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px;">
+      <div #handleInfo style="text-align: center; width: 90%; float: left; margin-top: 2px;">SLA Manager</div>
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+        class="immaginiChiusura" style="z-index: 5003;">
+    </div>
+
+    <as-split direction="horizontal" style="padding-top: 28px;">
+      <as-split-area [size]="25">
+        <app-ants-grid-lib
+          *ngIf="slaData2"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [modalita]="'Griglia'"
+          [title]="'SLA MAnager'"
+          [data]="slaData2"
+          [DimensioneFont]='12'
+          [userName]="userName"
+          [maskName]="'GrigliaAlberoSla'"
+          [newKeyVisibile]='false'
+          [editKeyVisibile]='true'
+          [deleteKeyVisibile]='true'
+          [infoKeyVisibile]='true'
+          [confirmKeyVisibile]='confirmKey'
+          [copyKeyVisibile]='copyKey'
+          [refreshKeyVisibile]="true"
+          [selezioneMultipla]='false'
+          [ricordaSelezione]='true'
+          [rinfrescaGriglia]='refreshGrigliaSla'
+          [impostaSelezione]="rigaSelezionataSLA"
+          [linkIcone]="Utils.linkIcone"
+
+          [righeAutomatiche]="false"
+
+          (confirmKeyPressed)='premutoTastoConfirm($event)'
+          (cellClick)='cellClickGridSLA($event)'
+          (lastSelectedOfGrid)='lastSelectedOfGridSLA($event)'
+          (editKeyPressed)='tastoEditPremuto($event)'
+          (newKeyPressed)='tastoNewPremuto($event)'
+          (refresh)='refreshSla($event, false)'
+          (resetLayout)='refreshSla($event, true)'
+          (deleteKeyPressed)='eliminaSLA($event)'
+          (copyKeyPressed)='copyKeyPremuto($event)'
+          (ritornoDimensioniColonne)="ritornoDimensioniColonneSla($event)"
+        >
+        </app-ants-grid-lib>
+      </as-split-area>
+      <as-split-area [size]="75">
+        <app-ants-grid-lib
+          *ngIf="listaDatiThr"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [modalita]="'Griglia'"
+          [DimensioneFont]='12'
+          [title]="'SLA Thr'"
+          [data]="listaDatiThr"
+          [userName]="userName"
+          [maskName]="'GrigliaAlberoThr'"
+          [newKeyVisibile]='false'
+          [editKeyVisibile]='true'
+          [deleteKeyVisibile]='false'
+          [infoKeyVisibile]='true'
+          [refreshKeyVisibile]="true"
+          [confirmKeyVisibile]='false'
+          [selezioneMultipla]='false'
+          [ricordaSelezione]='true'
+          [rinfrescaGriglia]='refreshGrigliaThr'
+          [raggruppabile]='true'
+          [campiPerRaggruppamento]="'FOLDER'"
+          [collassaTutto]="false"
+          [AutoResize]="false"
+          [ManualResize]="effettuaAutoFitThr"
+          [datiNuovi]="listaDatiThr && listaDatiThr.DataTable"
+
+          [righeAutomatiche]="false"
+          [linkIcone]="Utils.linkIcone"
+
+          (confirmKeyPressed)='premutoTastoConfirm($event)'
+          (cellClick)='cellClickGridSLAThr($event)'
+          (lastSelectedOfGrid)='lastSelectedOfGridSLAThr($event)'
+          (editKeyPressed)='tastoEditPremutoThr($event)'
+          (refresh)='refreshSlaThr($event, false)'
+          (resetLayout)='refreshSlaThr($event, true)'
+          (ritornoDimensioniColonne)="ritornoDimensioniColonneSlaThr($event)"
+        >
+        </app-ants-grid-lib>
+      </as-split-area>
+    </as-split>
+  </div>
+<!-- </div>
+
+<sla-edit-component
+  [nuovo]="nuovoSla"
+  [visibile]="editSlaVisibile"
+  [slaGroup]="slaGroup2"
+  [userName]="userName"
+  [datiThr]="SLASelected2"
+
+  (visibileEmit)="visibileDaMascheraSlaEdit($event)"
+  (refreshData)="refreshSla($event)"
+>
+</sla-edit-component>
+
+<sla-edit-thr-component
+  [visibile]="editSlaThrVisibile"
+  [userName]="userName"
+  [dati]="SLAThrSelected2"
+  [misure]="misure"
+
+  (visibileEmit)="visibileDaMascheraSlaThrEdit($event)"
+  (refreshData)="refreshSlaThr($event)"
+>
+</sla-edit-thr-component>
+ -->
+ <sla-edit-component
+  [nuovo]="nuovoSla"
+  [visibile]="editSlaVisibile"
+  [slaGroup]="slaGroup2"
+  [userName]="userName"
+  [dati]="SLASelected2"
+  [Utils]="Utils"
+
+  (visibileEmit)="visibileDaMascheraSlaEdit($event)"
+  (refreshData)="refreshSla($event, false)"
+>
+</sla-edit-component>
+
+<sla-edit-thr-component
+  [visibile]="editSlaThrVisibile"
+  [userName]="userName"
+  [dati]="SLAThrSelected2"
+  [misure]="misure"
+  [Utils]="Utils"
+
+  (visibileEmit)="visibileDaMascheraSlaThrEdit($event)"
+  (refreshData)="refreshSlaThr($event, false)"
+>
+</sla-edit-thr-component>
+
+<div *ngIf="prendeNomeSLA == true" class="bloccaSfondo" style="z-index: 1998;"></div>
+<div
+  *ngIf = "prendeNomeSLA == true"
+  style="
+    position: absolute;
+    left: 40%;
+    top: 45%;
+    width: 20%;
+    height: 12%;
+    border: 1px solid #999;
+    background-color: white;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 0px 33px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 33px 5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 33px 5px rgba(0,0,0,0.75);
+    z-index: 5004;
+    padding: 3px;
+">
+  <div style="width: 100%; height: 30px;">
+    <div style="width: 20%; float: left;">
+      SLA Name
+    </div>
+    <div style="width: 80%; float: left;">
+      <input type="text" [(ngModel)]="newSLAName">
+    </div>
+  </div>
+  <hr />
+  <div style="width: 100%; height: 30px;">
+    <div style="width: 50%; float: left; text-align: center;">
+      <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && linkIcone.toUpperCase().indexOf('LOCALHOST')==-1"
+        [src]="Utils.linkIcone + '/icons/confirm.png'" class="immagini" style="height: 25px; width: 25px;" (click)="copyKeyPremutoFinale()">
+    </div>
+    <div style="width: 50%; float: left; text-align: center;">
+      <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && linkIcone.toUpperCase().indexOf('LOCALHOST')==-1"
+        [src]="Utils.linkIcone + '/icons/close.png'" class="immagini" style="height: 25px; width: 25px;" (click)="prendeNomeSLA = false">
+    </div>
+  </div>
+</div>

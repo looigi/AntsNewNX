@@ -1,0 +1,194 @@
+
+<div style="width: 100%; float: left; height: 25px; overflow: hidden; border-bottom: 1px solid #999;" 
+    [style.background-color]="coloreSfondoHeader">
+    <!-- <div style="width: 30%; float: left; text-align: left;">
+        <img *ngIf="linkIcone" [src]="linkIcone + '/icons/jsonOpenAll.png'" style="cursor: pointer; width: 20px; height: 20px;" title="Open All" (click)="openAll()">
+        <img *ngIf="linkIcone" [src]="linkIcone + '/icons/jsonCloseAll.png'" style="cursor: pointer; width: 20px; height: 20px;" title="Close All" (click)="closeAll()">
+    </div> -->
+    <div style="width: 100%; float: left;">
+        <!-- Andata a capo automatica delle righe troppo lunghe: attiva / disattiva -->
+        <div style="width: 22px; float: left; margin-top: 1px; text-align: center; user-select: none; cursor: pointer; font-size: 16px; line-height: 20px; border-radius: 3px;"
+            [style.color]="aCapoAutomatico ? '#ffffff' : '#555555'"
+            [style.background-color]="aCapoAutomatico ? '#1976d2' : 'transparent'"
+            [title]="aCapoAutomatico ? 'Automatic line wrap: on (click to disable)' : 'Automatic line wrap: off (click to enable)'"
+            (click)="aCapoAutomatico = !aCapoAutomatico">
+            &#8629;
+        </div>
+        <div style="width: 20px; float: left; margin-top: 3px;">
+            <img *ngIf="linkIcone" [src]="linkIcone + '/icons/jsonSearch.png'" style="cursor: pointer; width: 20px; height: 20px;" 
+                title="Search string in all the messages, updates column Fnd (found) in the grid" (click)="applicaRicerca()">
+        </div>
+        <div style="width: calc(100% - 222px); float: left; margin-top: 0px;">
+            <input id="filtroRicerca" type="text" [(ngModel)]="ricercaCampo" style="width: calc(100% - 10px); margin-left: 3px; font-size: 13px; height: 100%; border: 0px;" 
+                (keyup)="fRicerca()" />
+        </div>
+        <div style="width: 180px; float: left; text-align: right; margin-top: 2px; white-space: nowrap;">
+            <div *ngIf="!ricerca" 
+                style="width: 75px; float: left; text-align: center; margin-top: 2px; font-size: 12px;" 
+                [style.background-color]="debug ? 'red' : 'transparent'">
+                &nbsp;
+            </div>
+            <div *ngIf="ricerca && elementiTrovatiArray.length > 0" 
+                style="width: 35px; float: left; text-align: center; margin-top: 2px; font-size: 12px; white-space: nowrap; overflow: hidden;"
+                [style.background-color]="debug ? 'green' : 'transparent'">
+                {{rilevati}}
+            </div>
+            <div *ngIf="ricerca && elementiTrovatiArray.length == 0" 
+                [style.background-color]="debug ? 'blue' : 'transparent'"
+                style="width: 35px; float: left; text-align: center; margin-top: 2px; font-size: 12px;">
+                0/0
+            </div>
+            <div *ngIf="ricerca && elementiTrovatiArray.length > 0" 
+                [style.background-color]="debug ? 'yellow' : 'transparent'"
+                style="width: 40px; float: left; text-align: center;">
+                <img *ngIf="linkIcone" [src]="linkIcone + '/icons/step-backward.png'" style="cursor: pointer; width: 20px; height: 20px;" title="Previous" (click)="previous()">
+                <img *ngIf="linkIcone" [src]="linkIcone + '/icons/step-forward.png'" style="cursor: pointer; width: 20px; height: 20px;" title="Next" (click)="next()">
+            </div>
+            <div *ngIf="ricerca && elementiTrovatiArray.length == 0" style="width: 40px; float: left; text-align: center;">
+                &nbsp;
+            </div>
+            <div style="width: 60px; float: left; margin-top: 2px; font-size: 12px; padding-right: 2px;" title="Total message rows">
+                {{massimo}}<span *ngIf="totaleRighe > 0"> / {{totaleRighe}}</span>
+            </div>
+            <div *ngIf="lista2" style="width: 40px; float: left; text-align: center;">
+                <img *ngIf="linkIcone" [src]="linkIcone + '/icons/content-copy.png'" style="cursor: pointer; width: 20px; height: 20px;" title="Copy in clipboard" (click)="copiaInClipboard(false)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+-->
+<div *ngIf="!lista || lista2.length == 0" 
+    style="text-align: left; width: 100%; height: calc(100% - 50px); overflow: auto;" 
+    [style.background-color]="coloreSfondo">
+    &nbsp;
+</div>
+
+<div *ngIf="lista2.length > 0" 
+    id="contDivJson_{{numeroFrame2}}" 
+    (scroll)="calcolaSpostamentoDiv()"
+    style="text-align: left; width: 100%; height: calc(100% - 50px); overflow: auto;" 
+    [style.background-color]="coloreSfondo">
+    <!-- 
+        [style.font-weight]="j.idRiga == rigaSelezionata ? 'boldest' : 'normal'" 
+        [style.background-color]="ritornaSelezioneRiga(j)"
+    -->
+    <!-- Con l'andata a capo automatica la riga è larga quanto la finestra e il testo va a capo -->
+    <div *ngFor="let j of lista2; let i = index" [attr.data-index]="i"
+        [style.width]="aCapoAutomatico ? '100%' : '750%'"
+        [style.white-space]="aCapoAutomatico ? 'normal' : 'nowrap'"
+        [style.line-height.px]="interlinea"
+        [style.background-color]="j.Over ? '#dedede' : 'transparent'"
+        [style.border-top]="j.idRiga == rigaSelezionata ? '1px solid red' : '0px'"
+        [style.border-bottom]="j.idRiga == rigaSelezionata ? '1px solid red' : '0px'"
+        (mouseover)="j.Over = true" 
+        (mouseout)="j.Over = false"
+        (click)="clickRiga(j)"
+        >
+        <!-- Segnaposto delle righe fuori vista: alto quanto la riga (anche su più linee), così lo scorrimento non salta -->
+        <div *ngIf="!ritornaVisibilita(j)"
+            style="float: left; width: 10%;"
+            [style.height.px]="righeValore(j) * interlinea">
+            &nbsp;
+        </div>
+
+        <div id='target_{{numeroFrame}}_{{j.idRiga}}' style="float: left; width: 1px;"></div>
+
+        <div *ngIf="ritornaVisibilita(j)"
+        >
+            <div *ngIf="j.RamoAperto" style="float: left;">
+                <!-- <div *ngIf="debug" style="float: left; color: blue;">
+                    {{j.posY}}
+                </div> -->
+
+                <div *ngIf="j.isRamo && !j.IconaAperta" 
+                    style="float: left; margin-top: -3px;" 
+                    [style.height.px]="fontSize - 2">
+                    <img *ngIf="linkIcone" [src]="linkIcone + '/icons/openCombo.png'" style="cursor: pointer;" 
+                        [style.width.px]="fontSize" (click)="Apri1Ramo(j)">
+                </div>
+        
+                <div *ngIf="!j.isRamo || j.IconaAperta" 
+                    style="float: left; margin-top: -1px;" 
+                    [style.width.px]="fontSize">
+                    &nbsp;
+                </div>
+
+                <div *ngIf="j.RamoAperto"  
+                    style="width: auto; float: left; color: green; text-align: right; font-family: 'Courier New', Courier, monospace;" 
+                    [style.font-size.px]="fontSize"
+                    [style.height.px]="fontSize">
+                    {{ritornaNumeroFormattato(j)}}
+                </div>
+
+                <div *ngIf="j.isRamo && j.IconaAperta" 
+                    [style.margin-left.px]="ritornaMargine(j)" 
+                    style="float: left; margin-top: -1px;" 
+                    [style.height.px]="fontSize">
+                    <img *ngIf="linkIcone" [src]="linkIcone + '/icons/jsonOpen.png'" style="cursor: pointer; width: 100%; height: 100%;" (click)="ChiudiRamo(j)">
+                </div>
+                <div *ngIf="j.isRamo && !j.IconaAperta" 
+                    [style.margin-left.px]="ritornaMargine(j)" 
+                    style="float: left; margin-top: -1px;" 
+                    [style.height.px]="fontSize">
+                    <img *ngIf="linkIcone" [src]="linkIcone + '/icons/jsonClose.png'" style="cursor: pointer; width: 100%; height: 100%;" (click)="ApriRamo(j)">
+                </div>
+                <div *ngIf="!j.isRamo" 
+                    [style.margin-left.px]="ritornaMargine(j)" style="float: left;" 
+                    [style.width.px]="fontSize">
+                    &nbsp;
+                </div>
+                <!--
+                    {{ritornaRicerca(j.idRiga, j.Ramo, true)}}
+                    (click)="clickRamo(j)"
+                -->
+                <div *ngIf="j.RamoAperto" 
+                    style="cursor: pointer; float: left; font-family: 'Courier New', Courier, monospace;" 
+                    [style.font-size.px]="fontSize" 
+                    [style.color]="coloreRamo" 
+                    [innerHTML]="ritornaRicerca(j.idRiga, j.Ramo, true)"
+                >
+                </div>
+            </div>
+            <!--
+                (click)="clickValore(j)"
+            -->
+            <!-- Con l'andata a capo il valore non è flottante: occupa lo spazio rimasto a destra del nome del campo
+                 e va a capo lì dentro, restando allineato sotto il proprio inizio -->
+            <div *ngIf="!j.isRamo && j.RamoAperto"
+                style="cursor: pointer; margin-left: 3px; font-family: 'Courier New', Courier, monospace;"
+                [style.float]="aCapoAutomatico ? 'none' : 'left'"
+                [style.overflow]="aCapoAutomatico ? 'hidden' : 'visible'"
+                [style.overflow-wrap]="aCapoAutomatico ? 'anywhere' : 'normal'"
+                [style.font-size.px]="fontSize" 
+                [style.color]="coloreValore" 
+                [innerHTML]="ritornaRicerca(j.idRiga, j.Valore, false)"
+            >
+            </div>
+
+            <!-- <div *ngIf="debug" style="float: left; color: blue;">
+                {{j.Tipologia}}
+            </div> -->
+        </div>
+
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<div style="float: left; width: 100%; height: 25px; border-top: 1px solid #999; font-family: 'Courier New', Courier, monospace;"
+    [style.font-size.px]="fontSize" 
+>
+    <input type="text" value="{{campoSelezionato}}" style="float: left; width: calc(100% - 35px); margin-left: 3px; font-size: 13px; height: 20px; border: 0px;" />
+    <img *ngIf="linkIcone && campoSelezionato" [src]="linkIcone + '/icons/rotateSx.png'" style="float: left; cursor: pointer; width: 25px; height: 25px;" (click)="RitornaRiga()" title="{{tooltipRitorno}}">
+</div>
+
+<div *ngIf="visualizzaAlert == true" class="avviso">
+    Message copied to clipboard
+</div>
+
+<div *ngIf="eseguiRondella && caricamentoInCorso" class="oscura"></div>
+
+<div *ngIf="eseguiRondella && caricamentoInCorso" class="attesa">
+    <img *ngIf="linkIcone" [src]="linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+</div>

@@ -1,0 +1,177 @@
+<div #divContenitore style="width: 100%; height: 100%; display: flex;">
+  <as-split direction="horizontal">
+    <as-split-area [size]="40">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia"
+        [sessioneAttuale]="sessionService.getToken()"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [DimensioneFont]= "12"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaPM1'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='tastoEditVisibile1'
+        [copyKeyVisibile]='tastoEditVisibile1'
+        [deleteKeyVisibile]='tastoDeleteVisibile1'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [messaggioWarning]="messaggioWarning"
+        [linkIcone]="Utils.linkIcone"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event, false)'
+        (resetLayout)='refreshGrid1($event, true)'
+        (copyKeyPressed)='premutoTastoNew1($event)'
+        (editKeyPressed)='premutoTastoEdit1($event)'
+        (deleteKeyPressed)='premutoTastoDelete1($event)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonnePM1($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="60">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia2"
+        [sessioneAttuale]="sessionService.getToken()"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [cambioTitolo]="nomeGriglia2"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia2"
+        [DimensioneFont]= "12"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaPM2'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [impostaSelezione]="selezione2"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit2"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+        [messaggioWarning]="messaggioWarning2"
+        [selezioneMultipla]="false"
+        [linkIcone]="Utils.linkIcone"
+        [raggruppabile]="true"
+        [campiPerRaggruppamento]="'FOLDER'"
+
+        (cellClick)="clickSelezione2($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid2($event)'
+        (editKeyPressed)='premutoTastoEdit2($event)'
+        (clickSuIconaEmit)="apreCombo5N2($event.dati, 'AGENTSPROFILE')"
+        (clickSuIconaEmit)="clickSuIcona($event)"
+        (refresh)='refreshGrid2($event, false)'
+        (resetLayout)='refreshGrid2($event, true)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonnePM2($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+  </as-split>
+</div>
+
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN" class="oscura"></div>
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN" class="mascheraModifica2 drag-boundary resizable" #myBounds1 ngDraggable [handle]="handleMenu1"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu1 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo5N}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboAgentProfileN($event)" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaComboAgentProfileN = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%;">
+      <div style="width: 20%; float: left;">Value</div>
+      <div style="width: 80%; float: left;">
+        <app-combo-component
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'LOV'"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiLov"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiLovTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="lovSelezionato"
+
+          (selezioneEffettuata)="selectLov($event)"
+        >
+        </app-combo-component>
+
+        <app-calendario
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'date'"
+          [Utils]="Utils"
+          [dataPassata]="rigaSelPerModificaN.VALUE"
+          [formatoPopup]="'DATA'"
+          [formato]="'yyyy-MM-dd'"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="lovSelezionato = $event"
+        >
+        </app-calendario>
+
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'integer' || rigaSelPerModificaN.DOMAIN_TYPE === 'decimal'" (keyup.enter)="chiudeMascheraComboAgentProfileN($event)" type="number" style="width: 100%;" [(ngModel)]="lovSelezionato">
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'string'" (keyup.enter)="chiudeMascheraComboAgentProfileN($event)" type="text" style="width: 100%;" [(ngModel)]="lovSelezionato">
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'not_editable'" type="text" style="width: 100%;" disabled="true" value="{{lovSelezionato}}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttiva" class="oscura"></div>
+<div *ngIf="mascheraModificaAttiva" class="mascheraModifica2 drag-boundary resizable" #myBounds2 ngDraggable [handle]="handleMenu2"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu2 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="salvaDatiAP()" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttiva = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div style="width: 20%; float: left;">Name</div>
+    <div style="width: 80%; float: left;">
+      <input type="text" [(ngModel)]="nomeAP" style="width: 100%; height: 100%;">
+    </div>
+    <div style="clear: both;"></div>
+
+    <div style="width: 20%; float: left;">Description</div>
+    <div style="width: 80%; float: left;">
+      <input type="text" [(ngModel)]="descAP" style="width: 100%; height: 100%;">
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+</div>

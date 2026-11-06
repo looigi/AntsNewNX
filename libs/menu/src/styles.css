@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ui-accordion .ui-accordion-content {
+  overflow: auto;
+}
+
+.ui-accordion .ui-accordion-header {
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.ui-accordion .ui-accordion-header-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body .ui-accordion .ui-accordion-content {
+  border: 0px !important;
+  padding: 0px;
+}
+
+body .ui-accordion .ui-accordion-header a {
+  /* pannello non attivo */
+  background-color: #e4e4e4;
+  border: 0px;
+  height: 26px;
+  padding-top: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:hover a {
+  /* pannello non attivo */
+  background-color: #d00;
+  border: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  /* pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: #fff;
+  background-color: #f16221;
+  border: 0px;
+}
+
+.ui-accordion .ui-accordion-header {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+body .ui-corner-all {
+  border-radius: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
+  /* hover pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: rgb(87, 86, 86);
+  background-color: #929292;
+  border: 0px;
+}
+
+/* COPIARE NEI VARI MODULI: ACCORDION */
+.p-accordion .p-accordionheader .p-accordionheader-toggle-icon,
+.p-accordion .p-accordionheader svg {
+    display: none !important;
+}
+
+.p-accordion .p-accordionheader {
+    padding-left: 10px !important;
+    height: 35px !important;
+}
+
+/* Header accordion aperto */
+.p-accordionpanel-active > .p-accordionheader {
+    background-color: #f16221 !important;
+    color: white !important;
+    border-left: 4px solid #f15c21 !important;
+}
+
+/* Contenuto del pannello aperto */
+.p-accordionpanel-active > .p-accordioncontent {
+    background-color: #fafafa !important;
+}
+/* elimina spazio tra accordion */
+.p-accordion .p-accordionpanel {
+    margin-bottom: 0px !important;
+}
+
+/* elimina eventuale separazione dell'header */
+.p-accordion .p-accordionheader {
+    border-radius: 0 !important;
+}
+
+/* elimina padding extra del contenuto */
+.p-accordion .p-accordioncontent-content {
+    padding: 0 !important;
+}
+/* COPIARE NEI VARI MODULI: ACCORDION */

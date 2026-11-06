@@ -1,0 +1,101 @@
+<div style="position: relative; z-index: 3000; top: 550px; left: 650px; width: 35%; height: 120px; border: 1px solid #999; overflow: auto;">
+    <!-- <app-combo-component
+      [Tipologia]="'Dropdown'"
+      [userName]="'looigi'"
+      [data] = "datiFrames"
+      [campoId]="'id'"
+      [dimeFont]="20"
+      [campoTesto]="'name'"
+      [NomeCombo]="'cmbTest3'"
+      [pulisceValoriDiBase]="true"
+      [ricordaUltimoValore]='true'
+      [accettaNuovi]="true"
+      [placeholder]="'W Pippo Baudo'"
+      [campoRaggruppamento]="'categoria'"
+
+      (selezioneEffettuata)="select($event)"
+      (cambioValore)="cambioValore($event)"
+    >
+    </app-combo-component> -->
+</div>
+
+<div #myBounds
+  *ngIf="menuVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+> 
+  <div ngDraggable ngResizable *ngIf="menuVisibile" [handle]="handleMenu" class="finestraMenu drag-block"
+    style=" background-color: #fff; padding: 0px; z-index: 1649;"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+  >
+  <div kendoTooltip class="barraSuperiore">
+    <div #handleMenu class="drag-block-handle" style="float: left; width: calc(100% - 100px); height: 20px; text-align: left; margin-top: 2px;">
+      &nbsp;W la combo
+    </div>
+    <div style="width: 100px; float: left;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" disabled="comboDisabilitata" class="immaginiChiusura" title="Close" style="margin-top: -3px; width: 32px; height: 32px;">
+    </div>
+  </div>
+
+  <div style="width:100%; height: calc(100% - 26px); overflow: auto;">
+    <input type="button" value = "Imposta" (click)="impostaValore()" />
+    <input type="button" value = "Aggiunge Valore" (click)="aggiungeValore()" />
+
+    <div class="riga">
+      <div class="titolo">Combona 1</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <app-combo-component
+          [Debug]="true"
+          [Tipologia]="'Combo'"
+          [userName]="'looigi'"
+          [data] = "datiFrames"
+          [campoId]="'name'"
+          [dimeFont]="20"
+          [altezzaMassima]="150"
+          [campoTesto]="'name'"
+          [NomeCombo]="'cmbTest1'"
+          [ricordaUltimoValore]='false'
+          [accettaNuovi]="true"
+          [placeholder]="'W Pippo Baudo'"
+          [campoRaggruppamento]="'categoria'"
+          [selezioneMultipla]="true"
+          [valoreDefault]="valoreDefault"
+          [aggiungeRiga]="aggiungeRiga"
+          [visibileElimina]="false"
+          [testoDisabilitato]="false"
+
+          (selezioneEffettuata)="select($event)"
+          (cambioValore)="cambioValore($event)"
+        >
+        </app-combo-component>
+        <!-- [valoreDefault]="5" -->
+        </div>
+      </div>
+      <div class="riga" style="margin-top: 30px;">
+        <div class="titolo">Combona 2</div>
+        <div class="contenuto" style="margin-top: -2px;">
+          <app-combo-component
+            [Tipologia]="'Combo'"
+            [userName]="'looigi'"
+            [data] = "datiFrames"
+            [Debug]="true"
+            [campoId]="'id'"
+            [dimeFont]="20"
+            [campoTesto]="'name'"
+            [NomeCombo]="'cmbTest2'"
+            [ricordaUltimoValore]='true'
+            [accettaNuovi]="true"
+            [placeholder]="'W Pippo Baudo'"
+            [campoRaggruppamento]="'categoria'"
+            [valoreDefault]="'Pippo'"
+            [evitaRicercaTramiteCampoTesto]="false"
+
+            (selezioneEffettuata)="select($event)"
+            (cambioValore)="cambioValore($event)"
+          >
+          </app-combo-component>
+          <!-- [valoreDefault]="5" -->
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

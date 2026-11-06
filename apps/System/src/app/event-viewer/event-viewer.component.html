@@ -1,0 +1,140 @@
+<div style="width: 100%; height: 100%;">
+  <!-- <div style = "width: 100%; height: 35px; float: left;">
+    <div style="width: 100%; float: left;">
+      <div style="width: 32%; float: left;">
+        <div style="width: 15%; float: left; margin-top: 7px;">
+          Filter
+        </div>
+        <div style="width: 85%; float: left; margin-top: 5px;">
+          <input type ="text" [(ngModel)]="filtro">
+        </div>
+      </div>
+      <div style="width: 33%; float: left; margin-left: 2px;">
+        <div style="width: 20%; float: left; margin-top: 7px;">
+         &nbsp;From
+        </div>
+        <div style="width: 80%; float: left; margin-top: 5px">
+          <angular2-date-picker
+            name="dateFrom"
+            [(ngModel)]="dateFrom"
+            [settings]="{
+              color: '#999',
+              bigBanner: true,
+              timePicker: true,
+              defaultOpen: false,
+              format: 'yyyy-MM-dd HH:mm'
+            }"
+            style="font-size: 13px !important;">
+          </angular2-date-picker>
+        </div>
+      </div>
+      <div style="width: 33%; float: left; margin-left: 2px;">
+        <div style="width: 20%; float: left; margin-top: 7px;">
+          &nbsp;To
+        </div>
+        <div style="width: 80%; float: left; margin-top: 5px">
+          <angular2-date-picker name="dateTo" [(ngModel)]="dateTo"
+            [settings]="{
+              bigBanner: true,
+              timePicker: true,
+              defaultOpen: false,
+              format: 'yyyy-MM-dd HH:mm'
+            }"
+            style="font-size: 13px !important;">
+          </angular2-date-picker>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style = "width: 100%; height: calc(100% - 35px); float: left;"> -->
+  <as-split direction="horizontal" [gutterSize]="3">
+    <as-split-area [size]="30">
+      <app-ants-grid-lib
+        [debug]="false"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [sessioneAttuale]="sessionID2"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaEV'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='true'
+        [eliminaSelezioniSuClickRiga]='true'
+        [impostaSelezione]="selezione"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [impostaPagina]="paginaEvents"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [messaggioWarning]="messaggioWarning"
+        [linkIcone]="Utils.linkIcone"
+        [DimensioneFont]="12"
+
+        (cellClick)="clickSelezione1($event)"
+        (clickSelezioneSuCheckRiga)='riempieArraySelezione($event)'
+        (lastSelectedOfGrid)='lastSelectedOfGrid1($event)'
+        (refresh)='refreshGrid11($event, false)'
+        (resetLayout)='refreshGrid11($event, true)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneEV1($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="70">
+      <app-ants-grid-lib
+        [debug]="false"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [sessioneAttuale]="sessionID2"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia2"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia2"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaEV2'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione2"
+        [AutoResize]="true"
+        [ManualResize]="effettuaAutoFit2"
+        [impostaPagina]="paginaEvents2"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+        [messaggioWarning]="messaggioWarning2"
+        [linkIcone]="Utils.linkIcone"
+        [DimensioneFont]="12"
+        [eseguiAutoFitAutomatico]="true"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event, false)'
+        (resetLayout)='refreshGrid1($event, true)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneEV($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+        style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+  </as-split>
+  <!-- </div> -->
+</div>

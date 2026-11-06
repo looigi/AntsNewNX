@@ -1,0 +1,187 @@
+<!--<as-split direction="horizontal" [gutterSize]="7">
+    <as-split-area [size]="30"> -->
+    <div style="width: 100%; float: left; height: 210px;">
+        <div style="width: 100%; height: 100%;">
+            <div title="Export whole Data Set time range (not just the selected time range) (warning if there are many act the operation could fail)" style="width: calc(100% - 30px); float: left; text-align: left; font-size: 13px; color: #353535;">
+                Export whole Data Set time range
+            </div>
+            <div style="width: 30px; float: left; text-align: center;">
+                <input type="checkbox" [(ngModel)]="exportWholeData" (click)="generaDati('Y', false)" />
+            </div>
+            <div style="clear: both;"></div>
+
+            <div title="Export all the agents (not just the one related to the selected act)" style="width: calc(100% - 30px); float: left; text-align: left; margin-top: 2px; font-size: 13px; color: #353535;">
+                Export all the agents
+            </div>
+            <div style="width: 30px; float: left; text-align: center;">
+                <input type="checkbox" [(ngModel)]="exportAll" (click)="generaDati('Y', false)" />
+            </div>
+            <div style="clear: both;"></div>
+
+            <!-- white-space: nowrap; -->
+            <div style="width: 100%; margin-top: 10px; height: auto; float: left; text-align: left; color: #353535;">
+                Push the icon to activate/pause synchronization. Synchronization is<br />limited to first 15 minutes of the selected time range
+            </div>
+            <div style="width: 100%; margin-top: 2px; height: auto; float: left; text-align: left;">
+                <div style="width: 30px; float: left;">
+                    <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && (inPreparazione || caricamentoDatiInCorso)" [src]="Utils.linkIcone + '/icons/Processing.gif'" title="Preparing data" width="30px" height="30px" style="cursor: pointer;" (click)="generaDati('N', false)">
+                    <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !inPreparazione && !caricamentoDatiInCorso" [src]="Utils.linkIcone + '/icons/prepare data.png'" title="Prepare data for export and reports" width="30px" height="30px" style="cursor: pointer;" (click)="generaDati('N', false)">
+                </div>
+                <div style="width: calc(100% - 30px); float: left; height: auto; height: auto; display: block; white-space: break-spaces; font-size: 13px;">
+                    <span [style.color]="(status && status.toUpperCase().indexOf('READY')) > -1 ? 'green' : 'red'">&nbsp;{{status}}</span>
+                </div>
+                <!-- <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && datiGenerati" [src]="Utils.linkIcone + '/icons/json.png'" title="Download json data file" width="30px" height="30px" style="cursor: pointer;" (click)="esportaDati()">
+                &nbsp;
+                Status
+            </div>
+            <div style="width: 70%; margin-top: 10px; height: 20px; float: left; text-align: right;"> -->
+                <!-- <span *ngIf="!datiGenerati">&nbsp;</span> -->
+            </div>
+            <!-- <div style="clear: both;"></div> -->
+
+            <!-- <div style="width: 100%; text-align: right;" (click)="generaDati('N')">
+            </div>
+
+            <div *ngIf="datiGenerati" class="bottone" style="margin-top: 10px;" (click)="esportaDati()">
+                <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/download.png'" title="Export data to json file" width="30px" height="30px">
+            </div>
+
+            <div *ngIf="!datiGenerati" class="bottoneSpento" style="margin-top: 10px;">
+                <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/download.png'" title="Export data to json file" width="30px" height="30px">
+            </div> -->
+
+            <!-- word-wrap: break-word; -->
+            <div style="width: 100%; margin-top: 2px; height: auto; float: left; text-align: left; display: block; white-space: break-spaces; font-size: 13px; color: #353535;">
+                <span *ngIf="datiGenerati" style="cursor: pointer; word-break: break-all;">{{urlDati2}}</span>
+                <span *ngIf="!datiGenerati">&nbsp;</span>
+            </div> 
+            
+            <!-- <div style="width: 100%; margin-top: 10px; height: auto; float: left; text-align: left;">
+                <div style="width: 30px; float: left;">
+                    <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && syncAttivo" [src]="Utils.linkIcone + '/icons/sync_cache.gif'" title="Get a link to synchronized  data to the current selected time range, this allows to keep PBI and XLS document sync with GeoAnts displayed data" width="30px" height="30px" style="cursor: pointer;" (click)="attivaDisattivaSync()">
+                    <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !syncAttivo" [src]="Utils.linkIcone + '/icons/syncoff.png'" title="Get a link to synchronized  data to the current selected time range, this allows to keep PBI and XLS document sync with GeoAnts displayed data" width="30px" height="30px" style="cursor: pointer;" (click)="attivaDisattivaSync()">
+                </div>
+                <div style="width: calc(100% - 30px); float: left; height: auto; display: block; white-space: break-spaces; font-size: 13px;">
+                    <span [style.color]="(statusSync && statusSync.toUpperCase().indexOf('READY')) > -1 ? 'green' : 'red'">&nbsp;{{statusSync}}</span>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 2px; height: auto; float: left; text-align: left; display: block; white-space: break-spaces; font-size: 13px;">
+                <span style="cursor: pointer; word-break: break-all;">&nbsp;{{urlDatiSync2}}</span>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- </as-split-area>
+    <as-split-area [size]="70"> -->
+    <div style="width: 100%; float: left; height: 285px;">
+        <app-ants-grid-lib
+            *ngIf="datiGriglia"
+            [debug]="debug2"
+            [sessioneAttuale]="sessionID2"
+            [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="'Report'"
+            [data]="datiGriglia"
+            [userName]="userName"
+            [maskName]="nomeGriglia"
+            [newKeyVisibile]='true'
+            [newKeyPersistant]="true"
+            [refreshKeyVisibile]='true'
+            [editKeyVisibile]='false'
+            [deleteKeyVisibile]='true'
+            [infoKeyVisibile]='true'
+            [confirmKeyVisibile]="false"
+            [selezioneMultipla]='false'
+            [ricordaSelezione]='false'
+            [DimensioneFont]='14'
+            [impostaSelezione]="selezioneID"
+            [AutoResize]="false"
+            [ManualResize]="effettuaAutoFit"
+            [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+            [righeAutomatiche]="false"
+            [linkIcone]="Utils.linkIcone"
+            [visualizzaToolTipGrafici]="visualizzaToolTipGrafici"
+
+            (cellClick)="selezioneRiga($event)"
+            (refresh)="refreshGriglia($event, false)"
+            (resetLayout)="refreshGriglia($event, true)"
+            (newKeyPressed)="apriUpload()"
+            (deleteKeyPressed)='eliminaReport($event)'
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneReport($event)"
+        >
+        </app-ants-grid-lib>
+
+        <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading" style="position: relative; margin-top: -33%;"></div>
+    </div>
+    <!-- </as-split-area>
+</as-split> -->
+
+<div *ngIf="exportTcRunVisibile" class="oscura"></div>
+<div *ngIf="exportTcRunVisibile" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;">
+    <div *ngIf="exportTcRunVisibile" class="mascheraExportTcRun drag-block" #myBoundsMT ngDraggable [handle]="handleMenuMT"
+        [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+        (edge)="checkEdge($event)" [bounds]="divCont2" [inBounds]="true" class="resizable">
+        <div class="bottoniIntestazione" style="background-color: #565656;">
+            <div #handleMenuMT class="drag-block" style="width: calc(100% - 100px); float: left; text-align: left; color: white; color: #353535;">
+                Export TcRun
+            </div>
+            <div style="width: 100px; float: left; text-align: right;">
+                <!-- <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="scaricaTcRun()"> -->
+                <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeExportTcRun()" title="Close" class="immaginiIcone">
+            </div>
+        </div>
+
+        <div class="modificaDati">
+            <app-ants-grid-lib
+                *ngIf="datiGrigliaExportTcRun"
+                [debug]="debug2"
+                [sessioneAttuale]="sessionID2"
+                [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="'Export TcRun'"
+                [data]="datiGrigliaExportTcRun"
+                [userName]="userName"
+                [maskName]="nomeGrigliaExportTcRun"
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='true'
+                [editKeyVisibile]='false'
+                [deleteKeyVisibile]='false'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='true'
+                [ricordaSelezione]='false'
+                [DimensioneFont]='14'
+                [possoSelezionareTutto]="true"
+                [impostaSelezione]="selezioneExportTcRun"
+                [AutoResize]="false"
+                [ManualResize]="effettuaAutoFitExportTcRun"
+                [datiNuovi]="datiGrigliaExportTcRun && datiGrigliaExportTcRun.DataTable"
+                [righeAutomatiche]="false"
+                [linkIcone]="Utils.linkIcone"
+                [eliminaSelezioniSuClickRiga] = 'false'
+                [downloadTcRun]="true"
+
+                (cellClick)="selezioneRigaExportTcRun($event)"
+                (refresh)="refreshGrigliaExportTcRun(false)"
+                (resetLayout)="refreshGrigliaExportTcRun(true)"
+                (clickSelezioneSuCheckRiga)='riempieArrayExportTcRun($event)'
+                (downloadTcRunEmit)="scaricaTcRunMultipli()"
+                (selectedAllRows)="selezionaAllRows($event)"
+                (deselectedAllRows)="deselezionaAllRows($event)"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneExport($event)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoDatiInCorsoETR == true" class="k-i-loading" style="position: fixed;"></div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="mostraPopupTcRun" class="oscura" style="z-index: 6000;"></div>
+<div *ngIf="mostraPopupTcRun" class="popup" style="z-index: 6001;">
+  Please wait...<br />Downloading<br />
+  <progress id="file" [value]="qualeTcRun" [max]="arrayExportTcRun.length" style="width: 100%;"></progress>
+</div>

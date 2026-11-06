@@ -1,0 +1,40 @@
+<div style="width: 100%; height: 100%; display: flex;">
+    <app-ants-grid-lib
+      *ngIf="datiGriglia"
+      [sessioneAttuale]="sessionService.getToken()"
+      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+      [indirizzoServer]="indirizzoServer"
+      [modalita]="'Griglia'"
+      [title]="nomeGriglia"
+      [titleDaDatiGriglia] = "true"
+      [data]="datiGriglia"
+      [userName]="userName"
+      [maskName]="userName + '_grigliaGD'"
+      [newKeyVisibile]='true'
+      [refreshKeyVisibile]='true'
+      [editKeyVisibile]='false'
+      [deleteKeyVisibile]='false'
+      [infoKeyVisibile]='true'
+      [confirmKeyVisibile]="false"
+      [selezioneMultipla]='false'
+      [impostaSelezione]="selezione"
+      [AutoResize]="false"
+      [ManualResize]="effettuaAutoFit"
+      [righeAutomatiche]="false"
+      [paginazione]="'scrollable'"
+      [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+      [messaggioWarning]="messaggioWarning"
+      [linkIcone]="Utils.linkIcone"
+
+      (cellClick)="clickSelezione($event)"
+      (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+      (refresh)='refreshGrid1($event, false)'
+      (resetLayout)='refreshGrid1($event, true)'
+      (ritornoDimensioniColonne)="ritornoDimensioniColonneQPL($event)"
+    >
+    </app-ants-grid-lib>
+
+    <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+      style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+    ></div>
+</div>

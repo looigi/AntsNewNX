@@ -1,0 +1,607 @@
+<div kendoTooltip class="barra" style="height: 22px; width: 100%;
+    display: block; margin: 0px !important; padding: 0px !important; overflow: hidden; 
+    white-space: nowrap; text-overflow: ellipsis;">
+    <div style="float: left; height: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+        [style.width.%]="filtroVisibile ? 85 : 100"        
+        >
+        <div style="float: left;"
+            [style]="ritornaStyleTitolo()"
+            [title]="debug == true ? 
+                'Rows: ' + righeTotali + ' Page Size: ' + pageSize + ' Rpp: ' + take + ' Pages: ' + skip + ' ' +  warning +
+                'ModHeight: ' + modalitaAltezza + ' Height: ' + altezzaRigaStandard + ' MarginTop: ' + margineAlto : 
+                'Rows: ' + righeTotali + ' ' + warning"
+        >
+            {{title}}
+        </div>
+
+    <!-- 
+        *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && tcRun2Refresh && tcRun2RefreshAttivo"
+    -->
+        <span *ngIf="debug">*{{linkIcone}}*</span>
+
+        <ng-container *ngIf="linkIcone && linkIcone !== undefined && linkIcone !== null && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1">
+            <div style="float: left;" title="Column Selector" >
+                <img 
+                    [hidden]="!(showColumnHiderAndOrderGrid && ciSonoColumnHidden)"
+                    [src]="linkIcone + '/icons/columnsHiderSelected.png'" class="icona" 
+                    (click)="invioPressione(30, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Column Selector" >
+                <img 
+                    [hidden]="!(aperteIcone && showColumnHiderAndOrderGrid && !ciSonoColumnHidden)"
+                    [src]="linkIcone + '/icons/columnsHider.png'" class="icona" 
+                    (click)="invioPressione(31, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Some columns are filtered" >
+                <img 
+                    [hidden]="!(showSettedFilter)"
+                    [src]="linkIcone + '/icons/filterOn.png'" class="icona" 
+                    (click)="invioPressione(8, false);"
+                />
+            </div>
+
+            <div style="float: left;" title="Filter" >
+                <img 
+                    [hidden]="!(aperteIcone && !showSettedFilter)"
+                    [src]="linkIcone + '/icons/Filter.png'" class="icona" 
+                    (click)="invioPressione(11, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Advanced Filter" >
+                <img 
+                    [hidden]="!(aperteIcone)"
+                    [src]="linkIcone + '/icons/AdvancedFilter.png'" class="icona" 
+                    (click)="invioPressione(65, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Clear filter on columns" >
+                <img 
+                    [hidden]="!(showSettedFilter)"
+                    [src]="linkIcone + '/icons/filterOff.png'" class="icona" 
+                    (click)="invioPressione(9, false);"
+                />
+            </div>
+
+            <div style="float: left;" title="Reset Layout" >
+                <img 
+                    [hidden]="!(aperteIcone && !ciSonoColumnHidden)"
+                    [src]="linkIcone + '/icons/ResetLayout.png'" class="icona" 
+                    (click)="invioPressione(35, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Reset layout if expected columns are not visible" >
+                <img 
+                    [hidden]="!(ciSonoColumnHidden)"
+                    [src]="linkIcone + '/icons/ResetLayoutPresent.png'" class="icona" 
+                    (click)="invioPressione(36, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Filter and column setting. The icon is red if there are filters configured" >
+                <img 
+                    [hidden]="!(filtroEventi && filtroAttivoPass)"
+                    [src]="linkIcone + '/icons/text-search-present.png'" class="icona" 
+                    (click)="invioPressione(4, undefined);"
+                />
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="linkIcone && linkIcone !== undefined && linkIcone !== null && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && aperteIcone">
+            <!-- <div style="float: left;" title="Refresh TcRun" >
+                <img 
+                    [src]="linkIcone + '/icons/text-search.png'" class="icona" 
+                    (click)="invioPressione(1, undefined);"
+                />
+            </div> -->
+
+            <div style="float: left;" title="Open page selector" >
+                <img 
+                    [hidden]="!(pageSelectorVisibile)"
+                    [src]="linkIcone + '/icons/square-edit-outline.png'" class="icona" 
+                    (click)="invioPressione(2, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Empty page" >
+                <img 
+                    [hidden]="!(pageEmptyVisibile)"
+                    [src]="linkIcone + '/icons/dashboard.png'" class="icona" 
+                    (click)="invioPressione(3, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Open event filter" >
+                <img 
+                    [hidden]="!(filtroEventi && !filtroAttivoPass)"
+                    [src]="linkIcone + '/icons/text-search.png'" class="icona" 
+                    (click)="invioPressione(5, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Debug ON" >
+                <img 
+                    [hidden]="!(!debug && userName.indexOf('Pecce') > -1)"
+                    [src]="linkIcone + '/icons/debugOFF.png'" class="icona" 
+                    (click)="invioPressione(6, true); debug = true;"
+                />
+            </div>
+
+            <div style="float: left;" title="Debug OFF" >
+                <img 
+                    [hidden]="!(debug && userName.indexOf('Pecce') > -1)"
+                    [src]="linkIcone + '/icons/debugON.png'" class="icona" 
+                    (click)="invioPressione(7, false); debug = false;"
+                />
+            </div>
+
+            <div style="float: left;" title="Run/Stop the scenario" >
+                <img 
+                    [hidden]="!(runKeyVisibile)"
+                    [src]="linkIcone + '/icons/pause-play.png'" class="icona" 
+                    (click)="invioPressione(10, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Auto-Fit columns" >
+                <img 
+                    [hidden]="!(showRefresh)"
+                    [src]="linkIcone + '/icons/AutoResize.png'" class="icona" 
+                    (click)="invioPressione(12, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Set Delta" >
+                <img 
+                    [hidden]="!(CalcolaDelta && CampoCalcolaDelta)"
+                    [src]="linkIcone + '/icons/delta.png'" class="icona" 
+                    (click)="invioPressione(13, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Synchronize other views to this timestamp" >
+                <img 
+                    [hidden]="!(backToSelectedKey)"
+                    [src]="linkIcone + '/icons/back_to_selected.png'" class="icona" 
+                    (click)="invioPressione(14, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{tooltipCopy}}" >
+                <img 
+                    [hidden]="!((copyKeyVisibile2 == true && toConfirm) || copyKeyPersistant)"
+                    [src]="linkIcone + '/icons/Copy.png'" class="icona" 
+                    (click)="invioPressione(15, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{tooltipDelete}}" >
+                <img 
+                    [hidden]="!((deleteKeyVisibile2 == true && toConfirm) || deleteKeyPersistant)"
+                    [src]="linkIcone + '/icons/delete2.png'" class="icona" 
+                    (click)="invioPressione(16, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Edit" >
+                <img 
+                    [hidden]="!((editKeyVisibile2 == true && toConfirm) || editKeyPersistant)"
+                    [src]="linkIcone + '/icons/Edit.png'" class="icona" 
+                    (click)="invioPressione(17, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{downloadTDTitle}}" >
+                <img 
+                    [hidden]="!(downloadTDKey)"
+                    [src]="linkIcone + '/icons/download.png'" class="icona" 
+                    (click)="invioPressione(18, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Download TcRun" >
+                <img 
+                    [hidden]="!(downloadTcRun)"
+                    [src]="linkIcone + '/icons/download.png'" class="icona" 
+                    (click)="invioPressione(19, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Play Autorun" >
+                <img 
+                    [hidden]="!(pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo == true && 
+                        pausaGrigliaDaAutorun.timeMode == 'SELECTED' && pausaGrigliaAttiva == false)"
+                    [src]="linkIcone + '/icons/pause-custom.png'" class="icona" 
+                    (click)="invioPressione(20, true);"
+                />
+            </div>
+
+            <div style="float: left;" title="Pause Autorun" >
+                <img 
+                    [hidden]="!(pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo == true && 
+                        pausaGrigliaDaAutorun.timeMode == 'SELECTED' && pausaGrigliaAttiva == true)"
+                    [src]="linkIcone + '/icons/pause-custom arancione.png'" class="icona" 
+                    (click)="invioPressione(21, false);"
+                />
+            </div>
+
+            <div style="float: left;" title="Deselect all rows" >
+                <img 
+                    [hidden]="!(selezioneMultipla == true && mySelection && mySelection.length > 0 && selectAll == true && 
+                        (!pausaGrigliaDaAutorun || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === false) || 
+                        (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.timeMode !== 'SELECTED')))"
+                    [src]="linkIcone + '/icons/N.png'" class="icona" 
+                    (click)="invioPressione(22, false);"
+                />
+            </div>
+
+            <div style="float: left;" title="Select all rows" >
+                <img 
+                    [hidden]="!(selezioneMultipla == true && selectAll == true && 
+                        (!pausaGrigliaDaAutorun || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === false) || 
+                        (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.timeMode !== 'SELECTED')))"
+                    [src]="linkIcone + '/icons/Y.png'" class="icona" 
+                    (click)="invioPressione(23, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Process" >
+                <img 
+                    [hidden]="!(processKeyVisibile)"
+                    [src]="linkIcone + '/icons/process.png'" class="icona" 
+                    (click)="invioPressione(24, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Include" >
+                <img 
+                    [hidden]="!(includeKeyVisibile)"
+                    [src]="linkIcone + '/icons/in.png'" class="icona" 
+                    (click)="invioPressione(25, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Exclude" >
+                <img 
+                    [hidden]="!(excludeKeyVisibile)"
+                    [src]="linkIcone + '/icons/out.png'" class="icona" 
+                    (click)="invioPressione(26, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Add to Act Set" >
+                <img 
+                    [hidden]="!(addToActSetOn)"
+                    [src]="linkIcone + '/icons/arrow-up.png'" class="icona" 
+                    (click)="invioPressione(27, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Refresh Grid" >
+                <img 
+                    [hidden]="!(refreshKeyVisibile)"
+                    [src]="linkIcone + '/icons/Refresh.png'" class="icona" 
+                    (click)="invioPressione(28, undefined);"
+                />
+            </div>
+
+            <!--
+                [hidden]="!(infoKeyVisibile == true || infoKeypersistant)"
+            -->
+            <div style="float: left;" title="Info" >
+                <img
+                    [hidden]="!(aperteIcone)"
+                    [src]="linkIcone + '/icons/Info.png'" class="icona" 
+                    (click)="invioPressione(29, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{tcRunInfoTitle}}" >
+                <img 
+                    [hidden]="!(tcRunInfoVisibile)"
+                    [src]="linkIcone + '/icons/table-settings.png'" class="icona" 
+                    (click)="invioPressione(32, undefined);"
+                />
+            </div>
+
+            <!-- <div style="float: left;" title="Export to Excel (all rows)" >
+                <img 
+                    [hidden]="(excelEventi2)"
+                    [src]="linkIcone + '/icons/Excel.png'" class="icona" 
+                    (click)="invioPressione(33, undefined);"
+                />
+            </div> -->
+
+            <div style="float: left;" title="Export Events to Excel (all rows)" >
+                <img 
+                    [hidden]="!(excelEventi2)"
+                    [src]="linkIcone + '/icons/Excel.png'" class="icona" 
+                    (click)="invioPressione(34, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Re-play" >
+                <img 
+                    [hidden]="!(rePlayKeyVisibile)"
+                    [src]="linkIcone + '/icons/re_play.png'" class="icona" 
+                    (click)="invioPressione(37, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Confirm" >
+                <img 
+                    [hidden]="!((confirmKeyVisibile == true && toConfirm) || confirmKeyPersistant)"
+                    [src]="linkIcone + '/icons/checkbox-marked-circle.png'" class="icona" 
+                    (click)="invioPressione(38, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{TitoloTastoNew}}" >
+                <img 
+                    [hidden]="!((newKeyVisibile2 == true && toConfirm) || newKeyPersistant)"
+                    [src]="linkIcone + '/icons/AddNew.png'" class="icona" 
+                    (click)="invioPressione(39, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Copy Selected Rows" >
+                <img 
+                    [hidden]="!(tastoCopia)"
+                    [src]="linkIcone + '/icons/Copy.png'" class="icona" 
+                    (click)="invioPressione(40, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Paste Selected Rows" >
+                <img 
+                    [hidden]="!(tastoPaste)"
+                    [src]="linkIcone + '/icons/Paste.png'" class="icona" 
+                    (click)="invioPressione(41, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Abort TcRun" >
+                <img 
+                    [hidden]="!((deleteKeyTcRunVisibile == true && toConfirm) || deleteKeyTcRunPersistant)"
+                    [src]="linkIcone + '/icons/Aborted.png'" class="icona" 
+                    (click)="invioPressione(42, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Get Tc Run Files" >
+                <img 
+                    [hidden]="!(getTcRunFilesKeyVisibile)"
+                    [src]="linkIcone + '/icons/getTcRunFiles.png'" class="icona" 
+                    (click)="invioPressione(43, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="{{TitoloTastoRemove}}" >
+                <img 
+                    [hidden]="!((deleteKeyVisibile3 == true && toConfirm) || deleteKeyPersistant2)"
+                    [src]="linkIcone + '/icons/Delete.png'" class="icona" 
+                    (click)="invioPressione(44, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Add to the list" >
+                <img 
+                    [hidden]="!((addKeyVisibile2 == true && toConfirm) || addKeyPersistant)"
+                    [src]="linkIcone + '/icons/playlist-plus.png'" class="icona" 
+                    (click)="invioPressione(45, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Remove from the list" >
+                <img 
+                    [hidden]="!((removeKeyVisibile2 == true && toConfirm) || removeKeyPersistant)"
+                    [src]="linkIcone + '/icons/playlist-remove.png'" class="icona" 
+                    (click)="invioPressione(46, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Edit" >
+                <img 
+                    [hidden]="!((editKeyVisibileN2 == true && toConfirm) || editKeyPersistantN)"
+                    [src]="linkIcone + '/icons/Edit.png'" class="icona" 
+                    (click)="invioPressione(47, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Edit the ticket" >
+                <img 
+                    [hidden]="!(tastoTicket)"
+                    [src]="linkIcone + '/icons/ticket.png'" class="icona" 
+                    (click)="invioPressione(48, undefined);"
+                />
+            </div>
+
+            <!-- <div style="float: left;" title="AI-Powered Analysis" >
+                <img 
+                    [hidden]="!(tastoAI2)"
+                    [src]="linkIcone + '/icons/ai.png'" class="icona" 
+                    (click)="invioPressione(49, undefined);"
+                />
+            </div> -->
+
+            <div style="float: left;" title="Open GeoAnalysis" >
+                <img 
+                    [hidden]="!(keyWorkspace)"
+                    [src]="linkIcone + '/icons/Maps.png'" class="icona" 
+                    (click)="invioPressione(50, $event);"
+                />
+            </div>
+
+            <div style="float: left;" title="Synchronise other frames" >
+                <img 
+                    [hidden]="!(tastoSync)"
+                    [src]="linkIcone + '/icons/synchronise.png'" class="icona" 
+                    (click)="invioPressione(51, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Open event tickets" >
+                <img 
+                    [hidden]="!(gestioneTicket || (gestioneTicket && selectedRow))"
+                    [src]="linkIcone + '/icons/message-bulleted.png'" class="icona" 
+                    (click)="invioPressione(52, undefined);"
+                />
+            </div>
+
+            <!--
+            <toolbar-button
+                *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1"
+                [imageUrl]="linkIcone + '/icons/checkbox-marked-circle.png'"
+            >
+            </toolbar-button>
+            -->
+
+            <div style="float: left;" title="Active Edit" >
+                <img 
+                    [hidden]="!(editable && !editGridOn)"
+                    [src]="linkIcone + '/icons/lock-outline.png'" class="icona" 
+                    (click)="invioPressione(53, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Disactive Edit" >
+                <img 
+                    [hidden]="!(editable && editGridOn)"
+                    [src]="linkIcone + '/icons/lock-open-outline.png'" class="icona" 
+                    (click)="invioPressione(54, undefined);"
+                />
+            </div>
+
+            <!-- 
+            <div style="float: left;" title="Save" >
+                <img 
+                    [hidden]="!(editGridOn && !rowsEdited)"
+                    [src]="linkIcone + '/icons/content-save-not-active.png'" class="icona" 
+                />
+            </div>
+
+            <div style="float: left;" title="Disactive Edit" >
+                <img 
+                    [hidden]="!(editGridOn && !rowsEdited)"
+                    [src]="linkIcone + '/icons/undo-notactive.png'" class="icona" 
+                />
+            </div>
+            -->
+
+            <div style="float: left;" title="Save" >
+                <img 
+                    [hidden]="!(editGridOn && rowsEdited)"
+                    [src]="linkIcone + '/icons/content-save-active.png'" class="icona" 
+                    (click)="invioPressione(55, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Cancel" >
+                <img 
+                    [hidden]="!(editGridOn && rowsEdited)"
+                    [src]="linkIcone + '/icons/undo-active.png'" class="icona" 
+                    (click)="invioPressione(56, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Hide empty combos" >
+                <img 
+                    [hidden]="!(tastoFiltroCombo && !filtroCombo)"
+                    [src]="linkIcone + '/icons/ViewCombo.png'" class="icona" 
+                    (click)="invioPressione(57, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="View empty combos" >
+                <img 
+                    [hidden]="!(tastoFiltroCombo && filtroCombo)"
+                    [src]="linkIcone + '/icons/ViewRed.png'" class="icona" 
+                    (click)="invioPressione(58, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Move to point" >
+                <img 
+                    [hidden]="!(tastoMoveToPointVisibile == true)"
+                    [src]="linkIcone + '/icons/moveToPoint.png'" class="icona" 
+                    (click)="invioPressione(59, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="AI-Powered Analysis of grid data" >
+                <img 
+                    [hidden]="!(tastoAITutte)"
+                    [src]="linkIcone + '/icons/ai.png'" class="icona" 
+                    (click)="invioPressione(60, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Filters" >
+                <img 
+                    [hidden]="!(mistralFilters)"
+                    [src]="linkIcone + '/icons/text-search.png'" class="icona" 
+                    (click)="invioPressione(61, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Open Spreadsheet" >
+                <img 
+                    [hidden]="!(tastoSpreadSheet)"
+                    [src]="linkIcone + '/icons/grid.png'" class="icona" 
+                    (click)="invioPressione(62, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Collapse all groups" >
+                <img 
+                    [hidden]="!(raggruppabile && gruppiAperti)"
+                    [src]="linkIcone + '/icons/collapse_all.png'" class="icona" 
+                    (click)="invioPressione(63, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Expand all groups" >
+                <img 
+                    [hidden]="!(raggruppabile && !gruppiAperti)"
+                    [src]="linkIcone + '/icons/expand_all.png'" class="icona" 
+                    (click)="invioPressione(64, undefined);"
+                />
+            </div>
+
+            <!-- ICONE Allineate a destra -->
+            <div style="float: right;" title="Export to XLS" >
+              <div *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && aperteIcone && excelEventi2 == false" 
+                style="float: left;">
+                <img 
+                    [src]="linkIcone + '/icons/Excel.png'" class="icona"  style="width: 25px; height: 24px;"
+                    (click)="invioPressione(99, undefined);"
+                />
+              </div>
+            </div>
+            <div style="float: right;" title="Export to CSV" >
+              <div *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && aperteIcone && excelEventi2 == false" 
+                style="float: left;">
+                <img 
+                    
+                    [src]="linkIcone + '/icons/csv.png'" class="icona" style="width: 20px; height: 20px;"
+                    (click)="invioPressione(98, undefined);"
+                />
+              </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div *ngIf="filtroVisibile" class="filtro" style="height: 100%; float: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+        [style.width.%]="filtroVisibile ? 15 : 0"
+        >
+        <input id="txtFilter_{{maskName}}" name="testo" type="text" [(ngModel)] ="filtroDaPassare" 
+            style="width: 95%; height: 16px;" placeholder="write strings separated by space to filter" 
+            (keydown)="onFilterChanges()" />
+    </div>
+</div>

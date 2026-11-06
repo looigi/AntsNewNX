@@ -1,0 +1,28 @@
+.contextmenu{
+  position: fixed;
+  z-index: 1900;
+  padding: 3px;
+  border: 1px solid;
+  background-color: white;
+  border-color: #c1c1bf;
+  border-radius: 4px;
+  box-shadow: 0 6px 6px rgba(0,0,0,.175);
+  height: auto;
+  width: auto;
+  overflow: hidden;
+  color: white;
+}
+
+.riga {
+  cursor: pointer;
+  padding: 6px;
+  padding-top: 3px;
+  width: 100%;
+  color: black;
+  font-weight: bold;
+}
+
+.riga:hover {
+  background-color: #dedede;
+  font-weight: bold;
+}

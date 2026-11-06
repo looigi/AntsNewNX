@@ -1,0 +1,371 @@
+
+<app-barra-superiore
+  [nomeApp]="nomiMaschere[qualeGriglia]"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [debug]="false"
+  [sessioneID]="sessionID"
+  [gruppo]="groupName"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="Utils.urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (statoServerEmit)="statoServer = $event"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+  (coloreSfondoEmit)="coloreStatoServer = $event"
+  (comandoVocaleEmit)="comandoVocaleEmit($event)"
+>
+</app-barra-superiore>
+
+<div #divContenitore style="width: 100%; height: calc(100vh - 35px); overflow: hidden; float: left;">
+  <div style="width: 100%; height: 100%; display: flex;">
+    <!-- <div style = "width: 24px; height: 100%; float: left; padding-left: 2px; padding-right: 2px; margin-top: -1px; background-color: white;">
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/hamburger.png'" class="immagini" style="height: 20px; width: 20px;" (mouseover)="menuVisibile = true" />
+    </div> -->
+
+    <div style="width: 100%; float: left;">
+      <div *ngIf="qualeGriglia > 0" style="width: 100%; height: 100%; display: block;">
+        <as-split direction="horizontal" [gutterSize]="dimeFinestraGriglia2 != 0 ? 7 : 0">
+          <as-split-area [size]="dimeFinestraGriglia1" style="overflow: hidden;">
+            <as-split direction="vertical" style="overflow: hidden;">
+              <!-- <as-split-area [size]="dimeFinestraGrigliaHor1" style="overflow: hidden;">
+                <div style="width: 100%; height: 100%; overflow: auto; display: flex;">
+                  {{ userName + '_grigliaUserManager_' + maschera }} -->
+                <div style="width: 100%; height: 100%;">
+                  <!-- 
+                    [ManualResize]="effettuaAutoFit"
+                    (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+                  -->
+                  <app-ants-grid-lib
+                    id="grigliaUserManager1"
+                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                    [indirizzoServer]="indirizzoServer"
+                    [modalita]="'Griglia'"
+                    [title]="nomeGriglia"
+                    [sessioneAttuale]="sessionID"
+                    [titleDaDatiGriglia]="true"
+                    [data]="datiGriglia"
+                    [userName]="userName"
+                    [maskName]="userName + '_grigliaUserManager_' + maschera"
+                    [newKeyVisibile]='false'
+                    [refreshKeyVisibile]='true'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [selezioneMultipla]='false'
+                    [ricordaSelezione]='qualeGriglia == 1'
+                    [impostaSelezione]="selezione[qualeGriglia]"
+                    [AutoResize]="false"
+                    [ManualResize]="effettuaAutoFit"
+                    [righeAutomatiche]="false"
+                    [newKeyVisibile]="tastoNewVisibile"
+                    [newKeyPersistant]="tastoNewVisibile"
+                    [editKeyVisibile]="tastoEditVisibile"
+                    [paginazione]="'scrollable'"
+                    [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+                    [linkIcone]="Utils.linkIcone"
+                    [DimensioneFont]='12'
+                    [raggruppabile]="raggruppabile"
+                    [campiPerRaggruppamento]="'FOLDER'"
+                    [messaggioWarning]="messaggioWarning"
+
+                    (cellClick)="clickSelezione($event)"
+                    (refresh)='refreshGrid1($event, false)'
+                    (resetLayout)='refreshGrid1($event, true)'
+                    (newKeyPressed)="premutoNewUser($event)"
+                    (editKeyPressed)="premutoEdit($event)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonne1($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                  ></div>
+                </div>
+              <!-- </as-split-area>
+              <as-split-area [size]="dimeFinestraGrigliaHor2" [lockSize]="dimeFinestraGrigliaHor2 == 0" style="overflow: auto;">
+              </as-split-area> -->
+            </as-split>
+          </as-split-area>
+          <as-split-area [size]="dimeFinestraGriglia2" [lockSize]="dimeFinestraGriglia2 == 0" style="overflow: hidden;">
+            <!-- <div style="width: 100%; height: 100%; overflow: auto; display: flex;">
+              {{ userName + '_grigliaUserManager2_' + maschera }} -->
+              <app-ants-grid-lib
+                id="grigliaUserManager2"
+                [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="nomeGriglia2"
+                [sessioneAttuale]="sessionID"
+                [titleDaDatiGriglia]="true"
+                [data]="datiGriglia2"
+                [userName]="userName"
+                [maskName]="userName + '_grigliaUserManager2_' + maschera"
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='true'
+                [editKeyVisibile]='false'
+                [deleteKeyVisibile]='false'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='false'
+                [ricordaSelezione]='false'
+                [impostaSelezione]="selezione2"
+                [DimensioneFont]='12'
+                [AutoResize]="false"
+                [ManualResize]="effettuaAutoFit2"
+                [righeAutomatiche]="false"
+                [paginazione]="'scrollable'"
+                [linkIcone]="Utils.linkIcone"
+                [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+                [raggruppabile]="true"
+                [campiPerRaggruppamento]="'FUNCTION'"
+                [messaggioWarning]="messaggioWarning2"
+
+                (cellClick)="clickOnGriglia2($event)"
+                (refresh)='refreshGrid2($event, false)'
+                (resetLayout)='refreshGrid2($event, true)'
+                (ritornoDimensioniColonne)="ritornoDimensioniColonne2($event)"
+              >
+              </app-ants-grid-lib>
+            <!-- </div> -->
+
+            <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+              style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+            ></div>
+          </as-split-area>
+        </as-split>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: 5px; top: 1px; width: 33px;
+  height: 33px; z-index: 2000; padding: 3px; background-color: #fff;" title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div> -->
+
+<div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: calc(50% - 35px); top: 2px; width: 70px;
+  height: 33px; z-index: 2000; text-align: center; padding: 3px; background-color: #d8d888; border: 1px solid #999; border-radius: 3px;"
+  [style.opacity]="opacitaCAM" (mouseover)="opacitaCAM = 1" (mouseout)="opacitaCAM = .1"
+  title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/delete2.png'" class="immagini" style="height: 25px; width: 25px;" (click)="pulisciPassword()">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div>
+
+<app-change-password #changePswComp [idUtente]="iId"></app-change-password>
+
+<div
+  [style.opacity]="menuVisibile ? 1 : 0"
+  [style.width] = "dimeDrawer"
+  [style.left]="menuVisibile ? '0px' : '-500px'"
+  (mouseover)="over1()"
+  (mouseleave)="leave1()"
+  style="position: absolute; border-right: 1px solid #999; display: flex; top: 35px; height: 100%;
+          background-color: #f4f4f4; z-index: 5000;">
+  <div [style.width]="dimeDrawer" style="float: left; overflow: auto;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    padding-bottom: 50px;
+    ">
+    <app-menu
+      [debug]="modalitaDebug"
+      [MenuVisibile] = "menuVisibile"
+      [showButtons]="true"
+      [Altezza]="35"
+      [sessionID]="sessionID"
+      [posizione]="'relative'"
+      [voceSelezionata]="'UserManager'"
+      [statoServer]="statoServer"
+      [statoManutenzione]="statoManutenzione"
+      [coloreStatoServer]="coloreStatoServer"
+      [comandoVocale]="comandoVocale"
+      [platFormName]="platformName"
+
+      (chiusuraEmit)="chiudeDrawer($event)"
+
+      (platFormNameEmit)="prendePlatFormName($event)"
+      (dataAttualeEmit)="prendeDateNowH($event)"
+      (symbTsEmit)="prendeSymb_TimeStamp($event)"
+      (lettoConfigJSON)="lettoJSON($event)" 
+      (userManualEmit) = "fDownloadUserManual($event)"
+    >
+    </app-menu>
+  </div>
+</div>
+
+<div *ngIf="mascheraUtente" class="oscura"></div>
+<div *ngIf="mascheraUtente" class="mascheraModifica2 drag-boundary" #myBoundsMT ngDraggable ngResizable [handle]="handleMenuMT"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenuMT class="drag-block" style="width: calc(100% - 150px); float: left; text-align: left; color: white;">
+      {{titoloMascheraEdit}}
+    </div>
+    <div style="width: 150px; float: left; text-align: right; margin-top: -4px;">
+      <!-- <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaUtente()"> -->
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMascheraUtente()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+
+  <div style="width: 100%; height: 100%; float: left; overflow: auto; text-align: left;">
+    <div style="width: 100%; float: left; height: 30px; text-align: right;">
+      <img *ngIf="qualeGriglia == 1 && nuovoUtente == false && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/remove.png'" class="immagini" title="Delete User" (click)="deleteUser()" style="width: 27px; height: 27px;">
+
+      <img *ngIf="qualeGriglia == 1 && nuovoUtente == false && sLock == false && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/lock-outline.png'" class="immagini" title="Lock user" (click)="lockUser()">
+      <img *ngIf="qualeGriglia == 1 && nuovoUtente == false && sLock == true && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/Unlocked.png'" class="immagini" title="Unlock user" (click)="unlockUser()">
+
+      <img *ngIf="
+        qualeGriglia == 1 &&
+        (sUserName !== sUserNameOrig ||
+        sMail !== sMailOrig ||
+        sDescription !== sDescriptionOrig ||
+        sPassword !== sPasswordOrig ||
+        sMobile !== sMobileOrig ||
+        sTokensLeft != sTokensLeftOriginale ||
+        nuovoUtente == false) && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1"
+        [src]="Utils.linkIcone + '/icons/change psw.png'" class="immagini"
+        style="width: 27; height: 27px;" title="Change password for the user"
+        (click)="changePswComp.openModal(changePswComp.template)">
+
+      <img *ngIf="
+        qualeGriglia == 1 &&
+        (sUserName !== sUserNameOrig ||
+        sMail != sMailOrig ||
+        sDescription != sDescriptionOrig ||
+        sPassword != sPasswordOrig ||
+        sMobile != sMobileOrig ||
+        groupId != groupIdOrig ||
+        operatorProfileId != operatorProfileIdOrig ||
+        sTokensLeft != sTokensLeftOriginale ||
+        nuovoUtente == true) && salvato == false && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1
+        " [src]="Utils.linkIcone + '/icons/content-save-active.png'" class="immagini" title="Save" (click)="modificaUser()">
+
+      <img *ngIf="
+        qualeGriglia == 1 &&
+        sUserName == sUserNameOrig &&
+        sMail == sMailOrig &&
+        sDescription == sDescriptionOrig &&
+        sPassword == sPasswordOrig &&
+        sMobile == sMobileOrig &&
+        groupId == groupIdOrig &&
+        operatorProfileId == operatorProfileIdOrig &&
+        sTokensLeft == sTokensLeftOriginale &&
+        salvato == true && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1
+        " [src]="Utils.linkIcone + '/icons/content-save-not-active.png'" class="immagini" title="Already Saved">
+
+      <img *ngIf="
+        qualeGriglia == 2 &&
+        (sDescription != sDescriptionOrig ||
+        sTokensLeft != sTokensLeftOriginale) && salvato == false && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1
+        " [src]="Utils.linkIcone + '/icons/content-save-active.png'" class="immagini" title="Save" (click)="modificaGroup()">
+
+      <img *ngIf="
+        qualeGriglia == 2 &&
+        sDescription == sDescriptionOrig &&
+        sTokensLeft == sTokensLeftOriginale &&
+        salvato == true && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1
+        " [src]="Utils.linkIcone + '/icons/content-save-not-active.png'" class="immagini" title="Already Saved">
+    </div>
+
+    <div *ngIf="qualeGriglia == 1">
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">User Name&nbsp;</span>
+        <input type="text" [disabled]="nuovoUtente == false" [(ngModel)]="sUserName"
+          (change)="sUserName == sUserNameOrig ? salvato == true : salvato == false"
+          style="width: 100%;" placeholder="User Name">
+      </div>
+      <div *ngIf="titoloMascheraEdit == 'New user'" class="contenitoreTesto2">
+        <span style="font-weight: bold;">Password&nbsp;</span>
+        <input type="password" [(ngModel)]="sPassword" style="width: 100%;" placeholder="Password">
+      </div>
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">Group&nbsp;</span>
+        <app-combo-component
+          *ngIf = "datiGroup"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiGroup"
+          [campoId]="'GROUP_ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiGroupUM'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="groupId"
+
+          (selezioneEffettuata)="selectGroup($event)"
+        >
+        </app-combo-component>
+      </div>
+
+      <div style="clear: both;"></div>
+
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">Profile&nbsp;</span>
+        <app-combo-component
+          *ngIf = "datiProfile"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiProfile"
+          [campoId]="'OPERATOR_PROFILE_ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiProfileUM'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="operatorProfileId"
+
+          (selezioneEffettuata)="selectProfile($event)"
+        >
+        </app-combo-component>
+      </div>
+
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">E-Mail&nbsp;</span>
+        <input type="text" [(ngModel)]="sMail" style="width: 100%;" placeholder="E-Mail">
+      </div>
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">Description&nbsp;</span>
+        <input type="text" [(ngModel)]="sDescription" style="width: 100%;"
+          (input)="controllaDescr()"
+          placeholder="Description">
+      </div>
+
+      <div style="clear: both;"></div>
+
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">Mobile&nbsp;</span>
+        <input type="text" [(ngModel)]="sMobile" style="width: 100%;" placeholder="Mobile">
+      </div>
+
+      <div class="contenitoreTesto2">
+        <span style="font-weight: bold;">Tokens Left&nbsp;</span>
+        <input type="number" [(ngModel)]="sTokensLeft" style="width: 100%;"
+          (input)="controllaTokens()"
+          placeholder="Tokens Left">
+      </div>
+    </div>
+
+    <div *ngIf="qualeGriglia == 2">
+      <div class="contenitoreTesto3">
+        <span style="font-weight: bold;">Description&nbsp;</span>
+        <input type="text" [(ngModel)]="sDescription" style="width: 100%;"
+          (input)="controllaDescr()"
+          placeholder="Description">
+      </div>
+      
+      <div class="contenitoreTesto3">
+        <span style="font-weight: bold;">Tokens Left&nbsp;</span>
+        <input type="number" [(ngModel)]="sTokensLeft" style="width: 100%;"
+          (input)="controllaTokens()"
+          placeholder="Tokens Left">
+      </div>
+    </div>
+  </div>
+
+</div>

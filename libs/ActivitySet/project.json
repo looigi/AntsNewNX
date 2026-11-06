@@ -1,0 +1,27 @@
+{
+  "name": "ActivitySet",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ActivitySet/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/ActivitySet"
+      ],
+      "options": {
+        "project": "libs/ActivitySet/ng-package.json",
+        "tsConfig": "libs/ActivitySet/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ActivitySet/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Combo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/Combo/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/Combo"
+      ],
+      "options": {
+        "project": "libs/Combo/ng-package.json",
+        "tsConfig": "libs/Combo/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/Combo/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

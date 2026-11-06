@@ -1,0 +1,681 @@
+<div #divContenitore style="width: 100%; height: 100%; display: flex;">
+  <as-split direction="horizontal">
+    <as-split-area [size]="40">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia"
+        [sessioneAttuale]="sessionService.getToken()"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaGC1'"
+        [newKeyVisibile]='true'
+        [newKeyPersistant]="true"
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='editKeyVisibile1'
+        [deleteKeyVisibile]='deleteKeyVisibile1'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione"
+        [AutoResize]="true"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [messaggioWarning]="messaggioWarning1"
+        [linkIcone]="Utils.linkIcone"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event, false)'
+        (resetLayout)='refreshGrid1($event, true)'
+        (deleteKeyPressed)="deletePremuto1($event)"
+        (editKeyPressed)="editPremuto1($event)"
+        (newKeyPressed)="newPremuto1($event)"
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneGC1($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="60">
+      <as-split direction="vertical">
+        <div style="width:100%; height: 100%; overflow: hidden;">
+          <kendo-tabstrip [animate]="false" style="overflow-x: auto; overflow-y: hidden; width: 100%; height: 100%;">
+            <kendo-tabstrip-tab [title]="'Agents'" [selected]="true">
+              <ng-template kendoTabContent>
+                <div class="finestraCentrale" style="height: 100%;">
+                  <as-split direction="vertical">
+                    <as-split-area [size]="50" style="overflow: hidden;">
+                      <app-ants-grid-lib
+                        *ngIf="datiGrigliaAgent"
+                        [sessioneAttuale]="sessionService.getToken()"
+                        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                        [indirizzoServer]="indirizzoServer"
+                        [modalita]="'Griglia'"
+                        [title]="nomeGrigliaAgent"
+                        [titleDaDatiGriglia] = "true"
+                        [data]="datiGrigliaAgent"
+                        [userName]="userName"
+                        [maskName]="userName + '_grigliaGDA'"
+                        [newKeyVisibile]='false'
+                        [refreshKeyVisibile]='true'
+                        [editKeyVisibile]='confirmKeyAgent'
+                        [deleteKeyVisibile]='false'
+                        [infoKeyVisibile]='true'
+                        [confirmKeyVisibile]="false"
+                        [impostaSelezione]="selezioneAgent"
+                        [AutoResize]="false"
+                        [ManualResize]="effettuaAutoFitAgent"
+                        [righeAutomatiche]="false"
+                        [paginazione]="'scrollable'"
+                        [datiNuovi]="datiGrigliaAgent && datiGrigliaAgent.DataTable"
+                        [messaggioWarning]="messaggioWarningAgent"
+                        [selezioneMultipla]="false"
+                        [linkIcone]="Utils.linkIcone"
+
+                        (cellClick)="clickSelezioneAgent($event)"
+                        (clickSelezioneSuCheckRiga)="clickSuCheckRigaAgent($event)"
+                        (lastSelectedOfGrid)='lastSelectedOfGridAgent($event)'
+                        (editKeyPressed)="premutoConfirmAgent($event)"
+                        (refresh)="refreshGridAgent(false)"
+                        (resetLayout)="refreshGridAgent(true)"
+                        (ritornoDimensioniColonne)="ritornoDimensioniColonneGDA($event)"
+                      >
+                      </app-ants-grid-lib>
+
+                      <div *ngIf="caricamentoDatiInCorsoAgent == true" class="k-i-loading"
+                        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                      ></div>
+                    </as-split-area>
+                    <as-split-area [size]="50" style="overflow: hidden;">
+                      <app-ants-grid-lib
+                        *ngIf="datiGrigliaAgentInfo"
+                        [sessioneAttuale]="sessionService.getToken()"
+                        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                        [indirizzoServer]="indirizzoServer"
+                        [modalita]="'Griglia'"
+                        [title]="nomeGrigliaAgentInfo"
+                        [titleDaDatiGriglia] = "true"
+                        [data]="datiGrigliaAgentInfo"
+                        [userName]="userName"
+                        [maskName]="userName + '_grigliaGDAI'"
+                        [newKeyVisibile]='false'
+                        [refreshKeyVisibile]='true'
+                        [editKeyVisibile]='false'
+                        [deleteKeyVisibile]='false'
+                        [infoKeyVisibile]='true'
+                        [confirmKeyVisibile]="false"
+                        [impostaSelezione]="selezioneAgentInfo"
+                        [AutoResize]="false"
+                        [ManualResize]="effettuaAutoFitAgentInfo"
+                        [righeAutomatiche]="false"
+                        [paginazione]="'scrollable'"
+                        [datiNuovi]="datiGrigliaAgentInfo && datiGrigliaAgentInfo.DataTable"
+                        [messaggioWarning]="messaggioWarningAgentInfo"
+                        [selezioneMultipla]="false"
+                        [linkIcone]="Utils.linkIcone"
+
+                        (cellClick)="clickSelezioneAgentInfo($event)"
+                        (lastSelectedOfGrid)='lastSelectedOfGridAgentInfo($event)'
+                        (clickSuIconaEmit)="clickAgentInfoN(j.stringify($event.dati))"
+                        (refresh)="refreshAgentInfo(false)"
+                        (resetLayout)="refreshAgentInfo(true)"
+                        (ritornoDimensioniColonne)="ritornoDimensioniColonneGDAI($event)"
+                      >
+                      </app-ants-grid-lib>
+
+                      <div *ngIf="caricamentoDatiInCorsoAgentInfo == true" class="k-i-loading"
+                        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                      ></div>
+                    </as-split-area>
+                  </as-split>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+
+            <kendo-tabstrip-tab [title]="'Agent Profile'">
+              <ng-template kendoTabContent>
+                <div class="finestraCentrale" style="height: 100%;">
+                  <app-ants-grid-lib
+                    *ngIf="datiGriglia2"
+                    [sessioneAttuale]="sessionService.getToken()"
+                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                    [indirizzoServer]="indirizzoServer"
+                    [modalita]="'Griglia'"
+                    [title]="nomeGriglia2"
+                    [titleDaDatiGriglia] = "true"
+                    [data]="datiGriglia2"
+                    [userName]="userName"
+                    [maskName]="userName + '_grigliaGC2'"
+                    [newKeyVisibile]='false'
+                    [refreshKeyVisibile]='true'
+                    [editKeyVisibile]='true'
+                    [editKeyPersistant]="true"
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [impostaSelezione]="selezione2"
+                    [AutoResize]="false"
+                    [ManualResize]="effettuaAutoFit2"
+                    [righeAutomatiche]="false"
+                    [paginazione]="'scrollable'"
+                    [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+                    [messaggioWarning]="messaggioWarning2"
+                    [selezioneMultipla]="false"
+                    [linkIcone]="Utils.linkIcone"
+
+                    (cellClick)="clickSelezione2($event)"
+                    (lastSelectedOfGrid)='lastSelectedOfGrid2($event)'
+                    (editKeyPressed)="mascheraModificaAttivaCombo2 = true"
+                    (clickSuIconaEmit)="apreCombo5N2($event.dati, 'AGENTSPROFILE')"
+                    (refresh)="refreshAgentProfile(false)"
+                    (resetLayout)="refreshAgentProfile(true)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneGC2($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                  ></div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+
+            <kendo-tabstrip-tab [title]="'Local Test Desing'">
+              <ng-template kendoTabContent>
+                <div class="finestraCentrale" style="height: 100%;">
+                  <app-ants-grid-lib
+                    *ngIf="datiGriglia4"
+                    [sessioneAttuale]="sessionService.getToken()"
+                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                    [indirizzoServer]="indirizzoServer"
+                    [modalita]="'Griglia'"
+                    [title]="nomeGriglia4"
+                    [titleDaDatiGriglia] = "true"
+                    [data]="datiGriglia4"
+                    [userName]="userName"
+                    [maskName]="userName + '_grigliaGC4'"
+                    [refreshKeyVisibile]='true'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='deleteKeyVisibile4'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [impostaSelezione]="selezione4"
+                    [AutoResize]="false"
+                    [ManualResize]="effettuaAutoFit4"
+                    [righeAutomatiche]="false"
+                    [paginazione]="'scrollable'"
+                    [datiNuovi]="datiGriglia4 && datiGriglia4.DataTable"
+                    [messaggioWarning]="messaggioWarning4"
+                    [selezioneMultipla]="false"
+                    [linkIcone]="Utils.linkIcone"
+
+                    (cellClick)="clickSelezione4($event)"
+                    (lastSelectedOfGrid)='lastSelectedOfGrid4($event)'
+                    (deleteKeyPressed)="deletePremuto4($event)"
+                    (editKeyPressed)="editPremuto4($event)"
+                    (clickSuIconaEmit)="newPremuto42($event.dati)"
+                    (refresh)="refreshGrid4(false)"
+                    (resetLayout)="refreshGrid4(true)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneGC4($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <div *ngIf="caricamentoDatiInCorso4 == true" class="k-i-loading"
+                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                  ></div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+
+            <kendo-tabstrip-tab [title]="'Query PCK'">
+              <ng-template kendoTabContent>
+                <div class="finestraCentrale" style="height: 100%;">
+                  <app-ants-grid-lib
+                  *ngIf="datiGriglia3"
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="nomeGriglia3"
+                  [titleDaDatiGriglia] = "true"
+                  [data]="datiGriglia3"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaGC3'"
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='true'
+                  [editKeyPersistant]="true"
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [impostaSelezione]="selezione3"
+                  [AutoResize]="false"
+                  [ManualResize]="effettuaAutoFit3"
+                  [righeAutomatiche]="false"
+                  [paginazione]="'scrollable'"
+                  [datiNuovi]="datiGriglia3 && datiGriglia3.DataTable"
+                  [messaggioWarning]="messaggioWarning3"
+                  [selezioneMultipla]="true"
+                  [linkIcone]="Utils.linkIcone"
+
+                  (cellClick)="clickSelezione3($event)"
+                  (lastSelectedOfGrid)='lastSelectedOfGrid3($event)'
+                  (editKeyPressed)="mascheraModificaAttivaCombo4 = true"
+                  (refresh)="refreshGriglia3(false)"
+                  (resetLayout)="refreshGriglia3(true)"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneGC3($event)"
+                  >
+                  </app-ants-grid-lib>
+
+                  <div *ngIf="caricamentoDatiInCorso3 == true" class="k-i-loading"
+                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                  ></div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+        </div>
+      </as-split>
+    </as-split-area>
+
+<div *ngIf="mascheraModificaAttiva1" class="oscura"></div>
+<div *ngIf="mascheraModificaAttiva1"  class="mascheraModifica2 drag-boundary resizable" #myBounds1 ngDraggable [handle]="handleMenu1"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu1 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica1}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immagini" title="Save" (click)="salvaDati1()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera1()" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titolo">Name</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.NAME}}" [(ngModel)]="rigaModificata1.NAME">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Description</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.DESCRIPTION}}" [(ngModel)]="rigaModificata1.DESCRIPTION">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Folder</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <!-- <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.FOLDER}}" [(ngModel)]="rigaModificata1.FOLDER"> -->
+        <app-combo-component
+          *ngIf = "datiAgnGroupFolder"
+          [Tipologia]="'Combo'"
+          [userName]="userName"
+          [accettaNuovi]="true"
+          [data] = "datiAgnGroupFolder"
+          [campoId]="'value_str'"
+          [campoTesto]="'value_str'"
+          [campoFiltro]="'value_str'"
+          [NomeCombo]="'cmbDatiAgnProf2'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="rigaModificata1.FOLDER"
+
+          (selezioneEffettuata)="selectAgnProf2($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <div *ngIf="modificaOInserimento1 === 'INSERIMENTO'" class="riga">
+      <div class="titolo">Agent Prof</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <!-- <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.FOLDER}}" [(ngModel)]="rigaModificata1.FOLDER"> -->
+        <app-combo-component
+          *ngIf = "datiAgnProf"
+          [Tipologia]="'Combo'"
+          [userName]="userName"
+          [accettaNuovi]="true"
+          [data] = "datiAgnProf"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'ID'"
+          [NomeCombo]="'cmbDatiAgnProf22'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="rigaModificata1.AGN_PROF_ID"
+
+          (selezioneEffettuata)="selectAgnProf22($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttiva4" class="oscura"></div>
+<div *ngIf="mascheraModificaAttiva4"  class="mascheraModifica2 drag-boundary resizable" #myBounds2 ngDraggable [handle]="handleMenu2"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu2 class="drag-block-handle" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica4}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immagini" title="Save" (click)="salvaDati4()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera4()" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titolo">Name</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata4.TS_NAME}}" [(ngModel)]="rigaModificata4.TS_NAME">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Description</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata4.TS_DESCRIPTION}}" [(ngModel)]="rigaModificata4.TS_DESCRIPTION">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Folder</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata4.TS_FOLDER}}" [(ngModel)]="rigaModificata4.TS_FOLDER">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Priority</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata4.PRIORITY}}" [(ngModel)]="rigaModificata4.PRIORITY">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Criteria</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata4.SCHED_RULE_CRITERIA}}" [(ngModel)]="rigaModificata4.SCHED_RULE_CRITERIA">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Radius</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata4.SCHED_RULE_RADIUS}}" [(ngModel)]="rigaModificata4.SCHED_RULE_RADIUS">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Tms From</div>
+      <div class="contenuto">
+        <angular2-date-picker
+          name="dateFrom"
+          [(ngModel)]="rigaModificata4.SCHED_RULE_TMS_FROM"
+          settings="settingsDP"
+          style="font-size: 13px !important;">
+        </angular2-date-picker>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Tms To</div>
+      <div class="contenuto">
+        <angular2-date-picker
+          name="dateTo"
+          [(ngModel)]="rigaModificata4.SCHED_RULE_TMS_TO"
+          settings="settingsDP"
+          style="font-size: 13px !important;">
+        </angular2-date-picker>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Period</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata4.SCHED_RULE_PERIOD}}" [(ngModel)]="rigaModificata4.SCHED_RULE_PERIOD">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Iterations</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata4.SCHED_RULE_ITERATIONS}}" [(ngModel)]="rigaModificata4.SCHED_RULE_ITERATIONS">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Point</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata4.SCHED_RULE_POINT}}" [(ngModel)]="rigaModificata4.SCHED_RULE_POINT">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Is Enabled</div>
+      <div class="contenuto">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [userName]="userName"
+          [data] = "datiActive"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiActiveTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificata4.IS_ACTIVE"
+
+          (selezioneEffettuata)="selectActive4($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaCombo2" class="oscura"></div>
+<div *ngIf="mascheraModificaAttivaCombo2"  class="mascheraModifica2 drag-boundary resizable" #myBounds3 ngDraggable [handle]="handleMenu3"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu3 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo2}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraCombo2($event)" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaCombo2 = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%;">
+      <!-- <div style="width: 20%; float: left; height: 35px;">
+        Agn Prof
+      </div>
+      <div style="width: 80%; float: left;"> -->
+        <app-combo-component
+          *ngIf = "datiAgnProf"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiAgnProf"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiAgnProf'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="agnProfSelezionato"
+
+          (selezioneEffettuata)="selectAgnProf($event)"
+        >
+        </app-combo-component>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaCombo4" class="oscura"></div>
+<div *ngIf="mascheraModificaAttivaCombo4"  class="mascheraModifica2 drag-boundary resizable" #myBounds4 ngDraggable [handle]="handleMenu4"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu4 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo4}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraCombo4($event)" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaCombo4 = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%; float: left; height: 35px;">
+      <!-- <div style="width: 20%; float: left;">
+        Query Pck
+      </div>
+      <div style="width: 80%; float: left;"> -->
+        <app-combo-component
+          *ngIf = "datiQueryPck"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiQueryPck"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiQueryPck'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="queryPckSelezionato"
+
+          (selezioneEffettuata)="selectQueryPck($event)"
+        >
+        </app-combo-component>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaAgent" class="oscura"></div>
+<div *ngIf="mascheraModificaAttivaAgent"  class="mascheraModifica2 drag-boundary resizable" #myBounds5 ngDraggable [handle]="handleMenu5"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu5 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaAgent}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMascheraAgent()" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati" style="height: 300px;">
+    <app-ants-grid-lib
+      *ngIf="datiGrigliaMA"
+      [sessioneAttuale]="sessionService.getToken()"
+      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+      [indirizzoServer]="indirizzoServer"
+      [modalita]="'Griglia'"
+      [title]="nomeGrigliaMA"
+      [titleDaDatiGriglia] = "true"
+      [data]="datiGrigliaMA"
+      [userName]="userName"
+      [maskName]="userName + '_grigliaGDMA'"
+      [newKeyVisibile]='false'
+      [refreshKeyVisibile]='true'
+      [editKeyVisibile]='false'
+      [deleteKeyVisibile]='false'
+      [infoKeyVisibile]='true'
+      [confirmKeyVisibile]="confirmKeyMA"
+      [selezioneMultipla]='false'
+      [impostaSelezione]="selezioneMA"
+      [AutoResize]="false"
+      [ManualResize]="effettuaAutofitMA"
+      [righeAutomatiche]="false"
+      [paginazione]="'scrollable'"
+      [datiNuovi]="datiGrigliaMA && datiGrigliaMA.DataTable"
+      [messaggioWarning]="messaggioWarningMA"
+      [linkIcone]="Utils.linkIcone"
+      [selezioneMultipla]="false"
+
+      (cellClick)="clickSuCheckRigaMA($event)"
+      (confirmKeyPressed)="premutoConfirmMA($event)"
+      (refresh)="refreshGrigliaMA(false)"
+      (resetLayout)="refreshGrigliaMA(true)"
+      (ritornoDimensioniColonne)="ritornoDimensioniColonneMA($event)"
+    >
+    </app-ants-grid-lib>
+
+    <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+      style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+    ></div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN" class="oscura"></div>
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN"  class="mascheraModifica2 drag-boundary resizable" #myBounds6 ngDraggable [handle]="handleMenu6"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu6 class="drag-block" style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo5N}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboAgentProfileN($event)" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaComboAgentProfileN = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%;">
+      <div style="width: 20%; float: left;">Value</div>
+      <div style="width: 80%; float: left;">
+        <app-combo-component
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'LOV'"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiLov"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiLovTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="lovSelezionato"
+
+          (selezioneEffettuata)="selectLov($event)"
+        >
+        </app-combo-component>
+
+        <app-calendario
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'date'"
+          [Utils]="Utils"
+          [dataPassata]="rigaSelPerModificaN.VALUE"
+          [formatoPopup]="'DATA'"
+          [formato]="'yyyy-MM-dd'"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="lovSelezionato = $event"
+        >
+        </app-calendario>
+
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'integer' || rigaSelPerModificaN.DOMAIN_TYPE === 'decimal'" (keyup.enter)="chiudeMascheraComboAgentProfileN($event)" type="number" style="width: 100%;" [(ngModel)]="lovSelezionato">
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'string'" (keyup.enter)="chiudeMascheraComboAgentProfileN($event)" type="text" style="width: 100%;" [(ngModel)]="lovSelezionato">
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'not_editable'" type="text" style="width: 100%;" disabled="true" value="{{lovSelezionato}}">
+      </div>
+    </div>
+  </div>
+</div>

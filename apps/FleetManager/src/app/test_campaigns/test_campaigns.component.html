@@ -1,0 +1,2361 @@
+<div #divContenitore style="width: 100%; height: 100%; display: flex;">
+  <as-split direction="vertical" (dragEnd)="dragEndMappa($event)">
+
+    <as-split-area [size]="dimensioneSplitSopra" [lockSize]="mappaLockata">
+      <as-split direction="horizontal">
+        <as-split-area [size]="20">
+          <!-- *ngIf="datiGriglia && caricamentoDatiInCorso == false" -->
+          <app-ants-grid-lib
+            [sessioneAttuale]="sessionService.getToken()"
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="nomeGriglia"
+            [titleDaDatiGriglia]="true"
+            [data]="datiGriglia"
+            [userName]="userName2"
+            [maskName]="userName2 + '_grigliaTC1'"
+            [newKeyVisibile]='true'
+            [newKeyPersistant]="true"
+            [refreshKeyVisibile]='true'
+            [editKeyVisibile]='true'
+            [deleteKeyVisibile]='true'
+            [infoKeyVisibile]='true'
+            [confirmKeyVisibile]="false"
+            [selezioneMultipla]='false'
+            [impostaSelezione]="selezione"
+            [AutoResize]="false"
+            [ManualResize]="effettuaAutoFit"
+            [DimensioneFont]= "12"
+            [righeAutomatiche]="true"
+            [paginazione]="'scrollable'"
+            [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+            [messaggioWarning]="messaggioWarning"
+            [linkIcone]="Utils.linkIcone"
+            [keyWorkspace]="false"
+            [listaWorkSpaces]="listaWorkSpaces"
+            [raggruppabile]="true"
+            [campiPerRaggruppamento]="'FOLDER'"
+
+            (keyWorkspaceEmit)="premutoWorkSpace($event, 'AGENTGROUP')"
+            (cellClick)="clickSelezione($event)"
+            (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+            (refresh)='refreshGrid1($event, false)'
+            (resetLayout)='refreshGrid1($event, true)'
+            (deleteKeyPressed)="deletePremuto1($event)"
+            (editKeyPressed)="editPremuto1($event)"
+            (newKeyPressed)="newPremuto1($event)"
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneTC1($event)"
+          >
+          </app-ants-grid-lib>
+
+          <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+            style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+          ></div>
+        </as-split-area>
+
+        <as-split-area [size]="80">
+          <as-split direction="vertical">
+
+            <as-split-area [size]="40">
+              <div id="wrapper" style="width: 100%; height: 100%; overflow: hidden;">
+
+                <kendo-tabstrip (tabSelect)="onTabChanged($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+                  <kendo-tabstrip-tab [selected]="vecchioTab == 0" [disabled]="!permessiTab2.tab_agents">
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_agents !== true, 'tab_normale': permessiTab2.tab_agents !== false}">
+                        <span *ngIf="permessiTab2.tab_agents">Agents</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <!-- <kendo-tabstrip-tab [title]="'Data Acquisition'"> -->
+                      <div class="finestraCentrale">
+                        <as-split direction="horizontal">
+                          <as-split-area [size]="25">
+                            <!-- keyWorkspace]="selezionatoAgent" -->
+                            <app-ants-grid-lib
+                              *ngIf="datiGrigliaAgent1"
+                              [sessioneAttuale]="sessionService.getToken()"
+                              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                              [indirizzoServer]="indirizzoServer"
+                              [modalita]="'Griglia'"
+                              [title]="nomeGrigliaAgent1"
+                              [titleDaDatiGriglia]="true"
+                              [data]="datiGrigliaAgent1"
+                              [userName]="userName2"
+                              [maskName]="userName2 + '_grigliaAgent1'"
+                              [DimensioneFont]="12"
+                              [newKeyVisibile]='false'
+                              [newKeyPersistant]="false"
+                              [refreshKeyVisibile]='true'
+                              [editKeyVisibile]='selezionatoAgent'
+                              [deleteKeyVisibile]='selezionatoAgent'
+                              [copyKeyVisibile]="false"
+                              [infoKeyVisibile]='selezionatoAgent'
+                              [confirmKeyVisibile]="false"
+                              [selezioneMultipla]='false'
+                              [impostaSelezione]="selezioneAgent1"
+                              [AutoResize]="false"
+                              [ManualResize]="effettuaAutoFitAgent1"
+                              [righeAutomatiche]="false"
+                              [paginazione]="'scrollable'"
+                              [datiNuovi]="datiGrigliaAgent1 && datiGrigliaAgent1.DataTable"
+                              [messaggioWarning]="messaggioWarningAgent1"
+                              [linkIcone]="Utils.linkIcone"
+                              [keyWorkspace]="false"
+                              [listaWorkSpaces]="listaWorkSpaces"
+
+                              (keyWorkspaceEmit)="premutoWorkSpace($event, 'AGENTS')"
+                              (cellClick)="clickSelezioneAgent1($event)"
+                              (lastSelectedOfGrid)='lastSelectedOfGridAgent1($event)'
+                              (refresh)="refreshGridAgent1($event, false)"
+                              (resetLayout)="refreshGridAgent1($event, true)"
+                              (deleteKeyPressed)="premutoDeleteAgentsInfo($event)"
+                              (editKeyPressed)="premutoConfirmAgentsInfo($event)"
+                              (ritornoDimensioniColonne)="ritornoDimensioniColonneAgent1($event)"
+                            >
+                            </app-ants-grid-lib>
+
+                            <div *ngIf="caricamentoDatiInCorsoAgent1 == true" class="k-i-loading"
+                              style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                            ></div>
+                          </as-split-area>
+
+                          <as-split-area [size]="75">
+                            <kendo-tabstrip (tabSelect)="onTabChanged2($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+                              <kendo-tabstrip-tab #tabTests1 [selected]="vecchioTab2 == 0" *ngIf="permessiTab2.tab_test">
+                                <ng-template kendoTabTitle>
+                                  <span>Tests</span>
+                                </ng-template>
+                                <ng-template kendoTabContent>
+                                <as-split direction="vertical">
+                                  <as-split-area [size]="33">
+                                    <!--  -->
+                                    <app-ants-grid-lib
+                                      *ngIf="datiGrigliaHistGrid"
+                                      [sessioneAttuale]="sessionService.getToken()"
+                                      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                      [indirizzoServer]="indirizzoServer"
+                                      [modalita]="'Griglia'"
+                                      [title]="nomeGrigliaHistGrid"
+                                      [titleDaDatiGriglia]="true"
+                                      [data]="datiGrigliaHistGrid"
+                                      [userName]="userName2"
+                                      [maskName]="userName2 + '_grigliaHistGrid'"
+                                      [DimensioneFont]= "12"
+                                      [newKeyVisibile]='false'
+                                      [newKeyPersistant]="false"
+                                      [refreshKeyVisibile]='true'
+                                      [editKeyVisibile]='false'
+                                      [copyKeyVisibile]="false"
+                                      [infoKeyVisibile]='true'
+                                      [confirmKeyVisibile]="false"
+                                      [selezioneMultipla]='false'
+                                      [impostaSelezione]="selezioneHistGrid"
+                                      [AutoResize]="false"
+                                      [ManualResize]="effettuaAutoFitHistGrid"
+                                      [righeAutomatiche]="true"
+                                      [paginazione]="'scrollable'"
+                                      [datiNuovi]="datiGrigliaHistGrid && datiGrigliaHistGrid.DataTable"
+                                      [messaggioWarning]="messaggioWarningHistGrid"
+                                      [linkIcone]="Utils.linkIcone"
+                                      [keyWorkspace]="keyWorkspaceVisibileHistGrid"
+                                      [listaWorkSpaces]="listaWorkSpaces"
+                                      [deleteKeyVisibile]='keyWorkspaceVisibileHistGrid'
+                                      [processKeyVisibile]="true"
+
+                                      (deleteKeyPressed)="premutoDeleteActSetRecHistGrid($event)"
+                                      (processKeyPressed)="premutoProcessHistGrid($event)"
+                                      (keyWorkspaceEmit)="premutoWorkSpace($event, 'HIST_GRID')"
+                                      (cellClick)="clickSelezioneHistGrid($event)"
+                                      (lastSelectedOfGrid)='lastSelectedOfGridHistGrid($event)'
+                                      (refresh)="refreshGridHistGrid($event, false)"
+                                      (resetLayout)="refreshGridHistGrid($event, true)"
+                                      (ritornoDimensioniColonne)="ritornoDimensioniColonneHG($event)"
+                                    >
+                                    </app-ants-grid-lib>
+
+                                    <div *ngIf="caricamentoDatiInCorsoHistGrid == true" class="k-i-loading"
+                                      style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                    ></div>
+                                  </as-split-area>
+                                  <as-split-area [size]="67" style="overflow: hidden;">
+                                    <as-split direction="horizontal" [gutterSize]="dimensioneTcRun1 != 100 ? 3 : 0" [disabled]="dimensioneTcRun1 == 100">
+                                      <as-split-area [size]="dimensioneTcRun1">
+                                        <!-- 
+                                          SULLE GRIGLIE TC RUN TOGLIERE IL CARICAMENTO PARZIALE
+                                        -->
+                                        <app-ants-grid-lib
+                                          *ngIf="datiGrigliaAgent2"
+                                          [sessioneAttuale]="sessionService.getToken()"
+                                          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                          [indirizzoServer]="indirizzoServer"
+                                          [modalita]="'Griglia'"
+                                          [title]="nomeGrigliaAgent2"
+                                          [titleDaDatiGriglia]="true"
+                                          [data]="datiGrigliaAgent2"
+                                          [userName]="userName2"
+                                          [maskName]="userName2 + '_grigliaAgent2'"
+                                          [DimensioneFont]= "12"
+                                          [newKeyVisibile]='false'
+                                          [newKeyPersistant]="false"
+                                          [refreshKeyVisibile]='true'
+                                          [editKeyVisibile]='false'
+                                          [deleteKeyVisibile]='false'
+                                          [copyKeyVisibile]="false"
+                                          [infoKeyVisibile]='true'
+                                          [confirmKeyVisibile]="false"
+                                          [selezioneMultipla]='true'
+                                          [impostaSelezione]="selezioneAgent2"
+                                          [AutoResize]="false"
+                                          [ManualResize]="effettuaAutoFitAgent2"
+                                          [datiNuovi]="datiGrigliaAgent2 && datiGrigliaAgent2.DataTable"
+                                          [messaggioWarning]="messaggioWarningAgent2"
+                                          [righeAutomatiche]="false"
+                                          [paginazione]="'scrollable'"
+                                          [linkIcone]="Utils.linkIcone"
+                                          [keyWorkspace]="true"
+                                          [listaWorkSpaces]="listaWorkSpaces"
+                                          [processKeyVisibile]="false"
+                                          [keyWorkspace]="selezionatiTcRun2"
+                                          [tastoTicket]="selezionatiTcRun2"
+                                          [deleteKeyTcRunVisibile]='selezionatiTcRun2'
+                                          [tcRunInfoVisibile]="selezionatiTcRun2"
+                                          [getTcRunFilesKeyVisibile]="selezionatiTcRun2"
+
+                                          (getTcRunFilesKeyTcRunPressed)="fGetTcRunFiles($event, 1)"                            
+                                          (aperturaTcRunInfo)="aperturaTcRunInfo1()"
+                                          (deleteKeyTcRunPressed)='premutoTastoDeleteTCrunAgent2($event)'
+                                          (keyWorkspaceEmit)="premutoWorkSpace($event, 'TCRUNAGN')"
+                                          (cellClick)="clickSelezioneAgent2($event)"
+                                          (lastSelectedOfGrid)='lastSelectedOfGridDataAcquisition2($event)'
+                                          (refresh)='refreshGridAgent2($event, false)'
+                                          (resetLayout)='refreshGridAgent2($event, true)'
+                                          (editTicketPressed)="premutoTastoTicketTests($event)"
+                                          (clickSelezioneSuCheckRiga)='premutoCheckTcRunAgent2($event)'
+                                          (ritornoDimensioniColonne)="ritornoDimensioniColonneAgent2($event)"
+                                          (selectedAllRows)="selezionaTutteLeRigheAgent2($event, true)"
+                                          (deselectedAllRows)="selezionaTutteLeRigheAgent2($event, false)"
+                                        >
+                                        </app-ants-grid-lib>
+
+                                        <div *ngIf="caricamentoDatiInCorsoAgent2 == true" class="k-i-loading"
+                                          style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                        ></div>
+                                      </as-split-area>
+
+                                      <as-split-area [size]="dimensioneTcRun12">
+                                        <tcruninfo-component
+                                          [sessionID]="sessionService.getToken()"
+                                          [Utils]="Utils"
+                                          [debug]="false"
+                                          [userName]="userName"
+                                          [numeroFrame]="0"
+                                          [nomeGrigliaTII]="'tcRunInfoFleet1'"
+                                          [selezionatoTII]="selezionatoTcRunInfo1"
+                                          [nomeGrigliaTIF]="'tcRunFileFleet1'"
+                                          [selezionatoTIF]="selezionatoTcRunFile1"
+                                          [leggeDati]="ricaricaTcRun1"
+                                          [indirizzoServer]="indirizzoServer"
+                                          [listaWorkspaces]="listaWorkSpaces"
+                                          [operatorID]="operatorID"
+                                          [groupName]="groupName"
+                                          [urlRoot]="urlRoot"
+                                          [AgnOAct]="rigaSelezionataTcRun1"
+                                          [pulisceAppoggi]="pulisceDatiTcRunInfo1"
+                                          [modalitaRealTimeAttiva]="false"
+                                          [tcRunID]="rigaSelezionataTcRun12"
+                                          [actId]="actId1"
+                                          [refresh]="refreshTcRunInfoFile1"
+                                          [pulisce]="pulisceTcRunInfoFile1"
+                                  
+                                          (cambioTmsSelezionato)="cambioTmsDaTcRun1($event)"
+                                        ></tcruninfo-component>                          
+                                      </as-split-area>
+                                    </as-split>
+                                  </as-split-area>
+                                </as-split>
+                                </ng-template>
+                              </kendo-tabstrip-tab>
+
+                              <kendo-tabstrip-tab #tabTests2 [selected]="vecchioTab2 == 1">
+                                <ng-template kendoTabTitle>
+                                  <span>Agent Conf</span>
+                                </ng-template>
+                                <ng-template kendoTabContent>
+                                  <app-ants-grid-lib
+                                    *ngIf="datiGrigliaAgentInfo"
+                                    [sessioneAttuale]="sessionService.getToken()"
+                                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                    [indirizzoServer]="indirizzoServer"
+                                    [modalita]="'Griglia'"
+                                    [title]="nomeGrigliaAgentInfo"
+                                    [titleDaDatiGriglia]="true"
+                                    [data]="datiGrigliaAgentInfo"
+                                    [userName]="userName2"
+                                    [maskName]="userName2 + '_grigliaGDAI'"
+                                    [DimensioneFont]= "12"
+                                    [newKeyVisibile]='false'
+                                    [refreshKeyVisibile]='true'
+                                    [editKeyVisibile]='false'
+                                    [deleteKeyVisibile]='false'
+                                    [infoKeyVisibile]='true'
+                                    [confirmKeyVisibile]="false"
+                                    [impostaSelezione]="selezioneAgentInfo"
+                                    [AutoResize]="false"
+                                    [ManualResize]="effettuaAutoFitAgentInfo"
+                                    [righeAutomatiche]="false"
+                                    [paginazione]="'scrollable'"
+                                    [datiNuovi]="datiGrigliaAgentInfo && datiGrigliaAgentInfo.DataTable"
+                                    [messaggioWarning]="messaggioWarningAgentInfo"
+                                    [selezioneMultipla]="false"
+                                    [linkIcone]="Utils.linkIcone"
+                                    [raggruppabile]="true"
+                                    [campiPerRaggruppamento]="'FOLDER'"
+
+                                    (cellClick)="clickSelezioneAgentInfo($event)"
+                                    (lastSelectedOfGrid)='lastSelectedOfGridAgentInfo($event)'
+                                    (refresh)="refreshAgentInfo($event, false)"
+                                    (resetLayout)="refreshAgentInfo($event, true)"
+                                    (clickSuIconaEmit)="clickAgentInfoN($event)"
+                                    (ritornoDimensioniColonne)="ritornoDimensioniColonneAgentInfo($event)"
+                                  >
+                                  </app-ants-grid-lib>
+
+                                  <div *ngIf="caricamentoDatiInCorso42 == true" class="k-i-loading"
+                                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                  ></div>
+                                </ng-template>
+                              </kendo-tabstrip-tab>
+                            </kendo-tabstrip>
+                          </as-split-area>
+                        </as-split>
+                      </div>
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+
+                  <!-- <kendo-tabstrip-tab [title]="'Test Scenario'"> -->
+                  <kendo-tabstrip-tab [selected]="vecchioTab == 1" [disabled]="!permessiTab2.tab_monitoring">
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_monitoring !== true, 'tab_normale': permessiTab2.tab_monitoring !== false}">
+                        <span *ngIf="permessiTab2.tab_monitoring">Monitoring</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <div class="finestraCentrale">
+                        <as-split direction="horizontal">
+                          <as-split-area [size]="50">
+                            <!-- 
+                              [datiNuovi]="datiGrigliaTestExManDati && datiGrigliaTestExManDati.DataTable"
+                            -->
+                            <app-ants-grid-lib
+                              *ngIf="datiGrigliaTestExManDati"
+                              [sessioneAttuale]="sessionService.getToken()"
+                              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                              [indirizzoServer]="indirizzoServer"
+                              [modalita]="'Griglia'"
+                              [title]="nomeGrigliaTEMd"
+                              [titleDaDatiGriglia]="true"
+                              [data]="datiGrigliaTestExManDati"
+                              [userName]="userName"
+                              [maskName]="userName + '_grigliaTEMd'"
+                              [DimensioneFont]= "12"
+                              [newKeyVisibile]='false'
+                              [newKeyPersistant]="false"
+                              [refreshKeyVisibile]='true'
+                              [editKeyVisibile]='false'
+                              [deleteKeyVisibile]='false'
+                              [infoKeyVisibile]='true'
+                              [confirmKeyVisibile]="false"
+                              [selezioneMultipla]='false'
+                              [impostaSelezione]="selezioneTEMd"
+                              [AutoResize]="false"
+                              [ManualResize]="effettuaAutoFitTEMd"
+                              [righeAutomatiche]="false"
+                              [paginazione]="'scrollable'"
+                              [linkIcone]="Utils.linkIcone"
+                              [runKeyVisibile]="false"
+                              [raggruppabile]="true"
+                              [campiPerRaggruppamento]="'FOLDER'"
+
+                              (cellClick)="clickTEMDati($event)"
+                              (lastSelectedOfGrid)='lastSelectedOfGridTestExecutionManagerDati($event)'
+                              (refresh)="refreshGridTestExecutionManagerDati($event, false)"
+                              (resetLayout)="refreshGridTestExecutionManagerDati($event, true)"
+                              (clickSuGrafico)="clickSuGrafico($event)"
+                              (ritornoDimensioniColonne)="ritornoDimensioniColonneTEMd($event)"
+                            >
+                            </app-ants-grid-lib>
+
+                            <div *ngIf="caricamentoDatiInCorsoTEMd == true" class="k-i-loading"
+                            style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                            ></div>
+                          </as-split-area>
+                          <as-split-area [size]="50" style="overflow: hidden;">
+                            <as-split direction="horizontal" [gutterSize]="dimensioneTcRun2 != 100 ? 3 : 0" [disabled]="dimensioneTcRun2 == 100">
+                              <as-split-area [size]="dimensioneTcRun2">
+                                <!-- 
+                                  
+                                -->
+                                <app-ants-grid-lib
+                                  *ngIf="datiGrigliaTcRun"
+                                  [sessioneAttuale]="sessionService.getToken()"
+                                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [modalita]="'Griglia'"
+                                  [title]="nomeGrigliaTcRun"
+                                  [titleDaDatiGriglia]="true"
+                                  [data]="datiGrigliaTcRun"
+                                  [userName]="userName"
+                                  [maskName]="userName + '_grigliaTcRun'"
+                                  [DimensioneFont]= "12"
+                                  [newKeyVisibile]='false'
+                                  [newKeyPersistant]="false"
+                                  [refreshKeyVisibile]='true'
+                                  [editKeyVisibile]='false'
+                                  [deleteKeyTcRunVisibile]='true'
+                                  [infoKeyVisibile]='true'
+                                  [confirmKeyVisibile]="false"
+                                  [selezioneMultipla]='false'
+                                  [impostaSelezione]="selezioneTcRun2"
+                                  [AutoResize]="false"
+                                  [ManualResize]="effettuaAutoFitTcRun"
+                                  [datiNuovi]="datiGrigliaTcRun && datiGrigliaTcRun.DataTable"
+                                  [messaggioWarning]="messaggioWarningTcRun"
+                                  [righeAutomatiche]="false"
+                                  [paginazione]="'scrollable'"
+                                  [linkIcone]="Utils.linkIcone"
+                                  [runKeyVisibile]="false"
+                                  [keyWorkspace]="keyWorkspaceVisibileTcRun"
+                                  [listaWorkSpaces]="listaWorkSpaces"
+                                  [tastoTicket]="keyWorkspaceVisibileTcRun"
+                                  [tcRunInfoVisibile]="true"
+                                  [getTcRunFilesKeyVisibile]="true"
+
+                                  (getTcRunFilesKeyTcRunPressed)="fGetTcRunFiles($event, 2)"                    
+                                  (aperturaTcRunInfo)="aperturaTcRunInfo2()"
+                                  (deleteKeyTcRunPressed)='premutoTastoDeleteTCrun($event)'
+                                  (keyWorkspaceEmit)="premutoWorkSpace($event, 'TCRUN')"
+                                  (cellClick)="clickTcRun($event)"
+                                  (lastSelectedOfGrid)='lastSelectedOfGridTcRun($event)'
+                                  (refresh)="refreshGridTcRun($event, false)"
+                                  (resetLayout)="refreshGridTcRun($event, true)"
+                                  (editTicketPressed)="premutoTastoTicketMonitoring($event)"
+                                  (clickSelezioneSuCheckRiga)='premutoCheckTcRun($event)'
+                                  (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRun2($event)"
+                                >
+                                </app-ants-grid-lib>
+
+                                <div *ngIf="caricamentoDatiInCorsoTcRun == true" class="k-i-loading"
+                                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                ></div>
+                              </as-split-area>
+
+                              <as-split-area [size]="dimensioneTcRun22">
+                                <tcruninfo-component
+                                  [sessionID]="sessionService.getToken()"
+                                  [Utils]="Utils"
+                                  [debug]="false"
+                                  [userName]="userName"
+                                  [numeroFrame]="0"
+                                  [nomeGrigliaTII]="'tcRunInfoFleet2'"
+                                  [selezionatoTII]="selezionatoTcRunInfo2"
+                                  [nomeGrigliaTIF]="'tcRunFileFleet2'"
+                                  [selezionatoTIF]="selezionatoTcRunFile2"
+                                  [leggeDati]="ricaricaTcRun2"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [listaWorkspaces]="listaWorkSpaces"
+                                  [operatorID]="operatorID"
+                                  [groupName]="groupName"
+                                  [urlRoot]="urlRoot"
+                                  [AgnOAct]="rigaSelezionataTcRun2"
+                                  [pulisceAppoggi]="pulisceDatiTcRunInfo2"
+                                  [modalitaRealTimeAttiva]="false"
+                                  [tcRunID]="rigaSelezionataTcRun22"
+                                  [actId]="actId3"
+                                  [refresh]="refreshTcRunInfoFile3"
+                                  [pulisce]="pulisceTcRunInfoFile3"
+                          
+                                  (cambioTmsSelezionato)="cambioTmsDaTcRun2($event)"
+                                ></tcruninfo-component>                          
+                              </as-split-area>
+                            </as-split>
+                          </as-split-area>
+                        </as-split>
+                      </div>
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+
+                  <kendo-tabstrip-tab [selected]="vecchioTab == 2" [disabled]="!permessiTab2.tab_test_scenario">
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_test_scenario !== true, 'tab_normale': permessiTab2.tab_test_scenario !== false}">
+                        <span *ngIf="permessiTab2.tab_test_scenario">Test Scenario</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <div class="finestraCentrale">
+                        <as-split direction="horizontal">
+                          <as-split-area [size]="25">
+                            <!-- 
+                            -->
+                            <app-ants-grid-lib                          
+                              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                              [sessioneAttuale]="sessionService.getToken()"
+                              [indirizzoServer]="indirizzoServer"
+                              [modalita]="'Griglia'"
+                              [title]="nomeGriglia2"
+                              [titleDaDatiGriglia]="true"
+                              [data]="datiGrigliaTestScenario"
+                              [userName]="userName2"
+                              [maskName]="userName2 + '_grigliaTC2'"
+                              [DimensioneFont]= "12"
+                              [newKeyVisibile]='true'
+                              [newKeyPersistant]="true"
+                              [refreshKeyVisibile]='true'
+                              [editKeyVisibile]='tastoEdit2 && (this.rigaSelezionata2 && this.rigaSelezionata2.length == 1)'
+                              [deleteKeyVisibile]='tastoDelete2 && (this.rigaSelezionata2 && this.rigaSelezionata2.length == 1)'
+                              [copyKeyVisibile]="tastoCopia2"
+                              [infoKeyVisibile]='true'
+                              [confirmKeyVisibile]="false"
+                              [selezioneMultipla]='true'
+                              [impostaSelezione]="selezione2"
+                              [AutoResize]="false"
+                              [ManualResize]="effettuaAutoFitTS"
+                              [datiNuovi]="datiGrigliaTestScenario && datiGrigliaTestScenario.DataTable"
+                              [messaggioWarning]="messaggioWarningTestScenario"
+                              [righeAutomatiche]="false"
+                              [paginazione]="'scrollable'"
+                              [linkIcone]="Utils.linkIcone"
+                              [runKeyVisibile]="(this.rigaSelezionata2 && this.rigaSelezionata2.length >= 1)"
+                              [keyWorkspace]="false"
+                              [listaWorkSpaces]="listaWorkSpaces"
+                              [rePlayKeyVisibile]="replayVisibile"
+                              [eliminaSelezioniSuClickRiga]='true'
+
+                              (keyWorkspaceEmit)="premutoWorkSpace($event, 'TESTSCENARIO')"
+                              (cellClick)="clickSelezioneTestScenario($event)"
+                              (lastSelectedOfGrid)='lastSelectedOfGridTestScenario($event)'
+                              (refresh)="refreshGridTestScenario($event, false)"
+                              (resetLayout)="refreshGridTestScenario($event, true)"
+                              (deleteKeyPressed)="deletePremutoTestScenario()"
+                              (editKeyPressed)="editPremutoTestScenario()"
+                              (newKeyPressed)="newPremutoTestScenario($event)"
+                              (runKeyPressed)="runKeyPremuto($event)"
+                              (rePlayKeyPressed)="replayPremuto($event)"
+                              (ritornoDimensioniColonne)="ritornoDimensioniColonneTS($event)"
+                              (clickSelezioneSuCheckRiga)='premutoCheckTestScenario($event)'
+                            >
+                            </app-ants-grid-lib>
+
+                            <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+                              style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                            ></div>
+                          </as-split-area>
+                          <as-split-area [size]="75">
+                            <kendo-tabstrip (tabSelect)="onTabChanged3($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+                              <kendo-tabstrip-tab #tabgroupTS2 [selected]="vecchioTab3 == 0" [disabled]="!permessiTab2.tab_test_scenario">
+                                <ng-template kendoTabTitle>
+                                  <span>Configuration</span>
+                                </ng-template>
+                                <ng-template kendoTabContent>
+                                  <app-ants-grid-lib
+                                    *ngIf="datiGrigliaTestScenario2"
+                                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                    [sessioneAttuale]="sessionService.getToken()"
+                                    [indirizzoServer]="indirizzoServer"
+                                    [modalita]="'Griglia'"
+                                    [title]="nomeGriglia3"
+                                    [titleDaDatiGriglia]="true"
+                                    [data]="datiGrigliaTestScenario2"
+                                    [userName]="userName2"
+                                    [maskName]="userName2 + '_grigliaTC3'"
+                                    [DimensioneFont]= "12"
+                                    [newKeyVisibile]='false'
+                                    [refreshKeyVisibile]='false'
+                                    [editKeyVisibile]='false'
+                                    [deleteKeyVisibile]='false'
+                                    [copyKeyVisibile]="false"
+                                    [infoKeyVisibile]='true'
+                                    [confirmKeyVisibile]="false"
+                                    [selezioneMultipla]='false'
+                                    [impostaSelezione]="selezione3"
+                                    [AutoResize]="false"
+                                    [ManualResize]="effettuaAutoFitTS2"
+                                    [datiNuovi]="datiGrigliaTestScenario2 && datiGrigliaTestScenario2.DataTable"
+                                    [messaggioWarning]="messaggioWarningTestScenario2"
+                                    [righeAutomatiche]="false"
+                                    [paginazione]="'scrollable'"
+                                    [linkIcone]="Utils.linkIcone"
+                                    [raggruppabile]="true"
+                                    [campiPerRaggruppamento]="'TC_NAME'"
+
+                                    (cellClick)="clickSelezione3($event)"
+                                    (refresh)="refreshTestScenario($event, false)"
+                                    (resetLayout)="refreshTestScenario($event, true)"
+                                    (lastSelectedOfGrid)='lastSelectedOfGrid3($event)'
+                                    (clickSuIconaEmit)="apreCombo5N2($event.dati, 'TESTDESIGNCONFIG')"
+                                    (ritornoDimensioniColonne)="ritornoDimensioniColonneTS2($event)"
+                                  >
+                                  </app-ants-grid-lib>
+
+                                  <div *ngIf="caricamentoDatiInCorso3 == true" class="k-i-loading"
+                                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                  ></div>
+                                </ng-template>
+                              </kendo-tabstrip-tab>
+
+                              <kendo-tabstrip-tab [selected]="vecchioTab3 == 1" >
+                                <ng-template kendoTabTitle>
+                                  <span>Test Run</span>
+                                </ng-template>
+                                <ng-template kendoTabContent>
+                                  <div class="finestraCentrale">
+                                    <as-split direction="vertical">
+                                      <as-split-area [size]="50">
+                                        <app-ants-grid-lib
+                                          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                          [sessioneAttuale]="sessionService.getToken()"
+                                          [indirizzoServer]="indirizzoServer"
+                                          [modalita]="'Griglia'"
+                                          [title]="nomeGrigliaActivityTS"
+                                          [titleDaDatiGriglia]="true"
+                                          [data]="datiGrigliaActivityTS"
+                                          [userName]="userName2"
+                                          [maskName]="userName2 + '_grigliaActivityTS'"
+                                          [DimensioneFont]= "12"
+                                          [newKeyVisibile]='true'
+                                          [newKeyPersistant]="true"
+                                          [refreshKeyVisibile]='true'
+                                          [editKeyVisibile]='true'
+                                          [copyKeyVisibile]="false"
+                                          [infoKeyVisibile]='true'
+                                          [confirmKeyVisibile]="false"
+                                          [selezioneMultipla]='false'
+                                          [impostaSelezione]="selezioneActivityTS"
+                                          [AutoResize]="false"
+                                          [ManualResize]="effettuaAutoFitActivityTS"
+                                          [righeAutomatiche]="false"
+                                          [paginazione]="'scrollable'"
+                                          [datiNuovi]="datiGrigliaActivityTS && datiGrigliaActivityTS.DataTable"
+                                          [messaggioWarning]="messaggioWarningActivityTS"
+                                          [linkIcone]="Utils.linkIcone"
+                                          [keyWorkspace]="keyWorkspaceVisibileActivityTS"
+                                          [listaWorkSpaces]="listaWorkSpaces"
+                                          [deleteKeyVisibile]='true && (this.RigaSelezioneActivityTS && this.RigaSelezioneActivityTS.length > 0)'
+                                          [processKeyVisibile]="true"
+
+                                          (editKeyPressed)="premutoTastoEditActivity($event, 'TestRun')"
+                                          (deleteKeyPressed)="premutoDeleteActSetRecActivityTS($event)"
+                                          (processKeyPressed)="premutoProcessActivityTS($event)"
+                                          (keyWorkspaceEmit)="premutoWorkSpace($event, 'HIST_GRID2')"
+                                          (cellClick)="clickSelezioneActivityTS($event)"
+                                          (lastSelectedOfGrid)='lastSelectedOfGridActivityTS($event)'
+                                          (refresh)="refreshGridActivityTS($event, false)"
+                                          (resetLayout)="refreshGridActivityTS($event, true)"
+                                          (ritornoDimensioniColonne)="ritornoDimensioniColonneATS($event)"
+                                        >
+                                        </app-ants-grid-lib>
+
+                                        <div *ngIf="caricamentoDatiInCorsoActivityTS == true" class="k-i-loading"
+                                          style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                        ></div>
+                                      </as-split-area>
+                                      <as-split-area [size]="50" style="overflow: hidden;">
+                                        <as-split direction="horizontal" [gutterSize]="dimensioneTcRun3 != 100 ? 3 : 0" [disabled]="dimensioneTcRun3 == 100">
+                                          <as-split-area [size]="dimensioneTcRun3">
+                                            <!--
+                                              
+                                            -->
+                                            <app-ants-grid-lib
+                                              *ngIf="datiGrigliaTcRun"
+                                              [sessioneAttuale]="sessionService.getToken()"
+                                              [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                              [indirizzoServer]="indirizzoServer"
+                                              [modalita]="'Griglia'"
+                                              [title]="nomeGrigliaTcRun"
+                                              [titleDaDatiGriglia]="true"
+                                              [data]="datiGrigliaTcRun"
+                                              [userName]="userName"
+                                              [maskName]="userName + '_grigliaTcRun'"
+                                              [DimensioneFont]= "12"
+                                              [newKeyVisibile]='false'
+                                              [newKeyPersistant]="false"
+                                              [refreshKeyVisibile]='true'
+                                              [editKeyVisibile]='false'
+                                              [deleteKeyTcRunVisibile]='true'
+                                              [infoKeyVisibile]='true'
+                                              [confirmKeyVisibile]="false"
+                                              [selezioneMultipla]='true'
+                                              [impostaSelezione]="selezioneTcRun2"
+                                              [AutoResize]="false"
+                                              [ManualResize]="effettuaAutoFitTcRun"
+                                              [datiNuovi]="datiGrigliaTcRun && datiGrigliaTcRun.DataTable"
+                                              [messaggioWarning]="messaggioWarningTcRun"
+                                              [righeAutomatiche]="false"
+                                              [paginazione]="'scrollable'"
+                                              [linkIcone]="Utils.linkIcone"
+                                              [runKeyVisibile]="false"
+                                              [keyWorkspace]="selezionatiTcRun3"
+                                              [listaWorkSpaces]="listaWorkSpaces"
+                                              [tastoTicket]="selezionatiTcRun3"
+                                              [tcRunInfoVisibile]="selezionatiTcRun3"
+                                              [getTcRunFilesKeyVisibile]="selezionatiTcRun3"
+
+                                              (getTcRunFilesKeyTcRunPressed)="fGetTcRunFiles($event, 3)"                              
+                                              (aperturaTcRunInfo)="aperturaTcRunInfo3()"
+                                              (deleteKeyTcRunPressed)='premutoTastoDeleteTCrun($event)'
+                                              (keyWorkspaceEmit)="premutoWorkSpace($event, 'TCRUN')"
+                                              (cellClick)="clickTcRun($event)"
+                                              (lastSelectedOfGrid)='lastSelectedOfGridTcRun($event)'
+                                              (refresh)="refreshGridTcRun($event, false)"
+                                              (resetLayout)="refreshGridTcRun($event, true)"
+                                              (editTicketPressed)="premutoTastoTicketTestRun($event)"
+                                              (clickSelezioneSuCheckRiga)='premutoCheckTcRun($event)'
+                                              (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRun3($event)"
+                                            >
+                                            </app-ants-grid-lib>
+
+                                            <div *ngIf="caricamentoDatiInCorsoTcRun == true" class="k-i-loading"
+                                              style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                            ></div>
+                                          </as-split-area>
+
+                                          <as-split-area [size]="dimensioneTcRun32">
+                                            <tcruninfo-component
+                                              [sessionID]="sessionService.getToken()"
+                                              [Utils]="Utils"
+                                              [debug]="false"
+                                              [userName]="userName"
+                                              [numeroFrame]="0"
+                                              [nomeGrigliaTII]="'tcRunInfoFleet3'"
+                                              [selezionatoTII]="selezionatoTcRunInfo3"
+                                              [nomeGrigliaTIF]="'tcRunFileFleet3'"
+                                              [selezionatoTIF]="selezionatoTcRunFile3"
+                                              [leggeDati]="ricaricaTcRun3"
+                                              [indirizzoServer]="indirizzoServer"
+                                              [listaWorkspaces]="listaWorkSpaces"
+                                              [operatorID]="operatorID"
+                                              [groupName]="groupName"
+                                              [urlRoot]="urlRoot"
+                                              [AgnOAct]="rigaSelezionataTcRun3"
+                                              [pulisceAppoggi]="pulisceDatiTcRunInfo3"
+                                              [modalitaRealTimeAttiva]="false"
+                                              [tcRunID]="rigaSelezionataTcRun32"
+                                              [actId]="actId3"
+                                              [pulisce]="pulisceTcRunInfoFile3"
+                                              [refresh]="refreshTcRunInfoFile3"
+                                      
+                                              (cambioTmsSelezionato)="cambioTmsDaTcRun3($event)"
+                                            ></tcruninfo-component>                          
+                                          </as-split-area>
+      
+                                        </as-split>
+                                      </as-split-area>
+                                    </as-split>
+                                  </div>
+                                </ng-template>
+                              </kendo-tabstrip-tab>
+                            </kendo-tabstrip>
+                          </as-split-area>
+                        </as-split>
+                      </div>
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+
+                  <kendo-tabstrip-tab [selected]="vecchioTab == 3" [disabled]="!permessiTab2.tab_activities_by_day">
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_activities_by_day !== true, 'tab_normale': permessiTab2.tab_activities_by_day !== false}">
+                        <span *ngIf="permessiTab2.tab_activities_by_day">Activities By Day</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <!-- <ng-template kendoTabContent> -->
+                      <div class="finestraCentrale">
+                        <as-split direction="vertical">
+                          <as-split-area [size]="40">
+                            <as-split direction="horizontal">
+                              <as-split-area [size]="25">
+                                <app-ants-grid-lib
+                                  *ngIf="datiGrigliaDataAcquisition"
+                                  [sessioneAttuale]="sessionService.getToken()"
+                                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [modalita]="'Griglia'"
+                                  [title]="nomeGrigliaDataAcquisition"
+                                  [titleDaDatiGriglia]="true"
+                                  [data]="datiGrigliaDataAcquisition"
+                                  [userName]="userName2"
+                                  [maskName]="userName2 + '_grigliaDA1'"
+                                  [DimensioneFont]= "12"
+                                  [newKeyVisibile]='false'
+                                  [refreshKeyVisibile]='true'
+                                  [editKeyVisibile]='false'
+                                  [deleteKeyVisibile]='false'
+                                  [infoKeyVisibile]='true'
+                                  [confirmKeyVisibile]="false"
+                                  [impostaSelezione]="selezione8"
+                                  [AutoResize]="false"
+                                  [ManualResize]="effettuaAutoFit8"
+                                  [righeAutomatiche]="false"
+                                  [paginazione]="'scrollable'"
+                                  [datiNuovi]="datiGrigliaDataAcquisition && datiGrigliaDataAcquisition.DataTable"
+                                  [messaggioWarning]="messaggioWarningDataAcquisition"
+                                  [selezioneMultipla]="false"
+                                  [linkIcone]="Utils.linkIcone"
+                                  [keyWorkspace]="true"
+                                  [listaWorkSpaces]="listaWorkSpaces"
+
+                                  (keyWorkspaceEmit)="premutoWorkSpace($event, 'DATAACQUISITION')"
+                                  (cellClick)="clickSelezioneDataAcquisition($event)"
+                                  (lastSelectedOfGrid)='lastSelectedOfGridDataAcquisition($event)'
+                                  (editKeyPressed)="mascheraModificaAttivaComboDataAcquisition = true"
+                                  (refresh)="refreshDataAcquisition($event, false)"
+                                  (resetLayout)="refreshDataAcquisition($event, true)"
+                                  (ritornoDimensioniColonne)="ritornoDimensioniColonneDA1($event)"
+                                >
+                                </app-ants-grid-lib>
+
+                                <div *ngIf="caricamentoDatiInCorso8 == true" class="k-i-loading"
+                                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                ></div>
+                              </as-split-area>
+                              <!-- dimensioneSplitAbD1 -->
+                              <as-split-area [size]="75">
+                                <app-ants-grid-lib
+                                  *ngIf="datiGrigliaDataAcquisition2"
+                                  [sessioneAttuale]="sessionService.getToken()"
+                                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [modalita]="'Griglia'"
+                                  [title]="nomeGrigliaDataAcquisition2"
+                                  [titleDaDatiGriglia]="true"
+                                  [data]="datiGrigliaDataAcquisition2"
+                                  [userName]="userName2"
+                                  [maskName]="userName2 + '_grigliaDA2'"
+                                  [DimensioneFont]= "12"
+                                  [newKeyVisibile]='false'
+                                  [refreshKeyVisibile]='selezioneByDay'
+                                  [editKeyVisibile]='selezioneByDay'
+                                  [deleteKeyVisibile]='selezioneByDay'
+                                  [processKeyVisibile]="selezioneByDay"
+                                  [infoKeyVisibile]='selezioneByDay'
+                                  [confirmKeyVisibile]="false"
+                                  [selezioneMultipla]='true'
+                                  [impostaSelezione]="selezioneDataAcquisition2"
+                                  [AutoResize]="false"
+                                  [ManualResize]="effettuaAutoFitDataAcquisition2"
+                                  [righeAutomatiche]="false"
+                                  [paginazione]="'scrollable'"
+                                  [eliminaSelezioniSuClickRiga]='true'
+                                  [datiNuovi]="datiGrigliaDataAcquisition2 && datiGrigliaDataAcquisition2.DataTable"
+                                  [messaggioWarning]="messaggioWarningDataAcquisition2"
+                                  [linkIcone]="Utils.linkIcone"
+                                  [keyWorkspace]="selezioneByDay"
+                                  [listaWorkSpaces]="listaWorkSpaces"
+
+                                  (cellClick)="clickSelezioneDataAcquisition2($event)"
+                                  (editKeyPressed)="premutoTastoEditActivity($event, 'DataAcquisition2')"
+                                  (keyWorkspaceEmit)="premutoWorkSpace($event, 'DATACQUISITION2')"
+                                  (clickSelezioneSuCheckRiga)='clickSelezioneCheckDataAcquisition2($event)'
+                                  (lastSelectedOfGrid)='lastSelectedOfGridDataAcquisition2($event)'
+                                  (refresh)='refreshGridDataAcquisition2($event, false)'
+                                  (resetLayout)='refreshGridDataAcquisition2($event, true)'
+                                  (deleteKeyPressed)="premutoDeleteActSetRec($event)"
+                                  (processKeyPressed)="premutoProcess($event)"
+                                  (ritornoDimensioniColonne)="ritornoDimensioniColonneDA2($event)"
+                                  (selectedAllRows)="selezioneTutteLeRigheDA2($event, true)"
+                                  (deselectedAllRows)="selezioneTutteLeRigheDA2($event, false)"
+                                >
+                                </app-ants-grid-lib>
+
+                                <div *ngIf="caricamentoDatiInCorsoDataAcquisition2 == true" class="k-i-loading"
+                                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                ></div>
+                              </as-split-area>
+                            </as-split>
+                          </as-split-area>
+                          <!-- dimensioneSplitAbD2 -->
+                          <as-split-area *ngIf="FleetManagerAdvancedMonitoring2 == true" [size]="60" style="overflow: hidden;">
+                            <as-split direction="horizontal" [gutterSize]="dimensioneTcRun4 != 100 ? 3 : 0" [disabled]="dimensioneTcRun4 == 100">
+                              <as-split-area [size]="dimensioneTcRun4">
+                                <app-ants-grid-lib
+                                  *ngIf="datiGrigliaTcRunAct"
+                                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                  [sessioneAttuale]="sessionService.getToken()"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [modalita]="'Griglia'"
+                                  [title]="nomeGrigliaTcRunAct"
+                                  [titleDaDatiGriglia]="true"
+                                  [data]="datiGrigliaTcRunAct"
+                                  [userName]="userName"
+                                  [maskName]="userName + '_grigliaTcRunAct'"
+                                  [DimensioneFont]= "12"
+                                  [newKeyVisibile]='false'
+                                  [newKeyPersistant]="false"
+                                  [refreshKeyVisibile]='true'
+                                  [editKeyVisibile]='false'
+                                  [deleteKeyTcRunVisibile]='true'
+                                  [infoKeyVisibile]='true'
+                                  [confirmKeyVisibile]="false"
+                                  [selezioneMultipla]='true'
+                                  [impostaSelezione]="selezioneTcRun2Act"
+                                  [AutoResize]="false"
+                                  [ManualResize]="effettuaAutoFitTcRunAct"
+                                  [datiNuovi]="datiGrigliaTcRunAct && datiGrigliaTcRunAct.DataTable"
+                                  [messaggioWarning]="messaggioWarningTcRunAct"
+                                  [righeAutomatiche]="false"
+                                  [paginazione]="'scrollable'"
+                                  [linkIcone]="Utils.linkIcone"
+                                  [runKeyVisibile]="false"
+                                  [keyWorkspace]="selezionatiTcRun3"
+                                  [listaWorkSpaces]="listaWorkSpaces"
+                                  [tastoTicket]="selezionatiTcRun3"
+                                  [tcRunInfoVisibile]="selezionatiTcRun3"
+                                  [getTcRunFilesKeyVisibile]="selezionatiTcRun3"
+
+                                  (getTcRunFilesKeyTcRunPressed)="fGetTcRunFiles($event, 4)"                    
+                                  (aperturaTcRunInfo)="aperturaTcRunInfo4()"
+                                  (deleteKeyTcRunPressed)='premutoTastoDeleteTCrunAct($event)'
+                                  (keyWorkspaceEmit)="premutoWorkSpace($event, 'TCRUNACT')"
+                                  (cellClick)="clickTcRunAct($event)"
+                                  (lastSelectedOfGrid)='lastSelectedOfGridTcRun($event)'
+                                  (refresh)="refreshGridTcRunAct($event, false)"
+                                  (resetLayout)="refreshGridTcRunAct($event, true)"
+                                  (editTicketPressed)="premutoTastoTicketAByDay($event)"
+                                  (clickSelezioneSuCheckRiga)='premutoCheckTcRunAct($event)'
+                                  (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRun2Act($event)"
+                                  (selectedAllRows)="selezioneTutteLeRigheTcRun2Act($event, true)"
+                                  (deselectedAllRows)="selezioneTutteLeRigheTcRun2Act($event, false)"
+                                >
+                                </app-ants-grid-lib>
+
+                                <div *ngIf="caricamentoDatiInCorsoTcRunAct == true" class="k-i-loading"
+                                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                ></div>
+                              </as-split-area>
+                              <as-split-area [size]="dimensioneTcRun42">
+                                <tcruninfo-component
+                                  [sessionID]="sessionService.getToken()"
+                                  [Utils]="Utils"
+                                  [debug]="false"
+                                  [userName]="userName"
+                                  [numeroFrame]="0"
+                                  [nomeGrigliaTII]="'tcRunInfoFleet4'"
+                                  [selezionatoTII]="selezionatoTcRunInfo4"
+                                  [nomeGrigliaTIF]="'tcRunFileFleet4'"
+                                  [selezionatoTIF]="selezionatoTcRunFile4"
+                                  [leggeDati]="ricaricaTcRun4"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [listaWorkspaces]="listaWorkSpaces"
+                                  [operatorID]="operatorID"
+                                  [groupName]="groupName"
+                                  [urlRoot]="urlRoot"
+                                  [AgnOAct]="rigaSelezionataTcRun4"
+                                  [pulisceAppoggi]="pulisceDatiTcRunInfo4"
+                                  [modalitaRealTimeAttiva]="false"
+                                  [tcRunID]="rigaSelezionataTcRun42"
+                                  [pulisce]="pulisceTcRunInfoFile"
+                                  [actId]="actId4"
+                                  [refresh]="refreshTcRunInfoFile4"
+                          
+                                  (cambioTmsSelezionato)="cambioTmsDaTcRun4($event)"
+                                ></tcruninfo-component>                          
+                              </as-split-area>
+                            </as-split>
+                          </as-split-area>
+                        </as-split>
+                      </div>
+                      <!-- </ng-template> -->
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+
+                  <kendo-tabstrip-tab [selected]="vecchioTab == 4" [disabled]="!permessiTab2.tab_agent_group_conf">
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_agent_group_conf !== true, 'tab_normale': permessiTab2.tab_agent_group_conf !== false}">
+                        <span *ngIf="permessiTab2.tab_agent_group_conf">Agent Group Conf</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <kendo-tabstrip #tabgroupAgent id="tabgroupAGC"  (tabSelect)="onTabChanged4($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+                        <kendo-tabstrip-tab [selected]="vecchioTab4 == 0" >
+                          <ng-template kendoTabTitle>
+                            <span>AgnGroup Prof</span>
+                          </ng-template>
+                          <ng-template kendoTabContent>
+                            <div class="finestraCentrale">
+                              <app-ants-grid-lib
+                                *ngIf="datiGrigliaAgentProfile"
+                                [sessioneAttuale]="sessionService.getToken()"
+                                [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                [indirizzoServer]="indirizzoServer"
+                                [modalita]="'Griglia'"
+                                [title]="nomeGrigliaAgentProfile"
+                                [titleDaDatiGriglia]="true"
+                                [data]="datiGrigliaAgentProfile"
+                                [userName]="userName2"
+                                [maskName]="userName2 + '_grigliaGC5'"
+                                [DimensioneFont]= "12"
+                                [newKeyVisibile]='false'
+                                [refreshKeyVisibile]='true'
+                                [editKeyVisibile]='true'
+                                [editKeyPersistant]="true"
+                                [deleteKeyVisibile]='false'
+                                [infoKeyVisibile]='true'
+                                [confirmKeyVisibile]="false"
+                                [impostaSelezione]="selezione5"
+                                [AutoResize]="false"
+                                [ManualResize]="effettuaAutoFit5"
+                                [righeAutomatiche]="false"
+                                [paginazione]="'scrollable'"
+                                [raggruppabile]="true"
+                                [campiPerRaggruppamento]="'FOLDER'"
+                                [datiNuovi]="datiGrigliaAgentProfile && datiGrigliaAgentProfile.DataTable"
+                                [messaggioWarning]="messaggioWarningAgentProfile"
+                                [selezioneMultipla]="false"
+                                [linkIcone]="Utils.linkIcone"
+                                [cambioTitolo]="nomeGrigliaAgentProfile"
+
+                                (cellClick)="clickSelezioneAgentProfile($event)"
+                                (lastSelectedOfGrid)='lastSelectedOfGridAgentProfile($event)'
+                                (editKeyPressed)="apreCombo5()"
+                                (clickSuIconaEmit)="apreCombo5N2($event.dati, 'AGENTSPROFILE')"
+                                (refresh)="refreshAgentProfile($event, false)"
+                                (resetLayout)="refreshAgentProfile($event, true)"
+                                (ritornoDimensioniColonne)="ritornoDimensioniColonneGC5($event)"
+                              >
+                              </app-ants-grid-lib>
+
+                              <div *ngIf="caricamentoDatiInCorso5 == true" class="k-i-loading"
+                                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                              ></div>
+                            </div>
+                            <!-- </ng-template> -->
+                          </ng-template>
+                        </kendo-tabstrip-tab>
+
+                        <!-- <kendo-tabstrip-tab [title]="'Test Scenario Library'"> -->
+                        <kendo-tabstrip-tab [selected]="vecchioTab4 == 1" >
+                          <ng-template kendoTabTitle>
+                            <span>Local Test Lib</span>
+                          </ng-template>
+                          <ng-template kendoTabContent>
+                            <as-split direction="horizontal">
+                              <as-split-area [size]="50">
+                                <div class="finestraCentrale">
+                                  <app-ants-grid-lib
+                                    *ngIf="datiGriglia6"
+                                    [sessioneAttuale]="sessionService.getToken()"
+                                    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                    [indirizzoServer]="indirizzoServer"
+                                    [modalita]="'Griglia'"
+                                    [title]="nomeGriglia6"
+                                    [titleDaDatiGriglia]="true"
+                                    [data]="datiGriglia6"
+                                    [userName]="userName2"
+                                    [maskName]="userName2 + '_grigliaGC6'"
+                                    [DimensioneFont]= "12"
+                                    [refreshKeyVisibile]='true'
+                                    [editKeyVisibile]='editKeyVisibile6'
+                                    [deleteKeyVisibile]='deleteKeyVisibile6'
+                                    [infoKeyVisibile]='true'
+                                    [confirmKeyVisibile]="false"
+                                    [impostaSelezione]="selezione6"
+                                    [AutoResize]="true"
+                                    [ManualResize]="effettuaAutoFit6"
+                                    [righeAutomatiche]="false"
+                                    [paginazione]="'scrollable'"
+                                    [datiNuovi]="datiGriglia6 && datiGriglia6.DataTable"
+                                    [messaggioWarning]="messaggioWarning6"
+                                    [selezioneMultipla]="false"
+                                    [linkIcone]="Utils.linkIcone"
+                                    [raggruppabile]="true"
+                                    [campiPerRaggruppamento]="'TS_FOLDER'"
+
+                                    (cellClick)="clickSelezione6($event)"
+                                    (lastSelectedOfGrid)='lastSelectedOfGrid6($event)'
+                                    (deleteKeyPressed)="deletePremuto6($event)"
+                                    (editKeyPressed)="editPremuto6($event)"
+                                    (refresh)="refreshGrid6($event, false)"
+                                    (resetLayout)="refreshGrid6($event, true)"
+                                    (clickSuIconaEmit)="newPremuto62($event.dati)"
+                                    (ritornoDimensioniColonne)="ritornoDimensioniColonneGC6($event)"
+                                  >
+                                  </app-ants-grid-lib>
+
+                                  <div *ngIf="caricamentoDatiInCorso6 == true" class="k-i-loading"
+                                    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                  ></div>
+                                </div>
+                              </as-split-area>
+                              <as-split-area [size]="50">
+                                <app-ants-grid-lib
+                                  *ngIf="datiGriglia62"
+                                  [sessioneAttuale]="sessionService.getToken()"
+                                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                                  [indirizzoServer]="indirizzoServer"
+                                  [modalita]="'Griglia'"
+                                  [title]="nomeGriglia62"
+                                  [titleDaDatiGriglia]="true"
+                                  [data]="datiGriglia62"
+                                  [userName]="userName2"
+                                  [maskName]="userName2 + '_grigliaGC62'"
+                                  [DimensioneFont]= "12"
+                                  [refreshKeyVisibile]='true'
+                                  [editKeyVisibile]='editKeyVisibile62'
+                                  [deleteKeyVisibile]='deleteKeyVisibile62'
+                                  [infoKeyVisibile]='true'
+                                  [confirmKeyVisibile]="false"
+                                  [impostaSelezione]="selezione62"
+                                  [AutoResize]="false"
+                                  [ManualResize]="effettuaAutoFit62"
+                                  [righeAutomatiche]="false"
+                                  [paginazione]="'scrollable'"
+                                  [datiNuovi]="datiGriglia62 && datiGriglia62.DataTable"
+                                  [messaggioWarning]="messaggioWarning62"
+                                  [selezioneMultipla]="false"
+                                  [linkIcone]="Utils.linkIcone"
+                                  [raggruppabile]="true"
+                                  [campiPerRaggruppamento]="'TC_NAME'"
+
+                                  (cellClick)="clickSelezione62($event)"
+                                  (clickSuIconaEmit)="apreCombo5N2($event.dati, 'TESTDESIGNCONFIG2')"
+                                  (ritornoDimensioniColonne)="ritornoDimensioniColonneGC62($event)"
+                                >
+
+                                <!-- (cellClick)="clickSelezione62($event)"
+                                (lastSelectedOfGrid)='lastSelectedOfGrid62($event)'
+                                (deleteKeyPressed)="deletePremuto62($event)"
+                                (editKeyPressed)="editPremuto62($event)"
+                                (refresh)="refreshGrid62($event)"
+                                (clickSuIconaEmit)="newPremuto622($event.dati)" -->
+
+                                </app-ants-grid-lib>
+
+                                <div *ngIf="caricamentoDatiInCorso62 == true" class="k-i-loading"
+                                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                                ></div>
+                              </as-split-area>
+                            </as-split>
+                          </ng-template>
+                        </kendo-tabstrip-tab>
+                        <!-- </kendo-tabstrip-tab> -->
+                      </kendo-tabstrip>
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+
+                  <!-- <kendo-tabstrip-tab [title]="'Query Package'"> -->
+                  <kendo-tabstrip-tab *ngIf="queryPck2 && queryPck2 != 'N'" [selected]="vecchioTab == 5" >
+                    <ng-template kendoTabTitle>
+                      <span>Query Package</span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <div class="finestraCentrale">
+                        <app-ants-grid-lib
+                          *ngIf="datiGrigliaQueryPCK"
+                          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                          [sessioneAttuale]="sessionService.getToken()"
+                          [indirizzoServer]="indirizzoServer"
+                          [modalita]="'Griglia'"
+                          [title]="nomeGrigliaQueryPCK"
+                          [titleDaDatiGriglia]="true"
+                          [data]="datiGrigliaQueryPCK"
+                          [userName]="userName2"
+                          [maskName]="userName2 + '_grigliaGC7'"
+                          [DimensioneFont]= "12"
+                          [newKeyVisibile]='false'
+                          [refreshKeyVisibile]='true'
+                          [editKeyVisibile]='true'
+                          [editKeyPersistant]="true"
+                          [deleteKeyVisibile]='false'
+                          [infoKeyVisibile]='true'
+                          [confirmKeyVisibile]="false"
+                          [impostaSelezione]="selezione7"
+                          [AutoResize]="false"
+                          [ManualResize]="effettuaAutoFit7"
+                          [righeAutomatiche]="false"
+                          [paginazione]="'scrollable'"
+                          [datiNuovi]="datiGrigliaQueryPCK && datiGrigliaQueryPCK.DataTable"
+                          [messaggioWarning]="messaggioWarningQueryPCK"
+                          [selezioneMultipla]="true"
+                          [linkIcone]="Utils.linkIcone"
+
+                          (cellClick)="clickSelezioneQueryPCK($event)"
+                          (lastSelectedOfGrid)='lastSelectedOfGridQueryPCK($event)'
+                          (editKeyPressed)="mascheraModificaAttivaComboQueryPCK = true"
+                          (refresh)="refreshQueryPCK($event, false)"
+                          (resetLayout)="refreshQueryPCK($event, true)"
+                          (ritornoDimensioniColonne)="ritornoDimensioniColonneGC7($event)"
+                        >
+                        </app-ants-grid-lib>
+
+                        <div *ngIf="caricamentoDatiInCorso7 == true" class="k-i-loading"
+                          style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                        ></div>
+
+                      </div>
+                      <!-- </ng-template> -->
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+                  <!-- </kendo-tabstrip-tab> -->
+
+                  <kendo-tabstrip-tab [disabled]="!permessiTab2.tab_all_tickets" [selected]="vecchioTab == 6" >
+                    <ng-template kendoTabTitle>
+                      <span [ngClass]="{'tab_portatile': permessiTab2.tab_all_tickets !== true, 'tab_normale': permessiTab2.tab_all_tickets !== false}">
+                        <span *ngIf="permessiTab2.tab_all_tickets">All Tickets</span>
+                      </span>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                      <div class="finestraCentrale">
+                        <as-split direction="horizontal" [gutterSize]="dimensioneTcRun5 != 100 ? 3 : 0" [disabled]="dimensioneTcRun5 == 100">
+                          <as-split-area [size]="dimensioneTcRun5">
+                            <app-ants-grid-lib
+                            *ngIf="datiGrigliaTicket"
+                            [sessioneAttuale]="sessionService.getToken()"
+                            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                            [indirizzoServer]="indirizzoServer"
+                            [modalita]="'Griglia'"
+                            [title]="nomeGrigliaTicket"
+                            [titleDaDatiGriglia]="true"
+                            [data]="datiGrigliaTicket"
+                            [userName]="userName"
+                            [maskName]="userName + '_grigliaTicket'"
+                            [DimensioneFont]= "12"
+                            [newKeyVisibile]='false'
+                            [newKeyPersistant]="false"
+                            [refreshKeyVisibile]='true'
+                            [editKeyVisibile]='false'
+                            [deleteKeyVisibile]='false'
+                            [infoKeyVisibile]='true'
+                            [confirmKeyVisibile]="false"
+                            [selezioneMultipla]='false'
+                            [impostaSelezione]="selezioneTicket2"
+                            [AutoResize]="false"
+                            [ManualResize]="effettuaAutoFitTicket"
+                            [righeAutomatiche]="false"
+                            [paginazione]="'scrollable'"
+                            [datiNuovi]="datiGrigliaTicket && datiGrigliaTicket.DataTable"
+                            [messaggioWarning]="messaggioWarningTicket"
+                            [linkIcone]="Utils.linkIcone"
+                            [runKeyVisibile]="false"
+                            [keyWorkspace]="keyWorkspaceVisibileTicket"
+                            [listaWorkSpaces]="listaWorkSpaces"
+                            [tastoTicket]="keyWorkspaceVisibileTicket"
+                            [tcRunInfoVisibile]="true"
+
+                            (aperturaTcRunInfo)="aperturaTcRunInfo5()"
+                            (keyWorkspaceEmit)="premutoWorkSpace($event, 'TICKET')"
+                            (cellClick)="clickTicket($event)"
+                            (lastSelectedOfGrid)='lastSelectedOfGridTicket($event)'
+                            (refresh)="refreshGridTicket($event, false)"
+                            (resetLayout)="refreshGridTicket($event, true)"
+                            (editTicketPressed)="premutoTastoTicketAllTicket($event)"
+                            (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRunInfo5($event)"
+                            >
+                            </app-ants-grid-lib>
+
+                            <div *ngIf="caricamentoDatiInCorsoTicket == true" class="k-i-loading"
+                            style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                            ></div>
+                          </as-split-area>
+                          
+                          <as-split-area [size]="dimensioneTcRun52">
+                            <tcruninfo-component
+                            [sessionID]="sessionService.getToken()"
+                            [Utils]="Utils"
+                            [debug]="false"
+                            [userName]="userName"
+                            [numeroFrame]="0"
+                            [nomeGrigliaTII]="'tcRunInfoFleet5'"
+                            [selezionatoTII]="selezionatoTcRunInfo5"
+                            [nomeGrigliaTIF]="'tcRunFileFleet5'"
+                            [selezionatoTIF]="selezionatoTcRunFile5"
+                            [leggeDati]="ricaricaTcRun5"
+                            [indirizzoServer]="indirizzoServer"
+                            [listaWorkspaces]="listaWorkSpaces"
+                            [operatorID]="operatorID"
+                            [groupName]="groupName"
+                            [urlRoot]="urlRoot"
+                            [AgnOAct]="rigaSelezionataTcRun5"
+                            [pulisceAppoggi]="pulisceDatiTcRunInfo5"
+                            [modalitaRealTimeAttiva]="false"
+                            [tcRunID]="rigaSelezionataTcRun52"
+                            [actId]="actId2"
+                            [refresh]="refreshTcRunInfoFile2"
+                        
+                            (cambioTmsSelezionato)="cambioTmsDaTcRun5($event)"
+                            ></tcruninfo-component>                          
+                          </as-split-area>
+                        </as-split>
+                      </div>
+                    </ng-template>
+                  </kendo-tabstrip-tab>
+                </kendo-tabstrip>
+              </div>
+            </as-split-area>
+
+          </as-split>
+        </as-split-area>
+      </as-split>
+    </as-split-area>
+
+    <as-split-area [size]="dimensioneSplitSotto" [lockSize]="mappaLockata" style="overflow: hidden;">
+      <!-- Frame -->
+      <app-frame
+        [tipoFrame]="'M'"
+        [indirizzoServer]="indirizzoServer"
+        [permessoFMAM]="FleetManagerAdvancedMonitoring2"
+        [userName]="userName2"
+        [sessioneID]="sessionService.getToken()"
+        [UtilityPassata]="Utils"
+        [refreshMappa]="refreshMappa"
+        [activitySetID]="actSetIdScelto"
+        [activitySetName]="actSetNameScelto"
+        [agnGroupId]="agnGroupID"
+        [agnGroup]="agnGroup"
+        [actSetNameFM]="actSetNameFM"
+        [centraMappa]="coordinate"
+        [stringaAGNoACTp]="stringaAGNCode"
+        [lastDays]="lastDays2"
+        [additionalLayer]="additionalLayer2"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [tmsPassati]="tmsPassati"
+        [tmsPassatiTcRun]="tmsPassatiTcRun"
+        [nomeSetAntenne]="nomeSetAntenne2"
+        [listaActSet]="listaActSet"
+
+        (coordinateDaClickSuMappa)="clickSuMappa($event)"
+      >
+      </app-frame>
+      <!-- Frame -->
+    </as-split-area>
+  </as-split>
+
+</div>
+
+<!-- <div *ngIf="mascheraModificaAttivaTestScenario" class="oscuraPerEdit"></div> -->
+<div *ngIf="mascheraModificaAttivaTestScenario" #myBounds7 ngDraggable [handle]="handleMenu7" 
+  class="mascheraModificaNTS drag-boundary resizable" style="overflow: hidden;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu7 style="width: calc(100% - 70px); float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaTestScenario}}
+    </div>
+    <div style="width: 70px; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDatiTestScenario()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera2()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div style="width: calc(100% - 6px); float: left; height: calc(35% - 3px); overflow: auto;">
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" style="width: 100px;">Name</div>
+        <div class="contenuto" style="width: calc(100% - 100px);">
+          <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata2.TS_SCHED_NAME}}" [(ngModel)]="rigaModificata2.TS_SCHED_NAME">
+        </div>
+      </div>
+
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" style="width: 100px;">Test Design</div>
+        <div class="contenuto" style="width: calc(100% - 100px); overflow: hidden; ">
+          <app-combo-component
+            *ngIf="modificaOInserimentoTestScenario == 'INSERIMENTO'"
+            [userName]="userName2"
+            [data]="datiTSID"
+            [campoId]="'TS_CODE'"
+            [campoTesto]="'NAME'"
+            [campoFiltro]="'NAME'"
+            [NomeCombo]="'cmbDatiActiveTSID'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='false'
+            [campoRaggruppamento]="'FOLDER'"
+            [valoreDefault]="rigaModificata2.TS_CODE"
+
+            (selezioneEffettuata)="selectTS_CODE($event)"
+          >
+          </app-combo-component>
+          <span *ngIf="modificaOInserimentoTestScenario == 'MODIFICA'"
+            style="width: 100%;"
+          >
+            {{rigaModificata2.TS_NAME}}
+          </span>
+        </div>
+      </div>
+
+      <!-- <div class="riga">
+        <div class="titolo">Folder</div>
+        <div class="contenuto">
+          <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata2.TS_FOLDER}}" [(ngModel)]="rigaModificata2.TS_FOLDER">
+        </div>
+      </div> -->
+
+      <div style="clear: both;"></div>
+
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" style="width: 100px;">Is Enabled</div>
+        <div class="contenuto" style="width: calc(100% - 100px);">
+          <app-combo-component
+            [Tipologia]="'Combo'"
+            [userName]="userName2"
+            [data]="datiActive"
+            [campoId]="'ID'"
+            [campoTesto]="'NAME'"
+            [campoFiltro]="'NAME'"
+            [NomeCombo]="'cmbDatiActiveTC'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='false'
+            [valoreDefault]="rigaModificata2.IS_ACTIVE"
+
+            (selezioneEffettuata)="selectActive2($event)"
+          >
+          </app-combo-component>
+        </div>
+      </div>
+
+      <div class="riga" style="width: 50%;">
+        <div title="Lower numbers for higher priority" class="titolo" style="width: 100px;">Priority</div>
+        <div class="contenuto" style="width: 33%;">
+          <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata2.PRIORITY}}" [(ngModel)]="rigaModificata2.PRIORITY">
+        </div>
+      </div>
+
+      <div style="clear: both;"></div>
+
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" title="Leave empty to run on all agn of the group or select a specific agn" style="width: 100px;">Agent</div>
+        <div class="contenuto" style="width: calc(100% - 100px);">
+          <app-combo-component
+            *ngIf = "datiGrigliaAgentsInfo"
+            [Tipologia]="'Dropdown'"
+            [userName]="userName"
+            [data]="datiGrigliaAgentsInfo.DataTable"
+            [campoId]="'AGN_CODE'"
+            [campoTesto]="'AGN_CODE'"
+            [campoFiltro]="'AGN_CODE'"
+            [NomeCombo]="'cmbDatiAGENTFTC'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='true'
+            [accettaNuovi]="true"
+            [valoreDefault]="agentCodeMod"
+            [pulisceFiltro]="pulisceFiltroAgCode"
+
+            (selezioneEffettuata)="selectAgentCode($event)"
+            (cambioValore)="checkAC($event)"
+          >
+          </app-combo-component>
+
+          <!--
+            [placeholder]="'Select a value'"
+          -->
+        </div>
+      </div>
+    </div>
+
+    <div style="width: calc(100% - 6px); float: left; overflow: auto; margin-top: 2px; margin-bottom: 2px; height: calc(15% - 5px);">
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" style="width: 100px;">Tms From</div>
+        <div class="contenuto" style="width: calc(100% - 100px);">
+          <!-- <angular2-date-picker
+            name="dateFrom"
+            [(ngModel)]="rigaModificata2.SCHED_RULE_TMS_FROM"
+            [settings]="{
+              color: '#999',
+              bigBanner: true,
+              timePicker: true,
+              defaultOpen: false,
+              format: 'yyyy-MM-dd HH:mm'
+            }"
+            style="font-size: 13px !important;">
+          </angular2-date-picker> -->
+
+          <app-calendario
+            [Utils]="Utils"
+            [dataPassata]="rigaModificata2.SCHED_RULE_TMS_FROM"
+            [chiusuraAutomatica]="true"
+            [larghezzaData]="180"
+
+            (dataSelezionata)="rigaModificata2.SCHED_RULE_TMS_FROM = $event"
+          >
+          </app-calendario>
+
+        </div>
+      </div>
+
+      <div class="riga" style="width: 50%;">
+        <div class="titolo" style="width: 100px;">Tms To</div>
+        <div class="contenuto" style="width: calc(100% - 100px);">
+          <!-- <angular2-date-picker
+            name="dateTo"
+            [(ngModel)]="rigaModificata2.SCHED_RULE_TMS_TO"
+            [settings]="{
+              color: '#999',
+              bigBanner: true,
+              timePicker: true,
+              defaultOpen: false,
+              format: 'yyyy-MM-dd HH:mm'
+            }"
+            style="font-size: 13px !important;">
+          </angular2-date-picker> -->
+
+          <app-calendario
+            [Utils]="Utils"
+            [dataPassata]="rigaModificata2.SCHED_RULE_TMS_TO"
+            [chiusuraAutomatica]="true"
+            [larghezzaData]="180"
+
+            (dataSelezionata)="rigaModificata2.SCHED_RULE_TMS_TO = $event"
+          >
+          </app-calendario>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%; float: left; height: calc(50% - 3px); margin-top: 2px;">
+      <div class="riga" style="width: 100%; height: 100%;">
+        <div class="titolo" style="width: 100px;">Description</div>
+        <div class="contenuto" style="width: calc(100% - 100px); height: 100%;">
+          <textarea rows="7" class="testo" style="width: 100%; height: 100%;" value="{{rigaModificata2.TS_SCHED_DESCRIPTION}}" [(ngModel)]="rigaModificata2.TS_SCHED_DESCRIPTION"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div style="clear: both;"></div>
+  <!-- <div class="riga">
+      <div class="titolo">Period</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata2.SCHED_RULE_PERIOD}}" [(ngModel)]="rigaModificata2.SCHED_RULE_PERIOD">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule</div>
+      <div class="contenuto">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [data]="ruleCriteria"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiActiveRC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificata2.SCHED_RULE_CRITERIA"
+
+          (selezioneEffettuata)="selectActiveRC($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Point</div>
+      <div class="contenuto">
+        <input type="text" class="testo" [disabled]="true" style="width: 100%;"
+          value="{{rigaModificata2.SCHED_RULE_POINT}}" [(ngModel)]="rigaModificata2.SCHED_RULE_POINT">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Radius</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata2.SCHED_RULE_RADIUS}}" [(ngModel)]="rigaModificata2.SCHED_RULE_RADIUS">
+      </div>
+    </div> -->
+
+    <!-- <div class="riga">
+      <div class="titolo">Rule Iterations</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata2.SCHED_RULE_ITERATIONS}}" [(ngModel)]="rigaModificata2.SCHED_RULE_ITERATIONS">
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaComboAgentProfile" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttivaComboAgentProfile" #myBounds6 ngDraggable [handle]="handleMenu6" class="mascheraModificaAPAG drag-boundary resizable"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true" style="width: 45%; left: 30%; top: 45%;">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu6 style="width: 50%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo5}}
+    </div>
+    <div style="width: 50%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboAgentProfile($event)" title="Confirm the operation" class="immaginiIcone">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaComboAgentProfile = false" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%;">
+      <!-- <div style="width: 20%; float: left; height: 35px;">
+        Agn Prof
+      </div>
+      <div style="width: 80%; float: left;"> -->
+        <app-combo-component
+          *ngIf = "datiAgnProf"
+          [Tipologia]="'DropDown'"
+          [userName]="userName2"
+          [data]="datiAgnProf"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiAgnProf'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="agnProfSelezionato"
+
+          (selezioneEffettuata)="selectAgnProf($event)"
+        >
+        </app-combo-component>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttivaComboAgentProfileN" #myBounds5 ngDraggable [handle]="handleMenu5" class="mascheraModifica drag-boundary resizable"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true" style="width: 35%; height: auto; left: 30%; top: 45%; z-index: 2000;">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu5 style="width: 80%; float: left; text-align: left; white-space: nowrap; color: white;">
+      {{TitoloMascheraModificaCombo5N}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboAgentProfileN($event)" title="Confirm the operation" class="immaginiIcone">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaComboAgentProfileN = false" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata && agnProf" style="width: 100%; float: left; text-align: left;">
+      <div style="width: 100%; float: left;">
+        <table style="width: 19%;">
+          <tr>
+            <td>
+              Default
+            </td>
+            <td>
+              <input name="options1" type="radio" [value]="1" (click)="opzione=1" [checked]="opzione==1">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- <div style="width: 100%; float: left;">
+        Value&nbsp;<input name="options1" type="radio" [value]="2" (click)="opzione=2" [checked]="opzione==2">
+      </div> -->
+    </div>
+
+    <div *ngIf="rigaSelezionata" style="width: 100%; float: left; text-align: left;">
+      <div *ngIf="agnProf === true" style="width: 20%; float: left; margin-top: 2px;">
+        <table style="width: 100%;">
+          <tr>
+            <td>
+              Value
+            </td>
+            <td>
+              <input name="options1" type="radio" [value]="2" (click)="opzione=2" [checked]="opzione==2">
+            </td>
+        </tr>
+        </table>
+      </div>
+      <div *ngIf="agnProf === false" style="width: 20%; float: left; margin-top: 2px;">Value</div>
+
+      <div style="width: 80%; float: left;">
+        <input *ngIf="(
+          ((rigaSelPerModificaN.DOMAIN_TYPE === 'LOV' || rigaSelPerModificaN.DOMAIN_TYPE === 'string') && rigaSelPerModificaN.DOMAIN_LOV.length > 0) ||
+          rigaSelPerModificaN.DOMAIN_TYPE === 'RegExp')
+          && opzione == 1" type="text" 
+          disabled="true" 
+          [value]="lovSelezionato" 
+          style="width: 100%; margin-top: -2px;" />
+
+        <app-combo-component
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'LOV' && opzione == 2"
+          [Tipologia]="'DropDown'"
+          [userName]="userName2"
+          [data]="datiLov"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiLovTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="lovSelezionato"
+
+          (selezioneEffettuata)="selectLov($event)"
+        >
+          <!-- (cambioValore)="checkLS($event)" -->
+        </app-combo-component>
+
+        <app-combo-component
+          *ngIf="(rigaSelPerModificaN.DOMAIN_TYPE === 'string' && rigaSelPerModificaN.DOMAIN_LOV.length > 0) && 
+            opzione == 2"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [data]="datiLov"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiLovTCString'"            
+          [accettaNuovi]="true"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="lovSelezionato"
+
+          (selezioneEffettuata)="selectLovString($event)"
+        >
+          <!-- (cambioValore)="checkLS($event)" -->
+        </app-combo-component>
+
+        <app-calendario
+          *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'date'"
+          [Utils]="Utils"
+          [dataPassata]="rigaSelPerModificaN.VALUE"
+          [formatoPopup]="'DATA'"
+          [formato]="'yyyy-MM-dd'"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="lovSelezionato = $event"
+        >
+        </app-calendario>
+
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'integer' || rigaSelPerModificaN.DOMAIN_TYPE === 'decimal'"
+          [disabled]="opzione == 1"
+          (keyup.enter)="chiudeMascheraComboAgentProfileN($event)" style="width: 100%;" type="number" [(ngModel)]="lovSelezionato">
+        <input *ngIf="(rigaSelPerModificaN.DOMAIN_TYPE === 'string' && !rigaSelPerModificaN.DOMAIN_LOV) || rigaSelPerModificaN.DOMAIN_TYPE === 'RegExp'" (keyup.enter)="chiudeMascheraComboAgentProfileN($event)"
+          [disabled]="opzione == 1"
+          type="text" style="width: 100%;" [(ngModel)]="lovSelezionato">
+        <input *ngIf="rigaSelPerModificaN.DOMAIN_TYPE === 'not_editable'" style="width: 100%;" type="text" disabled="true"
+          value="{{lovSelezionato}}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttiva6" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttiva6" #myBounds4 ngDraggable [handle]="handleMenu4" class="mascheraModifica drag-boundary resizable"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu4 style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica6}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDati6()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera6()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titolo">Name</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata6.TS_NAME}}" [(ngModel)]="rigaModificata6.TS_NAME">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Description</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata6.TS_DESCRIPTION}}" [(ngModel)]="rigaModificata6.TS_DESCRIPTION">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Folder</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata6.TS_FOLDER}}" [(ngModel)]="rigaModificata6.TS_FOLDER">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Priority</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata6.PRIORITY}}" [(ngModel)]="rigaModificata6.PRIORITY">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Criteria</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata6.SCHED_RULE_CRITERIA}}" [(ngModel)]="rigaModificata6.SCHED_RULE_CRITERIA">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Radius</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata6.SCHED_RULE_RADIUS}}" [(ngModel)]="rigaModificata6.SCHED_RULE_RADIUS">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Tms From</div>
+      <div class="contenuto">
+        <!-- <angular2-date-picker
+          name="dateFrom"
+          [(ngModel)]="rigaModificata6.SCHED_RULE_TMS_FROM"
+          [settings]="{
+            color: '#999',
+            bigBanner: true,
+            timePicker: true,
+            defaultOpen: false,
+            format: 'yyyy-MM-dd HH:mm'
+          }"
+          style="font-size: 13px !important;">
+        </angular2-date-picker> -->
+
+        <app-calendario
+          [Utils]="Utils"
+          [dataPassata]="rigaModificata6.SCHED_RULE_TMS_FROM"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="rigaModificata6.SCHED_RULE_TMS_FROM = $event"
+        >
+        </app-calendario>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Tms To</div>
+      <div class="contenuto">
+        <!-- <angular2-date-picker
+          name="dateTo"
+          [(ngModel)]="rigaModificata6.SCHED_RULE_TMS_TO"
+          [settings]="{
+            color: '#999',
+            bigBanner: true,
+            timePicker: true,
+            defaultOpen: false,
+            format: 'yyyy-MM-dd HH:mm'
+          }"
+          style="font-size: 13px !important;">
+        </angular2-date-picker> -->
+
+        <app-calendario
+          [Utils]="Utils"
+          [dataPassata]="rigaModificata6.SCHED_RULE_TMS_TO"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="rigaModificata6.SCHED_RULE_TMS_TO = $event"
+        >
+        </app-calendario>
+
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Period</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata6.SCHED_RULE_PERIOD}}" [(ngModel)]="rigaModificata6.SCHED_RULE_PERIOD">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Iterations</div>
+      <div class="contenuto">
+        <input type="number" class="testo" style="width: 100%;" value="{{rigaModificata6.SCHED_RULE_ITERATIONS}}" [(ngModel)]="rigaModificata6.SCHED_RULE_ITERATIONS">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Rule Point</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata6.SCHED_RULE_POINT}}" [(ngModel)]="rigaModificata6.SCHED_RULE_POINT">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Is Enabled</div>
+      <div class="contenuto">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [data]="datiActive"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiActiveTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificata6.IS_ACTIVE"
+
+          (selezioneEffettuata)="selectActive6($event)"
+        >
+        </app-combo-component>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttivaComboQueryPCK" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttivaComboQueryPCK" #myBounds3 ngDraggable [handle]="handleMenu3" class="mascheraModifica drag-boundary resizable"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu3 style="width: 80%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaCombo7}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboQueryPCK($event)" title="Confirm the operation" class="immaginiIcone">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModificaAttivaComboQueryPCK = false" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%; float: left; height: 35px;">
+      <!-- <div style="width: 20%; float: left;">
+        Query Pck
+      </div>
+      <div style="width: 80%; float: left;"> -->
+        <app-combo-component
+          *ngIf = "datiQueryPck"
+          [Tipologia]="'DropDown'"
+          [userName]="userName2"
+          [data]="datiQueryPck"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiQueryPck'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="queryPckSelezionato"
+
+          (selezioneEffettuata)="selectQueryPck($event)"
+        >
+        </app-combo-component>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttiva4" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttiva4" #myBounds ngDraggable [handle]="handleMenu" class="mascheraModificaMATS drag-boundary resizable"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true" style="top: 5% !important; height: 90% !important;">
+  <div class="drag-block" class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu style="width: 50%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica4}}
+    </div>
+    <div style="width: 50%; float: left; text-align: right;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera4()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati" style="height: 100%;">
+    <app-ants-grid-lib
+      *ngIf="datiGriglia"
+      [sessioneAttuale]="sessionService.getToken()"
+      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+      [indirizzoServer]="indirizzoServer"
+      [modalita]="'Griglia'"
+      [title]="nomeGriglia"
+      [titleDaDatiGriglia]="true"
+      [data]="datiGriglia"
+      [userName]="userName2"
+      [maskName]="userName2 + '_grigliaGD2'"
+      [newKeyVisibile]='false'
+      [refreshKeyVisibile]='true'
+      [editKeyVisibile]='false'
+      [deleteKeyVisibile]='false'
+      [infoKeyVisibile]='true'
+      [confirmKeyVisibile]="confirmKey4"
+      [selezioneMultipla]='false'
+      [impostaSelezione]="selezione4"
+      [AutoResize]="false"
+      [ManualResize]="effettuaAutoFit"
+      [righeAutomatiche]="false"
+      [paginazione]="'scrollable'"
+      [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+      [messaggioWarning]="messaggioWarning"
+      [linkIcone]="Utils.linkIcone"
+      [selezioneMultipla]="false"
+
+      (cellClick)="clickSuCheckRiga4($event)"
+      (confirmKeyPressed)="premutoConfirm4($event)"
+      (ritornoDimensioniColonne)="ritornoDimensioniColonneGDG($event)"
+    >
+    </app-ants-grid-lib>
+
+    <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+      style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+    ></div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaAttiva1" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaAttiva1" class="mascheraModificaEAG drag-boundary resizable" #myBounds2 ngDraggable [handle]="handleMenu2"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenu2 class="drag-block" style="width: 50%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModifica1}}
+    </div>
+    <div style="width: 50%; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDati1()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera1()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titolo">Name</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.NAME}}" [(ngModel)]="rigaModificata1.NAME">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Description</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.DESCRIPTION}}" [(ngModel)]="rigaModificata1.DESCRIPTION">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Folder</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <!-- <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.FOLDER}}" [(ngModel)]="rigaModificata1.FOLDER"> -->
+        <app-combo-component
+          *ngIf = "datiAgnGroupFolder"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [accettaNuovi]="true"
+          [data]="datiAgnGroupFolder"
+          [campoId]="'value_str'"
+          [campoTesto]="'value_str'"
+          [campoFiltro]="'value_str'"
+          [NomeCombo]="'cmbDatiAgnProf2'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificata1.FOLDER"
+
+          (selezioneEffettuata)="selectAgnProf2($event)"
+          (cambioValore)="checkAP2($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <!-- *ngIf="modificaOInserimento1 === 'INSERIMENTO'" -->
+    <div class="riga">
+      <div class="titolo">Agent Prof</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <!-- <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.FOLDER}}" [(ngModel)]="rigaModificata1.FOLDER"> -->
+        <app-combo-component
+          *ngIf = "datiAgnProf"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [accettaNuovi]="true"
+          [data]="datiAgnProf"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'ID'"
+          [NomeCombo]="'cmbDatiAgnProf22'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificata1.AGN_PROF_ID"
+
+          (selezioneEffettuata)="selectAgnProf22($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Operator Group</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <!-- <input type="text" class="testo" style="width: 100%;" value="{{rigaModificata1.FOLDER}}" [(ngModel)]="rigaModificata1.FOLDER"> -->
+        <app-combo-component
+          *ngIf = "datiOperatorGroup && datiOperatorGroup.DataTable"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [accettaNuovi]="true"
+          [data]="datiOperatorGroup.DataTable"
+          [campoId]="'GROUP_ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'ID'"
+          [NomeCombo]="'cmbDatiAgnGroup222'"
+          [campoRaggruppamento]="'FOLDER'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="rigaModificata1.OPERATOR_GROUP_ID"
+
+          (selezioneEffettuata)="selectAgnGroup($event)"
+          (cambioValore)="checkAG($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascheraModificaTicket" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaTicket" class="mascheraModificaTicket drag-boundary resizable" #myBoundsMT ngDraggable [handle]="handleMenuMT"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenuMT class="drag-block" style="width: 90%; float: left; text-align: left; color: white;">
+      {{TitoloMascheraModificaMT}}
+    </div>
+    <div style="width: 10%; float: left; text-align: right; margin-top: -4px;">
+      <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDatiTicketInizio()">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMascheraTicket()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titolo">ID</div>
+      <div class="contenuto">
+        <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.TCK_ID}}" [(ngModel)]="rigaModificataTicket.TCK_ID">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Activity ID</div>
+      <div class="contenuto">
+        <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.ACT_ID}}" [(ngModel)]="rigaModificataTicket.ACT_ID">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Start time stamp</div>
+      <div class="contenuto">
+        <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.START_TIME_STAMP}}" [(ngModel)]="rigaModificataTicket.START_TIME_STAMP">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Title</div>
+      <div class="contenuto">
+        <input type="text" class="testo" style="width: 100%;" maxlength="20" value="{{rigaModificataTicket.TCK_TITLE}}" [(ngModel)]="rigaModificataTicket.TCK_TITLE">
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Status</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <app-combo-component
+          *ngIf = "datiLookUpStatus && datiLookUpStatus.DataTable"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [accettaNuovi]="false"
+          [data]="datiLookUpStatus.DataTable"
+          [campoId]="'VALUE_STR'"
+          [campoTesto]="'VALUE_STR'"
+          [NomeCombo]="'cmbDatiStatus'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="rigaModificataTicket.TCK_STATUS"
+
+          (selezioneEffettuata)="selectStatus($event)"
+          (cambioValore)="checkS($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">Priority</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <app-combo-component
+          *ngIf = "datiLookUpPriority && datiLookUpPriority.DataTable"
+          [Tipologia]="'Combo'"
+          [userName]="userName2"
+          [accettaNuovi]="false"
+          [data]="datiLookUpPriority.DataTable"
+          [campoId]="'VALUE_STR'"
+          [campoTesto]="'VALUE_STR'"
+          [NomeCombo]="'cmbDatiPriority'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='true'
+          [valoreDefault]="rigaModificataTicket.TCK_PRIORITY"
+
+          (selezioneEffettuata)="selectPriority($event)"
+          (cambioValore)="checkT($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titolo">In Charge To</div>
+      <div class="contenuto" style="margin-top: -2px;">
+        <app-combo-component
+          *ngIf = "datiOperator && datiOperator.DataTable"
+          [Tipologia]="'Dropdown'"
+          [userName]="userName2"
+          [accettaNuovi]="false"
+          [data]="datiOperator.DataTable"
+          [campoId]="'NAME'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiTCK_OPERATOR'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="rigaModificataTicket.TCK_OPERATOR_NAME_IN_CHARGE_TO"
+
+          (selezioneEffettuata)="selectOperator($event)"
+          (cambioValore)="checkO($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+
+    <!-- <div class="riga">
+      <div class="titolo">Associate selected events</div>
+      <div class="contenuto" style="margin-top: 5px;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/EventLog.png'" class="immaginiIcone" title="Associate selected events" (click)="associaEventiTcRun()">
+      </div>
+    </div>
+
+    <div *ngIf="(selezioneTcRun2 && selezioneTcRun2.TCK_EVENT_LIST != null) || (selezioneTcRunAct && selezioneTcRunAct.TCK_EVENT_LIST != null)" class="riga">
+      <div class="titolo">Show associated events</div>
+      <div class="contenuto" style="margin-top: 5px;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/Search.png'" class="immaginiIcone" title="Show associated events" (click)="visualizzaEventiTcRun()">
+      </div>
+    </div> -->
+
+    <br />
+    <div style="width: 100%; float: left;">Description</div>
+    <div style="width: 100%; height: calc(100% - 130px); float: left;">
+      <!-- <input type="textarea" style="width: 100%; height: 100%;" rows="5" value="{{rigaModificataTicket.TCK_DESCRIPTION}}" [(ngModel)]="rigaModificataTicket.TCK_DESCRIPTION"> -->
+      <textarea rows="7" class="testo" style="width: 100%; height: 100%;" value="{{rigaModificataTicket.TCK_DESCRIPTION}}" [(ngModel)]="rigaModificataTicket.TCK_DESCRIPTION"></textarea>
+
+      <!-- [enableResize]="true"
+              [insertImageSettings]='insertImageSettings'
+            
+        (actionBegin)='handleFullScreen($event)'
+        (actionComplete)='actionCompleteHandler($event)'
+          
+      <ejs-richtexteditor
+        #toolsRTE
+        id='alltoolRTE'
+        [showCharCount]='true'
+        [maxLength]='maxLength'
+        [height]="'300px'"
+        [toolbarSettings]='tools'
+        
+        [(value)]='rigaModificataTicket.TCK_DESCRIPTION'
+
+        (created)='onCreate()'
+      >
+
+      </ejs-richtexteditor>  -->
+      
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mostraEliminazione" class="oscuraEliminazione" style="z-index: 6000;"></div>
+<div *ngIf="mostraEliminazione" class="popupEliminazione" style="z-index: 6001;">
+  Please wait...<br />
+  <span *ngIf="actSetEliminante">Deleting {{actSetEliminante}}</span>
+  <br />
+  <progress id="file" [value]="daEliminare" [max]="actSetRecDaEliminare.length - 1" style="width: 100%;"></progress>
+</div>
+
+
+<div *ngIf="mascheraModificaActivity" class="oscuraPerEdit"></div>
+<div *ngIf="mascheraModificaActivity" class="mascheraModificaActivity drag-boundary resizable" #myBoundsMT ngDraggable [handle]="handleMenuMT"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="divContenitore" [inBounds]="true" style="overflow: hidden;">
+  <div class="bottoniIntestazione" style="background-color: #565656;">
+    <div #handleMenuMT class="drag-block" style="width: 90%; float: left; text-align: left; color: white;">
+      Edit ACT description
+    </div>
+    <div style="width: 10%; float: left; text-align: right; margin-top: -4px;">
+      <!-- <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDescAct()"> -->
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMascheraEdtAct()" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+
+  <div class="modificaDati">
+    <div class="riga">
+      <div class="titoloAct">Act</div>
+      <div class="contenutoAct" style="text-align: left; white-space: nowrap;">
+        {{actSelezionataPerEdit.ACT_NAME}}
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titoloAct">Description</div>
+      <div class="contenutoAct">
+        <div style="width: calc(100% - 35px); float: left;">
+          <input type="text" class="testo" style="width: 100%" value="{{actSelezionataPerEdit.FILE_DESCRIPTION}}" [(ngModel)]="actSelezionataPerEdit.FILE_DESCRIPTION">
+        </div>
+        <div style="width: 35px; text-align: right; margin-top: -3px; float: left;">
+          <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" 
+            class="immaginiIcone"
+            title="Save" (click)="salvaDescAct()">
+        </div>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titoloAct">Tag 1</div>
+      <div class="contenutoAct">
+        <div style="width: calc(100% - 35px); float: left;">
+          <input type="text" class="testo" style="width: 100%" value="{{ACT_TAG1}}" [(ngModel)]="ACT_TAG1">
+        </div>
+        <div style="width: 35px; text-align: right; margin-top: -3px; float: left;">
+          <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" 
+            class="immaginiIcone"
+            title="Save Tag 1" (click)="salvaTag(1)">
+        </div>
+      </div>
+    </div>
+
+    <div class="riga">
+      <div class="titoloAct">Tag 2</div>
+      <div class="contenutoAct">
+        <div style="width: calc(100% - 35px); float: left;">
+          <input type="text" class="testo" style="width: 100%" value="{{ACT_TAG2}}" [(ngModel)]="ACT_TAG2">
+        </div>
+        <div style="width: 35px; text-align: right; margin-top: -3px; float: left;">
+          <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" 
+            class="immaginiIcone"
+            title="Save Tag 2" (click)="salvaTag(2)">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="actEScan" class="riga">
+      <div class="titoloAct">Binning</div>
+      <div style="width: calc(80% - 35px); float: left;">
+        <input
+          [disabled]="opzione == 1"
+          step="1"
+          style="width: 100%;" type="number" [(ngModel)]="binning">
+      </div>
+      <div style="width: 35px; text-align: right; margin-top: -3px; float: left;">
+        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+          title="Only the first sample is considered for each square with the specified binning side in meters"
+          [src]="Utils.linkIcone + '/icons/check-circle.png'" 
+          (click)="salvaDescAct2($event)" 
+          class="immaginiIcone">
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="progress">{{progress}}%</div>
+      </div>
+
+    </div>    
+  </div>
+</div>
+
+<ng-container *ngIf="checkPopup">
+  <popupforcheck-component
+    [Utils]="Utils"
+    [sessionID]="sessionService.getToken()"
+    [datiGriglia]="datiGrigliaCheck"
+    [indirizzoServer]="indirizzoServer"
+    [userName]="userName"
+    [modalita]="modalitaCheckPopup"
+    [operazione]="operazioneCheckPopup"
+
+    (confermaPopup)="eseguiCheck($event);"
+    (chiudePopup)="checkPopup = false;"
+  ></popupforcheck-component>
+</ng-container>

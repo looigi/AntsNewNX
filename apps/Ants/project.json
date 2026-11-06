@@ -1,0 +1,70 @@
+{
+  "name": "Ants",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/Ants/src",
+  "projectType": "application",
+  "prefix": "app",
+  "tags": [
+    "type:application"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/Ants",
+          "browser": ""
+        },
+        "index": "apps/Ants/src/index.html",
+        "browser": "apps/Ants/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/Ants/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "apps/Ants/src",
+            "output": "/"
+          }
+        ],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "node_modules/angular2-draggable/css/resizable.min.css",
+          "node_modules/@progress/kendo-theme-default/dist/all.css",
+          "apps/Ants/src/styles.css",
+          "node_modules/sweetalert2/src/sweetalert2.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "Ants:build:production"
+        },
+        "development": {
+          "buildTarget": "Ants:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

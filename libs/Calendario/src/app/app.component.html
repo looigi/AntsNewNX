@@ -1,0 +1,43 @@
+
+<div style="position: absolute; top: 50px; left: 200px; width: 275px;">
+  <app-calendario
+    [Utils]="Utils"
+    [coloreSfondo]="'yellow'"
+    [sfondoMese]="'yellow'"
+    [coloreCasellaTesto]="'white'"
+    [bordoMese]="false"
+    [dataPassata]="data2"
+    [formatoPopup]="'DATAORA'"
+    [formato]="'yyyy-MM-dd HH:mm:ss'"
+    [dimensioneFont]="10"
+    [apreConHover]="false"
+    [chiusuraAutomatica]="false"
+    [allineatoADestra]="false"
+    [tooltip]="'W Pippone'"
+
+    (dataSelezionata)="ritornaData($event)"
+  >
+  </app-calendario>
+</div>
+
+<input type="button" value="imposta" (click)="premutoBottone()" />
+
+<div style="position: absolute; top: 250px; left: 600px; width: 300px; text-align: right;">
+  <app-calendario
+    [Utils]="Utils"
+    [coloreSfondo]="'yellow'"
+    [sfondoMese]="'yellow'"
+    [coloreCasellaTesto]="'white'"
+    [bordoMese]="false"
+    [dataPassata]="data2"
+    [formatoPopup]="'ORA'"
+    [formato]="'HH:mm:ss'"
+    [apreConHover]="false"
+    [chiusuraAutomatica]="false"
+    [allineatoADestra]="false"
+    [tooltip]="'W Pippone'"
+
+    (dataSelezionata)="ritornaData($event)"
+  >
+  </app-calendario>
+</div>

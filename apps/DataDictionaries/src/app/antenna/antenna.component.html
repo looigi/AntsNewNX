@@ -1,0 +1,492 @@
+<div #divContenitoreA style="width: 100%; height: 100%;">
+  <!-- <as-split direction="horizontal" (dragEnd)="dragEnd1($event)">
+    <as-split-area [size]="20">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaGA1'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='false'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [linkIcone]="Utils.linkIcone"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event)'
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="80"> -->
+      <as-split direction="horizontal" (dragEnd)="dragEnd2($event)">
+        <!-- <as-split-area [size]="10">
+          <div style = "width: 100%; float: left;">
+            <div class="divFloat" >
+              <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                &nbsp;From
+              </div>
+              <div style="width: 60%; float: left; margin-top: 5px">
+                <angular2-date-picker
+                  name="dateFrom"
+                  [(ngModel)]="dateFrom"
+                  [settings]="{
+                    color: '#999',
+                    bigBanner: true,
+                    timePicker: true,
+                    defaultOpen: false,
+                    format: 'yyyy-MM-dd HH:mm'
+                  }"
+                  style="font-size: 13px !important;">
+                </angular2-date-picker>
+              </div>
+            </div>
+            <div class="divFloat" >
+              <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                &nbsp;To
+              </div>
+              <div style="width: 60%; float: left; margin-top: 5px;">
+                <angular2-date-picker name="dateFrom" [(ngModel)]="dateTo"
+                  [settings]="{
+                    bigBanner: true,
+                    timePicker: true,
+                    defaultOpen: false,
+                    format: 'yyyy-MM-dd HH:mm'
+                  }"
+                  style="font-size: 13px !important;">
+                </angular2-date-picker>
+              </div>
+            </div>
+            <div class="divFloat" >
+              <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                &nbsp;Net Tech
+              </div>
+              <div style="width: 60%; float: left; margin-top: 5px;">
+                <input type ="text" [(ngModel)]="netTech" style="width: 100%;" (blur)="refreshGrid2(0)" (keyup.enter)="refreshGrid2(0)" >
+              </div>
+            </div>
+            <div class="divFloat" >
+              <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                &nbsp;Free Text
+              </div>
+              <div style="width: 60%; float: left; margin-top: 5px;">
+                <input type ="text" [(ngModel)]="freeText" style="width: 100%;" (blur)="refreshGrid2(0)" (keyup.enter)="refreshGrid2(0)" >
+              </div>
+            </div>
+            <div class="divFloat">
+              <div style="width: 40%; float: left; margin-top: 7px; white-space: nowrap; font-weight: bold;">
+                &nbsp;Band
+              </div>
+              <div style="width: 60%; float: left; margin-top: 5px;">
+                <input type ="text" [(ngModel)]="bandwidth" style="width: 100%;" (blur)="refreshGrid2(0)" (keyup.enter)="refreshGrid2(0)">
+              </div>
+            </div>
+            <div style="width: 30px; float: left; margin-top: 5px;">
+              <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/OpenTcRun.png'" class="immagini" style="height: 25px; width: 25px;"
+              (click)="refreshGrid2(0)">
+            </div>
+          </div>
+        </as-split-area> -->
+
+        <as-split-area [size]="50" style="overflow: hidden;">
+          <app-frame-dd
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [debug]="false"
+            [userName]="userName"
+            [sessioneID]="sessionService.getToken()"
+            [UtilityPassata]="Utils"
+            [refreshMappa]="refreshMappa"
+            [activitySetID]="actSetIdScelto"
+            [activitySetName]="actSetNameScelto"
+            [agnGroupId]="agnGroupID"
+            [agnGroup]="agnGroup"
+            [actSetNameFM]="actSetNameFM"
+            [centraMappa]="centro"
+            [stringaAGNoACTp]="stringaAGNCode"
+            [lastDays]="lastDays2"
+            [nomeProgetto]="'DD;Antenne'"
+            [nomeAntennaDD]="nomeLayer"
+            [parametriDD]="parametriDD"
+            [additionalLayer]="additionalLayer2"
+            [cellaSelezionata]="rigaSelezionataPerCella"
+            [timeRangeDSFStart]="dateFrom"
+            [timeRangeDSFStop]="dateTo"
+            [addLayerDiretto]="addLayerDiretto"
+            [slaValueGlobale]="slaValueGlobale"
+            [datiSla]="datiSla"
+            [datiSlaDT]="datiSlaDT"
+            [ricaricaRaggi]="ricaricaRaggi"
+            [lastSelectedLayer]="ricaricaRaggi"
+            [refreshLegenda]="refreshLegenda"
+            [exportKMLAttivo]="exportKMLAttivo"
+            [pulisceLastCallAddLayers]="pulisceLastCallAddLayers"
+            [opacity]="opacity"
+            [viewAs]="1"
+
+            (coordinateDaClickSuMappa)="clickSuMappa($event)"
+            (opacityEmit)="cambiaOpacity($event)"
+            (ricaricaRaggiEmit)="cambioRicaricaRaggi($event)"
+            (passaggioValoriLegenda)="passaggioValoriLegenda($event)"
+            (cambioBBoxEmit)="cambioBBOX($event)"
+            (stringaRitornoEmit)="stringaRitorno($event)"
+          >
+          </app-frame-dd>
+
+          <div *ngIf="!nomeLayer" 
+            style="position: absolute;
+              cursor: pointer;
+              z-index: 999;
+              left: 60px;
+              top: 55px;
+              font-size: 20px;
+              color: red;
+              width: auto;
+              height: auto;">
+            Select a Cell Set please
+          </div>
+
+          <img #idLente 
+            style="position: absolute;
+              cursor: pointer;
+              z-index: 999;
+              left: 0px;
+              top: 55px;
+              width: 50px;
+              height: 50px;"
+            *ngIf="Utils.linkIcone && syncGridToMap2" [src]="Utils.linkIcone + '/icons/OpenTcRun.png'"
+            (click)="esegueSpostamentoMappa()">
+
+    <!-- <kendo-tabstrip [animate]="false" style="overflow: auto; width: 100%; height: 100%;"  (tabSelect)="onTabSelect($event)">
+            <kendo-tabstrip-tab [title]="'Cell List'" [selected]="true">
+              <ng-template kendoTabContent> -->
+                <!-- <div style="width: 100%; height: 100%; overflow: hidden;">
+                  <div style="position: relative; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 1000;"> -->
+        </as-split-area>
+        <as-split-area [size]="50" style="overflow: hidden;">
+          <as-split direction="vertical" (dragEnd)="dragEnd3($event)">
+            <as-split-area [size]="50" style="overflow: hidden;">
+              <div *ngIf="mascheraScelta == 'CellList'" style="width: 100%; height: 100%;">
+
+                <!--
+                  [paginazione]="'virtual'"
+                  [pageSize]="Utils.limitPerVirtual"
+                -->
+                <app-ants-grid-lib
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="nomeGriglia2"
+                  [titleDaDatiGriglia] = "true"
+                  [data]="datiGriglia2"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaGA2'"
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [impostaSelezione]="selezione2"
+                  [AutoResize]="true"
+                  [righeAutomatiche]="false"
+                  [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+                  [linkIcone]="Utils.linkIcone"
+                  [righePerPaginaVirtuale]="totRighe"
+                  [numeroRigheDVisualizzare]="totRighe"
+                  [messaggioWarning]="warningAE"
+      
+                  [DimensioneFont]='12'
+
+                  (cellClick)="clickSelezione2($event)"
+                  (lastSelectedOfGrid)='lastSelectedOfGrid2($event)'
+                  (refresh)='refreshGrid2($event, false)'
+                  (resetLayout)='refreshGrid2($event, true)'
+                  (detectCambioPagina)="cambioPagina($event)"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneGriglia2($event)"
+                >
+                </app-ants-grid-lib>
+
+                <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                ></div>
+              </div>
+                    <!--   </div>
+                    </div> -->
+                  <!-- </ng-template>
+                </kendo-tabstrip-tab>
+                <kendo-tabstrip-tab [title]="'Cell Analysis'">
+                  <ng-template kendoTabContent> -->
+              <div *ngIf="mascheraScelta == 'CellAnalysis'" style="width: 100%; height: 100%;">
+                <app-ants-grid-lib
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="nomeGriglia21"
+                  [titleDaDatiGriglia] = "true"
+                  [data]="datiGriglia21"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaGA21'"
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [impostaSelezione]="selezione21"
+                  [AutoResize]="true"
+                  [righeAutomatiche]="false"
+                  [datiNuovi]="datiGriglia21 && datiGriglia21.DataTable"
+                  [messaggioWarning]="messaggioWarning21"
+                  [linkIcone]="Utils.linkIcone"
+
+                  [paginazione]="'scrollable'"
+                  [pageSize]="Utils.limitPerVirtual"
+                  [DimensioneFont]='12'
+
+                  (cellClick)="clickSelezione21($event)"
+                  (lastSelectedOfGrid)='lastSelectedOfGrid21($event)'
+                  (refresh)='refreshGrid21($event, false)'
+                  (resetLayout)='refreshGrid21($event, true)'
+                  (detectCambioPagina)="cambioPagina2($event)"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneGriglia21($event)"
+                >
+                </app-ants-grid-lib>
+
+                <div *ngIf="caricamentoDatiInCorso21 == true" class="k-i-loading"
+                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                ></div>
+              </div>
+                  <!-- </ng-template>
+                </kendo-tabstrip-tab>
+                <kendo-tabstrip-tab [title]="'Coverage Files'">
+                  <ng-template kendoTabContent> -->
+              <div *ngIf="mascheraScelta == 'CoverageFiles'" style="width: 100%; height: 100%;">
+                <app-ants-grid-lib
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="nomeGriglia212"
+                  [titleDaDatiGriglia] = "true"
+                  [data]="datiGriglia212"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaGA212'"
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [impostaSelezione]="selezione212"
+                  [AutoResize]="true"
+                  [righeAutomatiche]="false"
+                  [datiNuovi]="datiGriglia212 && datiGriglia212.DataTable"
+                  [messaggioWarning]="messaggioWarning212"
+                  [linkIcone]="Utils.linkIcone"
+
+                  [paginazione]="'scrollable'"
+                  [pageSize]="Utils.limitPerVirtual"
+                  [DimensioneFont]='12'
+
+                  (cellClick)="clickSelezione212($event)"
+                  (lastSelectedOfGrid)='lastSelectedOfGrid212($event)'
+                  (refresh)='refreshGrid212($event, false)'
+                  (resetLayout)='refreshGrid212($event, true)'
+                  (detectCambioPagina)="cambioPagina22($event)"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneGriglia212($event)"
+                >
+                </app-ants-grid-lib>
+
+                <div *ngIf="caricamentoDatiInCorso21 == true" class="k-i-loading"
+                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                ></div>
+              </div>
+                  <!-- </ng-template>
+                </kendo-tabstrip-tab>
+              </kendo-tabstrip> -->
+
+
+        <!-- <div (mouseover)="aFutile2 = 0" (mouseleave)="aFutile2 = 1" [style.background-color]="aFutile2 == 0 ? '#ddd' : 'white'" style="width: 100%; height: 50%; float: left;">
+          Quanti oggetti: <input type="number" [(ngModel)]="quantiFutili">&nbsp;
+          <img (mouseover)="caricamentoDatiInCorso2 = true" (mouseleave)="caricamentoDatiInCorso2 = false" *ngIf="Utils.linkIcone" style="cursor: pointer;" [src]="Utils.linkIcone + '/icons/OpenTcRun.png'" width="30px" height="30px" (click)="disegnaFutili()"><hr />
+          <div *ngIf="caricamentoDatiInCorso2 == false" style="width: 100%; height: 100%; overflow: auto;">
+            <div *ngFor="let m of oggettiFutili; let i = index" [attr.data-index]="i">
+              <span style="float: left;" *ngIf="m.codice == 0">ABCDEFGHIJKLMNOPQRSTUVWXYZ&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 1"><input (mouseover)="aFutile3 = 1" (mouseleave)="aFutile3 = 0" [style.width]="aFutile3 == 0 ? '100px' : '200px'" type="text" value="Casella di testo {{i}}">&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 2">&nbsp;<div style="width: 20%;"><hr />&nbsp;</div>&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 3">0123456789&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 4"><input type="number" value="{{i}}">&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 5">&nbsp;<div (mouseover)="aFutile = 1" (mouseleave)="aFutile = 0" [style.background-color]="aFutile == 0 ? '#0a0' : '#a0a'" style="width: 300px; height: 20px; background-color: antiquewhite;">&nbsp;</div>&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 6"><input (mouseover)="aFutile4 = 1" (mouseleave)="aFutile4 = 0" [style.width]="aFutile4 == 0 ? '250px' : '150px'"  type="date" value="new Date()">&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 7">0987654321&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 8"><img *ngIf="Utils.linkIcone" style="cursor: pointer;" [src]="Utils.linkIcone + '/icons/OpenTcRun.png'" src="" width="30px" height="30px">&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 9">ZYXWVUTSRQPONMLKJIHGFEDCBA&nbsp;</span>
+              <span style="float: left;" *ngIf="m.codice == 10">&nbsp;<div (mouseover)="aFutile = 1" (mouseleave)="aFutile = 0" [style.background-color]="aFutile == 0 ? '#a00' : '#00a'" style="width: 400px; height: 20px; background-color: red; border: 1px solid #000;">&nbsp;</div>&nbsp;</span>
+            </div>
+          </div>
+          -->
+
+        </as-split-area>
+
+          <!-- <app-frame
+            [userName]="userName"
+            [sessioneID]="sessionService.getToken()"
+            [UtilityPassata]="Utils"
+            [refreshMappa]="refreshMappa"
+            [modalita]="'Antenne'"
+            [posizionaCentro]="centro"
+            [nomeLayer]="nomeLayer"
+          >
+          </app-frame> -->
+
+            <as-split-area [size]="50" style="overflow: hidden;">
+              <div style="position: relative; left: 0px; top: 0px; height: 100%; z-index: 1000;">
+                <app-ants-grid-lib
+                  *ngIf="datiPointLayerInfo"
+                  [sessioneAttuale]="sessionService.getToken()"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="frameName2"
+                  [titleDaDatiGriglia] = "true"
+                  [data]="datiPointLayerInfo"
+                  [userName]="userName"
+                  [maskName]="nomeGrigliaPLI[NumeroFrame]"
+                  [newKeyVisibile]='false'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [refreshKeyVisibile]='false'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [possoSelezionareTutto]="false"
+                  [ricordaSelezione]='false'
+                  [impostaSelezione]="impostaSelezionePLI"
+                  [DimensioneFont]='12'
+                  [AutoResize]="false"
+                  [ManualResize]="effettuaAutoFitPLI"
+                  [datiNuovi]="datiPointLayerInfo && datiPointLayerInfo.DataTable"
+                  [messaggioWarning]="messaggioWarningPLI"
+                  [linkIcone]="Utils.linkIcone"
+                  [visualizzaToolTipGrafici]="visualizzaToolTipGrafici"
+                  [cambioTitolo]="frameName2"
+
+                  (cellClick)="clickRigaPLI($event)"
+                  (clickSelezioneSuCheckRiga)='riempieArraySelezionePLI($event)'
+                  (dimensioniGrigliaEmit)="dimensioniGriglia($event)"
+                  (refresh)='refreshGridPLI($event, false)'
+                  (resetLayout)='refreshGridPLI($event, true)'
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonnePLI($event)"
+                >
+                </app-ants-grid-lib>
+              </div>
+              <div *ngIf="caricamentoPLI == true" class="k-i-loading" style="position: sticky; left: 0px; top: 0px; height: 100%; z-index: 1001;"
+                [style.top]="datiPointLayerInfo ? '-100%' : '0px'"
+              ></div>
+            </as-split-area>
+          </as-split>
+        </as-split-area>
+      </as-split>
+
+    <!-- </as-split-area>
+  </as-split> -->
+</div>
+
+
+<!--
+  [handle] = "handleBarraUPL" [bounds] = "divContenitoreA" [inBounds] = "true"
+  (edge) = "checkEdge($event)" [inBounds] = "true"
+-->
+<div *ngIf="bUploadFile2" class="bloccaSfondo"></div>
+<div *ngIf="bUploadFile2"
+  [ngClass] = "{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  class="finestraUPL drag-block">
+  <div class="barraSuperiore2" style="width: 100% !important; text-align: left;">
+    <div #handleBarraUPL class="drag-block" style="width: calc(100% - 80px); float: left; padding-left: 5px;">
+      Upload Report File
+    </div>
+    <div style="width: 80px; float: left; text-align: right; margin-top: -3px;">
+      <img *ngIf = "Utils.linkIcone" [src] = "Utils.linkIcone + '/icons/close.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Close" (click) = "chiudeUpload()">
+    </div>
+  </div>
+  <br />
+
+  <div style="width: 100%; padding: 3px; margin-top: 10px;">
+    <!-- <input type="file" class="file-input" accept=".pbix, .xlsb" (change) = "onSelectFile($event)" #fileUpload /> -->
+    <label class="custom-file-upload">
+      <input type="file" accept=".json" (change) = "onSelectFile($event)" #fileUpload />
+      <!-- <img *ngIf = "Utils.linkIcone" [src] = "Utils.linkIcone + '/icons/resetPosition.png'" class="immaginiIcone" title="Upload file"> -->
+    </label>
+    <span *ngIf = "nomeFile" style="float: left; margin-left: 10px; margin-top: 10px; width: calc(100% - 50px);">{{nomeFile}}</span>
+    <span *ngIf = "!nomeFile" style="float: left; margin-left: 10px; margin-top: 10px; width: calc(100% - 50px);">Please select a file</span>
+    <div style="clear: both;"></div>
+    
+    <div *ngIf = "file">
+      <br />
+      <section class="file-info">
+        File details:
+        <ul>
+          <li><span style="font-weight: bold;">Name:</span></li>
+          <li><input type="text" [(ngModel)] = "nomeFile2" style="width: 100%;" /></li>
+          <li><span style="font-weight: bold;">Type:</span>
+            <span *ngIf = "file.type">{{file.type}}</span>
+            <span *ngIf = "!file.type">{{estensione}}</span>
+          </li>
+          <li><span style="font-weight: bold;">Size:</span>{{file.size}} bytes</li>
+          <!-- <li style="font-weight: bold;">Folder:</li>
+          <li><input type="text" [(ngModel)] = "folderFile" style="width: 100%;" /></li>
+          <li><span style="font-weight: bold;">Description:</span></li>
+          <li><input type="text" [(ngModel)] = "descriptionFile" style="width: 100%;" /></li> -->
+          <li>
+            <div style="width: 100%;">
+              <div style="width: 50%; float: left;">
+                <span style="font-weight: bold;">Validity Start Date:</span>
+              </div>
+              <div style="width: 50%; float: left;">
+                <app-calendario
+                  [Utils] = "Utils"
+                  [dataPassata] = "validtyStartDate"
+                  [dimensioneFont] = "10"
+                  [allineatoADestra] = "true"
+                  [tooltip] = "'GeoAnts keeps track of the cell history changes and processes activities according to the cell configuration valid in that moment. The date must be today or in the past. The Date cannot be previous of a date already loaded for the same Territory. You need to reprocess activities executed after this Validity Start Date to take into account the new cell configuration'"
+                  [mostraIcona] = "true"
+    
+                  (dataSelezionata) = "impostaTimeVSD($event)"
+                >
+                </app-calendario>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <button style="width: 100%;" (click) = "onUpload()">Upload the file</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="staFacendoUpload" class="oscura" style="z-index: 4900;"></div>
+<div *ngIf="staFacendoUpload" class="popup" style="z-index: 4901;">
+  Please wait...<br />Uploading<br />
+  <!-- <progress id="file" [value]="qualeTcRun" [max]="arrayExportTcRun.length - 1" style="width: 100%;"></progress> -->
+</div>

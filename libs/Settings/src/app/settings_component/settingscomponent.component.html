@@ -1,0 +1,2418 @@
+<div #divCont1 style="position: fixed; width: 100%; height: calc(100% - 50px); left: 0px; top: 50px; z-index: -1;">
+</div>
+
+<!-- <div *ngIf="menuVisibile" class="bloccaSfondo"></div>
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+<div #myBounds
+  class="drag-boundary"
+> 
+-->
+  <div #myBounds ngDraggable ngResizable [handle]="handleMenu" class="finestraMenu drag-boundary"
+    style="position: fixed; left: 10%; top: 5%; width: 850px; height: 600px; z-index: 5000; 
+      background-color: #fff; padding: 0px; overflow: hidden; margin: 0px;"
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+    (edge)="checkEdge($event)" [bounds]="divCont1" [inBounds]="true"
+  >
+    <div kendoTooltip class="barraSuperiore">
+      <div #handleMenu class="drag-block drag-block-handle" style="float: left; width: calc(100% - 100px); height: 20px; text-align: left; margin-top: 2px;">
+        &nbsp;Frame editor: {{datiModificati.mapNameM}}
+        <span *ngIf="Debug">Tab selezionato {{tabSelezionato2}}</span>
+      </div>
+      <div style="width: 100px; float: left;">
+        <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="Utils && Utils.linkIcone + '/icons/close_context.png'" disabled="comboDisabilitata" class="immaginiChiusura" (click)="chiudiMenu('0')" title="Close" style="margin-top: -3px; width: 32px; height: 32px;">
+        <img [hidden]="!(modificheEffettuate && Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" disabled="comboDisabilitata" [src]="Utils && Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiChiusura" style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" (click)="chiudiMenu('1')" title="Apply">
+        <img [hidden]="!(modificheEffettuate && Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" disabled="comboDisabilitata" [src]="Utils && Utils.linkIcone + '/icons/Refresh_white.png'" class="immaginiChiusura" style="margin-top: 0px; margin-right: 6px; margin-top: -3px; width: 30px; height: 30px; z-index: 1651;" (click)="undo()" title="Undo">
+      </div>
+    </div>
+
+    <div style="width:100%; height: calc(100% - 26px);">
+      <div *ngIf="staSistemandoTabs || staChiudendo" style="position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index: 10;
+        opacity: .5;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/gif/wait.gif'" 
+          style="position: absolute; left: 43%; top: 45%; width: 100px; height: 100px; z-index: 11;">
+      </div>
+
+      <kendo-tabstrip (tabSelect)="onTabSelect($event)" [animate]="false" style="overflow: auto; width: 100%;" 
+        [style.height]="staSistemandoTabs ? '1px' : '100%'">
+        <ng-container  *ngIf="eseguitoInProgetto == false 
+          || (eseguitoInProgetto == true && tipoFrameProgetto2 == 'TP') 
+          || (eseguitoInProgetto == true && tipoFrameProgetto2 == 'PP')">
+          <kendo-tabstrip-tab [title]="'Generic'"
+            [selected]="tabSelezionato2 == 0 || datiModificati.mappaOGraficoM !== 'M'">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px;">
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titoloTesto">
+                    <span class="testo grassetto scuro">Frame ID</span>
+                  </div>
+                  <div class="contenuto">
+                    <input class="casellaTesto"
+                      type = "text"
+                      readonly
+                      style="border: 0px; text-align: left; outline-width: 0;"
+                      value="{{NumeroFrame}}-{{frameAttivo}}" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" title="[page num] view name: use [] to make this view visible in an other page" class="riga">
+                  <div class="titoloTesto">
+                      <span class="testo grassetto scuro">Frame Name</span>
+                  </div>
+                  <div class="contenuto">
+                    <!--
+                      (blur)="cambioNomeFrame($event.target['value'])"
+                    -->
+                    <input class="casellaTesto"
+                      type = "text"
+                      (input)="cambioNomeFrame($event.target['value'])"
+                      style="text-align: left;"
+                      value="{{datiModificati.mapNameM}}" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titoloTesto">
+                    <span class="testo grassetto scuro">Frame Description</span>
+                  </div>
+                  <div class="contenuto">
+                    <!--
+                      (blur)="cambioDescrizioneFrame($event.target['value'])"
+                  -->
+                    <input class="casellaTesto"
+                      type = "text"
+                      (input)="cambioDescrizioneFrame($event.target['value'])"
+                      style="text-align: left;"
+                      value="{{datiModificati.descrizioneM}}" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titoloCombo" style="margin-top: -3px;">
+                      <span class="testo grassetto scuro">Data View</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [data]="datiTipiFrame"
+                      [userName]="userName"
+                      [NomeCombo]="'cmbMapGraph' + '_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'id'"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.mappaOGraficoM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroMG"
+                      [disabilitata]="comboDisabilitata"
+                      [altezzaMassima]="150"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectOptionMappaGrafico($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false && numeroActSetVisibili > 1" class="riga">
+                  <div *ngIf="datiModificati.mappaOGraficoM !== '--' &&
+                              datiModificati.mappaOGraficoM !== 'TI' &&
+                              datiModificati.mappaOGraficoM !== 'MD' &&
+                              datiModificati.mappaOGraficoM !== 'NB'" class="titoloCombo">
+                    <span class="testo grassetto scuro">Activity Set</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM !== '--' &&
+                              datiModificati.mappaOGraficoM !== 'TI' &&
+                              datiModificati.mappaOGraficoM !== 'MD' &&
+                              datiModificati.mappaOGraficoM !== 'NB'" class="contenutoPerCombo">
+                    <app-combo-component
+                      [data]="datiTipiActivity2"
+                      [campoId]="'id'"
+                      [userName]="userName"
+                      [NomeCombo]="'ActFilter_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.activityM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroAct"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="selectActivity($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <!-- <div class="titolo">
+                  <span class="testo grassetto scuro">Design Info</span>&nbsp;
+                </div>
+                <div class="contenuto">
+                  <input type="checkbox" [(ngModel)]="datiModificati.designInfoM"
+                    (change)="checkDesignInfo($event)" style="float: right;" />
+                </div>
+                <div style="clear: both;"></div> -->
+
+                <div *ngIf="datiModificati.mappaOGraficoM == 'PS' || datiModificati.mappaOGraficoM == 'AH'
+                  || datiModificati.mappaOGraficoM == 'PT' || datiModificati.mappaOGraficoM == 'PC'
+                  || datiModificati.mappaOGraficoM == 'MC' || datiModificati.mappaOGraficoM == 'ES'
+                  || datiModificati.mappaOGraficoM == 'CM' || datiModificati.mappaOGraficoM == 'AE'
+                  || datiModificati.mappaOGraficoM == 'CD' || datiModificati.mappaOGraficoM == 'CV'
+                  || datiModificati.mappaOGraficoM == 'M' || datiModificati.mappaOGraficoM == 'MG'
+                  || datiModificati.mappaOGraficoM == 'CG' || datiModificati.mappaOGraficoM =='AI'
+                  || datiModificati.mappaOGraficoM == 'TC' || datiModificati.mappaOGraficoM == 'NP'
+                  || datiModificati.mappaOGraficoM == 'TP' || datiModificati.mappaOGraficoM == 'PP'
+                  || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA'
+                  || datiModificati.mappaOGraficoM == 'M2' || datiModificati.mappaOGraficoM == 'MS'
+                  || datiModificati.mappaOGraficoM == 'MQ' || datiModificati.mappaOGraficoM == 'MR'
+                  || datiModificati.mappaOGraficoM == 'MF'"
+                >
+
+                  <div class="riga">
+                    <div class="titolo" style="margin-top: 2px;">
+                      <span class="testo grassetto scuro">Time Filter</span>&nbsp;
+                    </div>
+                    <div class="contenuto" style="text-align: left !important;">
+                      <!-- <input type="checkbox" [(ngModel)]="datiModificati.viewGlobalM"
+                        (change)="checkViewGlobal(datiModificati.viewGlobalM)" style="float: right;" /> -->
+
+                      <div style="width: 100%;">
+                        <div style="width: 13%; float: left; margin-right: 5px;">
+                          All
+                          <input name="optionsTF" type="radio" [value]="1" (click)="timeFilterClick(1)" [checked]="datiModificati.timeFilterM==1">
+                        </div>
+                        <div style="width: 43%; float: left; margin-right: 5px;">
+                          Selected Time Range
+                          <input name="optionsTF" type="radio" [value]="2" (click)="timeFilterClick(2)" [checked]="datiModificati.timeFilterM==2">
+                        </div>
+                        <div *ngIf="datiModificati.mappaOGraficoM == 'TC' || datiModificati.mappaOGraficoM == 'NP' || datiModificati.mappaOGraficoM == 'TP'" style="width: 33%; float: left; margin-right: 5px;">
+                          Selected Activity
+                          <input name="optionsTF" type="radio" [value]="4" (click)="timeFilterClick(4)" [checked]="datiModificati.timeFilterM==4">
+                        </div>
+                        <!-- <div *ngIf="datiModificati.mappaOGraficoM == 'AE'" style="width: auto; float: left;">
+                          <div style="width: 75%; float: left;">
+                            Fixed Seconds
+                            <input name="optionsTF" type="radio" [value]="3" (click)="timeFilterClick(3)" [(ngModel)]="datiModificati.timeFilterM" [checked]="datiModificati.timeFilterM==3">
+                          </div>
+                          <div *ngIf="datiModificati.timeFilterM==3" style="width: 25%; float: right;">
+                            <app-combo-component
+                              [data]="fixedSecondsData"
+                              [Tipologia]="'Combo'"
+                              [userName]="userName"
+                              [NomeCombo]="'fixedSeconds' + '_' + NumeroFrame"
+                              [campoId]="'id'"
+                              [accettaNuovi]="true"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="datiModificati.fixedSecondsM"
+                              [pulisceValoriDiBase]='true'
+                              [pulisceFiltro]="pulisceFiltroMapStyle"
+                              [disabilitata]="comboDisabilitata"
+
+                              (selezioneEffettuata)="selectFixedSeconds($event)"
+                            >
+                            </app-combo-component>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div style="clear: both;"></div>
+
+                    <div *ngIf="datiModificati.mappaOGraficoM=='AE'" class="titolo" style="margin-top: 25px;">
+                      <span class="testo grassetto scuro">When time cursor changes, synchronize this view</span>&nbsp;
+                    </div>
+                    <div *ngIf="datiModificati.mappaOGraficoM=='AE'" class="contenuto" style="text-align: left !important; margin-top: 43px;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.isNonSyncEventTimeM"
+                        (change)="checkSyncEventTime()" />
+                    </div>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='MS' || datiModificati.mappaOGraficoM=='M2'" class="titolo" style="padding-left: 8px; margin-top: 5px;">
+                  <span class="testo grassetto scuro">View Mode</span>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='MS'" class="contenuto" style="text-align: left !important;">
+                  <input type="text" class="casellaTesto" [(ngModel)]="datiModificati.viewModeMS"
+                    (blur)="cambioViewModeMS()"
+                    style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left; height: 26px;" />
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='M2'" class="contenuto" style="text-align: left !important;">
+                    <app-combo-component
+                      [data]="viewModes"
+                      [campoId]="'name'"
+                      [userName]="userName"
+                      [NomeCombo]="'cmbViewModes_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.viewModeMS"
+                      [pulisceValoriDiBase]='true'
+                      [accettaNuovi]="true"
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="cambioViewModeMSCombo($event)"
+                    >
+                    </app-combo-component>
+                </div>
+                <div style="clear: both;"></div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='MS'" class="titolo" style="padding-left: 8px; margin-top: 5px;">
+                  <span class="testo grassetto scuro">Flow Type</span>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='MS'" class="contenuto" style="text-align: left !important;">
+                  <input type="text" class="casellaTesto" [(ngModel)]="datiModificati.flowTypeMS"
+                    (blur)="cambioFlowTypeMS()"
+                    style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left; height: 26px;" />
+                </div>
+                <div style="clear: both;"></div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='MR' || datiModificati.mappaOGraficoM=='MF'" class="titolo" style="padding-left: 8px; margin-top: 5px;">
+                  <span class="testo grassetto scuro">Stand Alone</span>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='MR' || datiModificati.mappaOGraficoM=='MF'" class="contenuto" style="text-align: left !important; margin-top: 5px;">
+                  <input type="checkbox" [(ngModel)]="datiModificati.isStandAloneMR"
+                    (change)="checkStandAloneMR()" />
+                </div>
+                <div style="clear: both;"></div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='MC' || datiModificati.mappaOGraficoM=='AH' || datiModificati.mappaOGraficoM=='PS'" class="riga">
+                  <div class="titolo" style="margin-top: 2px;">
+                    <span class="testo grassetto scuro">Height</span>&nbsp;
+                  </div>
+                  <div class="contenuto" style="text-align: left !important;">
+                    <app-combo-component
+                      [data]="Utils.datiHeightChart"
+                      [campoId]="'id'"
+                      [userName]="userName"
+                      [NomeCombo]="'cmbHeightChart_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.heightChartM"
+                      [pulisceValoriDiBase]='true'
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="cambioHeightChart($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='MC'" style="clear: both;"></div>
+
+                <!-- <div *ngIf="datiModificati.mappaOGraficoM=='MC' || datiModificati.mappaOGraficoM=='AH' || datiModificati.mappaOGraficoM=='PS'" class="riga">
+                  <div class="titolo" style="margin-top: 2px;">
+                    <span class="testo grassetto scuro">Do not set &lt;GLOBAL MEASURE&gt;</span>&nbsp;
+                  </div>
+                  <div class="contenuto" style="text-align: left !important;">
+                    <input type="checkbox" [(ngModel)]="datiModificati.doNotSetGMM"
+                      (change)="cambioDoNoSetGM(datiModificati.doNotSetGMM)" />
+                  </div>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM=='MC'" style="clear: both;"></div> -->
+
+                <!-- <div *ngIf="datiModificati.mappaOGraficoM=='MG' || datiModificati.mappaOGraficoM=='CG'">
+                  <div class="riga">
+                    <div class="titolo">
+                      <span class="testo grassetto scuro">BBOX</span>&nbsp;
+                    </div>
+                    <div class="contenuto" style="text-align: left !important;">
+                      <div style="width: 33%; float: left;">
+                        All
+                        <input name="optionsOZ" type="radio" [value]="3" (click)="bboxOZClick(3)" [(ngModel)]="datiModificati.bboxOverViewZoomM" [checked]="datiModificati.bboxOverViewZoomM==3">
+                      </div>
+                      <div style="width: 33%; float: left;">
+                        OverView
+                        <input name="optionsOZ" type="radio" [value]="1" (click)="bboxOZClick(1)" [(ngModel)]="datiModificati.bboxOverViewZoomM" [checked]="datiModificati.bboxOverViewZoomM==1">
+                      </div>
+                      <div style="width: 33%; float: left;">
+                        Zoom
+                        <input name="optionsOZ" type="radio" [value]="2" (click)="bboxOZClick(2)" [(ngModel)]="datiModificati.bboxOverViewZoomM" [checked]="datiModificati.bboxOverViewZoomM==2">
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='CD' || datiModificati.mappaOGraficoM=='CV'
+                  || datiModificati.mappaOGraficoM=='ES' || datiModificati.mappaOGraficoM=='XX'
+                  || datiModificati.mappaOGraficoM=='AH' || datiModificati.mappaOGraficoM=='PC'
+                  || datiModificati.mappaOGraficoM=='PS' || datiModificati.mappaOGraficoM=='AI'
+                  || datiModificati.mappaOGraficoM=='LA' || datiModificati.mappaOGraficoM=='CG'
+                  || datiModificati.mappaOGraficoM=='MG' || datiModificati.mappaOGraficoM=='TC'
+                  || datiModificati.mappaOGraficoM=='NP' || datiModificati.mappaOGraficoM == 'TP'
+                  || datiModificati.mappaOGraficoM == 'PP' || datiModificati.mappaOGraficoM=='AR'
+                  || datiModificati.mappaOGraficoM=='AA'" class="riga">
+
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">GEO Filter</span>&nbsp;
+                  </div>
+                  <div class="contenutoPerCombo" style="text-align: left !important;">
+                    <app-combo-component
+                      *ngIf="datiModificati.mappaOGraficoM!='CG'"
+                      [data]="datiTipiGeoFilter"
+                      [campoId]="'ID'"
+                      [userName]="userName"
+                      [NomeCombo]="'GeoFilter_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.geoFilterM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroGeo"
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectGeoFilter($event)"
+                    >
+                    </app-combo-component>
+
+                    <app-combo-component
+                      *ngIf="datiModificati.mappaOGraficoM=='CG'"
+                      [data]="datiTipiGeoFilterCluster"
+                      [campoId]="'ID'"
+                      [userName]="userName"
+                      [NomeCombo]="'GeoFilter_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.geoFilterM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroGeo"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="selectGeoFilter($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                </div>
+                
+                <div *ngIf="datiModificati.mappaOGraficoM=='TP'" class="riga">
+                  <div class="titoloCombo" style="margin-top: -3px;">
+                      <span class="testo grassetto scuro">Layout</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [data]="datiLayout"
+                      [userName]="userName"
+                      [NomeCombo]="'cmbDatiLayout' + '_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'id'"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.tipoDatiLayoutM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroDL"
+                      [disabilitata]="comboDisabilitata"
+                      [altezzaMassima]="150"
+
+                      (selezioneEffettuata)="selectOptiontipoDatiLayoutM($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="!eseguitoInProgetto && (datiModificati.mappaOGraficoM=='M' || datiModificati.mappaOGraficoM=='CV' ||
+                  datiModificati.mappaOGraficoM=='CD')">
+                  <div class="riga">
+                    <div class="titolo" style="margin-top: 2px;">
+                      <span class="testo grassetto scuro">Dataset</span>&nbsp;
+                    </div>
+                    <div class="contenuto" style="text-align: left !important;">
+                      <div style="width: 23%; float: left;">
+                        All
+                        <input name="optionsDS" type="radio" [value]="1" (click)="dataSetClick(1)" [checked]="datiModificati.tipoDatasetM == 1">
+                      </div>
+                      <div style="width: 43%; float: left; margin-left: 5px;">
+                        AGN
+                        <input name="optionsDs" type="radio" [value]="2" (click)="dataSetClick(2)" [checked]="datiModificati.tipoDatasetM == 2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM=='M' || datiModificati.mappaOGraficoM=='PC'
+                  || datiModificati.mappaOGraficoM=='AH' || datiModificati.mappaOGraficoM=='PS'
+                  || datiModificati.mappaOGraficoM=='CM' || datiModificati.mappaOGraficoM=='AI'
+                  || datiModificati.mappaOGraficoM=='AR' || datiModificati.mappaOGraficoM=='AA'" class="riga">
+                  <div class="titoloCombo" style="margin-top: -3px;">
+                      <span class="testo grassetto scuro">Filter 1</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <div style="width: calc(100% - 30px); float: left; height: auto; line-height: 20px; text-align: left; font-size: 16px;">
+                      {{filter1NAME}}<br />{{txtFilter1}}
+                    </div>
+                    <div #divFiltri style="width: 30px; float: left; height: auto;">
+                      <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+                            disabled="comboDisabilitata" 
+                            [src]="Utils && Utils.linkIcone + '/icons/draw_polygon_active.png'" class="immaginiChiusura" 
+                            style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                            (click)="applicaTextFilter(1)" title="Apply">
+                    </div>
+                    <!--
+                    <div style="width: 100%; float: left;">
+                      <app-combo-component
+                        [Tipologia]="'Combo'"
+                        [data]="measureDataCM1"
+                        [userName]="userName"
+                        [NomeCombo]="'FilterMeasure_' + NumeroFrame + '_' + frameAttivo"
+                        [campoId]="'CODE'"
+                        [campoRaggruppamento]="'FOLDER'"
+                        [campoTesto]="'DISPLAY_NAME'"
+                        [valoreDefault]="datiModificati.clusterMeasureM"
+                        [ricordaUltimoValore]='false'
+                        [pulisceValoriDiBase]='true'
+                        [campoFiltro]="'DISPLAY_NAME'"
+                        [pulisceFiltro]="pulisceFiltroCM1"
+                        [disabilitata]="comboDisabilitata"
+
+                        (cambioValore)="cambioScrittaMisura($event, 'CLUSTERMEASURE1', -1)"
+                        (selezioneEffettuata)="selectMisuraFilter($event)"
+                      >
+                      </app-combo-component>
+                    </div>
+                    <div style="width: 100%; float: left;">
+                      <! -- <input type="text" value="{{datiModificati.textFilterM}}"
+                        (blur)="cambioFilterText($event.target['value'])"
+                        style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left; height: 26px;" /> -- >
+
+                      <div style="width: calc(100% - 35px); float: left; margin-right: 5px;">
+                        <app-combo-component
+                          [Tipologia]="'Combo'"
+                          [data]="datiLOV1"
+                          [altezzaMassima]="150"
+                          [userName]="userName"
+                          [NomeCombo]="'FilterLOV1_' + NumeroFrame + '_' + frameAttivo + '_' + datiModificati.clusterMeasureM"
+                          [campoId]="'value'"
+                          [campoTesto]="'value'"
+                          [ricordaUltimoValore]='false'
+                          [pulisceValoriDiBase]='true'
+                          [campoFiltro]="'value'"
+                          [pulisceFiltro]="pulisceFiltroLov1"
+                          [valoreDefault]="datiModificati.textFilterM"
+                          [disabilitata]="comboDisabilitata"
+                          [selezioneMultipla]="true"
+                          [aggiungeRiga]="aggiungeRigaLov1"
+                          [visibileElimina]="false"
+      
+                          (selezioneEffettuata)="cambioFilterText($event)"
+                        >
+                        </app-combo-component>
+                      </div>
+                      <div style="width: 30px; float: left; text-align: right;">
+                        <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && filtroModificato1)" 
+                          disabled="comboDisabilitata" 
+                          [src]="Utils && Utils.linkIcone + '/icons/check-circle_2.png'" class="immaginiChiusura" 
+                          style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                          (click)="applicaTextFilter(1)" title="Apply">
+
+                        <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !filtroModificato1)" 
+                          disabled="comboDisabilitata" 
+                          [src]="Utils && Utils.linkIcone + '/icons/check-circle.png'" class="immaginiChiusura" 
+                          style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                          (click)="applicaTextFilter(1)" title="Apply">
+                      </div>        
+                  </div>
+                  -->
+                  </div>
+                  <div style="clear: both; margin-bottom: 15px;"></div>
+
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">Filter 2</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <div style="width: calc(100% - 30px); float: left; height: auto; line-height: 20px; text-align: left; font-size: 16px;">
+                      {{filter2NAME}}<br />{{txtFilter2}}
+                    </div>
+                    <div style="width: 30px; float: left; height: auto;">
+                      <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+                            disabled="comboDisabilitata" 
+                            [src]="Utils && Utils.linkIcone + '/icons/draw_polygon_active.png'" class="immaginiChiusura" 
+                            style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                            (click)="applicaTextFilter(2)" title="Apply">
+                    </div>
+                    <!--
+                    <div style="width: 100%; float: left;">
+                      <app-combo-component
+                        [Tipologia]="'Combo'"
+                        [data]="measureDataCM2"
+                        [userName]="userName"
+                        [altezzaMassima]="120"
+                        [NomeCombo]="'FilterMeasure2_' + NumeroFrame + '_' + frameAttivo"
+                        [campoId]="'CODE'"
+                        [campoRaggruppamento]="'FOLDER'"
+                        [campoTesto]="'DISPLAY_NAME'"
+                        [valoreDefault]="datiModificati.clusterMeasure2M"
+                        [ricordaUltimoValore]='false'
+                        [pulisceValoriDiBase]='true'
+                        [campoFiltro]="'DISPLAY_NAME'"
+                        [pulisceFiltro]="pulisceFiltroCM2"
+                        [disabilitata]="comboDisabilitata"
+
+                        (cambioValore)="cambioScrittaMisura($event, 'CLUSTERMEASURE2', -1)"
+                        (selezioneEffettuata)="selectMisuraFilter2($event)"
+                      >
+                      </app-combo-component>
+                    </div>
+
+                    <div style="width: 100%; float: left;">                  
+                      <! -- <input type="text" value="{{datiModificati.textFilter2M}}"
+                        (blur)="cambioFilterText2($event.target['value'])"
+                        style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left; height: 26px;" /> -- >
+
+                      <div style="width: calc(100% - 35px); float: left; margin-right: 5px;">
+                        <app-combo-component
+                          [Tipologia]="'Combo'"
+                          [data]="datiLOV2"
+                          [userName]="userName"
+                          [NomeCombo]="'FilterLOV2_' + NumeroFrame + '_' + frameAttivo + '_' + datiModificati.clusterMeasure2M"
+                          [altezzaMassima]="150"
+                          [Debug]="Debug"
+                          [campoId]="'value'"
+                          [campoTesto]="'value'"
+                          [ricordaUltimoValore]='false'
+                          [pulisceValoriDiBase]='true'
+                          [campoFiltro]="'value'"
+                          [pulisceFiltro]="pulisceFiltroLov2"
+                          [valoreDefault]="datiModificati.textFilter2M"
+                          [disabilitata]="comboDisabilitata"
+                          [selezioneMultipla]="true"
+                          [aggiungeRiga]="aggiungeRigaLov2"
+                          [visibileElimina]="false"
+      
+                          (selezioneEffettuata)="cambioFilterText2($event)"
+                        >
+                        </app-combo-component>
+                      </div>
+                      <div style="width: 30px; float: left; text-align: right;">
+                        <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && filtroModificato2)"
+                          disabled="comboDisabilitata" 
+                          [src]="Utils && Utils.linkIcone + '/icons/check-circle_2.png'" class="immaginiChiusura" 
+                          style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                          (click)="applicaTextFilter(2)" title="Apply">
+                          
+                        <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !filtroModificato2)" 
+                          disabled="comboDisabilitata" 
+                          [src]="Utils && Utils.linkIcone + '/icons/check-circle.png'" class="immaginiChiusura" 
+                          style="margin-top: 0px; width: 25px; height: 25px; z-index: 1651;" 
+                          (click)="applicaTextFilter(2)" title="Apply">
+                      </div>
+                    </div>
+                      -->
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div *ngIf="datiModificati.mappaOGraficoM == 'AH'" class="riga2" style="color: #444444; margin-top: 10px; margin-left: 2px; line-height: 15px;">
+                    <div style="font-weight: bold;">Advanced filtering:</div><br />
+                    To select all values containing a string, use sintax <span style="font-style: italic;">“%stringTosearch%”</span> as value in the combo menu<br />
+                    To select all values that does not contain a string, use sintax <span style="font-style: italic;">“!%stringTosearch%”</span> as value in the combo menu<br />
+                    In both case max two “like” values can be applied
+                  </div>
+
+                  <!-- 
+                <div class="titoloCombo">
+                  <span class="testo grassetto scuro">LOV</span>
+                </div>
+                <div class="contenutoPerCombo">
+                  <div style="width: 50%; float: left; margin-right: 5px;">
+                    <app-combo-component
+                      [Tipologia]="'Combo'"
+                      [data]="datiLOV.DataTable"
+                      [userName]="userName"
+                      [NomeCombo]="'FilterLOV_' + NumeroFrame"
+                      [campoId]="'value'"
+                      [campoTesto]="'value'"
+                      [valoreDefault]="datiModificati.lovM"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'value'"
+                      [pulisceFiltro]="true"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="selectMisuraLov($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="width: calc(50% - 5px); float: right;">
+                    <input type="text" value="{{datiModificati.textLovM}}"
+                      (blur)="cambioFilterLov($event.target['value'])"
+                      style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left; height: 26px;" />
+                  </div>
+                </div>
+                <div style="clear: both;"></div> 
+                -->
+
+                  <div *ngIf="datiModificati.mappaOGraficoM=='AI' || datiModificati.mappaOGraficoM=='AR'" class="titoloCombo">
+                    <span class="testo grassetto scuro">Correlation</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM=='AI' || datiModificati.mappaOGraficoM=='AR'" class="contenutoPerCombo">
+                    <div style="width: 50%; float: left; margin-right: 5px;">
+                      <app-combo-component
+                        [Tipologia]="'Combo'"
+                        [data]="measureDataCor"
+                        [userName]="userName"
+                        [altezzaMassima]="75"
+                        [NomeCombo]="'Correlation_' + NumeroFrame + '_' + frameAttivo"
+                        [campoId]="'CODE'"
+                        [campoRaggruppamento]="'FOLDER'"
+                        [campoTesto]="'DISPLAY_NAME'"
+                        [valoreDefault]="datiModificati.correlationM"
+                        [ricordaUltimoValore]='false'
+                        [pulisceValoriDiBase]='true'
+                        [campoFiltro]="'DISPLAY_NAME'"
+                        [pulisceFiltro]="true"
+                        [disabilitata]="comboDisabilitata"
+
+                        (cambioValore)="cambioScrittaMisura($event, 'CORRELATION', -1)"
+                        (selezioneEffettuata)="selectCorrelation($event)"
+                      >
+                      </app-combo-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'M' && datiModificati.mappaOGraficoM !== '--'">
+          <kendo-tabstrip-tab [title]="'Map'"
+            [selected]="tabSelezionato2 == 1 && datiModificati.mappaOGraficoM == 'M'">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px;">
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titolo" style="margin-top: 2px;">
+                    <span class="testo grassetto scuro">Map behaviour</span>&nbsp;
+                  </div>
+                  <div class="contenuto" style="text-align: left !important; margin-left: 2px;">
+                    <!-- <input type="checkbox" [(ngModel)]="datiModificati.viewGlobalM"
+                      (change)="checkViewGlobal(datiModificati.viewGlobalM)" style="float: right;" /> -->
+
+                    <div style="width: 100%;">
+                      Overview Map
+                      <input name="options" type="radio" [value]="true" (click)="radioClick(true)" [checked]="datiModificati.viewGlobalM==true">
+                      &nbsp;
+                      Zoom Map
+                      <input name="options" type="radio" [value]="false" (click)="radioClick(false)" [checked]="datiModificati.viewGlobalM==false" >
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga">
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">Map Style</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [data]="Ut.mappe"
+                      [userName]="userName"
+                      [NomeCombo]="'MapStyle' + '_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'id'"
+                      [ricordaUltimoValore]="false"
+                      [campoTesto]="'name'"
+                      [valoreDefault]="datiModificati.mapTypeM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroMapStyle"
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectTipoMappa1($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div class="resto"></div>
+
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">Map Measure Style</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [NomeCombo]="'MapStyleMS' + '_' + NumeroFrame + '_' + frameAttivo"
+                      [data]="mappeStyle"
+                      [campoId]="'id'"
+                      [campoTesto]="'name'"
+                      [userName]="userName"
+                      [ricordaUltimoValore]="false"
+                      [pulisceValoriDiBase]="true"
+                      [valoreDefault]="datiModificati.mappeMSM"
+                      [pulisceFiltro]="pulisceFiltroMapsStyle"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectTipoMappeMS($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div class="resto"></div>
+
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga">
+                  <div class="titolo" style="margin-top: -6px;">
+                    <span *ngIf="datiModificati.mappaOGraficoM == 'M'" class="testo grassetto scuro">Show Planimetry<br />(If associated)</span>&nbsp;
+                  </div>
+                  <div class="contenutoCheckBox" style="margin-left: -4px;">
+                    <input type="checkbox" [(ngModel)]="datiModificati.showPlanimetryM"
+                      (change)="checkShowPlanimetry()" style="float: left;" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <!-- *ngIf="eseguitoInProgetto == false" -->
+                <div class="riga">
+                  <div class="titoloCombo">
+                    <span *ngIf="datiModificati.mappaOGraficoM == 'M'" class="testo grassetto scuro">Style Size</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [Tipologia]="'Combo'"
+                      [NomeCombo]="'StyleSizeTS'"
+                      [data]="styleSizes"
+                      [campoId]="'id'"
+                      [accettaNuovi]="true"
+                      [campoTesto]="'name'"
+                      [userName]="userName"
+                      [ricordaUltimoValore]="false"
+                      [pulisceValoriDiBase]="true"
+                      [valoreDefault]="datiModificati.styleImpostatoM"
+                      [pulisceFiltro]="false"
+
+                      (selezioneEffettuata)="changeStyleSize($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div class="resto"></div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Show Paths</span>&nbsp;
+                  </div>
+                  <div class="contenutoCheckBox" style="margin-left: -4px;">
+                    <!--  -->
+                    <input type="checkbox" [(ngModel)]="datiModificati.isCheckedShowPathsM"
+                      (change)="checkValuePaths()" style="float: left;" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Show Selected Path (blue dots)</span>&nbsp;
+                  </div>
+                  <div class="contenutoCheckBox" style="margin-left: -4px;">
+                    <!--  -->
+                    <input type="checkbox" [(ngModel)]="datiModificati.isCheckedShowSelectedPathsM"
+                      (change)="checkValueSelectedPaths()" style="float: left;" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div style="width: 100%; float: left; margin-top: 15px; text-align: center;">
+                  To rotate the map: SHIFT + ALT + MouseDrag
+                </div>
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'M' && datiModificati.mappaOGraficoM !== '--'">
+          <kendo-tabstrip-tab [title]="'Cells'"
+          [selected]="tabSelezionato2 == 2 && datiModificati.mappaOGraficoM == 'M'">
+          <ng-template kendoTabContent>
+            <div class="finestraCentrale" style="height: 96% !important">
+
+              <div *ngIf="eseguitoInProgetto == false" class="riga">
+                <div class="titolo" style="margin-top: -6px;">
+                  <span class="testo grassetto scuro">Show point rays to cells</span>&nbsp;
+                </div>
+                <div class="contenutoCheckBox" style="margin-left: 2px;">
+                  <input type="checkbox" [(ngModel)]="datiModificati.showRaysM"
+                    (change)="checkValueShowRays()" style="float: left;" />
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <hr *ngIf="eseguitoInProgetto == false" />
+
+              <div *ngIf="eseguitoInProgetto == false" class="riga">
+                <div class="titolo" style="margin-top: -6px;">
+                  <span class="testo grassetto scuro">Show path rays to cells</span>&nbsp;
+                </div>
+                <div class="contenutoCheckBox" style="margin-left: 2px;">
+                  <input type="checkbox" [(ngModel)]="datiModificati.isCheckedServingCellM"
+                    (change)="checkValueServingCell()" style="float: left;" />
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <div *ngIf="eseguitoInProgetto == false" class="riga" style="float: left; height: 35px !important;">
+                <div class="titoloCombo">
+                  <span class="testo grassetto scuro">Ray color measure</span>
+                </div>
+                <div class="contenutoPerCombo">
+                  <app-combo-component
+                    [Tipologia]="'Combo'"
+                    [data]="measureDataRCM"
+                    [userName]="userName"
+                    [NomeCombo]="'RCMeasure_' + NumeroFrame + '_' + frameAttivo"
+                    [campoId]="'CODE'"
+                    [campoRaggruppamento]="'FOLDER'"
+                    [campoTesto]="'DISPLAY_NAME'"
+                    [valoreDefault]="datiModificati.measureRCM"
+                    [ricordaUltimoValore]='false'
+                    [pulisceValoriDiBase]='true'
+                    [campoFiltro]="'DISPLAY_NAME'"
+                    [pulisceFiltro]="pulisceFiltroMeasuresRC"
+                    [disabilitata]="comboDisabilitata"
+
+                    (cambioValore)="cambioScrittaMisura($event, 'MEASURERCM', -1)"
+                    (selezioneEffettuata)="selectMisuraRC($event)"
+                  >
+                  </app-combo-component>
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <div *ngIf="eseguitoInProgetto == false" class="riga" style="height: calc(100% - 300px); display: flex;">
+                <div class="titolo">
+                  <span class="testo grassetto scuro">Cell Types</span>&nbsp;
+                </div>
+                <div class="contenuto">
+                  <app-ants-grid-lib
+                    *ngIf="datiLookUp2"
+                    [sessioneAttuale]="sessionID"
+                    [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                    [indirizzoServer]="indirizzoServer"
+                    [modalita]="'Griglia'"
+                    [title]="'Cell Types'"
+                    [data]="datiLookUp2"
+                    [userName]="userName"
+                    [maskName]="'GrigliaLookUp_' + frameAttivo + '_' + NumeroFrame"
+                    [newKeyVisibile]='false'
+                    [editKeyVisibile]='false'
+                    [delete2KeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [ricordaSelezione]='true'
+                    [pulisceSelezione]='false'
+                    [rinfrescaGriglia]='rinfrescaGrigliaCellTypes'
+                    [newKeyPersistant]="false"
+                    [impostaSelezione]="selezioneCellType"
+                    [selezioneMultipla]='true'
+                    [selectAll]="false"
+                    [possoSelezionareTutto]='true'
+                    [AutoResize]="false"
+                    [ManualResize]="lookupMR"
+                    [righeAutomatiche]="false"
+                    [paginazione]="'scrollable'"
+                    [toolbarVisibile]="false"
+                    [linkIcone]="Utils && Utils.linkIcone"
+
+                    (clickSelezioneSuCheckRiga)='changeCellType($event)'
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneLookUp($event)"
+                    >
+                  </app-ants-grid-lib>
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <div class="riga">
+                <div class="titoloCombo">
+                  <span *ngIf="datiModificati.mappaOGraficoM == 'M'" class="testo grassetto scuro" style="margin-top: 10px; margin-bottom: 10px;">Antenne</span>&nbsp;
+                </div>
+                <div class="contenutoPerCombo">
+                  <!-- <input type="checkbox" [(ngModel)]="datiModificati.isCheckedAntenneM"
+                    (change)="checkValueAntenne(datiModificati.isCheckedAntenneM)" style="float: right;" /> -->
+                    <app-combo-component
+                      [Tipologia]="'DropDown'"
+                      [data]="datiAntenne"
+                      [campoId]="'id'"
+                      [altezzaMassima]="100"
+                      [userName]="userName"
+                      [NomeCombo]="'Antenne_' + NumeroFrame + '_' + frameAttivo"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [valoreDefault]="datiModificati.isCheckedAntenneM"
+                      [ricordaUltimoValore]="false"
+                      [pulisceValoriDiBase]='true'
+                      [visibileElimina]="false"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="selectAntenne($event)"
+                    >
+                    </app-combo-component>
+
+                </div>
+                <!-- <div class="resto"></div>
+                <div style="clear: both;"></div> -->
+              </div>
+            </div>
+          </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'M' && datiModificati.mappaOGraficoM !== '--'">
+          <kendo-tabstrip-tab [title]="'Additional Layers'"
+            [selected]="tabSelezionato2 == 3 && datiModificati.mappaOGraficoM == 'M'">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px; height: 96%;">
+
+                <!-- <div class="riga" style="height: 30px;">
+                  <div class="titoloTesto">
+                    <span class="testo grassetto scuro">Show Additional Layers</span>
+                  </div>
+                  <div class="contenuto" style="text-align: left !important;">
+                    <div class="contenutoCheckBox" style="margin-left: 2px;">
+                      <input type="checkbox" [(ngModel)]="showAdditionalLayers"
+                        (change)="checkShowAdditionalLayers(showAdditionalLayers)" style="float: left;" />
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div> -->
+
+                <div class="riga" style="height: 30px;">
+                  <div class="titoloTesto" style="margin-top: -6px;">
+                    <span class="testo grassetto scuro">Show Rays to planned cells</span>
+                  </div>
+                  <div class="contenuto" style="text-align: left !important;">
+                    <div class="contenutoCheckBox" style="margin-left: 2px;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.showRaysAllLayerM"
+                        (change)="checkValueShowRaysAllLayer()" style="float: left;" />
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="height: calc(100% - 200px); display: flex;">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Show additional layers</span>&nbsp;
+                    <input type="checkbox" [(ngModel)]="datiModificati.showAdditionalLayersM"
+                      (change)="checkShowAdditionalLayers()" />
+                  </div>
+                  <div class="contenuto" style="height: 100%;" [style.opacity]="datiModificati.showAdditionalLayersM ? 1 : 0.7" [style.pointer-events]="datiModificati.showAdditionalLayersM ? 'all' : 'none'">
+                    <app-ants-grid-lib
+                      *ngIf="datiAddLayers2"
+                      [sessioneAttuale]="sessionID"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [modalita]="'Griglia'"
+                      [indirizzoServer]="indirizzoServer"
+                      [title]="'Additional layers'"
+                      [data]="datiAddLayers2"
+                      [userName]="userName"
+                      [maskName]="'GrigliaAddLayers_' + frameAttivo + '_' + NumeroFrame"
+                      [newKeyVisibile]='false'
+                      [editKeyVisibile]='false'
+                      [delete2KeyVisibile]='false'
+                      [infoKeyVisibile]='selezioneTuttiILayers'
+                      [confirmKeyVisibile]="false"
+                      [ricordaSelezione]='true'
+                      [pulisceSelezione]='false'
+                      [rinfrescaGriglia]='rinfrescaGrigliaAddLayers'
+                      [newKeyPersistant]="false"
+                      [impostaSelezione]="selezioneAddLayers"
+                      [selezioneMultipla]='true'
+                      [possoSelezionareTutto]='true'
+                      [AutoResize]="false"
+                      [righeAutomatiche]="false"
+                      [paginazione]="'scrollable'"
+                      [toolbarVisibile]="false"
+                      [datiNuovi]="datiAddLayers2 && datiAddLayers2.DataTable"
+                      [messaggioWarning]="messaggioWarningDAL2"
+                      [ManualResize]="effettuaAutoFitAL"
+
+                      [linkIcone]="Utils && Utils.linkIcone"
+
+                      (clickSelezioneSuCheckRiga)='changeAddLayers($event)'
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneAddLayers($event)"
+                      (selectedAllRows)="selezionatiTuttiILayers($event, true)"
+                      (deselectedAllRows)="selezionatiTuttiILayers($event, false)"
+                      >
+                    </app-ants-grid-lib>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="height: 30px;">
+                  <div class="titoloTesto">
+                    <span class="testo grassetto scuro">Opacity</span>
+                  </div>
+                  <div class="contenuto" style="text-align: left !important;">
+                    <!-- <input type="number" min="0" max="100" [(ngModel)]="datiModificati.opacityM" (blur)="cambiaOpacity($event.target['value'])"> -->
+                    <app-combo-component
+                      [data]="tipiOpacita"
+                      [userName]="userName"
+                      [altezzaMassima]="100"
+                      [NomeCombo]="'cmbOpacita' + '_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'id'"
+                      [campoTesto]="'name'"
+                      [campoFiltro]="'name'"
+                      [ricordaUltimoValore]='false'
+                      [valoreDefault]="datiModificati.opacityM"
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroOpacity"
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectOptionOpacity($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false" class="riga" style="height: 30px;">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Show Agent RT position</span>&nbsp;
+                  </div>
+                  <div class="contenutoCheckBox" style="margin-left: 2px;">
+                    <input type="checkbox" [(ngModel)]="datiModificati.sartPositionM"
+                      (change)="checkValueSartPosition()" style="float: left;" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container  *ngIf="(datiModificati.mappaOGraficoM == 'M' || datiModificati.mappaOGraficoM == 'MC' 
+          || datiModificati.mappaOGraficoM == 'AH' || datiModificati.mappaOGraficoM == 'AI'
+          || datiModificati.mappaOGraficoM == 'PS' || datiModificati.mappaOGraficoM == 'PC'
+          || datiModificati.mappaOGraficoM == 'PT' || datiModificati.mappaOGraficoM == 'PM')
+          && numeroActSetVisibili2 === 1">
+          <kendo-tabstrip-tab [title]="'Measure'"
+            [selected]="tabSelezionato2 == 4 && datiModificati.mappaOGraficoM == 'M'">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px; overflow-y: hidden; overflow-x: hidden; width: 100%; height: calc(100% - 11px);">
+                <!-- <div class="riga" style="float: left; height: 35px !important;">
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">Measure Type</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <app-combo-component
+                      [Tipologia]="'dropdown'"
+                      [larghezza]="'100%'"
+                      [dimeFont]="'10px'"
+                      [Tipologia]="'Combo'"
+                      [NomeCombo]="'measureTypeCombo'"
+                      [data]="Ut.datiMeasureType"
+                      [campoId]="'id'"
+                      [accettaNuovi]="false"
+                      [campoTesto]="'Name'"
+                      [userName]="userName"
+                      [ricordaUltimoValore]="true"
+                      [pulisceValoriDiBase]="true"
+                      [valoreDefault]="datiModificati.measureTypeM"
+
+                      (selezioneEffettuata)="selectMeasureType($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div> -->
+
+                <div *ngIf="datiModificati.mappaOGraficoM == 'MC' || datiModificati.mappaOGraficoM == 'PM' || datiModificati.mappaOGraficoM == 'AI'" 
+                  style="width: 100%; height: calc(100% - 35px);">
+                  <div style="width: 100%; height: calc(100% - 150px); float: left;"> <!-- calc(100% - 145px);  -->
+                    <app-ants-grid-lib
+                      [sessioneAttuale]="sessionID"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [modalita]="'Griglia'"
+                      [indirizzoServer]="indirizzoServer"
+                      [title]="'Measures'"
+                      [data]="datiMeasures"
+                      [userName]="userName"
+                      [maskName]="nomeGrigliaMeasure[NumeroFrame]"
+                      [newKeyVisibile]='false'
+                      [editKeyVisibile]='false'
+                      [delete2KeyVisibile]='false'
+                      [infoKeyVisibile]='true'
+                      [confirmKeyVisibile]="false"
+                      [ricordaSelezione]='false'
+                      [pulisceSelezione]='true'
+                      [selezioneMultipla]="false"
+                      [newKeyPersistant]="false"
+                      [AutoResize]="false"
+                      [ManualResize]="refreshGrigliaDM"                    
+                      [righeAutomatiche]="false"
+                      [toolbarVisibile]="true"
+                      [DimensioneFont]="12"
+                      [paginazione]="'scrollable'"
+                      [righePerPaginaVirtuale]="numeroRigheMisure"
+                      [datiNuovi]="datiMeasures && datiMeasures.DataTable"
+                      [linkIcone]="Utils && Utils.linkIcone"
+                      [impostaSelezione]="idRigaSelezionataDM"
+
+                      (cellClick)='clickSuRigaDM($event)'
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneDM($event)"
+                    >
+                    </app-ants-grid-lib>
+        
+
+                    <!--
+                      (deleteKeyPressed2)='delKeyPremutoDM()'
+                      (refresh)='refreshGridPM($event)'>
+
+                      [PermetteDragDrop]="true"
+
+                      (detectFineDragDrop)="dragDropMisure($event)"
+                    -->
+                    <div *ngIf="caricamentoMisureInCorso == true" class="k-i-loading" style="position: relative; top: -100%; height: 100%;"></div>
+                  </div>
+
+                  <div style="width: 100%; height: 30px; float: left; display: flex;">
+                    <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && this.rigaSelezionataDM)" [src]="Utils && Utils.linkIcone + '/icons/first.png'" class="immaginiChiusura" (click)="spostaPrimo();" title="Move to the first the selected row">
+                    &nbsp;
+                    <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && this.rigaSelezionataDM)" [src]="Utils && Utils.linkIcone + '/icons/last.png'" class="immaginiChiusura" (click)="spostaUltimo();" title="Move to the last the selected row">
+                    &nbsp;
+                    <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && this.rigaSelezionataDM)" [src]="Utils && Utils.linkIcone + '/icons/up.png'" class="immaginiChiusura" (click)="spostaSu();" title="Move up the selected row">
+                    &nbsp;
+                    <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && this.rigaSelezionataDM)" [src]="Utils && Utils.linkIcone + '/icons/down.png'" class="immaginiChiusura" (click)="spostaGiu();" title="Move down the selected row">
+                    &nbsp;
+                    <span *ngIf="Debug == true">{{ modificheEffettuate }}</span>
+                    <input *ngIf="this.rigaSelezionataDM" type="text" [(ngModel)]="rigaDaSpostare" style="width: 50px; margin-top: 5px;" (keyup.enter)="spostaARiga();">
+                    &nbsp;
+                    <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && this.rigaSelezionataDM)" [src]="Utils && Utils.linkIcone + '/icons/apply.png'" class="immaginiChiusura" (click)="spostaARiga();" title="Move the row to the selected index">
+                  </div>
+
+                  <div style="width: 100%; height: 120px; float: left;">
+                    <!-- <span style="margin-top: 3px; width: 100%; display: block;">Drag & Drop rows to change display order</span> -->
+                    <div class="riga" style="margin-top: 5px;">
+                      <div class="titolo" style="width: 30% !important; margin-top: 3px;">
+                        <div style="width: calc(100% - 50px); float: left;">
+                          <span *ngIf="datiModificati.mappaOGraficoM !== 'PS' && datiModificati.mappaOGraficoM !== 'AH' && datiModificati.mappaOGraficoM !== 'PC'
+                            && datiModificati.mappaOGraficoM !== 'AI' && datiModificati.mappaOGraficoM !== 'AR' && datiModificati.mappaOGraficoM !== 'AA'"
+                            class="testo grassetto scuro">
+                            Measure
+                          </span>
+                        </div>
+
+                        <div style="width: 50px; float: right; text-align: right; padding-right: 3px;">
+                          <span *ngIf="sla && datiModificati.measureM && this.misuraSelezionata"
+                            style="border: 1px solid #bbb; background-color: #ddd;" class="testo scuro">
+                            SLA
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="contenuto" style="width: 70% !important;">
+                        <div style="width: calc(100% - 100px); float: left;">
+                          <!--
+                            (selezioneEffettuata)="cambioScrittaMisura($event, 'MEASURE')"
+                          -->
+                          <app-combo-component
+                            [Tipologia]="'Combo'"
+                            [altezzaMassima]="100"
+                            [data]="measureDataMeasTC"
+                            [userName]="userName"
+                            [NomeCombo]="'MeasureAll_' + NumeroFrame + '_' + frameAttivo"
+                            [campoId]="'CODE'"
+                            [campoRaggruppamento]="'FOLDER'"
+                            [campoTesto]="'DISPLAY_NAME'"
+                            [valoreDefault]="misuraSelezionata"
+                            [ricordaUltimoValore]='false'
+                            [pulisceValoriDiBase]='true'
+                            [campoFiltro]="'DISPLAY_NAME'"
+                            [accettaNuovi]="true"
+                            [pulisceFiltro]="false"
+                            [disabilitata]="comboDisabilitata"
+
+                            (selezioneEffettuata)="cambioMisura($event)"
+                            (cambioValore)="checkMisura2($event); cambioScrittaMisura($event, 'MEASURETC', -1)"
+                          >
+                          </app-combo-component>
+                          <br />
+                        </div>
+                        <div *ngIf="Debug == true" style="width: 100%; float: left;">
+                          <span *ngIf="rigaSelezionataDM" style="color: red;">Riga Selezionata: {{rigaSelezionataDM.DESCRIPTION}}<br /></span>
+                          <span *ngIf="misuraSelezionata" style="color: red;">Misura selezionata {{misuraSelezionata.CODE}}</span>
+                        </div>
+                        <div style="width: 100px; float: right;">
+                          <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="Utils && Utils.linkIcone + '/icons/AddNew.png'" class="immaginiChiusura" (click)="aggiungeMisura();" title="Add this measure below the selected row">
+                          <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="Utils && Utils.linkIcone + '/icons/minus.png'" class="immaginiChiusura" (click)="delKeyPremutoDM();" title="Remove the selected row">
+                          <!-- <img *ngIf="misuraSelezionata && rigaSelezionataDM && Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils && Utils.linkIcone + '/icons/Edit.png'" class="immaginiChiusura" (click)="modificaMisura();" title="Change Measure"> -->
+                        </div>
+                      </div>
+
+                      <div style="clear: both;"></div>
+                    </div>
+
+                    <div style="width: 100%;">
+                      <span *ngIf="measureDD" style="font-style: italic; margin-top: 3px; display: block; overflow: auto; height: 30px; line-height: initial;">
+                        {{measureDD}}
+                      </span>
+
+                      <span *ngIf="!measureDD" style="font-style: italic; margin-top: 3px; display: block; overflow: auto; height: 30px;">
+                      </span>
+                    </div>
+
+                    <div style="clear: both;"></div>
+
+                    <div *ngIf="datiModificati.mappaOGraficoM != 'PM'" style="
+                      margin-top: 4px;
+                      width: 30%;
+                      float: left;
+                      text-align: left;
+                      margin-left: 7px;">
+                      <span class="testo grassetto scuro">Do not refresh measure</span>
+                    </div>
+                    <div *ngIf="datiModificati.mappaOGraficoM != 'PM'" style="width: calc(70% - 10px); float: left; text-align: left; padding-top: 4px; margin-left: -6px;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.modificaChartM"
+                        (change)="cambioModificaChart()" />
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="datiModificati.mappaOGraficoM != 'MC' && datiModificati.mappaOGraficoM != 'PM'" style="width: 100%; height: 100%; float: left;">
+                  <div class="riga" style="min-height: 0px !important;">
+                    <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="titolo" style="margin-top: 4px;">
+                      <span class="testo grassetto scuro">Show Measures Line</span>
+                    </div>
+                    <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="contenutoCheckBox" style="text-align: left !important; margin-left: 2px;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.showMeasuresM"
+                        (change)="cambioShowMeasures()" />
+                    </div>
+                    <div style="clear: both;"></div>
+                  </div>
+
+                  <span *ngIf="Debug === true && datiModificati" style="color: blue;">
+                    Misure {{datiModificati.mappaOGraficoM}}-{{datiModificati.eventsMeasureM}} / Da disegnare: {{measureDaDisegnare.length}}
+                  </span>
+
+                  <div *ngFor="let m of measureDaDisegnare; trackBy: trackByMeasures; let i = index;" [attr.data-index]="i" >
+                    <div *ngIf="i > 0">
+                      <div class="riga" style="min-height: 0px!important;">
+                        <div class="titolo" *ngIf="datiModificati.mappaOGraficoM === 'AH' && i === 5">
+                          <span
+                            *ngIf = "datiModificati.mappaOGraficoM === 'AH' && i !== 5 ||
+                            (datiModificati.mappaOGraficoM === 'AH' && i == 5 && datiModificati.countHystogram)"
+                            class="testo scuro">{{nomiMeasureHistogram[i]}}</span>
+                        </div>
+                        <div style="clear: both;"></div>
+                      </div>
+
+                      <div class="riga" style="min-height: 0px !important;">
+                        <div class="titoloCombo">
+                          <div style="width: 50%; float: left;">
+                            <span *ngIf="Debug == true" style="color: red;">Riga M {{i}}</span>
+                            <span *ngIf="datiModificati.mappaOGraficoM !== 'PS' && datiModificati.mappaOGraficoM !== 'AH'  && datiModificati.mappaOGraficoM !== 'PC'
+                              && datiModificati.mappaOGraficoM !== 'AI' && datiModificati.mappaOGraficoM !== 'AR' && datiModificati.mappaOGraficoM !== 'AA'"
+                              class="testo grassetto scuro">
+                              Measure {{i}}
+                            </span>
+                            <span *ngIf="datiModificati.mappaOGraficoM === 'PS'" class="testo grassetto scuro">
+                              {{nomiMeasureScatter[i]}}
+                            </span>
+                            <span
+                              *ngIf = "datiModificati.mappaOGraficoM === 'AH' && i !== 5"
+                              class="testo grassetto scuro">
+                              {{nomiMeasureHistogram[i]}}
+                            </span>
+                            <span
+                              *ngIf = "datiModificati.mappaOGraficoM === 'PC' || datiModificati.mappaOGraficoM=='AI' || datiModificati.mappaOGraficoM=='AR' || datiModificati.mappaOGraficoM=='AA'"
+                              class="testo grassetto scuro">
+                              {{nomiMeasurePareto[i]}}
+                            </span>
+                          </div>
+
+                          <!-- {{ sla2[i] }} - {{ datiModificati.measureM[i] }} -->
+                          <div style="width: 50%; float: right; text-align: right; padding-right: 3px;">
+                            <span *ngIf="sla2[i] && datiModificati.measureM[i] &&
+                              (datiModificati.mappaOGraficoM !== 'AH' || (datiModificati.mappaOGraficoM === 'AH'  && datiModificati.eventsMeasureM == false && i !== 4) ||
+                              (datiModificati.mappaOGraficoM === 'AH' && i === 5 && !datiModificati.countHystogram)
+                              || (datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == true && i != 2))"
+                              style="border: 1px solid #bbb; background-color: #ddd;" class="testo grassetto scuro">
+                              SLA
+                            </span>
+                          </div>
+                        </div>
+
+                        <div *ngIf="datiModificati.mappaOGraficoM === 'AH' && i == 2" class="contenutoPerCombo" >
+                          <span class="testo grassetto scuro">
+                            &nbsp;
+                            Events
+                            <input name="optionsY" type="radio" [value]="true" (click)="EventsMeasureClick(true)" [checked]="datiModificati.eventsMeasureM==true">
+                            &nbsp;
+                            Measure
+                            <input name="optionsY" type="radio" [value]="false" (click)="EventsMeasureClick(false)" [checked]="datiModificati.eventsMeasureM==false">
+                          </span>
+                        </div>
+                        <div *ngIf="datiModificati.mappaOGraficoM === 'AH' && i == 2" style="clear: both;"></div>
+                        <div *ngIf="datiModificati.mappaOGraficoM === 'AH' && i == 2" class="titoloCombo">
+                          &nbsp;
+                        </div>
+
+                        <div *ngIf="datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == true && i == 2">
+                          <div class="contenutoPerCombo">
+                            <app-combo-component
+                              [Tipologia]="'Combo'"
+                              [data]="tipiHistogrammiTutto"
+                              [userName]="userName"
+                              [NomeCombo]="'HistDisplayGMTutto_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'id'"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="datiModificati.HistDisplayTuttoM[i]"
+                              [accettaNuovi]="false"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'name'"
+                              [pulisceFiltro]="pulisceFiltroHistDisplayTutto"
+                              [disabilitata]="false"
+
+                              (selezioneEffettuata)="selectHistDisplayTutto(i, $event)"
+                              >
+                            </app-combo-component>
+
+                            <span *ngIf="Debug === true" style="color: red;">
+                              {{Ut.tipiHistogrammiTutto}}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- Misura {{i}}: {{measureData2[0].CODE}}/{{datiModificati.mappaOGraficoM}}/{{datiModificati.eventsMeasureM}} -->
+                        <div
+                          *ngIf="datiModificati.mappaOGraficoM != 'AH' || (datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == false)
+                          || (datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == true && i != 2)">
+                          <div class="contenutoPerCombo"
+                            *ngIf = "datiModificati.mappaOGraficoM != 'AH' || (datiModificati.mappaOGraficoM == 'AH' && i != 5)">
+                            <!-- COMBO 1 {{i}}:{{datiModificati.measureM[i]}} -->
+                            <app-combo-component
+                              *ngIf="comboMisureVisibile[i]"
+                              [Tipologia]="'Combo'"
+                              [data]="measureDataMeas[i]"
+                              [accettaNuovi]="true"
+                              [userName]="userName"
+                              [NomeCombo]="'Measure' + i + '_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'CODE'"
+                              [campoRaggruppamento]="'FOLDER'"
+                              [campoTesto]="'DISPLAY_NAME'"
+                              [valoreDefault]="datiModificati.measureM[i]"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'DISPLAY_NAME'"
+                              [pulisceFiltro]="pulisceFiltroMeasures[i]"
+                              [disabilitata]="comboDisabilitata"
+
+                              (selezioneEffettuata)="selectMisura(i, $event)"
+                              (cambioValore)="checkMisura(i, $event); cambioScrittaMisura($event, 'MEASURE', i)"
+                            >
+                            </app-combo-component>
+                          </div>
+                        </div>
+
+                        <div style="clear: both;"></div>
+                      </div>
+
+                      <div class="riga" style="min-height: 0px!important;"
+                        *ngIf="datiModificati.mappaOGraficoM != 'AH' || (datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == false)
+                        || (datiModificati.mappaOGraficoM == 'AH' && datiModificati.eventsMeasureM == true && i != 2)">
+                        <div class="titoloCombo">
+                        </div>
+
+                        <div class="contenutoPerCombo" style="text-align: left; line-height: 20px; margin-top: 0px; margin-bottom: 10px;"
+                          *ngIf = "datiModificati.mappaOGraficoM !== 'AH' || (datiModificati.mappaOGraficoM === 'AH' && i !== 5) ||
+                          (datiModificati.mappaOGraficoM === 'AH' && i === 5 && !datiModificati.countHystogram)">
+                          <span *ngIf="Debug === true && Utils && Utils.globalMeasure && datiModificati" style="color: red;">
+                            {{datiModificati.measureM[i]}}: {{Utils.globalMeasure.MEASR_CODE}}-{{Utils.tipoMisuraGlobale}}
+                          </span>
+
+                          <div *ngIf="datiModificati.measureM[i] == 'global_measure' && Utils.tipoMisuraGlobale != 1 &&
+                            (datiModificati.mappaOGraficoM === 'AH')" style="width: 100%;">
+                            <!-- COMBO 2 -->
+                            <span *ngIf="Debug == true" style="color: red;">
+                              Global measure misura string
+                              <br />
+                            </span>
+
+                            <!-- <span style="color: red">{{datiModificati.histDisplayAsM[i]}}</span> -->
+
+                            <app-combo-component
+                              [Tipologia]="'Combo'"
+                              [data]="Ut.tipiHistogrammiSTR"
+                              [userName]="userName"
+                              [NomeCombo]="'HistDisplayGMSTR_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'id'"
+                              [valoreDefault]="datiModificati.histDisplayAsM[i]"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="'S0'"
+                              [accettaNuovi]="false"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'name'"
+                              [pulisceFiltro]="pulisceFiltroHistDisplayAs"
+                              [disabilitata]="true"
+
+                              (selezioneEffettuata)="selectHistDisplayAs(i, $event)"
+                              >
+                            </app-combo-component>
+                          </div>
+
+                          <div *ngIf="(sla2[i] || (datiModificati.measureM[i] == 'global_measure' && Utils.tipoMisuraGlobale == 1)) && i==2 && datiModificati.measureM[i] &&
+                            (datiModificati.mappaOGraficoM === 'AH')" style="width: 100%;">
+                            <!-- COMBO 3 -->
+                            <span *ngIf="Debug == true" style="color: red;">
+                                Global measure misura numerica
+                                <br />
+                            </span>
+                            <app-combo-component
+                              [Tipologia]="'Combo'"
+                              [data]="Ut.tipiHistogrammiNUM"
+                              [userName]="userName"
+                              [NomeCombo]="'HistDisplayNUM_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'id'"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="datiModificati.histDisplayAsM[i]"
+                              [accettaNuovi]="false"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'name'"
+                              [pulisceFiltro]="pulisceFiltroHistDisplayAs"
+                              [disabilitata]="comboDisabilitata"
+
+                              (selezioneEffettuata)="selectHistDisplayAs(i, $event)"
+                              >
+                            </app-combo-component>
+                          </div>
+
+                          <div *ngIf="(!sla2[i] && datiModificati.measureM[i] != 'global_measure') && i==2 && datiModificati.measureM[i] &&
+                            (datiModificati.mappaOGraficoM === 'AH')" style="width: 100%;">
+                            <!-- COMBO 4 -->
+                            <span *ngIf="Debug === true" style="color: red;">
+                              NO global measure misura numerica
+                              <br />
+                            </span>
+                            <app-combo-component
+                              [Tipologia]="'Combo'"
+                              [data]="Ut.tipiHistogrammiSTR"
+                              [userName]="userName"
+                              [NomeCombo]="'HistDisplaySTR_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'id'"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="datiModificati.histDisplayAsM[i]"
+                              [accettaNuovi]="false"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'name'"
+                              [pulisceFiltro]="pulisceFiltroHistDisplayAs"
+                              [disabilitata]="comboDisabilitata"
+
+                              (selezioneEffettuata)="selectHistDisplayAs(i, $event)"
+                              >
+                            </app-combo-component>
+                          </div>
+
+                          <div *ngIf="(!datiModificati.measureM[i] || datiModificati.measureM[i] == '') && i==2 &&
+                            datiModificati.mappaOGraficoM === 'AH'" style="width: 100%;">
+                            <!-- COMBO 5 -->
+                            <span *ngIf="Debug == true" style="color: red;">
+                              Measure ancora da impostare
+                              <br />
+                            </span>
+                            <app-combo-component
+                              [Tipologia]="'Combo'"
+                              [data]="Ut.tipiHistogrammiSTR"
+                              [userName]="userName"
+                              [NomeCombo]="'HistDisplaySTR_' + NumeroFrame + '_' + frameAttivo"
+                              [campoId]="'id'"
+                              [campoTesto]="'name'"
+                              [valoreDefault]="datiModificati.histDisplayAsM[i]"
+                              [accettaNuovi]="false"
+                              [ricordaUltimoValore]='false'
+                              [pulisceValoriDiBase]='true'
+                              [campoFiltro]="'name'"
+                              [pulisceFiltro]="pulisceFiltroHistDisplayAs"
+                              [disabilitata]="true"
+
+                              (selezioneEffettuata)="selectHistDisplayAs(i, $event)"
+                              >
+                            </app-combo-component>
+                          </div>
+                        </div>
+
+                        <div class="titoloCombo">
+                        </div>
+                        <div class="contenutoPerCombo"
+                          style="text-align: left; line-height: 20px; margin-top: 0px; margin-bottom: 5px; max-height: 40px; overflow: auto;"
+                          *ngIf = "datiModificati.mappaOGraficoM !== 'AH' || (datiModificati.mappaOGraficoM === 'AH' && i !== 4) ||
+                          (datiModificati.mappaOGraficoM === 'AH' && i === 4 && (datiModificati.countHystogram || datiModificati.countHystogram !== ''))">
+                          <span *ngIf="Debug == true" style="color: red;">
+                            {{datiModificati.mappaOGraficoM}} {{i}} {{datiModificati.countHystogram}}
+                            <br />
+                          </span>
+                          <span style="font-style: italic; margin-top: -3px; margin-bottom: 7px;">
+                            {{measureD[i]}}
+                          </span>
+
+                          <!-- <hr *ngIf="Debug == true" /> -->
+                        </div>
+
+                        <div style="clear: both;"></div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- <div *ngIf="+datiModificati.measureTypeM === 2">
+                    <div class="riga">
+                      <div class="titolo">
+                        <span class="testo grassetto scuro">Global Measure</span>
+                      </div>
+                      <div class="contenutoTesto" style="text-align: left !important; margin-left: 2px;">
+                        <span class="testo">{{Ut.globalMeasure.measr_code}}</span>
+                      </div>
+                      <div style="clear: both;"></div>
+                    </div>
+                  </div> -->
+                </div>
+
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container  *ngIf="eseguitoInProgetto == false && datiModificati.mappaOGraficoM !== 'PS' && datiModificati.mappaOGraficoM !== 'PM'
+          && datiModificati.mappaOGraficoM !== 'PT' && datiModificati.mappaOGraficoM !== 'PL'
+          && datiModificati.mappaOGraficoM !== 'TI' && datiModificati.mappaOGraficoM !== 'CM'
+          && datiModificati.mappaOGraficoM !== 'CV' && datiModificati.mappaOGraficoM !== 'CD'
+          && datiModificati.mappaOGraficoM !== 'NB' && datiModificati.mappaOGraficoM !== 'MD'
+          && datiModificati.mappaOGraficoM !== 'MG' && datiModificati.mappaOGraficoM !== 'CG'
+          && datiModificati.mappaOGraficoM !== 'PC' && datiModificati.mappaOGraficoM !== '--'
+          && datiModificati.mappaOGraficoM !== 'AI' && datiModificati.mappaOGraficoM !='LA'
+          && datiModificati.mappaOGraficoM !== 'PK' && datiModificati.mappaOGraficoM !='TC'
+          && datiModificati.mappaOGraficoM !== 'ES' && datiModificati.mappaOGraficoM !='NP'
+          && datiModificati.mappaOGraficoM != 'TP' && datiModificati.mappaOGraficoM !== 'AR'
+          && datiModificati.mappaOGraficoM !== 'AA' && datiModificati.mappaOGraficoM !== 'AP'
+          && datiModificati.mappaOGraficoM !== 'SY' && datiModificati.mappaOGraficoM !== 'M2'
+          && datiModificati.mappaOGraficoM !== 'MF' && datiModificati.mappaOGraficoM !== 'MS'
+          && datiModificati.mappaOGraficoM !== 'MQ' && datiModificati.mappaOGraficoM !== 'MR'">
+          <kendo-tabstrip-tab
+            [title]="'Events'"
+            [selected]="tabSelezionato2 == 5 && datiModificati.mappaOGraficoM == 'M'">
+            <ng-template kendoTabContent>
+              <p>
+                <div *ngIf="datiModificati.mappaOGraficoM === 'M' 
+                  || datiModificati.mappaOGraficoM === 'AE'
+                  || datiModificati.mappaOGraficoM === 'MC'
+                  || datiModificati.mappaOGraficoM === 'AH'"
+                  style="width: 100%; height: 35px;">
+                  <div class="riga">
+                    Specify the event types to filter. If the list is left empty, all events are retrieved
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M' || datiModificati.mappaOGraficoM === 'MC'" class="riga" style="min-height: 0px !important">
+                    <div style="width: calc(30% - 6px); padding-left: 6px; float: left; margin-top: 9px; text-align: left;">
+                      <span class="testo grassetto scuro">Shown Events</span>
+                    </div>
+
+                    <div style="width: 69%; float: left; text-align: left; margin-top: 8px; margin-left: -8px;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.shownEventsM"
+                        (change)="cambioShownEvents()" />
+                    </div>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M' || datiModificati.mappaOGraficoM === 'MC'" style="clear: both; margin-bottom: 10px;"></div>
+
+                  <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="width: calc(30% - 10px); margin-left: 10px; float: left; text-align: left;">
+                    <span class="testo grassetto scuro" style="white-space: nowrap;">Event Type Filter</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="width: 70%; float: left;">
+                    <app-combo-component
+                      [data]="tipiEventi"
+                      [userName]="userName"
+                      [NomeCombo]="'EventsSTR_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'id'"
+                      [campoTesto]="'name'"
+                      [valoreDefault]="datiModificati.tipoEventoM"
+                      [accettaNuovi]="false"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='false'
+                      [campoFiltro]="'name'"
+                      [pulisceFiltro]="pulisceFiltroEvents"
+                      [disabilitata]="comboDisabilitata"
+                      [visibileElimina]="false"
+
+                      (selezioneEffettuata)="selectTipoEvents($event)"
+                      >
+                    </app-combo-component>
+                  </div>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="clear: both; margin-bottom: 10px;"></div>
+                
+                <!-- <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="width: calc(30% - 6px); padding-left: 6px; float: left; text-align: left;">
+                  <span class="testo grassetto scuro">Show multi select</span>
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="width: 70%; float: left; text-align: left; margin-left: -4px">
+                  <input type="checkbox" [(ngModel)]="showMultiSelect"
+                    (change)="cambioMultiselect()" />
+                </div>
+                <div *ngIf="datiModificati.mappaOGraficoM != 'ES'" style="clear: both;"></div> -->
+
+                <div class="riga" style="width: 98%; height: calc(99% - 165px);">
+                  <!-- 
+                    TIPO EVENTO: {{datiModificati.tipoEventoM}}
+                    <span *ngIf="datiModificati.datiEventiDaPassareM">{{datiModificati.datiEventiDaPassareM}}:{{datiModificati.datiEventiDaPassareM.length}}</span>
+                  -->
+                  <div *ngIf="!datiModificati.tipoEventoM || datiModificati.tipoEventoM == 'L'"
+                    style="width: 100%; height: 100%; border: 1px solid #999; border: 0px;">
+                    <!--
+                      *ngIf="datiModificati.datiEventiDaPassareM"
+                    -->
+                    <app-ants-grid-lib
+                      [sessioneAttuale]="sessionID"
+                      [data]="datiModificati.datiEventiDaPassareM"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [modalita]="'Griglia'"
+                      [indirizzoServer]="indirizzoServer"
+                      [title]="'Selected Events'"
+                      [userName]="userName"
+                      [maskName]="'GrigliaEvDaTogliere'"
+                      [newKeyVisibile]='true'
+                      [editKeyVisibile]='false'
+                      [delete2KeyVisibile]='true'
+                      [infoKeyVisibile]='infoKeyVisibileTogliere'
+                      [confirmKeyVisibile]="false"
+                      [ricordaSelezione]='false'
+                      [pulisceSelezione]='false'
+                      [selezioneMultipla]="true"
+                      [rinfrescaGriglia]='refreshGrigliaTogliere'
+                      [newKeyPersistant]="true"
+                      [DimensioneFont]='10'
+                      [linkIcone]="Utils && Utils.linkIcone"
+                      [AutoResize]="false"
+                      [ManualResize]="effettuaAutoFitEL"
+                      [listaElementi]="true"
+
+                      (clickSelezioneSuCheckRiga)='fattoClickSuRigaDaTogliere("Sel", $event)'
+                      (cellClick)='clickSuRigaTogliere($event)'
+                      (newKeyPressed)="newKeyPremutoTogliere($event)"
+                      (deleteKeyPressed2)='delKeyPremutoTogliere($event)'
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneEventiTogliere($event)"
+                    >
+                    </app-ants-grid-lib>
+                  </div>
+                </div>
+
+                <div *ngIf="EventiDaMettereVisibile == true" class="bloccaSfondo" style="z-index: 1300; background-color: #1cad3b;"></div>
+
+                <div *ngIf="EventiDaMettereVisibile == true" 
+                  style="position: absolute; left: 5%; top: 15%; width: 92%; height: 77%; border: 1px solid #999; z-index:2301; 
+                    background-color: white; box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+                    ">
+                  <div kendoTooltip class="barraSuperiore">
+                    <div style="margin-top: 4px;">
+                      Add Events
+                    </div>
+                    <span style="position: absolute; right: 0px; top: 0px; background-color: transparent; z-index: 3000;">
+                      <img [hidden]="!(Utils && Utils.linkIcone && Utils && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="Utils && Utils.linkIcone + '/icons/close_context.png'" class="immaginiChiusura" (click)="EventiDaMettereVisibile = false" title="Close">
+                    </span>
+                  </div>
+
+                  <div style="float: left; height: calc(100% - 30px); width: 100%;">
+                    <!-- 
+                      *ngIf="datiEventiDaMettere2"
+                      [selezioneMultipla]='selezioneMultiplaMettere' 
+                    -->
+                    <app-ants-grid-lib
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [sessioneAttuale]="sessionID"
+                      [indirizzoServer]="indirizzoServer"
+                      [modalita]="'Griglia'"
+                      [title]="'Events'"
+                      [data]="datiEventiDaMettere2"
+                      [userName]="userName"
+                      [maskName]="'GrigliaEventi'"
+                      [newKeyVisibile]='false'
+                      [editKeyVisibile]='false'
+                      [delete2KeyVisibile]='false'
+                      [infoKeyVisibile]='infoKeyVisibileMettere'
+                      [confirmKeyVisibile]="selezioneRigheAddEvents"
+                      [selezioneMultipla]='true'
+                      [ricordaSelezione]='false'
+                      [pulisceSelezione]='pulisceSelezioneDaMettere'
+                      [rinfrescaGriglia]='refreshGrigliaMettere'
+                      [raggruppabile]='false'
+                      [DimensioneFont]='10'
+                      [linkIcone]="Utils && Utils.linkIcone"
+                      [AutoResize]="true"
+
+                      (clickSelezioneSuCheckRiga)='fattoClickSuRigaDaMettere("Sel", $event)'
+                      (cellClick)='clickSuRigaMettere($event)'
+                      (confirmKeyPressed)='confirmKeyPremutoMettere($event)'
+                      (refresh)='refreshGridEventi($event, false)'
+                      (resetLayout)='refreshGridEventi($event, true)'
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneEventiMettere($event)"
+                      (selectedAllRows)="selezioneTutteLeRigheAE($event, true)"
+                      (deselectedAllRows)="selezioneTutteLeRigheAE($event, false)"
+                    >
+                    </app-ants-grid-lib>
+                  </div>
+                </div>
+
+                <!-- <div kendoTooltip style="text-align: center; width: 4%; height: 95%; padding-top: 19%; float: left;">
+                  <img src="assets/img/icons/arrow-right-c.png" class="immagini" (click)="metteEventi()" title="Add Events">
+                  <br />
+                  <img src="assets/img/icons/arrow-left-c.png" class="immagini" (click)="toglieEventi()" title="Remove Events">
+                </div> -->
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <!-- Messo MPPP per non far visualizzare... Non si usa piÃ¹
+        <kendo-tabstrip-tab *ngIf="datiModificati.mappaOGraficoM == 'MPPP'" [title]="'Filters'"
+          [selected]="tabSelezionato2 == 6 && datiModificati.mappaOGraficoM == 'M'">
+          <ng-template kendoTabContent>
+            <div class="finestraCentrale" style="margin-top: 10px;">
+              <div class="riga">
+                <span class="titolo testo scuro">Plmn</span>&nbsp;
+                <div class="contenuto">
+                  <input type="text" value="{{datiModificati.plmnM}}"
+                    (blur)="cambioPlmn($event.target['value'])"
+                    style="float: right; border: 1px solid #ebebeb; width: 100%; text-align: left;" />
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <div class="riga">
+                <span class="titolo testo scuro">NetTech</span>&nbsp;
+                <div class="contenuto" style="text-align: left;">
+                  <input type="checkbox" [(ngModel)]="datiModificati.netTechM"
+                    (change)="cambioNetTech(datiModificati.netTechM)" />
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+
+              <div class="riga">
+                <span class="titolo testo scuro">Bandwidth</span>&nbsp;
+                <div class="contenuto" style="text-align: left;">
+                  <input type="checkbox" [(ngModel)]="datiModificati.bandWidthM"
+                    (change)="cambioBandWidth(datiModificati.bandWidthM)" />
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+            </div>
+          </ng-template>
+        </kendo-tabstrip-tab> -->
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'AH'">
+          <kendo-tabstrip-tab [title]="'Histogram'"
+            [selected]="tabSelezionato2 == 7 && datiModificati.mappaOGraficoM == 'AH'">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px;">
+                <div class="riga">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Display As</span>&nbsp;
+                  </div>
+                  <div class="contenuto">
+                    <div style="width: 100%;">
+                      Table
+                      <input name="optionsCB" type="radio" [value]="'1'" (click)="ColumnsBarsClick('1')" [checked]="datiModificati.columnsBarsM == '1'">
+                      &nbsp;
+                      Columns
+                      <input name="optionsCB" type="radio" [value]="'2'" (click)="ColumnsBarsClick('2')" [checked]="datiModificati.columnsBarsM == '2'">
+                      &nbsp;
+                      Bars
+                      <input name="optionsCB" type="radio" [value]="'3'" (click)="ColumnsBarsClick('3')" [checked]="datiModificati.columnsBarsM == '3'">
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+                <div class="riga">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Multi series histogram</span>&nbsp;
+                  </div>
+                  <div class="contenuto">
+                    <div style="width: 100%;">
+                      <input type="checkbox" [(ngModel)]="datiModificati.doubleGraphM"
+                        (change)="checkDoubleGraph()" style="float: right;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div style="clear: both;"></div>
+
+                <div class="riga">
+                  <div class="titolo">
+                    <span class="testo grassetto scuro">Show x axis labels</span>&nbsp;
+                  </div>
+                  <div class="contenuto">
+                    <input type="checkbox" [(ngModel)]="datiModificati.showAxisXM"
+                      (change)="checkShowAxisX(datiModificati.showAxisXM)" style="float: right;" />
+                  </div>
+                </div> -->
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container *ngIf="eseguitoInProgetto == false && (
+          datiModificati.mappaOGraficoM == 'M' || datiModificati.mappaOGraficoM == 'CG' || datiModificati.mappaOGraficoM == 'MG' || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA'
+          )">
+          <kendo-tabstrip-tab [title]="'Overlay'"
+            [selected]="tabSelezionato2 == 8 && (
+              datiModificati.mappaOGraficoM == 'M' || datiModificati.mappaOGraficoM == 'CG' || datiModificati.mappaOGraficoM == 'MG' || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA'
+              )">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="margin-top: 10px;">
+                <div *ngIf="eseguitoInProgetto == false && datiModificati.mappaOGraficoM == 'M'" class="riga">
+                  <div class="titolo" style="margin-top: 0px !important;">
+                    <span class="testo grassetto scuro">View As</span><!-- &nbsp;
+                    {{datiModificati.viewAsM}} -->
+                  </div>
+                  <div class="contenuto" style="text-align: left !important; margin-top: 3px; margin-left: 2px;">
+                    <!-- <input type="checkbox" [(ngModel)]="datiModificati.viewGlobalM"
+                      (change)="checkViewGlobal(datiModificati.viewGlobalM)" style="float: right;" /> -->
+                    <div style="width: 100%;">
+                      <!-- ***{{datiModificati.viewAsM}}*** -->
+                      None
+                      <input name="options" type="radio" [value]="1" (click)="viewAsClick(1)" [checked]="datiModificati.viewAsM==1">
+                      &nbsp;
+                      Cluster
+                      <input name="options" type="radio" [value]="2" (click)="viewAsClick(2)" [checked]="datiModificati.viewAsM==2">
+                      &nbsp;
+                      Mosaic
+                      <input name="options" type="radio" [value]="3" (click)="viewAsClick(3)" [checked]="datiModificati.viewAsM==3" >
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false && ((datiModificati.viewAsM==2 || datiModificati.mappaOGraficoM == 'CG') || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA')" class="riga">
+                  <div *ngIf="(datiModificati.viewAsM==2 || datiModificati.mappaOGraficoM == 'CG') || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA'" class="titoloCombo">
+                    <span class="testo grassetto scuro">Cluster</span>
+                  </div>
+                  <div *ngIf="(datiModificati.viewAsM==2 || datiModificati.mappaOGraficoM == 'CG') || datiModificati.mappaOGraficoM == 'AR' || datiModificati.mappaOGraficoM == 'AA'" class="contenutoPerCombo">
+                    <app-combo-component
+                      [Tipologia]="'Combo'"
+                      [data]="clusterGroup2"
+                      [userName]="userName"
+                      [NomeCombo]="'Cluster_' + NumeroFrame + '_' + frameAttivo"
+                      [campoId]="'CODE'"
+                      [campoRaggruppamento]="'FOLDER'"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [valoreDefault]="datiModificati.overlayClusterM"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [pulisceFiltro]="pulisceFiltroOverlayCluster"
+                      [disabilitata]="comboDisabilitata"
+                      [accettaNuovi]="true"
+
+                      (selezioneEffettuata)="selectOverlayCluster($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div *ngIf="datiModificati.viewAsM==2" class="resto"></div>
+
+                  <div *ngIf="datiModificati.viewAsM==2" style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false &&
+                  (datiModificati.mappaOGraficoM == 'M' || datiModificati.mappaOGraficoM == 'CG' ||
+                  datiModificati.mappaOGraficoM == 'MG')" class="riga">
+                  <div class="titoloCombo">
+                    <span class="testo grassetto scuro">Measure</span>
+                  </div>
+                  <div class="contenutoPerCombo">
+                    <!-- <app-combo-component
+                      *ngIf="datiModificati.viewAsM==2"
+                      [Tipologia]="'Combo'"
+                      [data]="measureDataC"
+                      [userName]="userName"
+                      [NomeCombo]="'OverlayCluster_' + NumeroFrame + frameAttivo"
+                      [campoId]="'CODE'"
+                      [campoRaggruppamento]="'FOLDER'"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [valoreDefault]="datiModificati.overlayClusterM"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [pulisceFiltro]="pulisceFiltroOverlay"
+                      [disabilitata]="comboDisabilitata"
+                      [accettaNuovi]="true"
+
+                      (selezioneEffettuata)="selectOverlayClusterMisura($event)"
+                      (cambioValore)="cambioScrittaMisura($event, 'OVERLAYCLUSTER', -1)"
+                    >
+                    </app-combo-component> -->
+
+                    <app-combo-component
+                      [Tipologia]="'Combo'"
+                      [data]="measureDataO"
+                      [userName]="userName"
+                      [NomeCombo]="'Overlay_' + NumeroFrame + frameAttivo"
+                      [campoId]="'CODE'"
+                      [campoRaggruppamento]="'FOLDER'"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [valoreDefault]="datiModificati.overlayM"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [pulisceFiltro]="pulisceFiltroOverlay"
+                      [disabilitata]="comboDisabilitata"
+                      [accettaNuovi]="true"
+
+                      (selezioneEffettuata)="selectOverlayMisura($event)"
+                      (cambioValore)="cambioScrittaMisura($event, 'OVERLAY', -1)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div class="resto"></div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false &&
+                  ((datiModificati.mappaOGraficoM == 'M'  && datiModificati.viewAsM==3) || datiModificati.mappaOGraficoM == 'MG')" class="riga">
+                  <div *ngIf="(datiModificati.mappaOGraficoM == 'M' && datiModificati.viewAsM==3) || datiModificati.mappaOGraficoM == 'MG'" class="titoloCombo">
+                    <span class="testo grassetto scuro">Square side [m]</span>
+                  </div>
+                  <div *ngIf="(datiModificati.mappaOGraficoM == 'M' && datiModificati.viewAsM==3) || datiModificati.mappaOGraficoM == 'MG'" class="contenutoPerCombo">
+                    <app-combo-component
+                      [Tipologia]="'DropDown'"
+                      [data]="DatiSquareMeters"
+                      [userName]="userName"
+                      [accettaNuovi]="true"
+                      [NomeCombo]="'OverlaySM_' + NumeroFrame + frameAttivo"
+                      [campoId]="'CODE'"
+                      [campoTesto]="'DISPLAY_NAME'"
+                      [valoreDefault]="datiModificati.squareMetersM"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'DISPLAY_NAME'"
+                      [pulisceFiltro]="pulisceFiltroOverlaySM"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="cambioSquareMeters($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div *ngIf="(datiModificati.mappaOGraficoM == 'M' && datiModificati.viewAsM==3) || datiModificati.mappaOGraficoM == 'MG'" class="resto"></div>
+                  <div *ngIf="(datiModificati.mappaOGraficoM == 'M' && datiModificati.viewAsM==3) || datiModificati.mappaOGraficoM == 'MG'" style="clear: both;"></div>
+                </div>
+
+                <div *ngIf="eseguitoInProgetto == false && datiModificati.viewAsM==3 && datiModificati.mappaOGraficoM == 'M'" class="riga">
+                  <div *ngIf="datiModificati.viewAsM==3" class="titoloCombo">
+                    <span class="testo grassetto scuro">Style</span>
+                  </div>
+                  <div *ngIf="datiModificati.viewAsM==3" class="contenutoPerCombo">
+                    <app-combo-component
+                      [Tipologia]="'DropDown'"
+                      [data]="datiMosaicStyle2"
+                      [userName]="userName"
+                      [NomeCombo]="'mosaicStyleSM_' + NumeroFrame + frameAttivo"
+                      [campoId]="'CODE_STR'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="datiModificati.mosaicStyleM"
+                      [ricordaUltimoValore]='true'
+                      [pulisceValoriDiBase]='true'
+                      [pulisceFiltro]="pulisceFiltroOverlayMS"
+                      [disabilitata]="comboDisabilitata"
+
+                      (selezioneEffettuata)="cambioMosaicStyle($event)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div *ngIf="datiModificati.viewAsM==3" class="resto"></div>
+                  <div *ngIf="datiModificati.viewAsM==3" style="clear: both;"></div>
+                </div>
+
+                <hr *ngIf="eseguitoInProgetto == false && datiModificati.mappaOGraficoM == 'M'" />
+
+                <div class="riga" style="min-height: 0px !important;">
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="titolo">
+                    <span class="testo grassetto scuro">Show Coverage measures</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="contenutoCheckBox" style="text-align: left !important; margin-left: 2px;">
+                    <input type="checkbox" [(ngModel)]="datiModificati.showCoverageMeasuresM"
+                      (change)="cambioshowCoverageMeasures()" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="min-height: 0px !important;">
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="titolo">
+                    <span class="testo grassetto scuro">Show Voice Call measure</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="contenutoCheckBox" style="text-align: left !important; margin-left: 2px;">
+                    <!-- {{staDisegnandoSMSM[NumeroFrame]}} -->
+                    <input type="checkbox" [(ngModel)]="datiModificati.showVoiceCallMeasuresM"
+                      (change)="cambioshowVoiceCallMeasures()" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="min-height: 0px !important;">
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="titolo">
+                    <span class="testo grassetto scuro">Show Data measures</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'CG'" class="contenutoCheckBox" style="text-align: left !important; margin-left: 2px;">
+                    <!-- {{staDisegnandoSMSM[NumeroFrame]}} -->
+                    <input type="checkbox" [(ngModel)]="datiModificati.showDataMeasuresM"
+                      (change)="cambioshowDataMeasures()" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="min-height: 0px !important;">
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="titolo" style="margin-top: -4px;">
+                    <span class="testo grassetto scuro">Show Measures Samples</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="contenutoCheckBox" style="text-align: left !important; margin-left: 2px;">
+                    <!-- {{staDisegnandoSMSM[NumeroFrame]}} -->
+                    <input type="checkbox" [(ngModel)]="datiModificati.showMeasuresSM"
+                      (change)="cambioShowMeasuresS()" />
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="riga" style="min-height: 0px !important;">
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="titoloCombo">
+                    <span class="testo grassetto scuro">Measure</span>
+                  </div>
+                  <div *ngIf="datiModificati.mappaOGraficoM === 'M'" class="contenutoPerCombo">
+                      <app-combo-component
+                        [Tipologia]="'Combo'"
+                        [data]="measureDataSMS"
+                        [userName]="userName"
+                        [NomeCombo]="'MeasureSMS_' + NumeroFrame"
+                        [campoId]="'CODE'"
+                        [campoRaggruppamento]="'FOLDER'"
+                        [campoTesto]="'DISPLAY_NAME'"
+                        [valoreDefault]="datiModificati.measureSMSM"
+                        [ricordaUltimoValore]='false'
+                        [pulisceValoriDiBase]='true'
+                        [campoFiltro]="'DISPLAY_NAME'"
+                        [pulisceFiltro]="pulisceFiltroMeasuresSMS"
+                        [disabilitata]="comboDisabilitata"
+                        [accettaNuovi]="true"
+
+                        (selezioneEffettuata)="selectMisuraSMS($event)"
+                        (cambioValore)="cambioScrittaMisura($event, 'MEASURESMS', -1)"
+                      >
+                      </app-combo-component>
+
+                      <span style="font-style: italic; margin-top: -3px; margin-bottom: 7px;">
+                        {{measureDSMS}}
+                      </span>
+                    </div>
+                  <div style="clear: both;"></div>
+                </div>
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'TP'">
+          <kendo-tabstrip-tab [title]="'Pivot'"
+            [selected]="tabSelezionato2 == 9 && datiModificati.mappaOGraficoM == 'TP'">
+            <ng-template kendoTabContent>
+              <as-split direction="horizontal" [gutterSize]="3">
+                <as-split-area [size]="60" style="overflow: hidden;">
+                  <div style="width: 100%; height: 100%;">
+                    <span *ngIf="!datiConfig && !erroreConfig" style="width: 100%; text-align: left;">
+                      {{datiModificati.mapNameM}} Config: No data to be displayed
+                    </span>
+                    
+                    <span *ngIf="erroreConfig" style="width: 100%; text-align: left; color: red;">
+                      {{datiModificati.mapNameM}} Config: {{erroreConfig}}
+                    </span>
+        
+                    <app-ants-grid-lib
+                      *ngIf="datiConfig && !erroreConfig"
+                      [sessioneAttuale]="sessionID"
+                      [debug]="Debug"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [indirizzoServer]="indirizzoServer"
+                      [modalita]="'Griglia'"
+                      [title]="datiModificati.mapNameM"
+                      [titleDaDatiGriglia]="true"
+                      [data]="datiConfig"
+                      [userName]="userName"
+                      [maskName]="nomeGrigliaConfig[NumeroFrame] + '_' + frameAttivo"
+                      [newKeyVisibile]='false'
+                      [refreshKeyVisibile]='true'
+                      [editKeyVisibile]='false'
+                      [deleteKeyTcRunVisibile]='false'
+                      [infoKeyVisibile]='true'
+                      [confirmKeyVisibile]="false"
+                      [selezioneMultipla]='false'
+                      [ricordaSelezione]='true'
+                      [raggruppabile]='true'
+                      [campiPerRaggruppamento]="'FOLDER'"
+                      [impostaSelezione]="impostaSelezioneConfig"
+                      [DimensioneFont]='12'
+                      [AutoResize]="false"
+                      [ManualResize]="effettuaAutoFitConfig"
+                      [paginazione]="'scrollable'"
+                      [linkIcone]="Utils && Utils.linkIcone"
+                      [datiNuovi]="datiConfig && datiConfig.DataTable"
+                      [messaggioWarning]="messaggioWarningConfig"
+                      [cambioTitolo]="datiModificati.mapNameM"
+                      
+                      [tcRun2Refresh]="true"
+                      [tcRun2RefreshAttivo]="tastoRefreshAttivo"
+                      (refreshTcRunEmit)="propagaListaCampi()"
+        
+                      (clickSuIconaEmit)="clickIconaConfig($event)"
+                      (cellClick)="clickRigaConfig($event)"
+                      (refresh)="refreshConfig(false)"
+                      (resetLayout)="refreshConfig(true)"
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneConfig($event)"
+                    >
+                    </app-ants-grid-lib>
+        
+                    <div *ngIf="caricamentoConfigInCorso == true" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+                  </div>
+                </as-split-area>
+        
+                <as-split-area [size]="40" style="overflow: hidden;">
+                  <div style="width: 100%; height: 100%;">
+                    <span *ngIf="!datiConfigList && !erroreConfigList" style="width: 100%; text-align: left;">
+                      {{datiModificati.mapNameM}} Config List: No data to be displayed
+                    </span>
+                    
+                    <span *ngIf="erroreConfigList" style="width: 100%; text-align: left; color: red;">
+                      {{datiModificati.mapNameM}} Config List: {{erroreConfigList}}
+                    </span>
+        
+                    <app-ants-grid-lib
+                      *ngIf="datiConfigList && !erroreConfigList"
+                      [sessioneAttuale]="sessionID"
+                      [debug]="Debug"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [indirizzoServer]="indirizzoServer"
+                      [modalita]="'Griglia'"
+                      [title]="datiModificati.mapNameM"
+                      [titleDaDatiGriglia]="true"
+                      [data]="datiConfigList"
+                      [userName]="userName"
+                      [maskName]="nomeGrigliaConfigList[NumeroFrame] + '_' + frameAttivo"
+                      [newKeyVisibile]='false'
+                      [refreshKeyVisibile]='true'
+                      [editKeyVisibile]='false'
+                      [deleteKeyTcRunVisibile]='false'
+                      [infoKeyVisibile]='true'
+                      [confirmKeyVisibile]="false"
+                      [selezioneMultipla]='false'
+                      [ricordaSelezione]='true'
+                      [impostaSelezione]="impostaSelezioneConfigList"
+                      [DimensioneFont]='12'
+                      [AutoResize]="false"
+                      [ManualResize]="effettuaAutoFitConfigList"
+                      [paginazione]="'scrollable'"
+                      [linkIcone]="Utils && Utils.linkIcone"
+                      [datiNuovi]="datiConfigList && datiConfigList.DataTable"
+                      [messaggioWarning]="messaggioWarningConfigList"
+                      [cambioTitolo]="datiModificati.mapNameM"
+        
+                      (clickSuIconaEmit)="clickIconaConfigList($event)"
+                      (cellClick)="clickRigaConfigList($event)"
+                      (refresh)="refreshConfigList(false)"
+                      (resetLayout)="refreshConfigList(true)"
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneConfigList($event)"
+                    >
+                    </app-ants-grid-lib>
+        
+                    <div *ngIf="caricamentoConfigListInCorso == true" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+                  </div>
+                </as-split-area>
+              </as-split>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+
+        <!-- <kendo-tabstrip-tab *ngIf="datiModificati.mappaOGraficoM == 'AE'" [title]="'Column Settings'"
+          [selected]="tabSelezionato2 == 10 && datiModificati.mappaOGraficoM == 'AE'">
+          <ng-template kendoTabContent>
+            <div style="width: 99%; height: 100%;">
+              <app-ants-grid-lib
+                *ngIf="grigliaColumnSettings"
+                [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="'Columns Settings'"
+                [data]="grigliaColumnSettings"
+                [userName]="userName"
+                [maskName]="'csSettings'"
+                [newKeyVisibile]='false'
+                [editKeyVisibile]='false'
+                [delete2KeyVisibile]='true'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='false'
+                [ricordaSelezione]='false'
+                [DimensioneFont]='14'
+                [PermetteDragDrop]="true"
+                [AutoResize]="false"
+                [ManualResize]="effettuaAutoFitColumn"
+                [linkIcone]="Utils && Utils.linkIcone"
+
+                (deleteKeyPressed2)="eliminaCampo($event)"
+                (detectFineDragDrop)="fineDragDrop($event)"
+              >
+              </app-ants-grid-lib>
+            </div>
+          </ng-template>
+        </kendo-tabstrip-tab> -->
+
+        <ng-container *ngIf="datiModificati.mappaOGraficoM == 'TC'">
+          <kendo-tabstrip-tab [title]="'Additional Measures'"
+            [selected]="tabSelezionato2 == 11 && (datiModificati.mappaOGraficoM == 'TC')">
+            <ng-template kendoTabContent>
+              <div class="finestraCentrale" style="height: 93%;">
+                <app-ants-grid-lib
+                  *ngIf="datiPointMeasures"
+                  [sessioneAttuale]="sessionID"
+                  [debug]="Debug"
+                  [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="'Additional Measures'"
+                  [raggruppabile]="true"
+                  [campiPerRaggruppamento]="'FOLDER'"
+                  [titleDaDatiGriglia]="true"
+                  [data]="datiPointMeasures"
+                  [userName]="userName"
+                  [maskName]="nomeGrigliaPM[NumeroFrame] + '_' + frameAttivo"
+                  [DimensioneFont]='12'
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [ricordaSelezione]='false'
+                  [impostaSelezione]="selezionePM"
+                  [AutoResize]="false"
+                  [ManualResize]="effettuaAutoFitPM"
+                  [righeAutomatiche]="false"
+                  [linkIcone]="Utils && Utils.linkIcone"
+                  [visualizzaToolTipGrafici]="true"
+                  [cambioTitolo]="titoloPointMeasures"
+                  [misureAddizionaliTCRUN]="misureAddizionaliTCRUN"
+                  [gestisceComboTramiteCookie]="true"
+
+                  (clickSuComboMisura)="clickSuComboMisura($event)"
+                  (refresh)="refreshPointMeasures(false)"
+                  (resetLayout)="refreshPointMeasures(true)"  
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonnePM($event)"
+                >
+                </app-ants-grid-lib>
+              </div>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </ng-container>
+      </kendo-tabstrip>
+    </div>
+  </div>
+<!--
+</div>
+
+<! --
+<sla-manager-component
+  [visibile]="slaVisible"
+  [slaGroup]="slaGroup2"
+  [slaData]='datiSLA'
+  [ConnessioneStabilita]="ConnessioneStabilita"
+  [userName]="userName"
+  [misure]="measureData"
+  [valoreDefault]="datiModificati.slaValue2M"
+
+  (visibileEmit)="visibileDaMascheraDashboardSLA($event)"
+  (confirmEmit)='confermaDaSla($event)'
+  (refreshSLAEmit)="refreshSLA($event)"
+  >
+</sla-manager-component>
+-->
+
+<div *ngIf="finestraFilterAperta" class="oscura" style="position: fixed; z-index: 5999;"></div>
+<div *ngIf="finestraFilterAperta" class="finestraFilter drag-boundary" ngDraggable [handle]="handleMenuDG"
+  [style.left.px]="posizioneFinestraFilter.x" [style.top.px]="posizioneFinestraFilter.y"
+  >
+  <div class="bottoniIntestazione" style="height: 32px; background-color: #565656;">
+    <div #handleMenuDG class="drag-block" style="width: calc(100% - 80px); float: left; text-align: left; color: white;">
+      Select Filter {{qualeFilterAperto}}
+    </div>
+    <div style="width: 80px; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+        [src]="Utils.linkIcone + '/icons/check-circle_white.png'" style="width: 30px; height: 30px; cursor: pointer;" 
+        title="Modify Filter" (click)="applicaFiltri();" >
+      <img *ngIf="Utils.linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="finestraFilterAperta = false; puoControllareFilter = false;" title="Close" class="immaginiIcone">
+    </div>
+  </div>
+  <div style="width: 100%; float: left; height: 100%; overflow: hidden; margin-top: 3px;">
+    <div style="width: 100%; height: auto; float: left; overflow: hidden;">
+      <div class="testo grassetto scuro" style="width: 20%; height: auto; float: left; overflow: hidden;">
+        Measure
+      </div>
+      <div style="width: calc(80% - 6px); height: auto; float: left; overflow: hidden;">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [data]="measureDataCM"
+          [userName]="userName"
+          [NomeCombo]="'FilterMeasure_' + NumeroFrame + '_' + frameAttivo"
+          [campoId]="'CODE'"
+          [campoRaggruppamento]="'FOLDER'"
+          [campoTesto]="'DISPLAY_NAME'"
+          [valoreDefault]="filtroSelezionato"
+          [ricordaUltimoValore]='false'
+          [pulisceValoriDiBase]='true'
+          [campoFiltro]="'DISPLAY_NAME'"
+          [pulisceFiltro]="pulisceFiltroCM1"
+          [disabilitata]="comboDisabilitata"
+
+          (cambioValore)="cambioScrittaMisuraFiltro($event)"
+          (selezioneEffettuata)="selectMisuraFilter($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+    <div style="width: 100%; height: auto; float: left; overflow: hidden;">
+      <div class="testo grassetto scuro" style="width: 20%; height: auto; float: left; overflow: hidden;">
+        Filters
+      </div>
+      <div style="width: calc(80% - 6px); height: auto; float: left; overflow: hidden;">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [data]="datiLOV"
+          [altezzaMassima]="150"
+          [userName]="userName"
+          [NomeCombo]="'FilterLOV1_' + NumeroFrame + '_' + frameAttivo + '_' + datiModificati.clusterMeasureM"
+          [campoId]="'value'"
+          [campoTesto]="'value'"
+          [ricordaUltimoValore]='false'
+          [pulisceValoriDiBase]='true'
+          [campoFiltro]="'value'"
+          [pulisceFiltro]="pulisceFiltroLov1"
+          [valoreDefault]="filtroTestoSelezionato"
+          [disabilitata]="comboDisabilitata"
+          [selezioneMultipla]="true"
+          [aggiungeRiga]="aggiungeRigaLov1"
+          [visibileElimina]="false"
+
+          (selezioneEffettuata)="cambioFilterText($event)"
+        >
+        </app-combo-component>
+      </div>
+    </div>
+  </div>
+</div>

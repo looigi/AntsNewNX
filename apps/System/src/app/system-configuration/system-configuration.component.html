@@ -1,0 +1,114 @@
+<div style="width: 100%; height: 100%;">
+  <app-ants-grid-lib
+    *ngIf="datiGriglia"
+    [sessioneAttuale]="sessionID2"
+    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+    [indirizzoServer]="indirizzoServer"
+    [modalita]="'Griglia'"
+    [title]="nomeGriglia"
+    [titleDaDatiGriglia]="true"
+    [data]="datiGriglia"
+    [userName]="userName"
+    [maskName]="userName + '_grigliaSC1'"
+    [newKeyVisibile]='false'
+    [refreshKeyVisibile]='true'
+    [editKeyVisibile]='false'
+    [deleteKeyVisibile]='false'
+    [infoKeyVisibile]='true'
+    [confirmKeyVisibile]="false"
+    [selezioneMultipla]='false'
+    [impostaSelezione]="selezione"
+    [AutoResize]="true"
+    [righeAutomatiche]="false"
+    [paginazione]="'scrollable'"
+    [raggruppabile]='true'
+    [campiPerRaggruppamento]="'FOLDER'"
+    [collassaTutto]="false"
+    [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+    [messaggioWarning]="messaggioWarning"
+    [linkIcone]="Utils.linkIcone"
+    [DimensioneFont]="12"
+
+    (cellClick)="clickSelezione($event)"
+    (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+    (refresh)='refreshGrid1($event, false)'
+    (resetLayout)='refreshGrid1($event, true)'
+    (clickSuIconaEmit)="apreCombo5N2($event['dati'])"
+    (premutoTastoEdit)="premutoTastoEdit($event)"
+    (ritornoDimensioniColonne)="ritornoDimensioniColonneSC($event)"
+  >
+  </app-ants-grid-lib>
+
+  <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+    style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+  ></div>
+</div>
+
+<div *ngIf="mascheraModifica" class="oscura"></div>
+<div *ngIf="mascheraModifica" 
+  #myBoundsCSV ngDraggable [handle]="handleMenuCSV"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  class="mascheraModifica" style="width: 500px; left: 30%; top: 45%;">
+  <div class="bottoniIntestazione" #handleMenuCSV style="background-color: #565656;">
+    <div style="width: 80%; float: left; text-align: left; white-space: nowrap; color: white;">
+      {{TitoloMascheraModifica}}
+    </div>
+    <div style="width: 20%; float: left; text-align: right; margin-top: -4px;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" (click)="chiudeMascheraComboAgentProfileN($event)" title="Confirm the operation" class="immagini">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraModifica = false" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati">
+    <div *ngIf="rigaSelezionata" style="width: 100%;">
+      <div style="width: 20%; float: left;">Value</div>
+      <div style="width: 80%; float: left;">
+        <app-combo-component
+          *ngIf="rigaSelezionata[0].DOMAIN_TYPE === 'LOV'"
+          [Tipologia]="'DropDown'"
+          [userName]="userName"
+          [data] = "datiLov"
+          [campoId]="'ID'"
+          [campoTesto]="'NAME'"
+          [campoFiltro]="'NAME'"
+          [NomeCombo]="'cmbDatiLovTC'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="lovSelezionato"
+
+          (selezioneEffettuata)="selectLov($event)"
+        >
+        </app-combo-component>
+
+        <app-calendario
+          *ngIf="rigaSelezionata[0].DOMAIN_TYPE === 'date'"
+          [Utils]="Utils"
+          [dataPassata]="rigaSelezionata[0].VALUE"
+          [formatoPopup]="'DATA'"
+          [formato]="'yyyy-MM-dd'"
+          [chiusuraAutomatica]="true"
+
+          (dataSelezionata)="lovSelezionato = $event"
+        >
+        </app-calendario>
+
+        <input *ngIf="rigaSelezionata[0].DOMAIN_TYPE === 'integer'" 
+          type="number" 
+          style="width: 100%;" 
+          (keypress)="checkTasto($event)" 
+          [(ngModel)]="lovSelezionato">
+        
+        <input *ngIf="rigaSelezionata[0].DOMAIN_TYPE === 'string' || rigaSelezionata[0].DOMAIN_TYPE === 'RegExp'" 
+          type="text" 
+          style="width: 100%;" 
+          (keypress)="checkTasto($event)" 
+          [(ngModel)]="lovSelezionato">
+
+        <input *ngIf="rigaSelezionata[0].DOMAIN_TYPE === 'not_editable'" 
+          type="text" 
+          style="width: 100%;" 
+          disabled="true" 
+          value="lovSelezionato">
+      </div>
+    </div>
+  </div>
+</div>

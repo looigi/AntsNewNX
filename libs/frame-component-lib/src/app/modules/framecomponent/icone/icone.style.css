@@ -1,0 +1,10 @@
+.contenitoreIconaSuperiore {
+  width: 25px;
+  margin-right: 5px;
+}
+
+.iconaSuperiore {
+  width: 23px;
+  cursor: pointer;
+  height: 23px;
+}

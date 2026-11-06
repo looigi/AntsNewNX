@@ -1,0 +1,67 @@
+<div *ngIf="mascheraVisibile" class="bloccaSfondo" style="z-index: 5003;"></div>
+
+<div #myBounds *ngIf="mascheraVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+>
+  <div *ngIf="mascheraVisibile" ngDraggable [handle]="handleInfo" class="mascheraPrincipale drag-block resizable"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+    (visibileEmit)="mascheraVisibile = false;" style="z-index: 5004;">
+    <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px;">
+      <div #handleInfo style="text-align: center; width: 90%; float: left; margin-top: 2px;">Dashboard Save As</div>
+      <div style="width: 10%; float: right;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+          class="immaginiChiusura" style="float: right;">
+        <img kendoTooltip [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiChiusura" style="width: 25px; height: 25px; float: right; margin-top: 2px;" title="Save" (click)="salvaDati()">
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 5px;">
+      <div class="titolo">
+        <span class="testo scuro">Dashboard Name:</span>
+      </div>
+      <div class="contenuto">
+        <input class="casellaTesto"
+          style="border: 1px solid #ebebeb; text-align: left;"
+          type = "text"
+          [(ngModel)]="name2"
+          value="{{name2}}" />
+      </div>
+      <div style="clear: both;"></div>
+
+      <div class="titolo">
+        <span class="testo scuro">Description:</span>
+      </div>
+      <div class="contenuto">
+        <input class="casellaTesto"
+          style="border: 1px solid #ebebeb; text-align: left;"
+          type = "text"
+          [(ngModel)]="desc2"
+          value="{{desc2}}" />
+      </div>
+      <div style="clear: both;"></div>
+
+      <div class="titolo" style="margin-top: 14px !important;">
+        <span class="testo scuro">Folder: </span>
+      </div>
+      <div class="contenuto">
+        <app-combo-component
+          [Tipologia]="'Combo'"
+          [data] = "listaDati2"
+          [userName]="userName"
+          [NomeCombo]="'DashNameFolder'"
+          [campoId]="'VALUE_STR'"
+          [campoTesto]="'VALUE_STR'"
+          [campoFiltro]="'VALUE_STR'"
+          [valoreDefault]="folder"
+          [accettaNuovi]="true"
+          [ricordaUltimoValore]="false"
+          [pulisceFiltro]="pulisceFiltroDashboard"
+
+          (selezioneEffettuata)="selectFolder($event)"
+        >
+        </app-combo-component>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</div>

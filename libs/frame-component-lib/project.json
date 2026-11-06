@@ -1,0 +1,27 @@
+{
+  "name": "frame-component-lib",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frame-component-lib/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/frame-component-lib"
+      ],
+      "options": {
+        "project": "libs/frame-component-lib/ng-package.json",
+        "tsConfig": "libs/frame-component-lib/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/frame-component-lib/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

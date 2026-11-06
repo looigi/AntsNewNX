@@ -1,0 +1,1945 @@
+
+
+<ng-container *ngIf="messaggioToolTip">
+  <div id="divToolTip_{{maskName}}" 
+    class="tooltip" 
+    style="display: none;" 
+    [style.left.px]="posXDivToolTip" 
+    [style.top.px]="posYDivToolTip">
+    <span class="tooltiptext">
+      {{messaggioToolTip}}
+    </span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="mascheraTicketAperta">
+  <div
+    style="
+      position: absolute;
+      padding: 3px;
+      padding-bottom: 0px;
+      z-index: 999;
+      left: 200px;
+      top: 25px;
+      border: 1px solid #999;
+      box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+      background-color: white;
+    ">
+      Ticket<hr style="margin: 0px;" />
+
+      <table style ="width: 100%;">
+        <tr>
+          <td>
+            Status
+          </td>
+          <td>
+            <!-- <kendo-dropdownlist
+              style="width: 100%; font-family: Arial, Helvetica, sans-serif;"
+              [data]="datiTicket"
+              [filterable]="true"
+              [valuePrimitive]="true"
+              [value]="valoreDefaultTicket"
+
+              (valueChange)='changeValueTicket($event)'
+              (selectionChange)="cambiataSelezioneTicket($event)"
+            >
+            </kendo-dropdownlist> -->
+            <select [(ngModel)]="selezioneTicket" style="width: 100%;">
+              <option *ngFor="let sel of datiTicket; trackBy: trackByTicket" [value]="sel.value_str">
+                {{sel.value_str}}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Title
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="titoloTicket" style="width: 300px;" ><br />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Description
+          </td>
+          <td>
+            <input type="textarea" [(ngModel)]="descTicket" style="width: 300px; height: 50px;" ><br />
+          </td>
+        </tr>
+      </table>
+
+      <hr style="margin: 0px;" />
+      <div style="width: 100%; margin-top: 0px;">
+        <div style="width: 33%; float: left; text-align: center;">
+          <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/check-circle.png'" style="width: 25px; height: 25px; cursor: pointer;" title="OK" (click)="salvaTicket();" >
+        </div>
+        <div style="width: 33%; float: left; text-align: center;">
+          <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/ResetLayout.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Delete ticket" (click)="eliminaTicket();" >
+        </div>
+        <div style="width: 33%; float: left; text-align: center;">
+          <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Cancel" (click)="mascheraTicketAperta = false;" >
+        </div>
+      </div>
+  </div>
+</ng-container>
+
+<!--
+  (mouseover)="apreChiudeMenu(1)"
+  (mouseleave)="apreChiudeMenu(0)"
+-->
+
+<ng-container *ngIf="disegnaDivAttesa">
+  <div style="z-index: 999; width: 100%; height: 100%; position: absolute;
+  left: 0px; top: 0px; background-color: transparent;"></div>
+</ng-container>
+
+<!-- {{sonoDentro}}-{{premutoCtrl}} -->
+<div #divContenitore style="width: calc(100% - 1px); height: calc(100% - 1px);"
+  (resized)="onResized($event)" (mouseover)="apreIcone(); mouseOver($event);" (mouseleave)="chiudeIcone(); mouseOut($event);"
+>
+  <as-split direction="horizontal">
+    <as-split-area [size]="dimeArea1" [visible]="showColumnHideFlag" [lockSize]="!showColumnHideFlag" style="overflow: hidden;">
+      <ng-container *ngIf="showColumnHideFlag">
+        <div style="margin-top: -45px; width: 100%; height: 100%; background-color: #f9f7e7;">
+        <div #handleHide class="barraSuperiore" style="text-align: left; padding-left: 55px;">Column Selector</div>
+        <div kendoTooltip class="chiusuraPopup">
+          <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" title="Close" (click)="showColumnHideFlag = false" class="immagini" style="float: left; margin-top: -25px; width: 29px; height: 25px;" />
+          <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/check-circle.png'" title="OK" (click)="saveColumnHide(true)" class="immagini" style="float: left; margin-left: 25px; margin-top: -25px; width: 24px; height: 24px;" />
+        </div>
+
+        <div *ngIf="visualizzaCampiUlterioriColumnSelector === true" style="width: 100%; height: 30px; text-align: center; background-color: #f9f7e7; color: #2f2f2f; float: left;">
+          <div style="width: 100%; float: left; text-align: right;">
+            <div style="float: right;">&nbsp;Hide empty columns&nbsp;</div>
+            <input type="checkbox" (click)="hideEmptyCols($event)" name="chkHideEmptyColumns" [checked]="hideEmptyColumns == 'true'" style="margin-top: 4px; float: right;" >
+          </div>
+        </div>
+
+        <div style="height: 100%; margin-top: 45px;">
+          <div style="width: 98%; float: left; height: 93%; overflow: auto; padding: 2px; margin-bottom: 5px; line-height: 1.7;">
+            <table style="width: 100%;">
+              <tr *ngFor="let c of columnsAppFiltered; trackBy: trackByIdColumns"> 
+                <td *ngIf="c.field !== 'CHECKBOX'">
+                  <input *ngIf="c.hideIsEditable == 'Y'" type="checkbox" [checked]="c.hidden != true" (click)="clickColumnHide(c)">
+                  <span *ngIf="c.hideIsEditable != 'Y'">&nbsp;</span>
+                </td>
+                <td *ngIf="c.field !== 'CHECKBOX'">
+                  <span style="font-weight: bold;">{{c.title}}</span>&nbsp;{{c.description}}
+                </td>
+                <!-- <td *ngIf="c.field !== 'CHECKBOX' && debug2">
+                  {{c.hideIsEditable}}
+                </td> -->
+              </tr>
+            </table>
+            <!-- <hr /> -->
+          </div>
+          <div *ngIf="visualizzaCampiUlterioriColumnSelector === true" kendoTooltip style="width: 99%; float: left; background-color: #f9f7e7; text-align: right; margin-top: 5px;">
+            <div style="width: 99%; float: left;">
+              <div style="margin-top: 5px; float: left;">&nbsp;Search</div>&nbsp;
+              <input type="text" title="Search" style="width: 100px; height: 23px;" (input)="createArray()" [(ngModel)]="filterForColumn">
+            </div>
+            <div style="width: 99%; float: left; margin-left: 3px;">
+              <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/SelectAll.png'" title="Select All" (click)="selectAllColumnHide()" class="immagini" />
+              <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/UnselectAll.png'" title="Unselect All" (click)="unselectAllColumnHide()" class="immagini" />
+              <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/Default.png'" title="Default" (click)="defaultColumnHide()" class="immagini" />
+            </div>
+          </div>
+        </div>
+        </div>
+      </ng-container>
+    </as-split-area>
+
+    <as-split-area [size]="dimeArea2">
+      <ng-template #template let-anchor>
+        <!-- Press CTRL + ALT and click a column header to add it to the sort order.<br /> -->
+        <span *ngIf="toolTipColonna">{{ toolTipColonna }}</span>
+      </ng-template>
+      
+      <div #myBounds class="drag-boundary" style="left: 0px; top: 0px; width: 100%; height: calc(100% - 25px); z-index: -1;"
+        [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+        [style.height]="prendeAltezzaGriglia()"
+       
+        kendoTooltip
+        showOn="none"
+        [tooltipTemplate]="template"
+        filter=".k-grid td"
+        (mouseover)="showTooltip($event)"
+        (mouseleave)="nascondiToolTip()"
+      >
+        <!--
+          RICORDARSI DI FARE LE MODIFICHE SU TUTTE E DUE LE GRIGLIE.
+          Una per la paginazione virtuale e l'altra standard
+        -->
+        <ng-container *ngIf="erroreDati !== ''">
+          <div style="width: 100%; padding: 5px; height: 100%; color: red; overflow: auto;">
+            {{erroreDati}}
+          </div>
+        </ng-container>
+
+        <!-- id="gridGenNormale_{{maskName}}" -->
+        <ng-container *ngIf="grigliaVisibile && modalita == 'Griglia' && paginazione != 'virtual' && columns && erroreDati == ''">
+          <!--
+            [kendoGridExpandGroupBy]="expandBy"
+            [groupsInitiallyExpanded]="false"
+          -->
+          <kendo-grid
+            #GridGenNormale id="gridGenNormale_{{maskName}}"          
+            [kendoGridBinding]="gridData"
+            [pageSize]="take"
+            [skip]="skip"
+
+            [rowClass]="rowCallback"
+
+            [groupable]="raggruppabileVar"
+            [group]="groups"
+            (groupCollapse)="groupCollapse($event)"
+            (groupExpand)="groupExpand($event)"
+            [isGroupExpanded]="isGroupExpanded"
+
+            [columnMenu]="{ columnChooser: false, filter: false, sort: false }"
+            [selectable]="multipleSelection"
+
+            [sort]="sort"
+            [filter]="filter"
+            [sortable]="sortSettings"
+            [resizable]="true"
+            [reorderable]="showColumnHiderAndOrderGrid"
+            [filterable]="rowButtonsConfig2.showFilter"
+            [kendoGridSelectBy]="mySelectionKey"
+            [selectedKeys]="mySelection"
+            [pageable]="pageable"
+            [navigable]="navigabile"
+
+            (dataStateChange)="dataStateChange($event)"
+            (cellClick)="cellClickOnGrid($event);"
+            (selectionChange)="clickSuCheck($event)"
+            (columnResize)="onResize($event)"
+            (columnReorder)="onReorder($event)"
+            (filterChange)="onFilterChange($event)"
+            (father)="''"
+            (pageChange)="pageChange($event)"
+            (sortChange)="sorting($event)"
+            (refresh)="refreshGridKey()"
+            (lastSelectedOfGrid)="true"
+
+            style="background-color: #f6f6f6;"
+          >
+
+          <!--
+          (mouseover)="overGrid($event)"
+          (mouseleave)="leaveGrid()"
+
+          (selectionChange)="clickSuCheck($event)"
+          (selectedKeysChange)="selectedKeysChange($event)"
+          -->
+
+        <!-- noRecords="No records available (Is there a filter set?)."> -->
+        <kendo-grid-messages
+          noRecords="No Rows">
+        </kendo-grid-messages>
+
+        <!--
+        <ng-template kendoGridToolbarTemplate *ngIf="rowButtonsConfig2.showHeader == false">
+          <div kendoRippleContainer>
+            <div kendoTooltip class="row" style="display: flex;">
+              <kendo-toolbar style="border: 0px; height: 30px; margin-left: 5px; margin-top: -5px; margin-right: 10px; background-color: white;"
+                [overflow]="true" [style.width.%]="100" [popupSettings]="{ animate: true }">
+
+                <kendo-toolbar-button
+                  [text]='title2'
+                  title="Row {{skip + 1}}/{{righeTotali}}"
+                >
+                </kendo-toolbar-button>
+              </kendo-toolbar>
+            </div>
+          </div>
+        </ng-template>
+        -->
+
+        <ng-template kendoGridToolbarTemplate *ngIf="rowButtonsConfig2.showHeader" style="background-color: white; padding:0px;">
+          <div kendoRippleContainer style="height: 22px; padding-left: 3px; width: calc(100% - 6px); display: block;">
+            <!-- {{aperteIcone}} -->
+            <barra_superiore_griglia-component
+              [debug] = 'debug'
+              [visibile] = '!toolbarVisibile2'
+              [userName] = 'userName'
+              [linkIcone] = 'linkIcone'
+              [righeTotali] = 'righeTotali'
+              [pageSize] = 'pageSize'
+              [take] = 'take'
+              [skip] = 'skip'
+              [warning] = 'warning'
+              [aperteIcone] = 'aperteIcone'
+              [title] = 'title2'
+              [showSettedFilter] = 'showSettedFilter'
+              [filtroEventi] = 'filtroEventi'
+              [filtroAttivo] = 'filtroAttivo'
+              [rowButtonsConfig] = 'rowButtonsConfig2'
+              [pageSelectorVisibile] = 'pageSelectorVisibile'
+              [pageEmptyVisibile] = 'pageEmptyVisibile'
+              [filtroAttivoPass] = 'filtroAttivoPass'
+              [runKeyVisibile] = 'runKeyVisibile'
+              [showRefresh] = 'rowButtonsConfig2.showRefresh'
+              [CalcolaDelta] = 'CalcolaDelta'
+              [CampoCalcolaDelta] = 'CampoCalcolaDelta'
+              [backToSelectedKey] = 'backToSelectedKey'
+              [toConfirm] = 'toConfirm'
+              [copyKeyVisibile2] = 'copyKeyVisibile2'
+              [copyKeyPersistant] = 'copyKeyPersistant'
+              [deleteKeyVisibile2] = 'deleteKeyVisibile2'
+              [deleteKeyPersistant] = 'deleteKeyPersistant'
+              [editKeyVisibile2] = 'editKeyVisibile2'
+              [editKeyPersistant] = 'editKeyPersistant'
+              [downloadTDKey] = 'downloadTDKey'
+              [downloadTcRun] = 'downloadTcRun'
+              [pausaGrigliaDaAutorun] = 'pausaGrigliaDaAutorun'
+              [pausaGrigliaAttiva] = 'pausaGrigliaAttiva'
+              [selezioneMultipla] = 'selezioneMultipla'
+              [mySelection] = 'mySelection'
+              [selectAll] = 'selectAll'
+              [processKeyVisibile] = 'processKeyVisibile'
+              [includeKeyVisibile] = 'includeKeyVisibile'
+              [excludeKeyVisibile] = 'excludeKeyVisibile'
+              [addToActSetOn] = 'addToActSetOn'
+              [refreshKeyVisibile] = 'refreshKeyVisibile'
+              [infoKeyVisibile] = 'infoKeyVisibile'
+              [infoKeypersistant] = 'infoKeypersistant'
+              [showColumnHiderAndOrderGrid] = 'showColumnHiderAndOrderGrid'
+              [ciSonoColumnHidden] = 'ciSonoColumnHidden'
+              [tcRunInfoVisibile] = 'tcRunInfoVisibile'
+              [excelEventi2] = 'excelEventi2'
+              [confirmKeyVisibile] = 'confirmKeyVisibile'
+              [confirmKeyPersistant] = 'confirmKeyPersistant'
+              [TitoloTastoNew] = 'TitoloTastoNew'
+              [newKeyVisibile2] = 'newKeyVisibile2'
+              [newKeyPersistant] = 'newKeyPersistant'
+              [tastoCopia] = 'tastoCopia'
+              [tastoPaste] = 'tastoPaste'
+              [deleteKeyTcRunVisibile] = 'deleteKeyTcRunVisibile'
+              [deleteKeyTcRunPersistant] = 'deleteKeyTcRunPersistant'
+              [getTcRunFilesKeyVisibile] = 'getTcRunFilesKeyVisibile'
+              [TitoloTastoRemove] = 'TitoloTastoRemove'
+              [deleteKeyVisibile3] = 'deleteKeyVisibile3'
+              [deleteKeyPersistant2] = 'deleteKeyPersistant2'
+              [addKeyVisibile2] = 'addKeyVisibile2'
+              [addKeyPersistant] = 'addKeyPersistant'
+              [removeKeyVisibile2] = 'removeKeyVisibile2'
+              [removeKeyPersistant] = 'removeKeyPersistant'
+              [editKeyVisibileN2] = 'editKeyVisibileN2'
+              [editKeyPersistantN] = 'editKeyPersistantN'
+              [tastoTicket] = 'tastoTicket'
+              [tastoAI2] = 'tastoAI2'
+              [keyWorkspace] = 'keyWorkspace'
+              [IconExcludedList] = 'iconeEscluse'
+              [tastoSync] = 'tastoSync'
+              [gestioneTicket] = 'gestioneTicket'
+              [selectedRow] = 'selectedRow'
+              [editable] = 'editable'
+              [editGridOn] = 'editGridOn'
+              [rowsEdited] = 'rowsEdited'
+              [tastoFiltroCombo] = 'tastoFiltroCombo'
+              [filtroCombo] = 'filtroCombo'
+              [rePlayKeyVisibile] = 'rePlayKeyVisibile'
+              [margineAlto] = 'margineAlto'
+              [altezzaRigaStandard] = 'altezzaRigaStandard'
+              [modalitaAltezza] = 'modalitaAltezza'
+              [filtroVisibile] = 'filtroVisibile'
+              [maskName] = 'maskName'
+              [filtroDaPassare] = 'filtroDaPassare'
+              [tooltipDelete] = 'tooltipDelete'
+              [tastoMoveToPointVisibile] = 'tastoMoveToPointVisibile'
+              [tcRunInfoTitle] = 'tcRunInfoTitle'
+              [downloadTDTitle] = 'downloadTDTitle'
+              [mistralFilters] = 'mistralFilters'
+              [tooltipCopy] = 'tooltipCopy'
+              [tastoSpreadSheet]= "tastoSpreadSheet"
+              [tastoAITutte] = "tastoAiTutte"
+              [raggruppabile] = "raggruppabile"
+              [gruppiAperti] = "gruppiAperti"
+              [openAdvancedFilter] = "openAdvancedFilter"
+
+              style="height: 22px; display: block; margin: 0px !important; padding: 0px !important;"
+
+              (clickSuIcona)='fattoClickSuIcona($event)'
+              (invioFiltro)='onFilterChanges($event)'
+            />
+            
+            <!-- div style="position: absolute; top: 2px;"
+              [style.right.px]="filtroVisibile ? 180 : 0"
+            >
+              <kendo-toolbar-button
+                *ngIf="iconeValide && aperteIcone && excelEventi2 == false"
+                kendoGridExcelCommand
+                [imageUrl]="linkIcone + '/icons/Excel.png'"
+                [look]="'flat'"
+                title="Export to Excel (all rows)"
+              >
+              </kendo-toolbar-button>
+              <div *ngIf="iconeValide && aperteIcone && excelEventi2 == false" 
+                title="Export to CSV (all rows)"
+                style="float: left;">
+                <img 
+                    
+                    [src]="linkIcone + '/icons/csv.png'" class="icona" style="width: 20px; height: 20px;"
+                    (click)="exportCSV();"
+                />
+              </div>
+              <div *ngIf="iconeValide && aperteIcone && excelEventi2 == false" 
+                title="Export to XLS (all rows)"
+                style="float: left; margin-top: -2px;">
+                <img 
+                    [src]="linkIcone + '/icons/Excel.png'" class="icona"  style="width: 25px; height: 24px;"
+                    (click)="exportExcel();"
+                />
+              </div>
+            </div> -->
+          </div>
+<!-- 
+          <div *ngIf="filtroVisibile" class="filtro">
+            <input id="txtFilter_{{maskName}}" name="testo" type="text" [(ngModel)] ="filtroDaPassare" style="width: 100%; height: 16px; float: left;" placeholder="write strings separated by space to filter" (keydown)="onFilterChanges()" />
+            <! -- <img *ngIf="iconeValide" [src]="linkIcone + '/icons/Filter.png'" alt='' title='Set filter' style="float: right; cursor: pointer; width: 20px; height: 20px;" (click)="onFilterChanges()" /> -- >
+          </div>-->
+        </ng-template>
+
+        <!-- <ng-template kendoGridHeaderTemplate let-dataItem>
+          <input
+              type="checkbox"
+              name="selectAll"
+              (change)="selectAllRows($event)"
+              [checked]="allRowsSelected"/>
+        </ng-template> -->
+
+        <kendo-grid-column-group #groupColumn title="">
+          <kendo-grid-checkbox-column *ngIf="selezioneMultipla" [width]="18">
+          </kendo-grid-checkbox-column>
+
+          <ng-template *ngIf="!columns">
+            <kendo-grid-column field="vuoto"
+                id="0"
+                title="Empty"
+                [editor]="'boolean'"
+                [width]="75"
+                [filter]="'boolean'"
+                [hidden]="false">
+              </kendo-grid-column>
+          </ng-template>
+          
+          <ng-template *ngIf="columns" ngFor [ngForOf]="columns" let-column>
+            <!--
+            -->
+            <kendo-grid-column
+              [id]="column.idRow"
+              [field]="column.field"
+              [title]="column.title"
+              [editor]="column.editor"
+              [width]="column.width"
+              [filter]="column.filter"
+
+              [hidden]="column.hidden"
+              [headerStyle]="prendeStileHeader(column)"
+
+              (pageChange)="pageChange($event)"
+              (dataStateChange)="dataStateChange($event)">
+
+              <ng-template *ngIf="raggruppabile" kendoGridGroupHeaderTemplate let-value="value" let-field="field" let-group="group">
+                <span (click)="onGroupClick(field, value, $event)">
+                  <!-- (click)="toggleGroup(group, $event)" -->
+                  <img *ngIf="(iconeValide) && iconaFolderGroupVisibile2" 
+                    [src]="linkIcone + '/icons/Folder-C.png'" 
+                    alt='' class="k-button immagineGriglia" 
+                    style="width: 22px; height: 22px; margin-top: -2px;" />
+                  <span *ngIf="visualizzaScrittaFolder">{{ field }}: </span>{{ value }}
+                </span>
+              </ng-template>
+
+              <ng-template #template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
+                <!--  -->
+
+                <div class="cellaDiv"
+                  *ngIf="visualizzaRiga(column, dataItem)"
+                  [ngStyle]="stileCella(dataItem, column)"
+                  style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                  [style.height]="altezzaRigaInterna[dataItem.ROW_ID]"
+                  [style.border-top]="controllaSelezione(dataItem, rowIndex)"
+                  [style.border-bottom]="controllaSelezione(dataItem, rowIndex)"
+                >
+                  <!-- <input *ngIf="columnIndex == 1" type="checkbox" name="chk"> -->
+
+                  <!-- Rimosse le icone di modifica/eliminazione riga (modalità modifica deprecata): ogni *ngIf lasciava
+                       un nodo segnaposto e una chiamata di funzione in ogni cella, anche se l'icona non compariva -->
+
+                  <!-- <div *ngIf="showChart(column.field, rowIndex)"
+                    id="chartContainers_{{rowIndex}}"
+                    style="width: 130px; height: 25px;"
+                  >
+                  </div> 260 / 50 -->
+
+                  <!-- (mouseover)="stoSulGrafico(1, true)"(mouseleave)="stoSulGrafico(1, false)" -->
+                  <!-- Blocchi grafico raggruppati: nelle colonne normali resta un solo segnaposto invece di cinque -->
+                  <ng-container *ngIf="column.field == 'CST_CHART1' || column.field == 'CST_CHART' || column.field == 'TC_RUN_RESULT_BY_TIME' || column.field == 'TRAILIS' || column.field == 'TRAILISDAY'">
+                  <kendo-chart *ngIf="(column.field == 'CST_CHART1') && righeHist[dataItem.ROW_ID]"
+                    [transitions]="false"
+                    style=" width: 260px; height: 75px;">
+                    <kendo-chart-area background="transparent">
+                    </kendo-chart-area>
+
+                    <!-- RIMOSSO TEMPORANEAMENTE FINCHE NON SI CHIARISCE IL CONTENUTO
+                    <kendo-chart-tooltip *ngIf="visualizzaToolTipGrafici == true" [shared]="true">
+                      <ng-template kendoChartSharedTooltipTemplate let-category="category" let-points="points">
+                        <div *ngFor="let point of righeHist[dataItem.ROW_ID]">
+                          <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'background-color': point.color }" style="float: left; width: 15px; height: 3px; margin-top: 8px; "></div>
+                          <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'color': 'black' }" style="float: left; margin-left: 5px;">{{ point.name }} : {{ point.value }}</div>
+                          <div style="clear: both;"></div>
+                        </div>
+                      </ng-template>
+                    </kendo-chart-tooltip> -->
+
+                    <kendo-chart-category-axis>
+                      <kendo-chart-category-axis-item [categories]="righeHistCat[dataItem.ROW_ID]">
+                        <kendo-chart-value-axis-item-labels [content]="labelContent" [color]="'blue'" [margin]="0">
+                        </kendo-chart-value-axis-item-labels>
+                      </kendo-chart-category-axis-item>
+                    </kendo-chart-category-axis>
+
+                    <kendo-chart-value-axis>
+                      <kendo-chart-value-axis-item [line]="{visible:false}" [labels]="{visible:false}">
+                      </kendo-chart-value-axis-item>
+                    </kendo-chart-value-axis>
+
+                    <kendo-chart-series>
+                      <kendo-chart-series-item type="column" [spacing]="0" [color]="'blue'" [data]="righeHist[dataItem.ROW_ID]">
+                      </kendo-chart-series-item>
+
+                      <!-- [color]="'transparent'"
+                      [visible]="false" -->
+                      <kendo-chart-axis-defaults
+                        [background]="'transparent'"
+                        [crosshair]="{visible:true}"
+                        [majorGridLines]="{ visible : false }"
+                      >
+                      </kendo-chart-axis-defaults>
+                    </kendo-chart-series>
+
+                    <!-- <kendo-chart-tooltip>
+                      <ng-template kendoChartSeriesTooltipTemplate let-name="name" let-value="value">
+                        {{ name }} {{ value }}
+                      </ng-template>
+                    </kendo-chart-tooltip> -->
+                  </kendo-chart>
+
+                  <!-- (mouseover)="stoSulGrafico(2, true)"(mouseleave)="stoSulGrafico(2, false)"
+                  <span *ngIf="column.field == 'TC_RUN_RESULT_BY_TIME'">
+                    {{righeTEM(dataItem[column.field])}}
+                  </span>  -->
+
+                  <kendo-chart *ngIf="(column.field == 'TC_RUN_RESULT_BY_TIME') && righeTEM" [transitions]="false"
+                    style="width: auto; min-width: 150px; height: 75px;" (seriesClick)="onSeriesClick($event, dataItem.ROW_ID)" (seriesHover)="onSeriesHover($event)">
+                    <kendo-chart-area background="transparent">
+                    </kendo-chart-area>
+
+                    <kendo-chart-value-axis>
+                      <kendo-chart-value-axis-item [line]="{visible:false}" [labels]="{visible:false}">
+                      </kendo-chart-value-axis-item>
+                    </kendo-chart-value-axis>
+
+                    <kendo-chart-series *ngIf="dataItem">
+                      <kendo-chart-series-item
+                        *ngFor="let item of righeTEM[dataItem.ROW_ID]; trackBy: trackByRow"
+                        type="column"
+                        [gap]= 0.4
+                        [stack]="true"
+                        [color]="item.coloresfondo"
+                        [data]="item.valore"
+                      >
+                        <kendo-chart-series-item-tooltip background="white">
+                          <ng-template let-dataItem="item" let-value="value">
+                            <div *ngFor="let tag of scriveTooltip(item); trackBy: trackByTag" style="width: 100%;">
+                              <div [style.background-color]="tag.coloresfondo" [style.color]="tag.coloretesto" 
+                                style="width: 100%; float: left;">
+                                {{tag.valore}}
+                              </div>
+                            </div>
+                          </ng-template>
+                        </kendo-chart-series-item-tooltip>
+                      </kendo-chart-series-item>
+
+                      <kendo-chart-axis-defaults
+                        [background]="'transparent'"
+                        [color]="'transparent'"
+                        [visible]="false"
+                        [crosshair]="{visible:false}"
+                      >
+                      </kendo-chart-axis-defaults>
+                      <!-- [majorGridLines]="{ visible : false }" -->
+
+                    </kendo-chart-series>
+                  </kendo-chart>
+
+                  <kendo-chart *ngIf="(column.field == 'CST_CHART1' || column.field == 'CST_CHART') && righeCst && righeCst[dataItem.ROW_ID]" [transitions]="false"
+                    style="width: 130px; height: 15px;">
+                    <kendo-chart-area background="transparent">
+                    </kendo-chart-area>
+
+                    <kendo-chart-tooltip *ngIf="visualizzaToolTipGrafici == true" [shared]="true">
+                      <ng-template kendoChartSharedTooltipTemplate let-category="category" let-points="points">
+                        <div *ngFor="let point of righeCst[dataItem.ROW_ID]; trackBy: trackByPoint;">
+                          <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'background-color': point.color }" style="float: left; width: 15px; height: 3px; margin-top: 8px; "></div>
+                          <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'color': 'black' }" style="float: left; margin-left: 5px;">{{ point.name }} : {{ point.value }}</div>
+                          <div style="clear: both;"></div>
+                        </div>
+                      </ng-template>
+                    </kendo-chart-tooltip>
+
+                    <!-- <kendo-chart-x-axis>
+                      <kendo-chart-x-axis-item [title]="{ text: 'Rainfall' }" [min]=0 [max]=100 [majorUnit]=100>
+                      </kendo-chart-x-axis-item>
+                    </kendo-chart-x-axis>
+
+                    <kendo-chart-value-axis>
+                      <kendo-chart-value-axis-item [line]="{visible:false}" labels="false">
+                      </kendo-chart-value-axis-item>
+                    </kendo-chart-value-axis> -->
+
+                    <kendo-chart-series>
+                      <kendo-chart-series-item type="bar" [gap]= 0.4 [stack]="true">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][0]]">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][1]]">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][2]]">
+                        <!-- <kendo-chart-series-item-tooltip color="righeCst[dataItem.ROW_ID][2].color">
+                        </kendo-chart-series-item-tooltip> -->
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][3]]">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][4]]">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][5]]">
+                      </kendo-chart-series-item>
+
+                      <kendo-chart-axis-defaults
+                        [background]="'transparent'"
+                        [color]="'transparent'"
+                        [visible]="false"
+                        [crosshair]="{visible:false}"
+                      >
+                      </kendo-chart-axis-defaults>
+                    </kendo-chart-series>
+
+                      <!-- <kendo-chart-tooltip>
+                        <ng-template kendoChartSeriesTooltipTemplate let-name="name" let-value="value">
+                          {{ name }} {{ value }}
+                        </ng-template>
+                      </kendo-chart-tooltip> -->
+                  </kendo-chart>
+
+                  <kendo-sparkline *ngIf="column.field == 'TRAILIS'" style="width: 130px; height: 20px;">
+
+                    <kendo-chart-area background="#FFF0">
+                    </kendo-chart-area>
+
+                    <kendo-chart-category-axis>
+                      <kendo-chart-category-axis-item [categories]=days>
+                      </kendo-chart-category-axis-item>
+                    </kendo-chart-category-axis>
+
+                    <kendo-chart-series>
+                      <kendo-chart-series-item type="column" [gap]= 0.4 [stack]="{ type: '100%' }">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Failed" color="red" [data]=sFAILED[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Ok" color=#248f24 [data]=sOK[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Aborted" color=#e6e619 [data]=sABORT[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                    </kendo-chart-series>
+
+                  </kendo-sparkline>
+
+                  <kendo-sparkline *ngIf="column.field == 'TRAILISDAY'" style="width: 30px; height: 20px;">
+
+                    <kendo-chart-area background="#FFF0">
+                    </kendo-chart-area>
+
+                    <kendo-chart-category-axis>
+                      <kendo-chart-category-axis-item [categories]=days_day>
+                      </kendo-chart-category-axis-item>
+                    </kendo-chart-category-axis>
+
+                    <kendo-chart-series>
+                      <kendo-chart-series-item type="column" [gap]= 0.4 [stack]="{ type: '100%' }">
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Failed" color="red" [data]=sFAILED_DAY[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Ok" color=#248f24 [data]=sOK_DAY[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Aborted" color=#e6e619 [data]=sABORT_DAY[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                      <kendo-chart-series-item type="column" name="Other" color=#aaa [data]=sOTHER_DAY[dataItem.ROW_ID]>
+                      </kendo-chart-series-item>
+                    </kendo-chart-series>
+
+                  </kendo-sparkline>
+                  </ng-container>
+
+                  <div *ngIf="dataItem && colonnaHtml(column)"
+                      id="divHtml_{{column.field}}"
+                      (click)="$event.stopPropagation()"
+                      [innerHTML]="dataItem[column.field]">
+                  </div>
+
+                  <!-- [style.padding-right]="prendePaddingCella(column)" -->
+                  <div id="divRiga"
+                      *ngIf="!colonnaHtml(column) && column.field != 'CST_CHART1' && column.field != 'TC_RUN_RESULT_BY_TIME' && column.field != 'CST_CHART'"
+                      style="width: auto; padding-left: 3px;"
+                      [style.height]="altezzaRigaInterna[dataItem.ROW_ID]"
+                      [style.line-height.px]="altezzaRigaStandard"
+                      [style.text-align]="allineamentoCella(column)"
+                    >
+                    <div style="width: 100%;">
+
+                      <!-- <div *ngIf="column.multiSelection"
+                        style="width: 35px; float: left; margin-bottom: -18px;"
+                        >
+                        <input style="zoom: 1.2;"
+                          type="checkbox"
+                          name="select"
+                          (change)="changeCheckBox(dataItem)"
+                          [checked]="dataItem[column.field] == 'Y'" />
+                      </div> -->
+  
+                      <div *ngIf="column.combo && dataItem && dataItem[column.field]"
+                        style="width: 35px; float: left; margin-bottom: -18px; margin-right: 6px;"
+                        >
+                        <!-- [value]="numeroSelezionato[rowIndex]" -->
+                        <select style="width: 100%; height: 16px; font-size: 12px;"
+                          (change)="clickSuCombo($event, dataItem[column.field])" 
+                          (click)="clickSuCombo($event, dataItem[column.field])" 
+                          [(ngModel)]="dataItem['combo_value']">
+                          <option *ngFor="let numeri of quantiNumeri; trackBy: trackByNumero"
+                            [value]="numeri.numero"
+                          >
+                            {{numeri.testo}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div *ngIf="column.iconName && column.iconName != 'ICON_TRACE' && dataItem && dataItem[column.field]"
+                        style="width: 30px; float: left; margin-top: -5px;"
+                        >
+                        <img
+                          class="ant-icon imgSize"
+                          src="{{getIconNameIfExists(column, dataItem)}}"
+                          (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                          style="cursor: pointer; position: absolute;" />
+                      </div>
+
+                      <div *ngIf="column.icon && column.icon != 'ICON_TRACE' && dataItem && dataItem[column.field] && (!column.iconName)"
+                          style="width: 30px; float: left; margin-top: -5px;"
+                        >
+                        <img
+                          class="ant-icon imgSize"
+                          src="{{getIconIfExists(column, dataItem[column.field])}}"
+                          (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                          style="cursor: pointer; position: absolute;"
+                          (error)="onImgError($event)" />
+                      </div>
+
+                      <div style="float: left;"
+                          [style.height]="altezzaRigaInterna[dataItem.ROW_ID]"
+                          [style.margin-top.px]="margineAlto"
+                          [style.width]="dimensioneRigaCella(column, dataItem)"
+                          [style.margin-left]="margineRigaCella(column, dataItem)"
+                        >
+                        <!-- <span *ngIf="getValue(column, dataItem) === '' || (column && column.showIconText != 'true')">
+                          &nbsp;
+                        </span> -->
+                        <div #cell *ngIf="!column.showIconText || column.showIconText == 'true'" 
+                          style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                          [innerHTML]="valoreCella(column, dataItem)"
+                          (mouseenter)="impostaTitoloCella(cell, column, dataItem)">
+                          <!-- {{ getValue(column, dataItem) }} -->
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div id="divRiga" style="width: auto;"
+                    [style.height]="altezzaRigaInterna"
+                    [style.text-align]="prendeAllineamentoCella(column)"
+                    [style.padding-right]="prendePaddingCella(column)"
+                    >
+                  <span *ngIf="checkIfEditable(dataItem.ROW_ID, dataItem, column.field) == false &&
+                    column.field != 'TRAILIS' &&
+                    column.field != 'TRAILISDAY' &&
+                    column.field != 'CST_CHART' &&
+                    column.field != 'CST_CHART1' &&
+                    column.field.indexOf('_HTMLFRM') == -1 &&
+                    column.hiddenLabel == false &&
+                    column.field.toUpperCase().trim() != 'HTML'"
+                    >
+                    <img *ngIf="(!editMode[dataItem.ROW_ID] || column.isEditable == false) && column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]"
+                      class="ant-icon imgSize"
+                      src="{{getIconIfExists(column, dataItem[column.field])}}"
+                      (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                      style="cursor: pointer"
+                      (error)="onImgError($event)" />
+
+                    <span *ngIf="getValue(column.field, dataItem[column.field], column.dataType, rowIndex, columnIndex) === ''">&nbsp;</span>
+                    <span *ngIf="!column.icon || (column.icon && (!column.showIconText || column.showIconText == 'true'))" >
+                      <span *ngIf="(!editMode[dataItem.ROW_ID] || column.isEditable == false) && column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]">&nbsp;</span>
+                      {{ getValue(column.field, dataItem[column.field], column.dataType, rowIndex, columnIndex) }}
+                    </span>
+                  </span>
+                  </div>   -->
+
+                  <!-- <div *ngIf="presoValoreCella[rowIndex][columnIndex] &&
+                    column.field != 'TRAILIS' &&
+                    column.field != 'TRAILISDAY' &&
+                    column.field != 'CST_CHART' &&
+                    column.field != 'CST_CHART1' &&
+                    column.field.indexOf('_HTMLFRM') == -1 &&
+                    column.hiddenLabel == false &&
+                    column.field.toUpperCase().trim() != 'HTML'">
+                    {{presoValoreCella[rowIndex][columnIndex]}}
+                  </div> -->
+                    <!-- <span *ngIf="column.field.toUpperCase().trim() == 'HTML'" style="text-decoration: underline;">
+                    <div [innerHTML]="prendeTestourl(dataItem[column.field])"></div>
+                  </span> -->
+
+                  <!-- Rimossi i campi di modifica in linea (modalità modifica deprecata) -->
+
+                  <input *ngIf="column.dataType == 'checkBox'" style="zoom: 1.2;"
+                        type="checkbox"
+                        name="select"
+                        (change)="changeCheckBox(dataItem)"
+                        [checked]="dataItem[column.field] == 'Y'" />
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+          </ng-template>
+        </kendo-grid-column-group>
+
+        <kendo-grid-excel
+          fileName="{{act_set.replace('[', '(').replace(']', ')')}}{{title}}{{hiddenTitle}}_{{dateNow | date: 'yyyyMMdd_HHmm'}}.xlsx"
+          [fetchData]="excelData">
+        </kendo-grid-excel>
+
+        <kendo-grid-pdf fileName="{{act_set}}{{title}}{{hiddenTitle}}_{{dateNow | date: 'yyyyMMdd_HHmm'}}.pdf" [allPages]="false"
+          paperSize="A3" [repeatHeaders]="true" [landscape]="true" [scale]="0.5" >
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+          <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+            <div class="page-template">
+              <div class="header">
+                {{title}}
+              </div>
+              <div class="footer">
+                Page {{ pageNum }} of {{ totalPages }}
+              </div>
+            </div>
+          </ng-template>
+        </kendo-grid-pdf>
+
+          </kendo-grid>
+        </ng-container>
+
+        <!-- [sort]="false"
+        [filter]="false"
+        <ng-container *ngIf="grigliaVisibile && modalita == 'Griglia' && paginazione == 'virtual' && columns && erroreDati === ''">
+          <kendo-grid #GridGenVirtuale [id]="GridGenVirtuale"          
+          [data]="gridData"
+          [skip]="skip"
+          [pageSize]="pageSize"
+
+          [rowClass]="rowCallback"
+
+          [columnMenu]="{ columnChooser: false, filter: false, sort: false }"
+          [selectable]="multipleSelection"
+
+          [scrollable]="paginazione"
+          [rowHeight]="15"
+
+          [sortable]="false"
+          [resizable]="true"
+          [reorderable]="false"
+          [filterable]="false"
+          [kendoGridSelectBy]="mySelectionKey"
+          [selectedKeys]="mySelection"
+
+          [pageable]="pageable"          
+          [navigable]="navigabile"
+
+          (lastSelectedOfGrid)="true"
+          (groupCollapse)="groupCollapse($event)"
+          (groupExpand)="groupExpand($event)"
+          (dataStateChange)="dataStateChange($event)"
+          (selectionChange)="clickSuCheck($event)"
+          (columnResize)="onResize($event)"
+          (cellClick)="cellClickOnGrid($event)"
+          (columnReorder)="onReorder($event)"
+          (filterChange)="onFilterChange($event)"
+          (father)="''"
+          (pageChange)="pageChange($event)"
+          (refresh)="refreshGridKey()"
+
+          style="background-color: #f6f6f6;"
+        >
+
+          <! --
+          (mouseover)="overGrid($event)"
+          (mouseleave)="leaveGrid()"
+
+          (selectionChange)="clickSuCheck($event)"
+          (selectedKeysChange)="selectedKeysChange($event)"
+          -- >
+
+        <! -- noRecords="No records available (Is there a filter set?)."> -- >
+        <kendo-grid-messages
+          noRecords="No Rows">
+        </kendo-grid-messages>
+
+        <ng-template kendoGridToolbarTemplate *ngIf="rowButtonsConfig2.showHeader" style="background-color: white; border: 1px solid red;">
+           <div kendoRippleContainer style="height: 25px; padding-left: 3px;">
+            <! -- {{aperteIcone}}
+            <barra_superiore-component
+            /> -- >
+              
+            <div kendoTooltip class="row" style="display: flex;">
+              <! --
+              <kendo-toolbar style="border: 0px; height: 20px; padding: 0px; margin-right: 10px; background-color: white;"
+                [overflow]="true" [style.width.%]="100" [popupSettings]="{ animate: true }">
+
+                <kendo-toolbar-button
+                  [text]='title2'
+                  [style]="ritornaStyleTitolo()"
+                  [title]="debug == true ? 
+                    'Rows: ' + righeTotali + ' Page Size: ' + pageSize + ' Rpp: ' + take + ' Pages: ' + skip + ' ' +  warning +
+                    'ModHeight: ' + modalitaAltezza + ' Height: ' + altezzaRigaStandard + ' MarginTop: ' + margineAlto : 
+                    'Rows: ' + righeTotali + ' ' + warning"
+                >
+                </kendo-toolbar-button>
+
+                <kendo-toolbar-buttongroup [selection]="'single'">
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide  && pageSelectorVisibile"
+                    [imageUrl]="linkIcone + '/icons/square-edit-outline.png'"
+                    title="Open page selector"
+                    [look]="'flat'"
+                    (click)="aprePageSelector();"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide  && pageEmptyVisibile"
+                    [imageUrl]="linkIcone + '/icons/dashboard.png'"
+                    title="Empty page"
+                    [look]="'flat'"
+                    (click)="apreEmptyPage();"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && filtroEventi && filtroAttivoPass"
+                    [imageUrl]="linkIcone + '/icons/text-search-present.png'"
+                    title="Filter and column setting. The icon is red if there are filters configured"
+                    [look]="'flat'"
+                    (click)="apreChiudeFiltroEventi();"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && filtroEventi && !filtroAttivoPass"
+                    [imageUrl]="linkIcone + '/icons/text-search.png'"
+                    title="Open event filter"
+                    [look]="'flat'"
+                    (click)="apreChiudeFiltroEventi();"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && debug == false && userName?.indexOf('Pecce') > -1"
+                    title="Debug ON"
+                    [look]="'flat'"
+                    [imageUrl]="linkIcone + '/icons/debugOFF.png'"
+                    (click)="debug = true"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && debug == true && userName?.indexOf('Pecce') > -1"
+                    title="Debug OFF"
+                    [look]="'flat'"
+                    [imageUrl]="linkIcone + '/icons/debugON.png'"
+                    (click)="debug = false"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && showSettedFilter"
+                    [imageUrl]="linkIcone + '/icons/filterOff.png'"
+                    title="Clear filter on columns"
+                    [look]="'flat'"
+                    (click)="clearFilter()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && showSettedFilter"
+                      [imageUrl]="linkIcone + '/icons/filterOn.png'"
+                      title="Some columns are filtered"
+                      [look]="'flat'"
+                      (click)="setFilter()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && rowButtonsConfig2.showRefresh"
+                      [imageUrl]="linkIcone + '/icons/AutoResize.png'"
+                      title="Auto-Fit columns"
+                      [look]="'flat'"
+                      (click)="GridGenVirtuale.autoFitColumn(groupColumn); getWidth(); saveGrid();"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && CalcolaDelta && CalcolaDelta === true && CampoCalcolaDelta && CampoCalcolaDelta !== ''"
+                      [imageUrl]="linkIcone + '/icons/delta.png'"
+                      title="Set Delta"
+                      [look]="'flat'"
+                      (click)="setDelta()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((copyKeyVisibile2 == true && toConfirm) || copyKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/Copy.png'"
+                      title="Copy"
+                      [look]="'flat'"
+                      (click)="copyKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((deleteKeyVisibile2 == true && toConfirm) || deleteKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/delete2.png'"
+                      title="Delete"
+                      [look]="'flat'"
+                      (click)="deleteKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((editKeyVisibile2 == true && toConfirm) || editKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/Edit.png'"
+                      [showText]="'overflow'"
+                      [look]="'flat'"
+                      (click)="editKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && downloadTDKey"
+                      [imageUrl]="linkIcone + '/icons/download.png'"
+                      title="Download TD"
+                      [look]="'flat'"
+                      (click)="fDownloadTD()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && downloadTcRun"
+                      [imageUrl]="linkIcone + '/icons/download.png'"
+                      title="Download TcRun"
+                      [look]="'flat'"
+                      (click)="fDownloadTcRun()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && 
+                        pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === true && pausaGrigliaDaAutorun.timeMode === 'SELECTED' && pausaGrigliaAttiva === false"
+                      [imageUrl]="linkIcone + '/icons/pause-custom.png'"
+                      title="Play Autorun"
+                      [look]="'flat'"
+                      (click)="fPauseAutorun(true)"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && 
+                        pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === true && pausaGrigliaDaAutorun.timeMode === 'SELECTED' && pausaGrigliaAttiva === true"
+                      [imageUrl]="linkIcone + '/icons/pause-custom arancione.png'"
+                      title="Pause Autorun"
+                      [look]="'flat'"
+                      (click)="fPauseAutorun(false)"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && selezioneMultipla == true && mySelection && mySelection.length > 0 && selectAll == true && 
+                      (!pausaGrigliaDaAutorun || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === false) || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.timeMode !== 'SELECTED'))"
+                    title="Deselect all rows"
+                    [look]="'flat'"
+                    [imageUrl]="linkIcone + '/icons/N.png'"
+                    (click)="deselectAllRows()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && selezioneMultipla == true && selectAll == true && 
+                      (!pausaGrigliaDaAutorun || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo === false) || (pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.timeMode !== 'SELECTED'))"
+                    title="Select all rows"
+                    [look]="'flat'"
+                    [imageUrl]="linkIcone + '/icons/Y.png'"
+                    (click)="selectAllRowsByKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && processKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/process.png'"
+                    title="Process"
+                    [look]="'flat'"
+                    (click)="processKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && includeKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/in.png'"
+                    title="Include"
+                    [look]="'flat'"
+                    (click)="includeKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && excludeKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/out.png'"
+                    title="Exclude"
+                    [look]="'flat'"
+                    (click)="excludeKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && addToActSetOn"
+                      [imageUrl]="linkIcone + '/icons/arrow-up.png'"
+                      title="Add to Act Set"
+                      [look]="'flat'"
+                      (click)="fAddToActSet()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && refreshKeyVisibile"
+                      [imageUrl]="linkIcone + '/icons/Refresh.png'"
+                      title="Refresh Grid"
+                      [look]="'flat'"
+                      (click)="refreshGridKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && (infoKeyVisibile == true || infoKeypersistant)"
+                      [imageUrl]="linkIcone + '/icons/Info.png'"
+                      title="Info"
+                      [look]="'flat'"
+                      (click)="showInfos()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && showColumnHiderAndOrderGrid && ciSonoColumnHidden"
+                      [imageUrl]="linkIcone + '/icons/columnsHiderSelected.png'"
+                      title="Column Selector"
+                      [look]="'flat'"
+                      (click)="showColumnHider()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && showColumnHiderAndOrderGrid && !ciSonoColumnHidden"
+                      [imageUrl]="linkIcone + '/icons/columnsHider.png'"
+                      title="Column Selector"
+                      [look]="'flat'"
+                      (click)="showColumnHider()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && tcRunInfoVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/table-settings.png'"
+                    title="Tc Run Info"
+                    [look]="'flat'"
+                    (click)="tcRunInfoKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ciSonoColumnHidden == false"
+                      [imageUrl]="linkIcone + '/icons/ResetLayout.png'"
+                      title="Reset Layout"
+                      [look]="'flat'"
+                      (click)="resetGridLayout()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && ciSonoColumnHidden == true"
+                      [imageUrl]="linkIcone + '/icons/ResetLayoutPresent.png'"
+                      title="reset layout if expected columns are not visible"
+                      [look]="'flat'"
+                      (click)="resetGridLayout()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && rePlayKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/re_play.png'"
+                    title="Re-Play"
+                    [look]="'flat'"
+                    (click)="rePlayKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && ((confirmKeyVisibile2 == true && toConfirm) || confirmKeyPersistant)"
+                    [imageUrl]="linkIcone + '/icons/checkbox-marked-circle.png'"
+                    title="Confirm"
+                    [look]="'flat'"
+                    (click)="confirmKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((newKeyVisibile2 == true && toConfirm) || newKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/AddNew.png'"
+                      title="{{TitoloTastoNew}}"
+                      [look]="'flat'"
+                      (click)="newKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && tastoCopia"
+                      [imageUrl]="linkIcone + '/icons/Copy.png'"
+                      title="Copy Selected Rows"
+                      [look]="'flat'"
+                      (click)="fCopiaRighe()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && tastoPaste"
+                      [imageUrl]="linkIcone + '/icons/Paste.png'"
+                      title="Paste Selected Rows"
+                      [look]="'flat'"
+                      (click)="fIncollaRighe()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((deleteKeyTcRunVisibile2 == true && toConfirm) || deleteKeyTcRunPersistant)"
+                      [imageUrl]="linkIcone + '/icons/Aborted.png'"
+                      title="Abort TcRun"
+                      [look]="'flat'"
+                      (click)="deleteKeyTcRun()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && getTcRunFilesKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/getTcRunFiles.png'"
+                    title="Get Tc Run Files"
+                    [look]="'flat'"
+                    (click)="getTcRunFiles()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((deleteKeyVisibile3 == true && toConfirm) || deleteKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/Delete.png'"
+                      title="{{TitoloTastoRemove}}"
+                      [look]="'flat'"
+                      (click)="deleteKey2()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((addKeyVisibile2 == true && toConfirm) || addKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/playlist-plus.png'"
+                      title="Add to the list"
+                      [look]="'flat'"
+                      (click)="addKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((removeKeyVisibile2 == true && toConfirm) || removeKeyPersistant)"
+                      [imageUrl]="linkIcone + '/icons/playlist-remove.png'"
+                      title="Remove from the list"
+                      [look]="'flat'"
+                      (click)="removeKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && ((editKeyVisibileN2 == true && toConfirm) || editKeyPersistantN)"
+                      [imageUrl]="linkIcone + '/icons/Edit2.png'"
+                      [showText]="'overflow'"
+                      [look]="'flat'"
+                      (click)="editKeyN()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && tastoTicket"
+                    [imageUrl]="linkIcone + '/icons/ticket.png'"
+                    title="Edit the ticket"
+                    [look]="'flat'"
+                    (click)="editTicket()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && tastoAI2"
+                    [imageUrl]="linkIcone + '/icons/ai.png'"
+                    title="AI-Powered Analysis"
+                    [look]="'flat'"
+                    (click)="creaQueryAI()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && keyWorkspace == true"
+                      [imageUrl]="linkIcone + '/icons/Maps.png'"
+                      title="Open GeoAnalysis"
+                      [look]="'flat'"
+                      (click)="keyWorkSpacePress($event)"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && tastoSync"
+                    [imageUrl]="linkIcone + '/icons/synchronise.png'"
+                    title="Synchronise other frames"
+                    [look]="'flat'"
+                    (click)="synchronise()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && aperteIcone && gestioneTicket && selectedRow"
+                    [imageUrl]="linkIcone + '/icons/message-bulleted.png'"
+                    title="Open event tickets"
+                    [look]="'flat'"
+                    (click)="apreGestioneTicket()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && backToSelectedKey"
+                      [imageUrl]="linkIcone + '/icons/back_to_selected.png'"
+                      title="Synchronize other views to this timestamp"
+                      [look]="'flat'"
+                      (click)="fBackToSelected()"
+                  >
+                  </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+
+                <kendo-toolbar-buttongroup [selection]="'single'">
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editable && !editGridOn"
+                      [imageUrl]="linkIcone + '/icons/lock-outline.png'"
+                      title="Active Edit"
+                      [look]="'flat'"
+                      (click)="editGridOnOff()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                    *ngIf="iconeValide && runKeyVisibile == true && aperteIcone"
+                    [imageUrl]="linkIcone + '/icons/pause-play.png'"
+                    title="Run/Stop the scenario"
+                    [look]="'flat'"
+                    (click)="runKey()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editable && editGridOn"
+                      [imageUrl]="linkIcone + '/icons/lock-open-outline.png'"
+                      title="Disactive Edit"
+                      [look]="'flat'"
+                      (click)="editGridOnOff()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editGridOn && !rowsEdited"
+                      [imageUrl]="linkIcone + '/icons/content-save-not-active.png'"
+                      [look]="'flat'"
+                      title="Save"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editGridOn && !rowsEdited"
+                      [imageUrl]="linkIcone + '/icons/undo-notactive.png'"
+                      [look]="'flat'"
+                      title="Cancel"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editGridOn && rowsEdited"
+                      [imageUrl]="linkIcone + '/icons/content-save-active.png'"
+                      title="Save"
+                      [look]="'flat'"
+                      (click)="saveGridValues()"
+                  >
+                  </kendo-toolbar-button>
+
+                  <kendo-toolbar-button
+                      *ngIf="iconeValide && aperteIcone && editGridOn && rowsEdited"
+                      [imageUrl]="linkIcone + '/icons/undo-active.png'"
+                      title="Cancel"
+                      [look]="'flat'"
+                      (click)="cancelGridValues()"
+                  >
+                  </kendo-toolbar-button>
+
+                </kendo-toolbar-buttongroup>
+              </kendo-toolbar>
+            -- >
+            </div>
+          </div>
+<! -- 
+          <div *ngIf="filtroVisibile" class="filtro">
+            <input name="testo" type="text" [(ngModel)] ="filtroDaPassare" style="width: calc(100% - 25px); height: 16px; float: left;" placeholder="write strings separated by space to filter" (keydown)="onFilterChanges()">
+            <! -- <img *ngIf="iconeValide" [src]="linkIcone + '/icons/Filter.png'" alt='' title='Set filter' style="float: right; cursor: pointer; width: 20px; height: 20px;" (click)="onFilterChanges()" /> -- >
+          </div> -- >
+        </ng-template>
+
+        <! -- <ng-template kendoGridHeaderTemplate let-dataItem>
+          <input
+              type="checkbox"
+              name="selectAll"
+              (change)="selectAllRows($event)"
+              [checked]="allRowsSelected"/>
+        </ng-template> -- >
+
+        <kendo-grid-column-group #groupColumn title="">
+
+          <kendo-grid-checkbox-column *ngIf="selezioneMultipla">
+            <input
+                type="checkbox"
+                name="selectOne"
+            />
+          </kendo-grid-checkbox-column>
+
+          <ng-template *ngIf="!columns">
+            <kendo-grid-column field="vuoto"
+                id="0"
+                title="Empty"
+                [editor]="'boolean'"
+                [width]="valoreWidth"
+                [filter]="'boolean'"
+                [hidden]="false">
+              </kendo-grid-column>
+          </ng-template>
+
+          <ng-template *ngIf="columns" ngFor [ngForOf]="columns" let-column>
+            <kendo-grid-column
+                field="{{column.field}}"
+                id="{{column.idRow}}"
+                [title]="column.title"
+                [editor]="column.editor"
+                [width]="column.width"
+                [filter]="column.filter"
+                [hidden]="column.hidden"
+                [headerStyle]="prendeStileHeader(column)"
+
+                (pageChange)="pageChange($event)"
+                (dataStateChange)="dataStateChange($event)">
+
+                <ng-template #template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
+                  <! -- 
+                    height: 50px;
+                  -- >
+                  <div class="cellaDiv"
+                    [ngStyle]="getOtherStyles(getCellStyle(dataItem, column), dataItem, column)"
+                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                    [style.height]="altezzaRigaInterna[dataItem.ROW_ID]"
+                    [style.border-top]="controllaSelezione(dataItem, rowIndex)"
+                    [style.border-bottom]="controllaSelezione(dataItem, rowIndex)"
+                  >
+                    <! -- <input *ngIf="columnIndex == 1" type="checkbox" name="chk"> -- >
+
+                    <img *ngIf="iconeValide && getIconEditOn(dataItem, column)" [src]="linkIcone + '/icons/Edit.png'" alt='' title='Edit row' class="k-button immagineGriglia" />
+                    <img *ngIf="iconeValide && getIconUndoEditOff(dataItem, column)" (click)="setNotEditRow(dataItem.ROW_ID)" [src]="linkIcone + '/icons/undo-notactive.png'" alt='' title='Undo Edit row' class="k-button immagineGriglia" />
+                    <img *ngIf="iconeValide && getDeleteOn(dataItem, column)" (click)="setDeleteRow(dataItem.ROW_ID)" [src]="linkIcone + '/icons/Delete.png'" alt=''  title='Delete row' class="k-button immagineGriglia" />
+                    <img *ngIf="iconeValide && getDeleteUndoOn(dataItem, column)" (click)="setNotDeleteRow(dataItem.ROW_ID)" [src]="linkIcone + '/icons/undo-notactive.png'" alt=''  title='Undo Delete row' class="k-button immagineGriglia" />
+
+                    <! -- <div *ngIf="showChart(column.field, rowIndex)"
+                      id="chartContainers_{{rowIndex}}"
+                      style="width: 130px; height: 25px;"
+                    >
+                    </div> 260 / 50 -- >
+
+                    <! -- (mouseover)="stoSulGrafico(3, true)"(mouseleave)="stoSulGrafico(3, false)" -- >
+                    <kendo-chart *ngIf="(column.field == 'CST_CHART1')  && righeHist[dataItem.ROW_ID]" [transitions]="false"
+                      style=" width: 260px; height: 75px;">
+                      <kendo-chart-area background="transparent">
+                      </kendo-chart-area>
+
+                      <kendo-chart-tooltip *ngIf="visualizzaToolTipGrafici == true" [shared]="true">
+                        <ng-template kendoChartSharedTooltipTemplate let-category="category" let-points="points">
+                          <div *ngFor="let point of righeHist[dataItem.ROW_ID]; trackBy: trackByPoint">
+                            <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'background-color': point.color }" style="float: left; width: 15px; height: 3px; margin-top: 8px; "></div>
+                            <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'color': 'black' }" style="float: left; margin-left: 5px;">{{ point.name }} : {{ point.value }}</div>
+                            <div style="clear: both;"></div>
+                          </div>
+                        </ng-template>
+                      </kendo-chart-tooltip>
+
+                      <kendo-chart-category-axis>
+                        <kendo-chart-category-axis-item [categories]="righeHistCat[dataItem.ROW_ID]">
+                          <kendo-chart-value-axis-item-labels [content]="labelContent" [color]="'blue'" [margin]="0">
+                          </kendo-chart-value-axis-item-labels>
+                        </kendo-chart-category-axis-item>
+                      </kendo-chart-category-axis>
+
+                      <kendo-chart-value-axis>
+                        <kendo-chart-value-axis-item [line]="{visible:false}" [labels]="{visible:false}">
+                        </kendo-chart-value-axis-item>
+                      </kendo-chart-value-axis>
+
+                      <kendo-chart-series>
+                        <kendo-chart-series-item type="column" [spacing]="0" [color]="'blue'" [data]="righeHist[dataItem.ROW_ID]">
+                        </kendo-chart-series-item>
+
+                        <! -- [color]="'transparent'"
+                        [visible]="false" -- >
+                        <kendo-chart-axis-defaults
+                          [background]="'transparent'"
+                          [crosshair]="{visible:false}"
+                          [majorGridLines]="{ visible : false }"
+                        >
+                        </kendo-chart-axis-defaults>
+                      </kendo-chart-series>
+
+                      <! -- <kendo-chart-tooltip>
+                        <ng-template kendoChartSeriesTooltipTemplate let-name="name" let-value="value">
+                          {{ name }} {{ value }}
+                        </ng-template>
+                      </kendo-chart-tooltip> -- >
+                    </kendo-chart>
+
+                    <! -- (mouseover)="stoSulGrafico(4, true)"(mouseleave)="stoSulGrafico(4, false)" -- >
+                    <kendo-chart *ngIf="(column.field == 'CST_CHART1' || column.field == 'CST_CHART')  && righeCst && righeCst[dataItem.ROW_ID]" [transitions]="false"
+                      style="width: 130px; height: 15px;">
+                      <kendo-chart-area background="transparent">
+                      </kendo-chart-area>
+
+                      <kendo-chart-tooltip *ngIf="visualizzaToolTipGrafici == true" [shared]="true">
+                        <ng-template kendoChartSharedTooltipTemplate let-category="category" let-points="points">
+                          <div *ngFor="let point of righeCst[dataItem.ROW_ID]; trackBy: trackByPoint">
+                            <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'background-color': point.color }" style="float: left; width: 15px; height: 3px; margin-top: 8px; "></div>
+                            <div *ngIf="point.name !== 'Filler'" [ngStyle]="{ 'color': 'black' }" style="float: left; margin-left: 5px;">{{ point.name }} : {{ point.value }}</div>
+                            <div style="clear: both;"></div>
+                          </div>
+                        </ng-template>
+                      </kendo-chart-tooltip>
+
+                      <! -- <kendo-chart-x-axis>
+                        <kendo-chart-x-axis-item [title]="{ text: 'Rainfall' }" [min]=0 [max]=100 [majorUnit]=100>
+                        </kendo-chart-x-axis-item>
+                      </kendo-chart-x-axis>
+
+                      <kendo-chart-value-axis>
+                        <kendo-chart-value-axis-item [line]="{visible:false}" labels="false">
+                        </kendo-chart-value-axis-item>
+                      </kendo-chart-value-axis> -- >
+
+                      <kendo-chart-series>
+                        <kendo-chart-series-item type="bar" [gap]= 0.4 [stack]="true">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][0]]">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][1]]">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][2]]">
+                          <! -- <kendo-chart-series-item-tooltip color="righeCst[dataItem.ROW_ID][2].color">
+                          </kendo-chart-series-item-tooltip> -- >
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][3]]">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][4]]">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="bar" [data]="[righeCst[dataItem.ROW_ID][5]]">
+                        </kendo-chart-series-item>
+
+                        <kendo-chart-axis-defaults
+                          [background]="'transparent'"
+                          [color]="'transparent'"
+                          [visible]="false"
+                          [crosshair]="{visible:false}"
+                        >
+                        </kendo-chart-axis-defaults>
+                      </kendo-chart-series>
+
+                        <! -- <kendo-chart-tooltip>
+                          <ng-template kendoChartSeriesTooltipTemplate let-name="name" let-value="value">
+                            {{ name }} {{ value }}
+                          </ng-template>
+                        </kendo-chart-tooltip> -- >
+                    </kendo-chart>
+
+                    <kendo-sparkline *ngIf="column.field == 'TRAILIS'" style="width: 130px; height: 20px;">
+
+                      <kendo-chart-area background="#FFF0">
+                      </kendo-chart-area>
+
+                      <kendo-chart-category-axis>
+                        <kendo-chart-category-axis-item [categories]=days>
+                        </kendo-chart-category-axis-item>
+                      </kendo-chart-category-axis>
+
+                      <kendo-chart-series>
+                        <kendo-chart-series-item type="column" [gap]= 0.4 [stack]="{ type: '100%' }">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Failed" color="red" [data]=sFAILED[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Ok" color=#248f24 [data]=sOK[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Aborted" color=#e6e619 [data]=sABORT[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                      </kendo-chart-series>
+
+                    </kendo-sparkline>
+
+                    <kendo-sparkline *ngIf="column.field == 'TRAILISDAY'" style="width: 30px; height: 20px;">
+
+                      <kendo-chart-area background="#FFF0">
+                      </kendo-chart-area>
+
+                      <kendo-chart-category-axis>
+                        <kendo-chart-category-axis-item [categories]=days_day>
+                        </kendo-chart-category-axis-item>
+                      </kendo-chart-category-axis>
+
+                      <kendo-chart-series>
+                        <kendo-chart-series-item type="column" [gap]= 0.4 [stack]="{ type: '100%' }">
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Failed" color="red" [data]=sFAILED_DAY[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Ok" color=#248f24 [data]=sOK_DAY[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Aborted" color=#e6e619 [data]=sABORT_DAY[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                        <kendo-chart-series-item type="column" name="Other" color=#aaa [data]=sOTHER_DAY[dataItem.ROW_ID]>
+                        </kendo-chart-series-item>
+                      </kendo-chart-series>
+
+                    </kendo-sparkline>
+
+                    <div *ngIf="column.field.indexOf('_HTMLFRM') > -1 || column.field.toUpperCase().trim() == 'HTML'"
+                        id="divHtml_{{column.field}}"
+                        [innerHTML]="prendeTestourl(dataItem[column.field])">
+                    </div>
+
+                    <! -- [style.padding-right]="prendePaddingCella(column)" -- >
+                    <div id="divRiga" style="width: auto;"
+                      *ngIf="column.field.indexOf('_HTMLFRM') == -1 && column.field.toUpperCase().trim() != 'HTML' && column.field != 'CST_CHART1' && column.field != 'CST_CHART'"
+                      [style.height]="altezzaRigaInterna[dataItem.ROW_ID]"
+                      [style.text-align]="prendeAllineamentoCella(column)"
+                    >
+                    <div style="width: 100%;">
+                      <div *ngIf="column.iconName && column.iconName != 'ICON_TRACE' && dataItem && dataItem[column.field]"
+                        style="width: 30px; float: left; margin-top: -5px;"
+                        >
+                        <img
+                          class="ant-icon imgSize"
+                          src="{{getIconNameIfExists(column, dataItem)}}"
+                          (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                          style="cursor: pointer; position: absolute;" />
+                      </div>
+
+                        <div *ngIf="column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]"
+                          style="width: 30px; float: left; margin-top: -5px;">
+                          <img
+                            class="ant-icon imgSize"
+                            src="{{getIconIfExists(column, dataItem[column.field])}}"
+                            (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                            style="cursor: pointer; position: absolute;"
+                            (error)="onImgError($event)" />
+                        </div>
+                        <div style="float: left;"
+                          [style.width]="(column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]) ? 'calc(100% - 30px)' : '100%'"
+                          [style.margin-left]="(column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]) ? '30px' : '0px'"
+                          >
+                          <! -- <span *ngIf="getValue(column, dataItem) === '' || (column && column.showIconText != 'true')">&nbsp;</span> -- >
+                          <div *ngIf="!column.showIconText || column.showIconText == 'true'" [innerHTML]="getValue(column, dataItem)">
+                            <! -- {{ getValue(column, dataItem) }} -- >
+                          </div>
+                          <! -- <span *ngIf="!column.showIconText || column.showIconText == 'true'">
+                            {{ getValue(column, dataItem) }}
+                          </span> -- > 
+                        </div>
+                      </div>
+                    </div>
+
+                    <! -- <div id="divRiga" style="width: auto;"
+                      [style.height]="altezzaRigaInterna"
+                      [style.text-align]="prendeAllineamentoCella(column)"
+                      [style.padding-right]="prendePaddingCella(column)"
+                    >
+                      <span *ngIf="checkIfEditable(dataItem.ROW_ID, dataItem, column.field) == false &&
+                        column.field != 'TRAILIS' &&
+                        column.field != 'TRAILISDAY' &&
+                        column.field != 'CST_CHART' &&
+                        column.field != 'CST_CHART1' &&
+                        column.field.indexOf('_HTMLFRM') == -1 &&
+                        column.hiddenLabel == false &&
+                        column.field.toUpperCase().trim() != 'HTML'"
+                        >
+                          <img *ngIf="(!editMode[dataItem.ROW_ID] || column.isEditable == false) && column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]"
+                            class="ant-icon imgSize"
+                            src="{{getIconIfExists(column, dataItem[column.field])}}"
+                            (click)="clickSuIcona(dataItem, dataItem[column.field], column)"
+                            style="cursor: pointer"
+                            (error)="onImgError($event)" />
+
+                          <span *ngIf="getValue(column.field, dataItem[column.field], column.dataType, rowIndex, columnIndex) === ''">&nbsp;</span>
+                          <span *ngIf="!column.icon || (column.icon && (!column.showIconText || column.showIconText == 'true'))" >
+                            <span *ngIf="(!editMode[dataItem.ROW_ID] || column.isEditable == false) && column.icon && column.icon != 'ICON_TRACE' && dataItem[column.field]">&nbsp;</span>
+                            {{ getValue(column.field, dataItem[column.field], column.dataType, rowIndex, columnIndex) }}
+                          </span>
+                      </span>
+                    </div> -- >
+
+                    <! -- <div *ngIf="presoValoreCella[rowIndex][columnIndex] &&
+                      column.field != 'TRAILIS' &&
+                      column.field != 'TRAILISDAY' &&
+                      column.field != 'CST_CHART' &&
+                      column.field != 'CST_CHART1' &&
+                      column.field.indexOf('_HTMLFRM') == -1 &&
+                      column.hiddenLabel == false &&
+                      column.field.toUpperCase().trim() != 'HTML'">
+                      {{presoValoreCella[rowIndex][columnIndex]}}
+                    </div> -- >
+                      <! -- <span *ngIf="column.field.toUpperCase().trim() == 'HTML'" style="text-decoration: underline;">
+                      <div [innerHTML]="prendeTestourl(dataItem[column.field])"></div>
+                    </span> -- >
+
+                    <div *ngIf="checkIfEditable(dataItem, column.field) == true" style="width: 100%;">
+                      <! -- (click)="$event.target.select()" -- >
+                      <input *ngIf ="checkTextField(dataItem, column)"
+                            (blur)="putValueInGrid($event.target['value'], column.field, dataItem.ROW_ID)"
+                            (change)="enableSave()"
+                            style = "width: 90%;"
+                            type = "text"
+                            (input)="$event.target['value']=checkText($event.target['value'])"
+                            value="{{getValue(column, dataItem)}}" />
+
+                      <! -- (click)="$event.target.select()" -- 
+                      <input *ngIf ="checkNumberField(dataItem, column)"
+                            (blur)="putValueInGrid($event.target['value'], column.field, dataItem.ROW_ID)"
+                            (change)="enableSave()"
+                            style = "width: 90%;"
+                            type = "number"
+                            (input)="$event.target['value']=checkText($event.target['value'])"
+                            value="{{getValue(column, dataItem)}}" />
+
+                      <img *ngIf ="iconeValide && (column.domainType == '21')"
+                          (click)="updateCheckList(column.field, dataItem[column.field], column.dataType, dataItem.ROW_ID, column.domain, column.domainType)"
+                          [src]="linkIcone + '/icons/format-list-checks.png'" alt=''
+                          title='Update Check List' class="k-button immagineGriglia" />
+
+                      <select *ngIf ="iconeValide && (column.domainType== '1' || column.domainType== '12')"
+                            style = "width: 100%; height: 26px;"
+                            (change)="putValueInGrid($event.target['value'], column.field, dataItem.ROW_ID)">
+                        <option *ngFor="let c of getComboValues(column.domain); trackBy: trackByCombo" [ngValue]="c['VALUE_STR']"
+                          [selected]='controllaSelezionato(c, getValue(column, dataItem))'>
+                          {{c['VALUE_STR']}}
+                        </option>
+                      </select>
+
+                    </div>
+
+                    <input *ngIf="column.dataType == 'checkBox'" style="zoom: 1.2;"
+                          type="checkbox"
+                          name="select"
+                          (change)="changeCheckBox(dataItem)"
+                          [checked]="dataItem && column && dataItem[column.field] == 'Y'" />
+                  </div>
+                </ng-template>
+            </kendo-grid-column>
+          </ng-template>
+        </kendo-grid-column-group>
+
+        <kendo-grid-excel
+          fileName="{{title}}{{hiddenTitle}}_{{dateNow | date: 'yyyyMMdd_HHmm'}}.xlsx"
+          [fetchData]="excelData">
+        </kendo-grid-excel>
+
+        <kendo-grid-pdf fileName="{{title}}{{hiddenTitle}}_{{dateNow | date: 'yyyyMMdd_HHmm'}}.pdf" [allPages]="false"
+          paperSize="A3" [repeatHeaders]="true" [landscape]="true" [scale]="0.5" >
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+          <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+            <div class="page-template">
+              <div class="header">
+                {{title}}
+              </div>
+              <div class="footer">
+                Page {{ pageNum }} of {{ totalPages }}
+              </div>
+            </div>
+          </ng-template>
+        </kendo-grid-pdf>
+
+          </kendo-grid>
+        </ng-container>
+        -->
+      </div>
+
+      <kendo-contextmenu #gridMenu [items]="itemsMenu" (select)="onSelectMenu($event)" style="z-index: 1999;"> </kendo-contextmenu>
+    </as-split-area>
+
+    <as-split-area [size]="dimeArea3" [visible]="showPopup" [lockSize]="!showPopup" style="overflow: hidden;">
+      <!-- POPUP INFO -->
+      <!-- (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true" -->
+      <ng-container *ngIf="showPopup">
+        <div style="width: 100%; height: 100%;">
+          <div class="barraSuperiore" style="border: 0px;">INFO</div>
+          <div kendoTooltip class="chiusuraPopup">
+            <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" title="Close" (click)="showPopup = false" class="immagini" style="margin-top: -25px; float: left; width: 25px; height: 25px;" />
+          </div>
+
+          <!-- <textarea type="text" style="width: 99%; overflow: auto; resize: none; line-height: normal; min-height: 40vh; max-height: 85vh; border: 0px; background-color: #f9f7e7;" #inputTarget [value]="textInfo">
+          </textarea> 
+          [innerHTML]="textInfo" -->
+          <div
+            style="width: calc(100% - 4px); background-color: #f9f7e7; line-height: 1.7; text-align: left; height: calc(100% - 25px); overflow: auto; padding: 2px;">
+            <div *ngFor="let m of textInfo; let i = index; trackBy: trackByText" [attr.data-index]="i">
+              <div style="width: auto; font-weight: bold; float: left;">{{m.NomeCampo}}:</div>
+              <div style="width: auto; float: left; margin-left: 3px;">{{m.ContenutoCampo}}</div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </as-split-area>
+
+    <as-split-area [size]="dimeArea4" [visible]="openAdvancedFilter" [lockSize]="!openAdvancedFilter" style="overflow: hidden;">
+      <div class="mascheraFiltroAvanzato">
+        <div class="titoloFiltroAvanzato">
+          <div style="width: calc(100% - 35px); float: left; text-align: left;">
+            &nbsp;Advanced Filter
+          </div>
+          <div style="width: 35px; float: left; text-align: center;">
+            <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Cancel" (click)="openAdvancedFilter = false;" >
+          </div>
+        </div>
+        <div class="contenutoFiltroAvanzato">
+          <div *ngIf="filters.length > 0" class="filtro">
+            <kendo-filter #filterAvanzato [filters]="filters" [value]="filterValue">
+            </kendo-filter>
+          </div>
+          <div class="azioni">
+            <button kendoButton (click)="applyFilter()">
+              Apply filter
+            </button>
+          </div>
+        </div>
+      </div>
+    </as-split-area>
+  </as-split>
+
+  <!-- <kendo-splitter orientation="horizontal" style="width: 100%; height: 100%; overflow: hidden;">
+    <kendo-splitter-pane size="25%" [hidden]="!showColumnHideFlag" style="overflow: hidden;">
+    </kendo-splitter-pane>
+    <kendo-splitter-pane style="overflow: hidden;">
+    </kendo-splitter-pane>
+    <kendo-splitter-pane size="25%" [hidden]="!showPopup" style="overflow: hidden;">
+    </kendo-splitter-pane>
+  </kendo-splitter> -->
+</div>
+
+<!--
+  <app-dialog></app-dialog>
+-->
+
+<!-- (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true" -->
+
+<ng-container *ngIf="popupWsAperto == true">
+  <div
+    style="
+      position: fixed;
+      padding: 5px;
+      width: 20%;
+      height: auto;
+      overflow: hidden;
+      background-color: white;
+      border: 1px solid #999;
+      border-radius: 3px;
+      -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      z-index: 999;
+    "
+    [style.left.px]="posXWS"
+    [style.top.px]="posYWS"
+    >
+
+    <div style="float: left; width: calc(100% - 15px); height: 55px;">
+      <span class="titoloDB">WorkSpaces</span><hr />
+    </div>
+    <div style="float: left; width: calc(100% - 15px); height: calc(100% - 55px); overflow-y: auto;">
+      <table *ngIf="listaWorkSpaces" style="width: calc(100% - 15px);; margin-left: 3px; height: auto;">
+        <tr *ngFor="let item of listaWorkSpaces; index as i; trackBy: trackByWS">
+          <td>
+            <span class="titoloDB" style="font-size: 15px; cursor: pointer;"
+              [style.color]="item.SELECTED == true ? '#ff6358' : 'black'"
+              (mouseover)="item.SELECTED = true" (mouseout)="item.SELECTED = false"
+              (click)="wsSelezionato(item)">
+              {{item.NAME}}
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="position: absolute; right: 0px; top: 0px;">
+      <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Cancel" (click)="popupWsAperto = false;" >
+    </div>
+  </div>
+</ng-container>
+<!-- <div *ngIf="warningVisualizzato" class="warning">
+  <div style="width: calc(100% - 30px); float: left; overflow: hidden;">
+    {{warning}}
+  </div>
+  <div style="width: 30px; float: left; margin-top: -3px;">
+    <img *ngIf="iconeValide" [src]="linkIcone + '/icons/close.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Close warning" (click)="chiudiWarning()" >
+  </div>
+</div> -->
+
+<!--
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [inBounds]="true" [bounds]="divContenitore"
+-->
+
+<ng-container *ngIf="elaborazioneInCorso">
+  <div class="oscura" style="color: red"></div>
+  <!-- <div style="position: absolute; z-index: 2000; right: 0px; bottom: 0px;">
+    <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/refreshDash.gif'" 
+      style="width: 25px; height: 25px; cursor: pointer;" title="Cancel" />
+  </div> -->
+</ng-container>
+
+<ng-container *ngIf="openAdvancedFilter">
+</ng-container>

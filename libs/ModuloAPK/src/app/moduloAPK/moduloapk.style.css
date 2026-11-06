@@ -1,0 +1,54 @@
+.finestraMenu {
+  width: 350px;
+  max-width: 100%;
+  /* height: calc(100% - 39px);
+  position: absolute; */
+  left: 0px;
+  top: 0px;
+  /*background-color: white;
+  opacity: .95;
+  border: 1px solid #999; */
+  z-index: 5000;
+  overflow: auto;
+  width: 100%;
+
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+  -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+  box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+}
+
+ul {
+  list-style-type: none;
+}
+
+.riga {
+  width: 100%;
+  height: 30px;
+}
+
+.riga:hover {
+  color: #fa8888;
+}
+
+/* BARRA DI SCORRIMENTO */
+/* width */
+-webkit-scrollbar {
+  width: 6px;
+  border-radius: 2px;
+}
+
+/* height */
+-webkit-scrollbar {
+  height: 6px;
+  border-radius: 2px;
+}
+
+/* Overflow Handle */
+-webkit-scrollbar-thumb {
+  background: rgb(238, 238, 238);
+}
+
+/* Overflow Handle on hover */
+-webkit-scrollbar-thumb:hover {
+  background: #ffc559;
+}

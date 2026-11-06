@@ -1,0 +1,527 @@
+<app-barra-superiore
+  [nomeApp]="nomiMaschere[qualeGriglia]"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [debug]="false"
+  [sessioneID]="sessionID"
+  [gruppo]="groupName"
+  [visualizzaSecondoMenu]="maschera == 'TC'"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="Utils.urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (apreMenu2Emit)="apreMenu2()"
+  (statoServerEmit)="statoServer = $event"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+  (coloreSfondoEmit)="coloreStatoServer = $event"
+  (comandoVocaleEmit)="comandoVocaleEmit($event)"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+>
+</app-barra-superiore>
+
+<div #divContenitore style="width: 100%; height: calc(100vh - 35px); overflow: hidden; float: left;">
+  <div style="width: 100%; height: 100%; display: flex;">
+    <!-- <div style="width: 24px; height: 100%; float: left; padding-left: 2px; padding-right: 2px; margin-top: -1px; background-color: white;">
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/hamburger.png'" class="immagini" style="height: 20px; width: 20px;" (mouseover)="menuVisibile = true" />
+    </div> -->
+
+    <div style="width: 100%; float: left;">
+      <div style="width: 100%; height: 100%; display: block;">
+        <!-- {{qualeGriglia}}&nbsp;({{nomiMaschere}}) &nbsp;{{nomiMaschere[qualeGriglia]}} -->
+        <app-test-campaigns
+          *ngIf="qualeGriglia==1"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+          [sessioneID]="sessId"
+          [lastDays]="timeControlSelezionato"
+          [additionalLayer]="additionalLayer"
+          [queryPck]="queryPck"
+          [groupName]="groupName"
+          [urlRoot]="Utils.urlRoot"
+          [operatorID]="operatorID"
+          [listaWorkSpaces]="listaWS"
+          [searchAgnCode]="searchAgnCode"
+          [prop_name]="agnProp"
+          [FleetManagerAdvancedMonitoring]="fmam"
+          [MisureTCRun]="misureAddizionaliTCRUN"
+          [nomeSetAntenne]="nomeSetAntenne"
+          [permessiTab]="permessiTab"
+          [mappaVisibile]="mappaVisibile"
+        >
+        </app-test-campaigns>
+
+        <app-single-agent_mode
+          *ngIf="qualeGriglia==2"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+          [Utils]="Utils"
+        >
+        </app-single-agent_mode>
+
+        <app-group-definition
+          *ngIf="qualeGriglia==3"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-group-definition>
+
+        <app-group-configuration
+          *ngIf="qualeGriglia==4"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-group-configuration>
+
+        <app-profiles-library
+          *ngIf="qualeGriglia==5"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-profiles-library>
+
+        <app-ts-library
+          *ngIf="qualeGriglia==6"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-ts-library>
+
+        <app-query-pck-library
+          *ngIf="qualeGriglia==7"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+        >
+        </app-query-pck-library>
+
+        <app-drive-test-units-mng
+          *ngIf="qualeGriglia==8"
+          [indirizzoServer]="indirizzoServer"
+          [userName]="userName"
+          [Utils]="Utils"
+        >
+        </app-drive-test-units-mng>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div style="position: absolute; left: 50%; top: 30%; width: auto; height: auto; display: block; overflow: hidden;">
+  {{schermoStretto}}<br />
+{{ dimeDrawer }} {{ menuVisibile }} {{ this.nonChiudereDrawer }}<br />
+{{ dimeDrawer2 }} {{ menuVisibile2 }} {{ this.nonChiudereDrawer2 }}<br />
+</div> -->
+
+<!-- <div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: 5px; top: 1px; width: 33px;
+  height: 33px; z-index: 2000; padding: 3px; background-color: #fff;" title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div> -->
+
+<div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: calc(50% - 35px); top: 2px; width: 70px;
+  height: 33px; z-index: 2000; text-align: center; padding: 3px; background-color: #d8d888; border: 1px solid #999; border-radius: 3px;"
+  [style.opacity]="opacitaCAM" (mouseover)="opacitaCAM = 1" (mouseout)="opacitaCAM = .1"
+  title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/delete2.png'" class="immagini" style="height: 25px; width: 25px;" (click)="pulisciPassword()">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div>
+
+<div
+  [style.opacity]="menuVisibile ? 1 : 0"
+  [style.width]="dimeDrawer"
+  [style.left]="menuVisibile ? '0px' : '-500px'"
+  (mouseover)="over1()"
+  (mouseleave)="leave1()"
+  style="position: absolute; border-right: 1px solid #999; display: flex; top: 35px; height: 100%;
+          background-color: #f4f4f4; z-index: 5000;">
+  <div [style.width]="dimeDrawer" style="float: left; overflow: auto;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    padding-bottom: 50px;
+    ">
+    <app-menu
+      [debug]="Utils.modalitaDebug"
+      [MenuVisibile]="menuVisibile"
+      [showButtons]="true"
+      [Altezza]="35"
+      [posizione]="'relative'"
+      [sessionID]="sessionID"
+      [voceSelezionata]="'FleetManager'"
+      [chiudiTutteVoci]="vociChiuseMenu"
+      [statoServer]="statoServer"
+      [statoManutenzione]="statoManutenzione"
+      [coloreStatoServer]="coloreStatoServer"
+      [comandoVocale]="comandoVocale"
+      [platFormName]="platformName"
+
+      (chiusuraEmit)="chiudeDrawer($event)"
+      (platFormNameEmit)="prendePlatFormName($event)"
+      (dataAttualeEmit)="prendeDateNowH($event)"
+      (symbTsEmit)="prendeSymb_TimeStamp($event)"
+      (premutoEmit)="premutoVoceMenu($event)"
+      (lettoConfigJSON)="lettoJSON($event)"
+      (listaWorkSpacesEmit)="lettiWS($event)"    
+      (userManualEmit)="fDownloadUserManual($event)"
+    >
+    </app-menu>
+  </div>
+</div>
+
+<div
+  [style.left]="menuVisibile2 ? '0px' : '-500px'"
+  [style.opacity]="menuVisibile2 ? 1 : 0"
+  [style.width]="dimeDrawer2"
+  (mouseover)="over2()"
+  (mouseleave)="leave2()"
+  style="position: absolute; border-right: 1px solid #999; left: 0px; top: 35px; height: 100vh; z-index: 5000;"
+  >
+  <div
+    style="width: 100%; height: 35px; z-index: 5005;
+      background-color: #4d6c87; padding: 2px; float: left;">
+    <div style="width: calc(100% - 35px); float: left; padding-left: 5px; color: white; font-size: 14px; padding-top: 5px;">
+      Context Menu
+    </div>
+    <div style="width: 35px; float: left; text-align: right; margin-top: -2px;">
+      <img *ngIf="Utils && Utils.linkIcone"
+        [src]="Utils.linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35' alt=''
+        style="cursor: pointer;" (click)="chiudeDrawer2($event);">
+    </div>
+  </div>
+  <div
+    style="float: left; border-right: 1px solid #999; height: calc(100% - 70px); width: 100%;
+            background-color: #f4f4f4;
+            -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      overflow-y: auto; overflow-x: hidden;
+    ">
+    <div
+      [style.width]="dimeDrawer2"
+      style="padding: 2px; height: calc(100% - 65px); height: auto;">
+      <div style="white-space: nowrap; height: auto; padding: 3px;">
+
+        <p-accordion [multiple]="false" value="dashboardAccordionOpen">
+          <p-accordion-panel value="dashboardAccordionOpen">
+            <p-accordion-header style="padding: 0px;">
+              <span style="padding: 10px;">
+                <img *ngIf="Utils.linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+                  [src]="Utils.linkIcone + '/icons/process.png'" class="immaginiIcone" style="height: 20px; width: 20px;">
+                Time Range and Grid Settings
+              </span>
+            </p-accordion-header>
+            <p-accordion-content>
+              <div style="width: 100%; height: auto; padding: 5px; overflow: hidden;">
+                <div style="white-space: nowrap; height: auto;">
+                  <div style="width: 34%; float: left; margin-top: 7px; color: #353535;">
+                    <span >Last Days</span>
+                  </div>
+
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <app-combo-component
+                      *ngIf="datiTimeControl"
+                      [Tipologia]="'Combo'"
+                      [userName]="userName"
+                      [data]="datiTimeControl"
+                      [campoId]="'ID'"
+                      [campoTesto]="'NAME'"
+                      [campoFiltro]="'NAME'"
+                      [NomeCombo]="'cmbDatiTimeControl'"
+                      [pulisceValoriDiBase]="true"
+                      [ricordaUltimoValore]='true'
+                      [accettaNuovi]="true"
+                      [valoreDefault]="timeControlSelezionato"
+                      [pulisceFiltro]="pulisceFiltroDatiControl"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectDatiControl($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 34%; float: left; margin-top: 7px; color: #353535;">
+                    <span >Search Agn Code</span>
+                  </div>
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <input type="text" [(ngModel)]="searchAgnCode2" style="width: 100%;" (focusout)="pressioneEnter('AUTO')" (keyup)="pressioneEnter($event)" />
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 100%; margin-top: 7px !important;">
+                    <span class="testo grassetto scuro">Agent Grid: additional columns</span>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <!-- <div style="width: 34%; float: left; margin-top: 7px !important;">
+                    <span class="testo scuro">Agn Prop 1</span>
+                  </div>
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <app-combo-component
+                      *ngIf="datiAgnProp"
+                      [Tipologia]="'Combo'"
+                      [data]="datiAgnProp"
+                      [userName]="userName"
+                      [NomeCombo]="'AgnProp1_G'"
+                      [campoId]="'VALUE_STR'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="agnProp1"
+                      [ricordaUltimoValore]='false'
+                      [accettaNuovi]="false"
+                      [campoFiltro]="'VALUE_STR'"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAgnProp1($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 34%; float: left; margin-top: 7px !important;">
+                    <span class="testo scuro">Agn Prop 2</span>
+                  </div>
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <app-combo-component
+                      *ngIf="datiAgnProp"
+                      [Tipologia]="'Combo'"
+                      [data]="datiAgnProp"
+                      [userName]="userName"
+                      [NomeCombo]="'AgnProp2_G'"
+                      [campoId]="'VALUE_STR'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="agnProp2"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='false'
+                      [campoFiltro]="'VALUE_STR'"
+                      [accettaNuovi]="false"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAgnProp2($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 34%; float: left; margin-top: 7px !important;">
+                    <span class="testo scuro">Agn Prop 3</span>
+                  </div>
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <app-combo-component
+                      *ngIf="datiAgnProp"
+                      [Tipologia]="'Combo'"
+                      [data]="datiAgnProp"
+                      [userName]="userName"
+                      [NomeCombo]="'AgnProp3_G'"
+                      [campoId]="'VALUE_STR'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="agnProp3"
+                      [ricordaUltimoValore]='false'
+                      [pulisceValoriDiBase]='false'
+                      [campoFiltro]="'VALUE_STR'"
+                      [accettaNuovi]="false"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAgnProp3($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+                  <div style="clear: both;"></div> -->
+
+                  <div *ngFor="let m of agnProps; trackBy: trackByNomi; let i = index" [attr.data-index]="i" style="width: 100%; height: auto;">
+                    <div style="width: 34%; float: left; margin-top: 7px !important;">
+                      <span class="testo scuro">Agn Prop {{m}}</span>
+                    </div>
+                    <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                      <app-combo-component
+                        *ngIf="datiAgnProp"
+                        [Tipologia]="'Combo'"
+                        [data]="datiAgnProp"
+                        [userName]="userName"
+                        [NomeCombo]="'AgnProp' + m + '_G'"
+                        [campoId]="'VALUE_STR'"
+                        [campoTesto]="'VALUE_STR'"
+                        [valoreDefault]="agnProp[m]"
+                        [ricordaUltimoValore]='false'
+                        [pulisceValoriDiBase]='false'
+                        [campoFiltro]="'VALUE_STR'"
+                        [accettaNuovi]="false"
+
+                        (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAgnProp($event, m)"
+
+                        (eventoOpen)="impostaNonChiudere2(true)"
+                        (eventoClose)="impostaNonChiudere2(false)"
+                      >
+                      </app-combo-component>
+                    </div>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+              </div>
+            </p-accordion-content>
+          </p-accordion-panel>
+
+          <p-accordion-panel *ngIf="mappaVisibile == 'Y'">
+            <p-accordion-header style="padding: 0px;">
+              <span style="padding: 10px;">
+                <img *ngIf="Utils.linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+                  [src]="Utils.linkIcone + '/icons/process.png'" class="immaginiIcone" style="height: 20px; width: 20px;">
+                Map Settings
+              </span>
+            </p-accordion-header>
+            <p-accordion-content>
+              <div *ngIf="mappaVisibile == 'Y'" style="width: 100%; height: auto; padding: 5px; overflow: hidden;">
+                <div style="white-space: nowrap; height: auto;">
+                  <div style="width: 34%; float: left; margin-top: 7px;">
+                    <span style="margin-left: 10px;">
+                      Cell Set
+                    </span>
+                  </div>
+                  <div style="width: calc(66% - 10px); float: left; background-color: white;">
+                    <app-ants-grid-lib
+                      [sessioneAttuale]="sessionService.getToken()"
+                      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                      [indirizzoServer]="indirizzoServer"
+                      [modalita]="'Griglia'"
+                      [title]="'Antenne'"
+                      [titleDaDatiGriglia]="true"
+                      [DimensioneFont]= "12"
+                      [data]="datiGrigliaAntenne"
+                      [userName]="userName"
+                      [maskName]="userName + '_grigliaGA1M'"
+                      [newKeyVisibile]='false'
+                      [refreshKeyVisibile]='true'
+                      [editKeyVisibile]='false'
+                      [deleteKeyVisibile]='false'
+
+                      [infoKeyVisibile]='true'
+                      [confirmKeyVisibile]="false"
+                      [selezioneMultipla]='false'
+                      [impostaSelezione]="selezioneAntenne"
+                      [AutoResize]="true"
+                      [righeAutomatiche]="false"
+                      [paginazione]="'scrollable'"
+                      [linkIcone]="Utils.linkIcone"
+                      
+                      [newKeyVisibile]='true'
+                      [newKeyPersistant]="true"
+
+                      (cellClick)="clickSelezioneAntenne($event)"
+                      (lastSelectedOfGrid)='lastSelectedOfGridAntenne($event)'
+                      (refresh)='refreshGrid1Antenne($event, false)'
+                      (resetLayout)='refreshGrid1Antenne($event, true)'
+                      
+                      (newKeyPressed)="apreUpload()"
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneAntenne1($event)"
+                    >
+                    </app-ants-grid-lib>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 100%; float: left; margin-top: 7px !important;">
+                    <span class="testo grassetto scuro">Map: additional layer</span>
+                  </div>
+                  <div style="width: calc(100% - 10px); float: left; background-color: white;">
+                    <app-combo-component
+                      *ngIf="datiAddLayers"
+                      [Tipologia]="'Combo'"
+                      [data]="datiAddLayers"
+                      [userName]="userName"
+                      [NomeCombo]="'AddLayerFM_G'"
+                      [campoId]="'CODE'"
+                      [campoTesto]="'VALUE_STR'"
+                      [valoreDefault]="additionalLayer2"
+                      [ricordaUltimoValore]='true'
+                      [pulisceValoriDiBase]='true'
+                      [campoFiltro]="'VALUE_STR'"
+                      [accettaNuovi]="false"
+
+                      (selezioneEffettuata)="nonChiudereDrawer2 = false; selectAdditionalLayer($event)"
+                      (ritornoValoreAttuale)="ritornoValoreDaComboAL($event)"
+
+                      (eventoOpen)="impostaNonChiudere2(true)"
+                      (eventoClose)="impostaNonChiudere2(false)"
+                    >
+                    </app-combo-component>
+                  </div>
+
+                  <div style="clear: both;"></div>
+
+                  <div style="width: 100%; margin-top: 7px !important;">
+                    <span class="testo grassetto scuro">TcRun: additional measure</span>
+                  </div>
+                  <div style="width: 100%; height: 300px;">
+                    <app-ants-grid-lib
+                      *ngIf="datiPointMeasures"
+                      [sessioneAttuale]="sessionService.getToken()"
+                      [debug]="Utils.modalitaDebug"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [indirizzoServer]="indirizzoServer"
+                      [modalita]="'Griglia'"
+                      [title]="'Additional Measures'"
+                      [raggruppabile]="true"
+                      [campiPerRaggruppamento]="'FOLDER'"
+                      [titleDaDatiGriglia]="true"
+                      [data]="datiPointMeasures"
+                      [userName]="userName"
+                      [maskName]="nomeGrigliaPM"
+                      [DimensioneFont]='12'
+                      [newKeyVisibile]='false'
+                      [refreshKeyVisibile]='true'
+                      [editKeyVisibile]='false'
+                      [deleteKeyVisibile]='false'
+                      [infoKeyVisibile]='true'
+                      [confirmKeyVisibile]="false"
+                      [selezioneMultipla]='false'
+                      [ricordaSelezione]='false'
+                      [impostaSelezione]="selezionePM"
+                      [AutoResize]="false"
+                      [ManualResize]="effettuaAutoFitPM"
+                      [righeAutomatiche]="false"
+                      [linkIcone]="Utils.linkIcone"
+                      [visualizzaToolTipGrafici]="true"
+                      [cambioTitolo]="titoloPointMeasures"
+                      [misureAddizionaliTCRUN]="misureAddizionaliTCRUN"
+                      [gestisceComboTramiteCookie]="false"
+
+                      (clickSuComboMisura)="clickSuComboMisura($event)"
+                      (refresh)="refreshGrigliaPM(false)"
+                      (resetLayout)="refreshGrigliaPM(true)"
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonnePM($event)"
+                    >
+                    </app-ants-grid-lib>
+                  </div>
+                  <div style="clear: both;"></div>
+
+                  <div *ngIf="userName?.indexOf('Pecce') > -1" style="width: 34%; float: left; margin-top: 7px !important;">
+                    <span class="testo grassetto scuro">Debug</span>
+                  </div>
+                  <div *ngIf="userName?.indexOf('Pecce') > -1" style="width: 66%; float: left; margin-top: 10px;">
+                    <input type="checkbox" [(ngModel)]="Utils.modalitaDebug"
+                            (change)="checkModalitaDebug(Utils.modalitaDebug)" />
+                  </div>
+                  <div *ngIf="userName?.indexOf('Pecce') > -1" style="clear: both; margin-bottom: 10px;"></div>
+
+                </div>
+              </div>
+            </p-accordion-content>
+          </p-accordion-panel>
+        </p-accordion>
+
+      </div>
+  </div>
+</div>

@@ -1,0 +1,186 @@
+<div style="width: 100%; height: 100%; display: flex;">
+  <as-split direction="horizontal">
+    <as-split-area [size]="40">
+      <app-ants-grid-lib
+        *ngIf="datiGriglia"
+        [sessioneAttuale]="sessionService.getToken()"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia] = "true"
+        [data]="datiGriglia"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaGD'"
+        [newKeyVisibile]='true'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='tastoEditVisibile1'
+        [deleteKeyVisibile]='tastoDeleteVisibile1'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='false'
+        [impostaSelezione]="selezione"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+        [messaggioWarning]="messaggioWarning"
+        [linkIcone]="Utils.linkIcone"
+
+        (cellClick)="clickSelezione($event)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+        (refresh)='refreshGrid1($event, false)'
+        (rsetLayout)='refreshGrid1($event, true)'
+        (newKeyPressed)='premutoTastoNew1($event)'
+        (editKeyPressed)='premutoTastoEdit1($event)'
+        (deleteKeyPressed)='premutoTastoDelete1($event)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneGD1($event)"
+      >
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="60">
+      <as-split direction="vertical">
+        <as-split-area [size]="50" style="overflow: hidden;">
+          <app-ants-grid-lib
+            *ngIf="datiGriglia2"
+            [sessioneAttuale]="sessionService.getToken()"
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="nomeGriglia2"
+            [titleDaDatiGriglia] = "true"
+            [data]="datiGriglia2"
+            [userName]="userName"
+            [maskName]="userName + '_grigliaGD2'"
+            [newKeyVisibile]='false'
+            [refreshKeyVisibile]='true'
+            [editKeyVisibile]='confirmKey2'
+            [deleteKeyVisibile]='false'
+            [infoKeyVisibile]='true'
+            [confirmKeyVisibile]="false"
+            [impostaSelezione]="selezione2"
+            [AutoResize]="false"
+            [ManualResize]="effettuaAutoFit2"
+            [righeAutomatiche]="false"
+            [paginazione]="'scrollable'"
+            [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+            [messaggioWarning]="messaggioWarning2"
+            [selezioneMultipla]="false"
+            [linkIcone]="Utils.linkIcone"
+
+            (cellClick)="clickSelezione2($event)"
+            (clickSelezioneSuCheckRiga)="clickSuCheckRiga2($event)"
+            (lastSelectedOfGrid)='lastSelectedOfGrid2($event)'
+            (editKeyPressed)="premutoConfirm2($event)"
+            (refresh)='refreshGrid2($event, false)'
+            (resetLayout)='refreshGrid2($event, true)'
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneGD2($event)"
+          >
+          </app-ants-grid-lib>
+
+          <div *ngIf="caricamentoDatiInCorso2 == true" class="k-i-loading"
+            style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+          ></div>
+        </as-split-area>
+        <as-split-area [size]="50" style="overflow: hidden;">
+          <app-ants-grid-lib
+            *ngIf="datiGriglia3"
+            [sessioneAttuale]="sessionService.getToken()"
+            [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="nomeGriglia3"
+            [titleDaDatiGriglia] = "true"
+            [data]="datiGriglia3"
+            [userName]="userName"
+            [maskName]="userName + '_grigliaGD3'"
+            [newKeyVisibile]='false'
+            [refreshKeyVisibile]='true'
+            [editKeyVisibile]='false'
+            [deleteKeyVisibile]='false'
+            [infoKeyVisibile]='true'
+            [confirmKeyVisibile]="false"
+            [impostaSelezione]="selezione3"
+            [AutoResize]="false"
+            [ManualResize]="effettuaAutoFit3"
+            [righeAutomatiche]="false"
+            [paginazione]="'scrollable'"
+            [datiNuovi]="datiGriglia3 && datiGriglia3.DataTable"
+            [messaggioWarning]="messaggioWarning3"
+            [selezioneMultipla]="false"
+            [linkIcone]="Utils.linkIcone"
+
+            (cellClick)="clickSelezione3($event)"
+            (lastSelectedOfGrid)='lastSelectedOfGrid3($event)'
+            (refresh)='refreshGrid3($event, false)'
+            (resetLayout)='refreshGrid3($event, true)'
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneGD3($event)"
+          >
+          </app-ants-grid-lib>
+
+          <div *ngIf="caricamentoDatiInCorso3 == true" class="k-i-loading"
+            style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+          ></div>
+        </as-split-area>
+      </as-split>
+    </as-split-area>
+  </as-split>
+</div>
+
+<div *ngIf="mascheraModificaAttiva2" class="oscura"></div>
+<div *ngIf="mascheraModificaAttiva2" class="mascheraModifica">
+  <div class="bottoniIntestazione">
+    <div style="width: 50%; float: left; text-align: left;">
+      {{TitoloMascheraModifica2}}
+    </div>
+    <div style="width: 50%; float: left; text-align: right;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close.png'" (click)="chiudeMaschera2()" title="Close" class="immagini">
+    </div>
+  </div>
+  <div class="modificaDati" style="height: 300px;">
+    <app-ants-grid-lib
+      *ngIf="datiGriglia4"
+      [sessioneAttuale]="sessionService.getToken()"
+      [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+      [indirizzoServer]="indirizzoServer"
+      [modalita]="'Griglia'"
+      [title]="nomeGriglia4"
+      [titleDaDatiGriglia] = "true"
+      [data]="datiGriglia4"
+      [userName]="userName"
+      [maskName]="userName + '_grigliaGD4'"
+      [newKeyVisibile]='false'
+      [refreshKeyVisibile]='true'
+      [editKeyVisibile]='false'
+      [deleteKeyVisibile]='false'
+      [infoKeyVisibile]='true'
+      [confirmKeyVisibile]="confirmKey4"
+      [selezioneMultipla]='false'
+      [impostaSelezione]="selezione4"
+      [AutoResize]="false"
+      [ManualResize]="effettuaAutofit4"
+      [righeAutomatiche]="false"
+      [paginazione]="'scrollable'"
+      [datiNuovi]="datiGriglia4 && datiGriglia4.DataTable"
+      [messaggioWarning]="messaggioWarning4"
+      [linkIcone]="Utils.linkIcone"
+      [selezioneMultipla]="false"
+
+      (cellClick)="clickSuCheckRiga4($event)"
+      (confirmKeyPressed)="premutoConfirm4($event)"
+      (refresh)='refreshGrid4($event, false)'
+      (resetLayout)='refreshGrid4($event, true)'    
+      (ritornoDimensioniColonne)="ritornoDimensioniColonneGD4($event)"
+    >
+    </app-ants-grid-lib>
+
+    <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+      style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+    ></div>
+  </div>
+</div>

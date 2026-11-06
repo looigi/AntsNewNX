@@ -1,0 +1,114 @@
+<div #divContenitore class="mascheraCentrale">
+  <sim-component
+    *ngIf="sessionID && maschera == 'SIM'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></sim-component>
+
+  <port-component
+    *ngIf="sessionID && maschera == 'PORT'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></port-component>
+
+  <line-component
+    *ngIf="sessionID && maschera == 'LINE'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></line-component>
+
+  <adhoc-component
+    *ngIf="sessionID && maschera == 'ADHOC'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></adhoc-component>
+
+  <tests-component
+    *ngIf="sessionID && maschera == 'TESTS'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></tests-component>
+
+  <test-design-component
+    *ngIf="sessionID && maschera == 'TESTDESIGN'"
+    [sessioneID]="sessionID"
+    [userName]="userName"
+    [Utils]="Utils"
+  ></test-design-component>
+</div>
+
+<app-barra-superiore
+  [nomeApp]="maschera"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [debug]="false"
+  [sessioneID]="sessionID"
+  [gruppo]="groupName"
+  [visualizzaSecondoMenu]="mascheraSim"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="Utils.urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (apreMenu2Emit)="apreMenu2()"
+  (statoServerEmit)="statoServer = $event"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+  (coloreSfondoEmit)="coloreStatoServer = $event"
+  (comandoVocaleEmit)="comandoVocaleEmit($event)"
+>
+</app-barra-superiore>
+
+<div *ngIf="mostraTastiLogin" kendoTooltip style="position: absolute; right: calc(50% - 35px); top: 2px; width: 70px;
+  height: 33px; z-index: 2000; text-align: center; padding: 3px; background-color: #d8d888; border: 1px solid #999; border-radius: 3px;"
+  [style.opacity]="opacitaLogin" (mouseover)="opacitaLogin = 1" (mouseout)="opacitaLogin = .1"
+  title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/delete2.png'" class="immagini" style="height: 25px; width: 25px;" (click)="pulisciPassword()">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div>
+
+<div
+  [style.opacity]="menuVisibile ? 1 : 0"
+  [style.width]="dimeDrawer"
+  [style.left]="menuVisibile ? '0px' : '-500px'"
+  (mouseover)="over1()"
+  (mouseleave)="leave1()"
+  style="position: absolute; border-right: 1px solid #999; display: flex; top: 35px; height: calc(100% - 35px); 
+    background-color: #f4f4f4; z-index: 5000;">
+  <div [style.width]="dimeDrawer" style="float: left; overflow: auto;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    padding-bottom: 50px;
+    ">
+    <app-menu
+      [debug]="modalitaDebug"
+      [MenuVisibile] = "menuVisibile"
+      [showButtons]="true"
+      [Altezza]="35"
+      [posizione]="'relative'"
+      [sessionID]="sessionID"
+      [voceSelezionata]="'Ants'"
+      [chiudiTutteVoci]="vociChiuseMenu"
+      [statoServer]="statoServer"
+      [statoManutenzione]="statoManutenzione"
+      [coloreStatoServer]="coloreStatoServer"
+      [comandoVocale]="comandoVocale"
+      [platFormName]="platformName"
+
+      (platFormNameEmit)="prendePlatFormName($event)"
+      (dataAttualeEmit)="prendeDateNowH($event)"
+      (symbTsEmit)="prendeSymb_TimeStamp($event)"
+      (premutoEmit)="premutoVoceMenu($event)"
+      (chiusuraEmit)="chiudeDrawer($event)"
+      (lettoConfigJSON)="lettoJSON($event)"
+      (userManualEmit)="fDownloadUserManual($event)"
+    >
+    </app-menu>
+</div>

@@ -1,0 +1,20 @@
+<app-barra-superiore
+  [nomeApp]="'Home Page'"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [sessioneID]="sessione"
+  [debug]="true"
+  [gruppo]="'CustomerLogoww'"
+  [visualizzaSecondoMenu]="false"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (apreMenu2Emit)="apreMenu2()"
+  (comandoVocaleEmit)="arrivatoComandoVocale($event)"
+  (dataOraServerEmit)="arrivataDataOraServer($event)"
+>
+</app-barra-superiore>

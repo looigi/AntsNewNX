@@ -1,0 +1,73 @@
+{
+  "name": "HomePage",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/HomePage/src",
+  "projectType": "application",
+  "prefix": "app",
+  "tags": [
+    "type:application"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/HomePage",
+          "browser": ""
+        },
+        "index": "apps/HomePage/src/index.html",
+        "browser": "apps/HomePage/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/HomePage/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "apps/HomePage/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/HomePage/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "node_modules/@progress/kendo-theme-default/dist/all.css",
+          "apps/HomePage/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "home-page:build:production"
+        },
+        "development": {
+          "buildTarget": "home-page:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

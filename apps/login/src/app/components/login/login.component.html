@@ -1,0 +1,181 @@
+<div class="container" >
+<!--<kendo-sparkline [data]="buttami" type="column"
+      style="width: 130px; height: 20px;">
+
+        <kendo-chart-area background="#FFF0">
+          </kendo-chart-area>
+
+          <kendo-chart-category-axis>
+            <kendo-chart-category-axis-item [categories]=Buttami0>
+            </kendo-chart-category-axis-item>
+          </kendo-chart-category-axis>
+
+          <kendo-chart-series>
+            <kendo-chart-series-item type="column"  [gap]= 0.4 [stack]="{ type: '1%' }">
+            </kendo-chart-series-item>
+            <kendo-chart-series-item type="column" name="Ok" color=#248f24 [data]=Buttami1>
+            </kendo-chart-series-item>
+            <kendo-chart-series-item type="column" name="Failed" color="red" [data]=Buttami2>
+            </kendo-chart-series-item>
+            <kendo-chart-series-item type="column" name="Aborted" color=#e6e619 [data]=Buttami3>
+            </kendo-chart-series-item>
+          </kendo-chart-series>
+    </kendo-sparkline> -->
+
+    <div style="position: absolute; left: 30px; top: 30px; z-index: -1;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/BrandingElements/logo_left.png'" style="width: auto; height: 100px;">
+    </div>
+
+    <div style="position: absolute; right: 30px; top: 30px; z-index: -1;">
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && portable2" [src]="Utils.linkIcone + '/BrandingElements/logo_right.png'" style="width: auto; height: 60px; margin-top: 17px;" />
+      <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !portable2" [src]="Utils.linkIcone + '/BrandingElements/logo_right.png'" style="width: auto; height: 130px; margin-top: -15px;" />
+    </div>
+
+    <div class=" text-center" style="margin-top: 175px;">
+        <!-- logo -->
+        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/BrandingElements/logo_center.png'" style="max-width: 280px;">
+        <h1 *ngIf="PlatForm_Name" style="color: gray;">{{ PlatForm_Name }}</h1>
+    </div>
+    <form class="form-signin" novalidate>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" [(ngModel)]="username" required />
+        <div style="width: 100%;">
+          <!-- <input *ngIf="passwordNascosta" 
+            type="password" 
+            id="inputPassword" 
+            class="form-control" 
+            placeholder="Password" 
+            name="password" 
+            style="width: 100%; float: left;" 
+            [(ngModel)]="password" required />
+          <input *ngIf="!passwordNascosta" 
+            type="text" 
+            id="inputPassword" 
+            class="form-control" 
+            placeholder="Password" 
+            name="password" 
+            style="width: 100%; float: left; margin-bottom: 10px;" 
+            [(ngModel)]="password" required /> -->
+
+          <input
+            *ngIf="!passwordNascosta"
+            type="text"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            name="password_temp"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            style="width: 100%; float: left; margin-bottom: 10px;"
+            [(ngModel)]="password"
+            required
+          />        
+          
+          <input
+            *ngIf="passwordNascosta"
+            type="password"
+            id="inputPasswordHidden"
+            class="form-control"
+            placeholder="Password"
+            name="new-password"
+            autocomplete="new-password"
+            style="width: 100%; float: left;" 
+            [(ngModel)]="password"
+            required
+          />
+
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+            [src]="Utils.linkIcone + '/icons/open123.png'" 
+            (click)="passwordNascosta = !passwordNascosta"
+              style="margin-left: -28px;
+              margin-top: 10px;
+              width: 25px;
+              float: left;
+              z-index: 1000;
+              position: absolute;">
+        </div>
+
+        <!-- <div class="checkbox">
+            <label>
+                <input type="checkbox" name = rememberme [(ngModel)]="rememberme"> Remember me
+            </label>
+        </div> -->
+        <button class="btn btn-lg btn-primary btn-block" style="width: 100%;" type="submit" 
+          (click)="login(username, password, rememberme)" [disabled]="requestInProgress || !ipInfo">
+          Sign in <img *ngIf="Utils && Utils.linkIcone && (requestInProgress || !ipInfo)" 
+          [src]="Utils.linkIcone + '/img/loader.gif'" height="20" class="pull-right">
+        </button>
+
+        <div *ngIf="schermoPiccolo" style="width: 100%;
+          padding: 5px;
+          height: 60px;
+          background-color: white;
+          margin-top: 5px;">
+          <div style="float: left; width: 30%; text-align: center;">
+            <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+            [src]="Utils.linkIcone + '/icons/mobile-rotate-rotation-icon.png'" style="width: 50px; height: 50px;">
+          </div>
+          <div style="float: left; width: 70%; font-size: 16px; font-weight: bold;">
+            Please rotate the screen for a better view
+          </div>
+        </div>
+    </form>
+
+    <div *ngIf="statoManutenzione && statoManutenzione == 'LOGIN_RESTRICTED'" style="width: 100%; text-align: center;" >Platfform maintenance: login restricted</div>
+    <div *ngIf="statoManutenzione && statoManutenzione == 'LOGIN_WARNING'" style="width: 100%; text-align: center;" >Platfform maintenance: login allowed but you could experience performance decrease and temporary data un-availability</div>
+    <br *ngIf="(statoManutenzione == 'LOGIN_RESTRICTED' || statoManutenzione == 'LOGIN_WARNING') && messaggioLogin" />
+    <div *ngIf="messaggioLogin" style="width: 100%; text-align: center;" >{{messaggioLogin}}</div>
+
+    <div *ngIf="capslockOn == true" style="width: 100%; text-align: center; color: #ff3f3f;">WARNING: The caps lock button is active</div>
+    <div class="row" style="text-align: center !important; display: block;">
+      <div id="log-err" *ngIf="errMsg" style="border: 1px solid #999; border-radius: 5px; padding: 5px; background-color: #ffdfdf;">
+        <div class="panel-heading">
+          <span style="font-weight: bold;">Error!</span>
+          <button type="button" class="close" (click)="errMsg=''" data-target="#log-err" data-dismiss="alert">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="panel-body">{{errMsg}}</div>
+      </div>
+    </div>
+</div> <!-- /container -->
+
+<div *ngIf="changePassword" style="position: absolute; background-color: #a999; left: 0px; top: 0px; width: 105%; height: 105%; z-index: 1000;"></div>
+<div *ngIf="changePassword" style="position: absolute; background-color: white; border: 1px solid #999;left: 50%; top: 50%;
+    width: 400px; margin-left: -200px; margin-top: -225px; z-index: 1001; overflow: auto;">
+  <div class="modal-header">
+    <h4 class="modal-title">User Must Change Password</h4>
+  </div>
+  <form [formGroup]="changePswForm" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label class="center-block">Old Password:
+          <input class="form-control" type="password" formControlName="oldPassword">
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="center-block">New Password:
+          <input class="form-control" type="password" formControlName="newPassword1">
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="center-block">Repeat New Password:
+          <input class="form-control" type="password" formControlName="newPassword2">
+        </label>
+      </div>
+
+      <div class="form-group">
+        <span style="color: red;">{{messageLog}}</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-dark" type="submit" class="btn btn-success" [disabled]="!changePswForm.valid">Ok</button>
+      <button type="button" class="btn btn-outline-dark" (click)="closeCP()">Cancel</button>
+    </div>
+  </form>
+</div>
+

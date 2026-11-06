@@ -1,0 +1,96 @@
+.bottone {
+    width: 100%; 
+    float: left; 
+    padding: 2px; 
+    background-color: blue; 
+    height: 30px; 
+    color: white; 
+    font-size: 20px; 
+    border: 1px solid #999; 
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.bottoneSpento {
+    width: 100%; 
+    float: left; 
+    padding: 2px; 
+    background-color: gray; 
+    height: 30px; 
+    color: white; 
+    font-size: 20px; 
+    border: 1px solid #999; 
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.oscura {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1999;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .35;
+}
+
+.mascheraExportTcRun {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22);
+    width: 55%;
+    padding: 3px;
+    padding-top: 35px;
+    height: 50%;
+    max-height: 90%;
+    left: 25%;
+    top: 25%;
+    z-index: 2000;
+}
+
+.bottoniIntestazione {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    text-align: right;
+    height: 30px;
+    top: 0px;
+    padding: 5px;
+    border-bottom: 1px solid #bbb;
+}
+
+.modificaDati {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow: auto;
+    display: contents;
+}
+
+.immaginiIcone {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.popup {
+    position: fixed;
+    width: 50%;
+    right: 0px;
+    bottom: 0px;
+    height: 115px;
+    padding: 5px;
+    color: white;
+    background-color: black;
+    z-index: 1000;
+    border: 1px solid white;
+    border-radius: 3px;
+    font-size: 23px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+  

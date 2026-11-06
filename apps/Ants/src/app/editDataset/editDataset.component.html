@@ -1,0 +1,48 @@
+<div #divCont1 class="oscura"></div>
+
+<div class="drag-boundary maschera" ngDraggable ngResizable [handle]="handleInfo"
+    [ngClass]="{ 'top-b': !Utils.edge?.top, 'bottom-b': !Utils.edge?.bottom, 'left-b': !Utils.edge?.left, 'right-b': !Utils.edge?.right }"
+    (edge)="checkEdge($event)" [bounds]="divCont1" [inBounds]="true">
+    <div kendoTooltip class="barraSuperiore"
+        style="position: absolute; text-align: left; white-space: nowrap; height: 28px; float: left;">
+        <div #handleInfo style="text-align: center; width: calc(100% - 120px); float: left; margin-top: 2px;">{{titoloMaschera}}</div>
+
+        <div style="width: 120px; float: left; text-align: right; margin-top: -4px;">
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && daSalvare" 
+            [src]="Utils.linkIcone + '/icons/Refresh_white.png'" style="width: 30px; height: 30px; cursor: pointer;" 
+            title="Undo" (click)="undo();" >
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && daSalvare" 
+            [src]="Utils.linkIcone + '/icons/check-circle_white.png'" style="width: 30px; height: 30px; cursor: pointer;" 
+            title="Save" (click)="salva();" >
+          <!-- <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/icons/ResetLayout.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Delete filter" (click)="filtroAttivo = ''; eventFilterEmit();" > -->
+          <img *ngIf="Utils.linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+            [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="fChiudeMaschera()" title="Close" class="immaginiIcone">
+        </div>
+    </div>
+    
+    <div class="corpo">
+        <div *ngFor="let cm of campiMaschera; trackBy: trackByIndice; let i = index" [attr.data-index]="i" class="Campo">
+            <div class="TitoloCampo">
+                {{cm.HeaderText}}
+            </div>
+            <div class="ValoreCampo">
+                <textarea
+                    appAutoResize       
+                    *ngIf="cm.Valore != 'numeric'"
+                    [style.text-align]="prendeAllineamentoTesto(cm)"
+                    style="width: 100%; padding: 2px 4px; line-height: 1.2; min-height: 20px; vertical-align: top;" 
+                    value="{{cm.Valore}}"
+                    (blur)="controlloSeDaSalvare()"
+                    (input)="controlloSeDaSalvare()"
+                    [(ngModel)]="cm.Valore">
+                </textarea>   
+                <input *ngIf="cm.Valore == 'numeric'" 
+                    type="number"
+                    (blur)="controlloSeDaSalvare()"
+                    (input)="controlloSeDaSalvare()"
+                    [(ngModel)]="cm.Valore" 
+                    [style.text-align]="prendeAllineamentoTesto(cm)" />
+            </div>
+        </div>
+    </div>
+</div>

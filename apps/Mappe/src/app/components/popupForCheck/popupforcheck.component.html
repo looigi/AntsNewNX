@@ -1,0 +1,57 @@
+<div #divCont1 class="oscura"></div>
+
+<div style="position: absolute; width: 50%; height: 250px; top: 25%; left: calc(50% - 175px); background-color: white; z-index: 10002;"
+    ngDraggable [handle]="handleMenuDG"
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+    (edge)="checkEdge($event)" [bounds]="divCont1" [inBounds]="true" class="resizable">
+    <div class="bottoniIntestazione" style="background-color: #565656; width: 100%;">
+        <div #handleMenuDG class="drag-block" style="width: calc(100% - 80px); float: left; text-align: left; color: white;">
+            {{operazione}} records in this list?
+        </div>
+        <div style="width: 80px; float: left; text-align: right; margin-top: -4px;">
+            <!-- 
+            <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" style="width: 30px; height: 30px; cursor: pointer;" class="immaginiIcone" title="Apply Filter" (click)="fConfermaPopup();" >
+            <img *ngIf="linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="fChiudePopup()" title="Close" class="immaginiIcone">
+            -->
+        </div>
+    </div>
+
+    <div style="width: 100%; float: left; height: 100%; overflow: hidden; background-color: white; padding-top: 35px;">
+        <div style="width: 100%; float: left; height: calc(100% - 40px);">
+            <app-ants-grid-lib          
+                [sessioneAttuale]="sessionID"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="'Selected items'"
+                [titleDaDatiGriglia] = "false"
+                [data]="datiGriglia"
+                [userName]="userName"
+                [maskName]="'checkGrid'"
+                [DimensioneFont]='12'
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='false'
+                [editKeyVisibile]='false'
+                [deleteKeyVisibile]='false'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='true'
+                [ricordaSelezione]='false'
+                [impostaSelezione]="selezionePM"
+                [AutoResize]="false"
+                [righeAutomatiche]="false"
+                [linkIcone]="Utils.linkIcone"
+                [eliminaSelezioniSuClickRiga] = 'false'
+
+                (deselectedAllRows)="deSelezioneTutteLeRighe($event)"
+                (selectedAllRows)="selezioneTutteLeRighe($event)"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneCG($event)"
+                (clickSelezioneSuCheckRiga)='clickSuCheckRiga($event)'
+                >
+            </app-ants-grid-lib>
+        </div>
+        <div style="width: 100%; float: left; height: 40px;">
+            <button (click)="fConfermaPopup()" style="float: right; margin-right: 10px; margin-top: 5px; width: 80px; height: 30px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Ok</button>
+            <button (click)="fChiudePopup()" style="float: right; margin-right: 10px; margin-top: 5px; width: 80px; height: 30px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+</div>

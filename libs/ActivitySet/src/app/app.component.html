@@ -1,0 +1,21 @@
+<div style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%; border: 1px solid #999;">
+    <!-- 
+        
+    -->
+    <actset-component
+        *ngIf="sessionID2 && indirizzoServer2 && visibile"
+        [debug]="false"
+        [userName] = "userName"
+        [Utils] = "Utils"
+        [righeSelezionate] = "righeSelezionatePerActSet"
+        [sessionID] = "sessionID2"
+        [righePerPaginazioneAutomatica] = "righePerPaginazioneAutomatica"
+        [indirizzoServer] = "indirizzoServer2"
+        [modalitaApertura] = "'CONTEXT'"
+
+        (visibileEmit)="visibileDaMascheraActivity($event)"
+        (confermaEmit)="confermaActivity($event)"
+        (refreshEmit)="refreshActivity($event)"
+    >
+    </actset-component>
+</div>

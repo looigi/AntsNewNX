@@ -1,0 +1,68 @@
+<div class="bloccaSfondo"></div>
+
+<!-- <div #myBounds *ngIf="mascheraVisibile" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%;"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+>
+  <div *ngIf="mascheraVisibile" ngDraggable ngResizable [handle]="handleInfo" class="mascheraPrincipale"
+    (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="true"
+    (visibileEmit)="mascheraVisibile = false;"> -->
+  <div class="mascheraPrincipale">
+    <div kendoTooltip class="drag-block-handle barraSuperiore" style="position: absolute; text-align: left; white-space: nowrap; height: 28px; z-index: 1503;">
+      <div #handleInfo style="text-align: center; width: 90%; float: left; margin-top: 3px;">Dashboard Manager</div>
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mostraNascondeMenu()" title="Close"
+        class="immaginiChiusura" style="z-index: 1503;">
+    </div>
+
+    <div style="position: relative; top: 0px; left: 0px; padding-top: 29px; height: 100%; z-index: 1502;">
+      <app-ants-grid-lib
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="'Dashboards'"
+        [data]="listaDati2"
+        [userName]="userName"
+        [maskName]="'GrigliaAlbero'"
+        [newKeyVisibile]='false'
+        [newKeyPersistant]='false'
+        [editKeyVisibile]='tastoEditVisibile'
+        [deleteKeyVisibile]='tastoDeleteVisibile'
+        [infoKeyVisibile]='tastoInfoVisibile'
+        [confirmKeyVisibile]='confirmKey'
+        [refreshKeyVisibile]='true'
+        [selezioneMultipla]='false'
+        [ricordaSelezione]='true'
+        [rinfrescaGriglia]='refreshGrigliaMettere'
+        [raggruppabile]='true'
+        [impostaSelezione]='dashSelezionata2'
+        [campiPerRaggruppamento]="'FOLDER'"
+        [linkIcone]="Utils.linkIcone"
+        [AutoResize]="false"
+        [ManualResize]="effettuaAutoFit"
+        [DimensioneFont]='12'
+
+        (confirmKeyPressed)='premutoTastoConfirm($event)'
+        (deleteKeyPressed)='premutoTastoDelete($event)'
+        (newKeyPressed)='premutoTastoNew($event)'
+        (cellClick)='cellClickGridDashboard($event)'
+        (lastSelectedOfGrid)='lastSelectedOfGridDashboard($event)'
+        (editKeyPressed)='tastoEditPremuto($event)'
+        (refresh)="refreshDashboard($event, false)"
+        (resetLayout)="refreshDashboard($event, true)"
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneDash($event)"
+      >
+      </app-ants-grid-lib>
+    </div>
+  </div>
+<!-- </div> -->
+
+<dashboard-edit-component
+  [nuovo]="nuovo"
+  [visibile]="editVisibile"
+  [dashboardGroup]="dashboardGroup"
+  [userName]="userName"
+  [dati]="dashBoardSelected2"
+
+  (visibileEmit)="visibileDaMascheraDashboardEdit($event)"
+  (refreshData)="refreshDashboard($event, false)"
+  >
+</dashboard-edit-component>

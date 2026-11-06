@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.nx/
+coverage/
+artifacts/
+.angular/
+tmp/
+build-errors.txt
+*license*.txt
+!**/3rdpartylicenses.txt

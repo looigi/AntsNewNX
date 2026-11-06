@@ -1,0 +1,282 @@
+<span *ngIf="Debug">
+  {{filtro}}
+</span>
+<!--
+  Per applicare uno stile personalizzato mettere nella chiamata:
+  [style]="{ 'width': '200px' }"
+-->
+
+<!-- [style.font-size] = "prendeDimeFont()" -->
+
+<!-- <kendo-combobox
+  *ngIf="Tipologia=='Combo'"
+  style="font-family: Arial, Helvetica, sans-serif;"
+  [style.width] = "prendeLarghezza()"
+  [data]="groupedData"
+  [textField]="campoTesto"
+  [valueField]="campoTesto"
+  [filterable]="true"
+  [ngStyle]="style"
+  [allowCustom]="accettaNuovi"
+  [valuePrimitive]="true"
+  [value]="valoreDefaultSetted"
+  [placeholder]="placeholder"
+
+  (valueChange)='changeValue($event)'
+  (filterChange)="handleFilter($event)"
+  (selectionChange)="cambiataSelezione($event)"
+  (focus)="focusFunction($event)"
+  (input)="digitazione($event.srcElement['value'])"
+
+  (mouseleave)="mouseFuori()"
+  (mouseover)="mouseDentro()"
+  (open)="open()"
+  (close)="close()"
+
+  [disabled]="disabilitata2"
+>
+</kendo-combobox>
+
+<input id = "myInput_{{NomeCombo}}" style="width: 0px; height: 0px; border: 0px; display: block;" /> -->
+
+<!-- [style.font-size] = "prendeDimeFont()" -->
+<!-- <kendo-dropdownlist
+  *ngIf="Tipologia!='Combo'"
+  style="font-family: Arial, Helvetica, sans-serif;"
+  [style.width] = "prendeLarghezza()"
+  [data]="groupedData"
+  [textField]="campoTesto"
+  [valueField]="campoTesto"
+  [filterable]="true"
+  [ngStyle]="style"
+  [valuePrimitive]="true"
+  [value]="valoreDefaultSetted"
+
+  (valueChange)='changeValue($event)'
+  (filterChange)="handleFilter($event)"
+  (selectionChange)="cambiataSelezione($event)"
+
+  (mouseleave)="mouseFuori()"
+  (mouseover)="mouseDentro()"
+  (open)="open()"
+  (close)="close()"
+
+  [disabled]="disabilitata2"
+>
+</kendo-dropdownlist>
+
+<div #divPopup *ngIf="popupAperto && popupSopra == true"
+  (mouseleave)="popupAperto = !popupAperto"
+  [style.max-height.px]="altezzaMassima"
+  [style.height.px]="altezzaMassima"
+  [style.margin-top.px]="-(altezzaMassima + 12)"
+  [style.width.px]="dimensioneCombo"
+  style="
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: left;
+    color: #555;
+    margin-left: -1px;
+    position: fixed;
+    float: left;
+    z-index: 9999;
+    padding: 3px;">
+  <div *ngFor="let righe of FilteredData; let i = index"
+    style="width: 100%;"
+    (mouseleave)="Selezione[i] = false"
+    (mouseover)="Selezione[i] = true"
+  >
+    <div *ngIf="righe.Categoria != ''"
+      style="width: 100%; height: 22px; font-weight: bold;;"
+    >
+      {{righe.Categoria}}
+    </div>
+    <div *ngIf="righe.Categoria == ''"
+      style="width: 100%; height: auto; padding-bottom: 4px; word-break: break-all; white-space: initial;"
+      [style.background-color]="Selezione[i] ? (Selezione2[i] ? '#e5a0a0' : '#eb5d0b') : (Selezione2[i] ? '#e5a0a0' : 'transparent')"
+      [style.padding-left]="righe.Indentato ? '30px' : '0px'"
+      (click)="changeValue(righe)"
+    >
+      {{righe.Testo}}
+    </div>
+  </div>
+</div> -->
+
+  <div #divContenitoreCombo id="divCombo_{{NomeCombo}}_{{userName}}"
+    style="width: 100%; height: 26px; border: 1px solid #ccc; border-radius: 2px; margin-top: -2px; margin-bottom: 3px;"
+    (mouseleave)="mouseFuori()"
+    (mouseover)="mouseDentro()"
+    >
+    <div style="width: calc(100% - 50px); height: 26; float: left;">
+      <!--    
+        (blur)="uscitaTesto()"
+      -->
+      <input #txtFilter
+        type="text"
+        [disabled]="selezioneMultipla || testoDisabilitato"
+        [(ngModel)]="filtro"
+        [value]="rigaSelezionata"
+        (keydown)="cambioFiltro($event)"
+        style="width: calc(100% - 30px); height: 23px;
+          font-size: 16px; float: left; border: 0px; color: #555; float: left;">
+      <img
+        *ngIf="accettaNuovi && (filtro && filtro != testoOriginale) && !selezioneMultipla && visibileTastoAdd"
+        (click)="valoreInseritoAMano()"
+        title="Push the icon or ENTER to apply the new value"
+        [src]="linkIcone + 'assets/img/icons/AddNewCombo.png'"
+        style="
+        float: left;
+        width: 25px;
+        margin-top: 1px;
+        cursor: pointer;
+        padding: 0px;">
+    </div>
+    <div
+      style="float: left;
+        width: 50px;
+        height: 24px;
+        text-align: right;
+        /* font-weight: bolder; */
+        /* margin-top: -2px; */
+        /* margin-left: -2px; */
+        /* font-size: 20px; */
+        background-color: white;
+        /* border-top: 1px solid #999;">
+      <img
+        *ngIf="visibileElimina"
+        (click)="changeValue('')"
+        [src]="linkIcone + 'assets/img/icons/close.png'"
+        style="/* width: 29px;
+        height: 24px; */
+        margin-top: 1px;
+        cursor: pointer;
+        padding: 0px;">
+      <img
+        (click)="aprePopup($event)"
+        [src]="linkIcone + 'assets/img/icons/down.png'"
+        style="/* width: 29px;
+        height: 24px; */
+        cursor: pointer;
+        margin-left: -4px;
+        padding: 0px;">
+    </div>
+
+  </div>
+
+  <!-- <select #combo name="combo" id="combo"
+      style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; float: left; width: 20px; height: 30px; border: 0px; margin-top: 2px;"
+      [ngStyle]="style"
+      (change)="changeValue($event)"
+      (click)="open()"
+      (blur)="close()"
+      [disabled]="disabilitata2"
+    >
+      <option *ngFor="let righe of FilteredData"
+        [value]="righe.Testo"
+        [attr.selected]="righe.Testo==rigaSelezionata ? true : null">
+        {{righe.Testo}}
+      </option>
+    </select> -->
+
+
+    <!-- (mouseleave)="popupAperto = false"
+      [style.left.px]="posizioneXPopup"
+      [style.top.px]="posizioneYPopup"
+    [style.width.px]="dimensioneCombo"
+    -->
+
+  <ng-container *ngIf="popupAperto">
+    <div #divPopup
+      (mouseleave)="chiudePopup()"
+      [style.max-height.px]="altezzaMassima"
+      [style.width.px]="dimensioneCombo"
+      style="
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        text-align: left;
+        color: #555;
+        /* margin-top: 28px; */
+        margin-left: -1px;
+        position: fixed;
+        /* float: left; */
+        background-color: white;
+        z-index: 9999;
+        padding: 3px;">
+
+      <div style="width: 100%; height: 75%; float: left;">
+        <div *ngIf="selezioneMultipla" style="width: 100%; margin-top: 5px;">
+          <div style="width: 20%; float: left; text-align: right;margin-top: 4px;">
+            Search
+          </div>
+          <div style="margin-left: 3px; width: calc(80% - 3px); float: left;">
+            <input #txtFilter2
+              type="text"
+              [disabled]="!selezioneMultipla"
+              [(ngModel)]="filtro2"
+              (keydown)="cambioFiltroSM($event)"
+              style="width: 95%; font-size: 16px; float: left; border: 1px solid #aaa; color: #555;" />
+          </div>
+        </div>
+        <div *ngIf="selezioneMultipla" style="clear: both; margin-bottom: 5px;"></div>
+
+        <div *ngIf="selezioneMultipla" style="width: 100%; margin-top: 5px;" title="Press ENTER to add the value">
+          <div style="width: 20%; float: left; text-align: right;margin-top: 4px;">
+            New Value
+          </div>
+          <div style="margin-left: 3px; width: calc(80% - 3px); float: left;">
+            <input type="text" 
+              style="width: 95%; font-size: 16px; float: left; border: 1px solid #aaa; color: #555;" 
+              [(ngModel)]="nuovaRiga" 
+              (keyup.enter)="uscitaTestoNuovo()" />
+          </div>        
+        </div>
+        <div *ngIf="selezioneMultipla" style="clear: both; margin-bottom: 5px;"></div>
+      </div>
+
+      <div 
+        [style.height.px]="selezioneMultipla ? altezzaMassima - 75 : altezzaMassima"
+        [style.border]="Debug ? '1px solid red' : '0px'"
+        style="
+          float: left;
+          width: calc(100% - 5px);
+          padding-left: 5px;
+          overflow-y: auto;
+          overflow-x: hidden;">
+        <div *ngFor="let righe of FilteredData; trackBy: trackByRighe; let i = index"
+          style="width: 100%;"
+          (mouseleave)="Selezione[i] = false"
+          (mouseover)="Selezione[i] = true"
+        >
+          <div *ngIf="righe.Categoria != ''"
+            style="width: 100%; height: 22px; font-weight: bold;"
+          >
+            {{righe.Categoria}}
+          </div>
+          <div *ngIf="righe.Categoria == '' && righe.Testo"
+            style="width: 100%; height: auto; padding-bottom: 4px; word-break: break-all; white-space: initial; padding-top: 4px; cursor: pointer;"
+            [style.background-color]="i == 0 ? 'transparent' : (Selezione[i] ? (Selezione2[i] ? '#eb5d0b' : '#ddd') : (Selezione2[i] ? '#eb5d0b' : 'transparent'))"
+            [style.color]="i == 0 ? 'black' : (Selezione[i] ? (Selezione2[i] ? 'white' : '#555') : (Selezione2[i] ? 'white' : '#555'))"
+            [style.padding-left]="righe.Indentato ? '30px' : '0px'"
+            (click)="changeValue(righe)"            
+          >
+            <input *ngIf="selezioneMultipla" type="checkbox" class="checkBox"
+              [checked]="righe.Selezionata" (click)="addValue(righe, $event)" />&nbsp;
+
+            <span *ngIf="Debug == true">{{righe.Selezionata}}-</span>
+            {{righe.Testo}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+

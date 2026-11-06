@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:ns2="http://www.google.com/kml/ext/2.2" xmlns:ns3="http://www.w3.org/2005/Atom" xmlns:ns4="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0">
+    <Document>
+        <Schema name="Coverage_1" id="Coverage_1">
+            <SimpleField type="float" name="Side_Lat"/>
+            <SimpleField type="string" name="TimeStamp"/>
+            <SimpleField type="string" name="MeasureCode"/>
+            <SimpleField type="string" name="TC_RUN_NUM"/>
+            <SimpleField type="float" name="VALUE_NUM"/>
+            <SimpleField type="string" name="VALUE_STR"/>
+            <SimpleField type="float" name="Lat"/>
+            <SimpleField type="float" name="Lng"/>
+            <SimpleField type="string" name="Samples"/>
+            <SimpleField type="float" name="Side_Lng"/>
+        </Schema>
+        <Folder>
+            <name>Coverage</name>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b24">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-6.8</SimpleData>
+                        <SimpleData name="Lat">41.83514</SimpleData>
+                        <SimpleData name="Lng">12.415048</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4147551455826,41.8349152282753 12.4153401455551,41.8349152282753 12.4153401455551,41.8353652282676 12.4147551455826,41.8353652282676 12.4147551455826,41.8349152282753</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b25">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-6.8</SimpleData>
+                        <SimpleData name="Lat">41.86214</SimpleData>
+                        <SimpleData name="Lng">12.370588</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3702958026261,41.8619156555214 12.3708808025985,41.8619156555214 12.3708808025985,41.8623656555137 12.3702958026261,41.8623656555137 12.3702958026261,41.8619156555214</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b26">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-6.8</SimpleData>
+                        <SimpleData name="Lat">41.86529</SimpleData>
+                        <SimpleData name="Lng">12.350698</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3504059710831,41.8650665954628 12.3509909710556,41.8650665954628 12.3509909710556,41.8655165954551 12.3504059710831,41.8655165954551 12.3504059710831,41.8650665954628</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b27">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-6.8</SimpleData>
+                        <SimpleData name="Lat">41.884193</SimpleData>
+                        <SimpleData name="Lng">12.379363</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3790705600113,41.883968420414 12.3796555599838,41.883968420414 12.3796555599838,41.8844184204063 12.3790705600113,41.8844184204063 12.3790705600113,41.883968420414</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b28">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-4.91</SimpleData>
+                        <SimpleData name="Lat">41.856743</SimpleData>
+                        <SimpleData name="Lng">12.357132</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3568394580216,41.8565178588906 12.3574244579941,41.8565178588906 12.3574244579941,41.8569678588829 12.3568394580216,41.8569678588829 12.3568394580216,41.8565178588906</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b29">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.855843</SimpleData>
+                        <SimpleData name="Lng">12.403348</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4030554690689,41.8556175903359 12.4036404690414,41.8556175903359 12.4036404690414,41.8560675903282 12.4030554690689,41.8560675903282 12.4030554690689,41.8556175903359</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2a">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.856743</SimpleData>
+                        <SimpleData name="Lng">12.355377</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3550846972794,41.8565178588906 12.3556696972519,41.8565178588906 12.3556696972519,41.8569678588829 12.3550846972794,41.8569678588829 12.3550846972794,41.8565178588906</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2b">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.856743</SimpleData>
+                        <SimpleData name="Lng">12.412708</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4124157824845,41.8565178588906 12.4130007824569,41.8565178588906 12.4130007824569,41.8569678588829 12.4124157824845,41.8569678588829 12.4124157824845,41.8565178588906</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2c">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.85989</SimpleData>
+                        <SimpleData name="Lng">12.357717</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3574240603775,41.8596649841347 12.35800906035,41.8596649841347 12.35800906035,41.860114984127 12.3574240603775,41.860114984127 12.3574240603775,41.8596649841347</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2d">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86214</SimpleData>
+                        <SimpleData name="Lng">12.353038</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3527453341812,41.8619156555214 12.3533303341537,41.8619156555214 12.3533303341537,41.8623656555137 12.3527453341812,41.8623656555137 12.3527453341812,41.8619156555214</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2e">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86304</SimpleData>
+                        <SimpleData name="Lng">12.392232</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3919394412369,41.8628159240761 12.3925244412094,41.8628159240761 12.3925244412094,41.8632659240684 12.3919394412369,41.8632659240684 12.3919394412369,41.8628159240761</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b2f">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86439</SimpleData>
+                        <SimpleData name="Lng">12.396328</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3960354724259,41.8641663269082 12.3966204723984,41.8641663269082 12.3966204723984,41.8646163269004 12.3960354724259,41.8646163269004 12.3960354724259,41.8641663269082</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b30">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86484</SimpleData>
+                        <SimpleData name="Lng">12.367663</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3673708834976,41.8646164611855 12.3679558834701,41.8646164611855 12.3679558834701,41.8650664611778 12.3673708834976,41.8650664611778 12.3673708834976,41.8646164611855</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b31">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86529</SimpleData>
+                        <SimpleData name="Lng">12.351868</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.351575175795,41.8650665954628 12.3521601757675,41.8650665954628 12.3521601757675,41.8655165954551 12.351575175795,41.8655165954551 12.351575175795,41.8650665954628</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b32">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.86529</SimpleData>
+                        <SimpleData name="Lng">12.401593</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4013007083267,41.8650665954628 12.4018857082992,41.8650665954628 12.4018857082992,41.8655165954551 12.4013007083267,41.8655165954551 12.4013007083267,41.8650665954628</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b33">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.87339</SimpleData>
+                        <SimpleData name="Lng">12.370588</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3702958026261,41.8731651977578 12.3708808025985,41.8731651977578 12.3708808025985,41.87361519775 12.3702958026261,41.87361519775 12.3702958026261,41.8731651977578</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b34">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.87429</SimpleData>
+                        <SimpleData name="Lng">12.375852</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3755591311783,41.8740654663125 12.3761441311508,41.8740654663125 12.3761441311508,41.8745154663047 12.3755591311783,41.8745154663047 12.3755591311783,41.8740654663125</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b35">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.879692</SimpleData>
+                        <SimpleData name="Lng">12.375267</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3749745288223,41.8794670776406 12.3755595287948,41.8794670776406 12.3755595287948,41.8799170776329 12.3749745288223,41.8799170776329 12.3749745288223,41.8794670776406</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b36">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.866642</SimpleData>
+                        <SimpleData name="Lng">12.351283</SimpleData>
+                        <SimpleData name="Samples">2</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.350990573439,41.8664169982949 12.3515755734115,41.8664169982949 12.3515755734115,41.8668669982872 12.350990573439,41.8668669982872 12.350990573439,41.8664169982949</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b37">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.831093</SimpleData>
+                        <SimpleData name="Lng">12.416218</SimpleData>
+                        <SimpleData name="Samples">3</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4159253039688,41.8308678344765 12.4165103039413,41.8308678344765 12.4165103039413,41.8313178344688 12.4159253039688,41.8313178344688 12.4159253039688,41.8308678344765</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b38">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.881493</SimpleData>
+                        <SimpleData name="Lng">12.383458</SimpleData>
+                        <SimpleData name="Samples">3</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.383165637526,41.88126761475 12.3837506374985,41.88126761475 12.3837506374985,41.8817176147422 12.383165637526,41.8817176147422 12.383165637526,41.88126761475</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b39">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-1.13</SimpleData>
+                        <SimpleData name="Lat">41.834244</SimpleData>
+                        <SimpleData name="Lng">12.408612</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4083197512955,41.8340187744179 12.408904751268,41.8340187744179 12.408904751268,41.8344687744102 12.4083197512955,41.8344687744102 12.4083197512955,41.8340187744179</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3a">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.66</SimpleData>
+                        <SimpleData name="Lat">41.854042</SimpleData>
+                        <SimpleData name="Lng">12.362983</SimpleData>
+                        <SimpleData name="Samples">2</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3626902499527,41.8538170532265 12.3632752499252,41.8538170532265 12.3632752499252,41.8542670532188 12.3626902499527,41.8542670532188 12.3626902499527,41.8538170532265</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3b">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.66</SimpleData>
+                        <SimpleData name="Lat">41.866642</SimpleData>
+                        <SimpleData name="Lng">12.355962</SimpleData>
+                        <SimpleData name="Samples">2</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3556692996353,41.8664169982949 12.3562542996078,41.8664169982949 12.3562542996078,41.8668669982872 12.3556692996353,41.8668669982872 12.3556692996353,41.8664169982949</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3c">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.66</SimpleData>
+                        <SimpleData name="Lat">41.85089</SimpleData>
+                        <SimpleData name="Lng">12.388723</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3884308734268,41.8506661132851 12.3890158733993,41.8506661132851 12.3890158733993,41.8511161132774 12.3884308734268,41.8511161132774 12.3884308734268,41.8506661132851</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3d">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.5</SimpleData>
+                        <SimpleData name="Lat">41.85224</SimpleData>
+                        <SimpleData name="Lng">12.371173</SimpleData>
+                        <SimpleData name="Samples">3</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.370880404982,41.8520165161171 12.3714654049545,41.8520165161171 12.3714654049545,41.8524665161094 12.370880404982,41.8524665161094 12.370880404982,41.8520165161171</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3e">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.5</SimpleData>
+                        <SimpleData name="Lat">41.85764</SimpleData>
+                        <SimpleData name="Lng">12.398668</SimpleData>
+                        <SimpleData name="Samples">3</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3983757891983,41.857414312748 12.3989607891708,41.857414312748 12.3989607891708,41.8578643127403 12.3983757891983,41.8578643127403 12.3983757891983,41.857414312748</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b3f">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.42</SimpleData>
+                        <SimpleData name="Lat">41.85314</SimpleData>
+                        <SimpleData name="Lng">12.371757</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3714640536637,41.8529167846718 12.3720490536361,41.8529167846718 12.3720490536361,41.8533667846641 12.3714640536637,41.8533667846641 12.3714640536637,41.8529167846718</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b40">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">-0.19</SimpleData>
+                        <SimpleData name="Lat">41.881493</SimpleData>
+                        <SimpleData name="Lng">12.379948</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3796551623673,41.88126761475 12.3802401623398,41.88126761475 12.3802401623398,41.8817176147422 12.3796551623673,41.8817176147422 12.3796551623673,41.88126761475</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b41">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.05</SimpleData>
+                        <SimpleData name="Lat">41.82569</SimpleData>
+                        <SimpleData name="Lng">12.384628</SimpleData>
+                        <SimpleData name="Samples">8</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3843357959122,41.8254662231484 12.3849207958847,41.8254662231484 12.3849207958847,41.8259162231407 12.3843357959122,41.8259162231407 12.3843357959122,41.8254662231484</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b42">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.13</SimpleData>
+                        <SimpleData name="Lat">41.853592</SimpleData>
+                        <SimpleData name="Lng">12.370003</SimpleData>
+                        <SimpleData name="Samples">3</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3697102465958,41.8533669189492 12.3702952465683,41.8533669189492 12.3702952465683,41.8538169189414 12.3697102465958,41.8538169189414 12.3697102465958,41.8533669189492</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b43">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.13</SimpleData>
+                        <SimpleData name="Lat">41.855392</SimpleData>
+                        <SimpleData name="Lng">12.362983</SimpleData>
+                        <SimpleData name="Samples">9</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3626902499527,41.8551674560586 12.3632752499252,41.8551674560586 12.3632752499252,41.8556174560508 12.3626902499527,41.8556174560508 12.3626902499527,41.8551674560586</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b44">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.28</SimpleData>
+                        <SimpleData name="Lat">41.84639</SimpleData>
+                        <SimpleData name="Lng">12.391647</SimpleData>
+                        <SimpleData name="Samples">2</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3913548388809,41.8461647705117 12.3919398388534,41.8461647705117 12.3919398388534,41.8466147705039 12.3913548388809,41.8466147705039 12.3913548388809,41.8461647705117</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b45">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.28</SimpleData>
+                        <SimpleData name="Lat">41.86529</SimpleData>
+                        <SimpleData name="Lng">12.374097</SimpleData>
+                        <SimpleData name="Samples">2</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3738043704361,41.8650665954628 12.3743893704086,41.8650665954628 12.3743893704086,41.8655165954551 12.3738043704361,41.8655165954551 12.3738043704361,41.8650665954628</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b46">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.28</SimpleData>
+                        <SimpleData name="Lat">41.84864</SimpleData>
+                        <SimpleData name="Lng">12.394573</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3942807116837,41.8484154418984 12.3948657116562,41.8484154418984 12.3948657116562,41.8488654418907 12.3942807116837,41.8488654418907 12.3942807116837,41.8484154418984</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b47">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.28</SimpleData>
+                        <SimpleData name="Lat">41.86259</SimpleData>
+                        <SimpleData name="Lng">12.398668</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3983757891983,41.8623657897988 12.3989607891708,41.8623657897988 12.3989607891708,41.8628157897911 12.3983757891983,41.8628157897911 12.3983757891983,41.8623657897988</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b48">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.28</SimpleData>
+                        <SimpleData name="Lat">41.86484</SimpleData>
+                        <SimpleData name="Lng">12.370003</SimpleData>
+                        <SimpleData name="Samples">4</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3697102465958,41.8646164611855 12.3702952465683,41.8646164611855 12.3702952465683,41.8650664611778 12.3697102465958,41.8650664611778 12.3697102465958,41.8646164611855</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b49">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.38</SimpleData>
+                        <SimpleData name="Lat">41.855392</SimpleData>
+                        <SimpleData name="Lng">12.359473</SimpleData>
+                        <SimpleData name="Samples">15</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3591807284683,41.8551674560586 12.3597657284408,41.8551674560586 12.3597657284408,41.8556174560508 12.3591807284683,41.8556174560508 12.3591807284683,41.8551674560586</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4a">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.82569</SimpleData>
+                        <SimpleData name="Lng">12.360058</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3597653308243,41.8254662231484 12.3603503307968,41.8254662231484 12.3603503307968,41.8259162231407 12.3597653308243,41.8259162231407 12.3597653308243,41.8254662231484</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4b">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.828842</SimpleData>
+                        <SimpleData name="Lng">12.422068</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4217751422257,41.8286171630898 12.4223601421982,41.8286171630898 12.4223601421982,41.8290671630821 12.4217751422257,41.8290671630821 12.4217751422257,41.8286171630898</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4c">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.830643</SimpleData>
+                        <SimpleData name="Lng">12.412708</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4124157824845,41.8304177001992 12.4130007824569,41.8304177001992 12.4130007824569,41.8308677001914 12.4124157824845,41.8308677001914 12.4124157824845,41.8304177001992</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4d">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.830643</SimpleData>
+                        <SimpleData name="Lng">12.422653</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4223606982559,41.8304177001992 12.4229456982284,41.8304177001992 12.4229456982284,41.8308677001914 12.4223606982559,41.8308677001914 12.4223606982559,41.8304177001992</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4e">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.83604</SimpleData>
+                        <SimpleData name="Lng">12.402178</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4018853106827,41.83581549683 12.4024703106552,41.83581549683 12.4024703106552,41.8362654968223 12.4018853106827,41.8362654968223 12.4018853106827,41.83581549683</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b4f">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.83694</SimpleData>
+                        <SimpleData name="Lng">12.396913</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3966200747818,41.8367157653847 12.3972050747543,41.8367157653847 12.3972050747543,41.837165765377 12.3966200747818,41.837165765377 12.3966200747818,41.8367157653847</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b50">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.83694</SimpleData>
+                        <SimpleData name="Lng">12.398083</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3977902331681,41.8367157653847 12.3983752331405,41.8367157653847 12.3983752331405,41.837165765377 12.3977902331681,41.837165765377 12.3977902331681,41.8367157653847</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b51">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.83829</SimpleData>
+                        <SimpleData name="Lng">12.392817</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3925240435929,41.8380661682168 12.3931090435653,41.8380661682168 12.3931090435653,41.838516168209 12.3925240435929,41.838516168209 12.3925240435929,41.8380661682168</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b52">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.840992</SimpleData>
+                        <SimpleData name="Lng">12.393987</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3936942019791,41.8407669738808 12.3942792019516,41.8407669738808 12.3942792019516,41.8412169738731 12.3936942019791,41.8412169738731 12.3936942019791,41.8407669738808</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b53">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.842793</SimpleData>
+                        <SimpleData name="Lng">12.412123</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.4118302264542,41.8425675109902 12.4124152264267,41.8425675109902 12.4124152264267,41.8430175109825 12.4118302264542,41.8430175109825 12.4118302264542,41.8425675109902</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b54">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.84504</SimpleData>
+                        <SimpleData name="Lng">12.371173</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.370880404982,41.8448143676796 12.3714654049545,41.8448143676796 12.3714654049545,41.8452643676719 12.370880404982,41.8452643676719 12.370880404982,41.8448143676796</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark id="Coverage.fid--2bdae1cd_168c3638cce_2b55">
+                <ExtendedData>
+                    <SchemaData schemaUrl="#Coverage_1">
+                        <SimpleData name="Side_Lat">4.5E-4</SimpleData>
+                        <SimpleData name="VALUE_NUM">0.76</SimpleData>
+                        <SimpleData name="Lat">41.85224</SimpleData>
+                        <SimpleData name="Lng">12.392817</SimpleData>
+                        <SimpleData name="Samples">1</SimpleData>
+                        <SimpleData name="Side_Lng">5.85E-4</SimpleData>
+                    </SchemaData>
+                </ExtendedData>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <tessellate>1</tessellate>
+                            <coordinates>12.3925240435929,41.8520165161171 12.3931090435653,41.8520165161171 12.3931090435653,41.8524665161094 12.3925240435929,41.8524665161094 12.3925240435929,41.8520165161171</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+        </Folder>
+    </Document>
+</kml>

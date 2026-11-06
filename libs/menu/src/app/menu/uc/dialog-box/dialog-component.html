@@ -1,0 +1,43 @@
+<ng-template #template>
+  <!-- <div *ngIf="ErrorMessageIsVisible == false" class="modal fade show in danger" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content"> -->
+      <div class="modal-header" style="z-index: 5001; position: relative;">
+        <div *ngIf="!aboutMask" class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            <span [style.color]="getTitleColor()">
+              {{title}}
+            </span>
+          </h4>
+        </div>
+        <div *ngIf="!aboutMask" class="modal-body">
+          <p>{{ErrorMsg}}</p>
+        </div>
+
+        <div *ngIf="aboutMask" class="modal-body">
+          <div class=" text-center">
+            <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/BrandingElements/CompanyLogo.png'" style="max-width: 80px;">
+            <br />
+            <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/BrandingElements/logo_center.png'" style="max-width: 280px;">
+            <br />
+            Client Version: {{versione}}
+            <br />
+            Build Date: {{dataCompilazione}}
+            <br />
+            Platform Name: {{platFormName}}
+          </div>
+          <div *ngIf="statoServer" class="text-center" style="width: 100%; height: auto; margin-top: 10px;"
+            [style.background-color]="coloreSfondoAvviso">
+            {{statoManutenzione}}<br />
+            {{statoServer}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+      </div>
+    <!-- </div>
+  </div> -->
+</ng-template>

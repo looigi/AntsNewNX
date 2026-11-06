@@ -1,0 +1,15 @@
+<app-moduloapk
+  [visualizzaMaschera]="true"
+  [debug]="true"
+
+  (GPSEmit)="prendeGPS($event)"
+  (NetworkEmit)="prendeNetwork($event)"
+  (SatelliteEmit)="prendeSatellite($event)"
+  (CellInfoEmit)="prendeCellInfo($event)"
+  (CellLocationEmit)="prendeCellLocation($event)"
+  (SignalStrenghtEmit)="prendeSignalStrength($event)"
+  (InfoSistemaEmit)="prendeInfoSistema($event)"
+  (datiUlterioriEmit)="prendeDatiUlteriori($event)"
+  (connectionJSONEmit)="prendeConnectionJSON($event)"
+>
+</app-moduloapk>

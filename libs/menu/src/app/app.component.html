@@ -1,0 +1,28 @@
+<img [src]="'http://localhost:2727/assets/img/icons/hamburger.png'" (mouseover)="apriDrawer()"
+  style="margin-top: -2px; width: 25px; height: 25px; cursor: pointer; margin-right: 5px;" title="Open settings">
+
+<app-menu
+  [debug]="true"
+  [applicazione]="'System'"
+  [MenuVisibile]="menuVisibile"
+  [Altezza]="10"
+  [sessionID]="sessionID"
+  [posizione]="'absolute'"
+  [voceSelezionata]="'Ants'"
+  [chiudiTutteVoci]="chiudiVoci"
+  [statoServer]="'W Pippo baudo che è linto e pinto'"
+  [statoManutenzione]="'Pippo Pippo'"
+  [comandoVocale]="comandoVocale"
+  [platFormName]="'Platform'"
+
+  (chiusuraEmit)="chiudeDrawer($event)"
+  (PremutoEmit)="chiudiVoci = false;"
+  (lettoConfigJSON)="lettoJSON($event)"
+  (listaWorkSpacesEmit)="preseWS($event)"
+>
+</app-menu>
+
+<img src="http://localhost:2727/assets/img/icons/n1.png" width="32px" height="32px" (click)="chiudiVoci = true;" style="position: absolute; cursor: pointer; margin-right: 2px; right: 0px;">
+<img src="http://localhost:2727/assets/img/icons/n2.png" width="32px" height="32px" (click)="esegueComandoVocale();" style="position: absolute; cursor: pointer; margin-right: 32px; right: 0px;">
+
+

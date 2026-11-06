@@ -1,0 +1,9 @@
+.finestrella {
+  z-index: 9999;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #999;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 250px;
+}

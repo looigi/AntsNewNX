@@ -1,0 +1,156 @@
+<!--
+  [style.width.px]="formatoPopup == 'ORA' ? larghezzaOra : larghezzaData "
+-->
+<div [id]="'divCont_' + codiceDiv"
+    style="white-space: nowrap; z-index: 5999; height: 23px; display: flex; width: 100%;">
+    <div style="float: left; overflow: hidden; border: 1px solid #e6e6e6; background-color: white; margin-top: -2px;"
+      [style.width]="mostraIcona ? 'calc(100% - 35px)' : '100%'"
+    >
+      <!-- 
+        (focusout)="persoFocus()"         
+      -->
+
+      <input
+        [id]="nomeInputText"
+        type="text"
+        [title]="tooltip"
+        [attr.disabled]="disabilitato ? '' : null"
+        style="width: calc(100% - 3px); font-family: verdana; border: 0px; color: #353535;"
+        [style.font-size.px]="dimensioneFont"
+        [style.background-color]="'white'"
+        (focus)="presoFocus()"
+        (blur)="impostaDataTesto(dataPassataS)"
+        (keypress)="checkTasto($event)"
+        [(ngModel)]="dataPassataS">
+    </div>
+
+    <div *ngIf="mostraIcona" style="width: 35px; text-align: center; float: left; margin-top: -1px;">
+      <img *ngIf="Utils && Utils.linkIcone && !visibile && !disabilitato" [src]="Utils.linkIcone + '/icons/calendario.png'" (mouseover)="impostaData($event, true, false);" class="immagini" title="Set Date" (click)="impostaData($event, true, true);">
+      <img *ngIf="Utils && Utils.linkIcone && visibile && !disabilitato" [src]="Utils.linkIcone + '/icons/calendario2.png'" (mouseover)="impostaData($event, true, false);" class="immagini" title="Set Date" (click)="impostaData($event, true, true);">
+  </div>
+</div>
+
+<div *ngIf="visibile" class="finestraEsterna"
+  (mouseleave)="chiudeFinestraSePossibile()"
+  [style.background-color]="coloreSfondo"
+  [style.height]="formatoPopup == 'ORA' ? (scegliOra || scegliMinuto || scegliSecondo ? '200px': 'auto') : 'auto'"
+  [style.left]="ritornaPosX()"
+  [style.top]="ritornaPosY()">
+  <!-- <div *ngIf="scegliGiorno || scegliMese || scegliAnno || scegliOra || scegliMinuto || scegliSecondo"
+    class="blocca"
+    (click)="scegliGiorno = false; scegliMese = false; scegliAnno = false; scegliOra = false; scegliMinuto = false; scegliSecondo = false;">
+  </div> -->
+
+  <!-- <div *ngIf="formatoPopup === 'DATAORA' || formatoPopup === 'DATA'" class="nomeMese" [style.background-color]="sfondoMese" [style.border]="checkBordoMese()">
+    {{ nomiMesi[meseAttuale]}}&nbsp;{{ annoAttuale }}
+  </div> -->
+
+  <div *ngIf="formatoPopup === 'DATAORA' || formatoPopup === 'DATA'" style="width: 100%; text-align: center;">
+    <div style="width: 70px; float: left; text-align: center;">
+      <div class="bottone" [style.background-color]='coloreTastiPiuMeno' (click)="mesePrima()">-</div>
+    </div>
+    <div style="width: calc(100% - 144px); float: left; text-align: center; margin-top: 2px;">
+      <span (click)="scegliGiorno = !scegliGiorno; puoChiudere = !scegliGiorno; cosa='day';" class="cambio">{{ formatta(giornoAttuale) }}</span>&nbsp;
+      <span (click)="scegliMese = !scegliMese; puoChiudere = !scegliMese; cosa='month';" class="cambio">{{ nomiMesi[meseAttuale] }}</span>&nbsp;
+      <span (click)="scegliAnno = !scegliAnno; puoChiudere = !scegliAnno; cosa='year';" class="cambio">{{ formatta(annoAttuale) }}</span>
+      <br *ngIf="formatoPopup === 'DATAORA'" />
+      <span *ngIf="formatoPopup === 'DATAORA'" (click)="scegliOra = !scegliOra; puoChiudere = !scegliOra; cosa='hour';" class="cambio">{{ formatta(oraAttuale) }}:</span>
+      <span *ngIf="formatoPopup === 'DATAORA'" (click)="scegliMinuto = !scegliMinuto; puoChiudere = !scegliMinuto; cosa='minute';" class="cambio">{{ formatta(minutoAttuale) }}:</span>
+      <span *ngIf="formatoPopup === 'DATAORA'" (click)="scegliSecondo = !scegliSecondo; puoChiudere = !scegliSecondo; cosa='second';" class="cambio">{{ formatta(secondoAttuale) }}</span>
+    </div>
+    <div style="width: 70px; float: left; text-align: center;">
+      <div class="bottone" [style.background-color]='coloreTastiPiuMeno' (click)="meseDopo()">+</div>
+    </div>
+  </div>
+
+  <div *ngIf="formatoPopup === 'DATAORA' || formatoPopup === 'DATA'" style="clear: both;"></div>
+
+  <div style="width: auto; height: auto; text-align: center; display: inline-block;">
+    <div *ngIf="formatoPopup === 'DATAORA' || formatoPopup === 'DATA'">
+      <div *ngFor="let giorno of nomeGiorni; index as i;"
+        class="casellaGiorno"
+        [style.background-color]="i == 0 || i == 6 ? sfondoFestivoNomeGiorno : sfondoFerialeNomeGiorno"
+      >
+        {{ giorno.substring(0, 3) }}
+      </div>
+
+      <div style="clear: both;">
+      </div>
+
+      <div *ngFor="let giorno of giorni; index as i;"
+      >
+        <div *ngIf="giorno.Giorno != -1"
+          (click)="selezioneGiorno(giorno)"
+          class="casellaGiornoConHover"
+          [style.border]="giorno.InCorso ? giorno.Codice == oggiCodice ? '2px solid #f16221' : '2px solid transparent' : '2px solid transparent'"
+          [style.background-color]="ritornaColoreSfondo(giorno)">
+
+          {{giorno.Giorno}}
+        </div>
+        <div *ngIf="giorno.Giorno == -1" style="clear: both;">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="formatoPopup === 'ORA'" style="width: 100%; text-align: center;" >
+      <span (click)="scegliOra = !scegliOra; puoChiudere = !scegliOra;" class="cambio">{{ formatta(oraAttuale) }}:</span>
+      <span (click)="scegliMinuto = !scegliMinuto; puoChiudere = !scegliMinuto;" class="cambio">{{ formatta(minutoAttuale) }}:</span>
+      <span (click)="scegliSecondo = !scegliSecondo; puoChiudere = !scegliSecondo;" class="cambio">{{ formatta(secondoAttuale) }}</span>
+    </div>
+  </div>
+
+  <div (click)="chiudiScelta()"
+    *ngIf="formatoPopup != 'ORA' && (scegliGiorno || scegliMese || scegliAnno || scegliOra || scegliMinuto || scegliSecondo) && visibile"
+    class="oscura">
+    <div
+      (click)="chiudiScelta()"
+      style="position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 6002;
+        width: 100%;
+        height: 35px;
+        font-size: 30px;
+        font-family: Arial;
+        color: yellow;
+        font-weight: bold;">
+      Select the {{ cosa }}
+    </div>
+  </div>
+
+  <div *ngIf="scegliGiorno && visibile" class="sceltaGiorno">
+    <span (click)="sceltaGiorno(i + 1)" style="width: 50px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let g of giorniArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ formatta(i + 1) }}&nbsp;</span><br />
+    </span>
+  </div>
+
+  <div *ngIf="scegliMese && visibile" class="sceltaGiorno" style="margin-left: -50px; width: 150px;">
+    <span (click)="sceltaMese(i + 1)" style="width: 300px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let m of mesiArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ nomiMesi[i + 1] }}&nbsp;</span><br />
+    </span>
+  </div>
+
+  <div *ngIf="scegliAnno && visibile" class="sceltaGiorno">
+    <span (click)="sceltaAnno(a)" style="width: 50px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let a of anniArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ formatta(a) }}&nbsp;</span><br />
+    </span>
+  </div>
+
+  <div *ngIf="scegliOra && visibile" class="sceltaGiorno">
+    <span (click)="sceltaOra(o)" style="width: 50px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let o of oraArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ formatta(o) }}&nbsp;</span><br />
+    </span>
+  </div>
+
+  <div *ngIf="scegliMinuto && visibile" class="sceltaGiorno">
+    <span (click)="sceltaMinuto(m)" style="width: 50px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let m of minutoArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ formatta(m) }}&nbsp;</span><br />
+    </span>
+  </div>
+
+  <div *ngIf="scegliSecondo && visibile" class="sceltaGiorno">
+    <span (click)="sceltaSecondo(s)" style="width: 50px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; cursor: pointer;" *ngFor="let s of minutoArray; index as i;">
+      <span class="rigaGiorno">&nbsp;{{ formatta(s) }}&nbsp;</span><br />
+    </span>
+  </div>
+</div>

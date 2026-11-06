@@ -1,0 +1,61 @@
+
+.mascheraModificaSF {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    width: 40%;
+    padding: 3px;
+    padding-top: 35px;
+    height: 800px;
+    /* overflow: hidden; */
+    left: 10%;
+    top: 15%;
+    z-index: 1501;
+    text-align: left;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .mascheraModifica {
+      left: 0px !important;
+      width: 100% !important;
+    }
+  }
+
+  .bottoniIntestazione {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    text-align: right;
+    height: 35px;
+    top: 0px;
+    padding: 5px;
+    border-bottom: 1px solid #bbb;
+  }
+  
+  .immaginiIcone {
+    width: 33px;
+    height: 33px;
+    cursor: pointer;
+  }
+  
+  .titoloCombo {
+    /* background-color: #0a0; */
+    width: 35%;
+    float: left;
+    padding-top: 5px;
+    /* height: 40px;
+    margin-top: 16px !important; */
+    text-align: left;
+  }
+  
+  .contenutoPerCombo {
+    /* background-color: #a00; */
+    width: 64%;
+    float: left;
+    /* margin-top: 10px;
+    height: 40px; */
+    text-align: right;
+  }
+    

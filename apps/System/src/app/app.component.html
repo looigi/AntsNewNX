@@ -1,0 +1,432 @@
+
+<app-barra-superiore
+  [nomeApp]="nomiMaschere[qualeGriglia]"
+  [platformName]="platformName"
+  [Utils]="Utils"
+  [debug]="false"
+  [sessioneID]="sessionID"
+  [gruppo]="groupName"
+  [visualizzaSecondoMenu]="maschera == 'EV' || maschera == 'NV' || maschera == 'AV' || maschera == 'DBO' || maschera == 'ETLM'"
+  [microfonoAttivo]="microfonoAttivo"
+  [userName]="userName"
+  [groupName]="groupName"
+  [fullScreen]="fullScreen"
+  [urlRoot]="urlRoot"
+
+  (apreMenuEmit)="apreMenu()"
+  (apreMenu2Emit)="apreMenu2()"
+  (statoServerEmit)="statoServer = $event"
+  (statoManutenzioneEmit)="statoManutenzione = $event"
+  (coloreSfondoEmit)="coloreStatoServer = $event"
+  (comandoVocaleEmit)="comandoVocaleEmit($event)"
+  (dataOraServerEmit)="arrivataDataOraServer($event)"
+>
+</app-barra-superiore>
+
+<!-- 
+  [visibile]="slaManagerVisible"
+  [valoreDefault]="slaValueGlobale"
+-->
+<div *ngIf="slaManagerVisible" class="oscura"></div>
+<div *ngIf="slaManagerVisible" class="mascheraSLA">
+  <sla-manager-component
+    [slaGroup]="slaGroup"
+    [slaData]='datiSLA'
+    [ConnessioneStabilita]="'OK'"
+    [userName]="userName"
+    [misure]="measureData"
+    [Utils]="Utils"
+    [sessionID]="sessionID"
+
+    (confirmEmit)='confermaDaSla($event)'
+    (refreshSLAEmit)="refreshSLAManager($event)"
+    (visibileEmit)="slaManagerVisible = false"
+    >
+  </sla-manager-component>
+</div>
+
+<div #divContenitore style="width: 100%; height: calc(100vh - 35px); overflow: hidden; float: left;">
+  <div style="width: 100%; height: 100%; display: flex;">
+    <!-- <div style = "width: 24px; height: 100%; float: left; padding-left: 2px; padding-right: 2px; margin-top: -1px; background-color: white;">
+      <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/hamburger.png'" class="immagini" style="height: 20px; width: 20px;" (mouseover)="menuVisibile = true" />
+    </div> -->
+
+    <div style="width: 100%; float: left;">
+      <div style="width: 100%; height: 100%; display: block;">
+        <app-system-configuration
+          *ngIf="qualeGriglia==1"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [sessionID] = "sessionID"
+        >
+        </app-system-configuration>
+
+        <app-alarm-viewer
+          *ngIf="qualeGriglia==7"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [dateFrom] = "dateFrom"
+          [dateTo] = "dateTo"
+          [userName] = "userName"
+          [sessionID] = "sessionID"
+          [tipo] = "filtroTipo"
+          [autoUpdate]="autoUpdateAV"
+          [tempoAutoUpdate]="tempoAutoUpdateAV"
+        >
+        </app-alarm-viewer>
+
+        <app-event-viewer
+          *ngIf="qualeGriglia==2"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [dateFrom] = "dateFrom"
+          [dateTo] = "dateTo"
+          [filtro] = "filtro"
+          [agnLog] = "agnLog"
+          [sessionID] = "sessionID"
+        >
+        </app-event-viewer>
+
+        <app-service-monitor
+          *ngIf="qualeGriglia==3"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [sessionID] = "sessionID"
+        >
+        </app-service-monitor>
+
+        <app-etl-monitor
+          *ngIf="qualeGriglia==4"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [dateFrom] = "dateFrom"
+          [dateTo] = "dateTo"
+          [filtro] = "filtro"
+          [listaWorkSpaces]="listaWS"
+          [operatorID] = "operatorID"
+          [groupName] = "groupName"
+          [urlRoot] = "urlRoot"
+          [sessionID] = "sessionID"
+        >
+        </app-etl-monitor>
+
+        <app-db-objects
+          *ngIf="qualeGriglia==5"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [view_mode] = "viewModeS"
+          [sessionID] = "sessionID"
+        >
+        </app-db-objects>
+
+        <app-sessions
+          *ngIf="qualeGriglia==6"
+          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+          [indirizzoServer]="indirizzoServer"
+          [userName] = "userName"
+          [sessionID] = "sessionID"
+        >
+        </app-sessions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div style="position: absolute; left: 50%; top: 30%; width: auto; height: auto; display: block; overflow: hidden;">
+{{ dimeDrawer }} {{ menuVisibile }}<br />
+{{ dimeDrawer2 }} {{ menuVisibile2 }}<br />
+</div>
+
+<div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: 5px; top: 1px; width: 33px;
+  height: 33px; z-index: 2000; padding: 3px; background-color: #fff;" title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;"
+  (click)="connettitiAMano()">
+</div> -->
+
+<div kendoTooltip *ngIf="!collegatoDaUrl" style="position: absolute; right: calc(50% - 35px); top: 2px; width: 70px;
+  height: 33px; z-index: 2000; text-align: center; padding: 3px; background-color: #d8d888; border: 1px solid #999; border-radius: 3px;"
+  [style.opacity]="opacitaCAM" (mouseover)="opacitaCAM = 1" (mouseout)="opacitaCAM = .1"
+  title="Auto connect">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/delete2.png'" class="immagini" style="height: 25px; width: 25px;" (click)="pulisciPassword()">
+  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/connect.png'" class="immagini" style="height: 25px; width: 25px;" (click)="connettitiAMano()">
+</div>
+
+<!-- <div style="position: absolute; left: 50%; top: 30%; width: auto; height: auto; display: block; overflow: hidden;">
+{{ dimeDrawer }} {{ menuVisibile }}<br />
+</div>
+
+<div style="border: 1px solid #999; border-radius: 5px; padding: 5px; position: absolute; right: 100px; top: 1px; width: auto; height: auto; z-index: 9999; background-color: #ffffae;">
+  Visibile: {{menuVisibile}}<br />
+  vociChiuseMenu: {{vociChiuseMenu}}<br />
+  dimeDrawer: {{dimeDrawer}}
+</div> -->
+
+
+<div
+  [style.opacity]="menuVisibile ? 1 : 0"
+  [style.width] = "dimeDrawer"
+  [style.left]="menuVisibile ? '0px' : '-500px'"
+  (mouseover)="over1()"
+  (mouseleave)="leave1()"
+  style="position: absolute; border-right: 1px solid #999; display: flex; top: 35px; height: 100%;
+          background-color: #f4f4f4; z-index: 5000;">
+  <div [style.width]="dimeDrawer" style="float: left; overflow: auto;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+    padding-bottom: 50px;
+    ">
+    <!-- <br />
+    &nbsp;<img [src]="Utilities.linkIcone + '/icons/Maps.png'" class="immaginiCombo" style="width: 25px; height: 25px;">&nbsp;
+    <span style="font-weight: bold;">Context Menu</span>
+    <br /> -->
+
+    <app-menu
+      [debug]="modalitaDebug"
+      [MenuVisibile] = "menuVisibile"
+      [showButtons]="true"
+      [Altezza]="35"
+      [posizione]="'relative'"
+      [sessionID]="sessionID"
+      [voceSelezionata]="'System'"
+      [chiudiTutteVoci]="vociChiuseMenu"
+      [statoServer]="statoServer"
+      [statoManutenzione]="statoManutenzione"
+      [coloreStatoServer]="coloreStatoServer"
+      [comandoVocale]="comandoVocale"
+      [platFormName]="platformName"
+
+      (platFormNameEmit)="prendePlatFormName($event)"
+      (dataAttualeEmit)="prendeDateNowH($event)"
+      (symbTsEmit)="prendeSymb_TimeStamp($event)"
+      (premutoEmit)="premutoVoceMenu($event)"
+      (chiusuraEmit)="chiudeDrawer($event)"
+      (lettoConfigJSON)="lettoJSON($event)"
+      (listaWorkSpacesEmit)="lettiWS($event)"   
+      (userManualEmit)="fDownloadUserManual($event)"
+    >
+    </app-menu>
+      <!--       (userManualEmit) = "fDownloadUserManual($event)"
+ -->
+  </div>
+</div>
+<!-- {{ vociChiuseMenu }} - {{ contextAperto }} -->
+
+<div
+  [style.left]="menuVisibile2 ? '0px' : '-500px'"
+  [style.opacity]="menuVisibile2 ? 1 : 0"
+  [style.width] = "dimeDrawer2"
+  (mouseover)="over2()"
+  (mouseleave)="leave2()"
+  style="position: absolute; border-right: 1px solid #999; left: 0px; top: 35px; height: 100%; z-index: 5000;"
+  >
+  <div
+    style="width: 100%; height: 35px; z-index: 5005;
+      background-color: #4d6c87; padding: 2px; float: left;">
+    <div style="width: calc(100% - 35px); float: left; padding-left: 5px; color: white; padding-top: 5px;">
+      Context Menu
+    </div>
+    <div style="width: 35px; float: left; text-align: right; margin-top: -2px;">
+      <img *ngIf="Utils && Utils.linkIcone"
+        [src]="Utils.linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35' alt=''
+        style="cursor: pointer;" (click)="chiudeDrawer2($event);">
+    </div>
+  </div>
+  <div
+    style="float: left; border-right: 1px solid #999; height: 100%; width: 100%;
+            background-color: #f4f4f4;
+            -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+      overflow-y: auto; overflow-x: hidden;
+    ">
+    <div
+      [style.width]="dimeDrawer2"
+      style="padding: 2px; margin-bottom: 65px; height: auto;">
+      <!-- {{vociChiuseMenu}} -->
+    <!-- <p-accordion *ngIf="contextVisibile" [multiple]="true" [expandIcon]="''" [collapseIcon]="''">
+      <p-accordionTab [selected]="true" (selectedChange)="aperturaContext(); apreMenu();">
+        <p-header style="padding: 0px;">
+          <span style="margin-left: -10px;">
+            <img *ngIf="Utils && Utils.linkIcone" [src]="Utils.linkIcone + '/icons/menu.png'" class="immagini" style="height: 20px; width: 20px;">
+            Context Menu
+          </span>
+        </p-header> -->
+    <div *ngIf="maschera == 'EV'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;Filter
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px; height: auto;">
+        <input type ="text" [(ngModel)]="filtro" style="width: 100%;">
+      </div>
+    </div>
+    <div *ngIf="maschera == 'EV' || maschera == 'NV' || maschera == 'AV' || maschera == 'ETLM'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;From
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px">
+        <!-- <angular2-date-picker
+          name="dateFrom"
+          [(ngModel)]="dateFrom"
+          [settings]="{
+            color: '#999',
+            bigBanner: true,
+            timePicker: true,
+            defaultOpen: false,
+            format: 'yyyy-MM-dd HH:mm'
+          }"
+          style="font-size: 13px !important;">
+        </angular2-date-picker> -->
+
+        <app-calendario
+          [Utils]="Utils"
+          [dataPassata]="dateFrom"
+          [formatoPopup]="'DATAORA'"
+          [formato]="'yyyy-MM-dd HH:mm:ss'"
+          [chiusuraAutomatica]="true"
+          [larghezzaData]="175"
+
+          (dataSelezionata)="dateFrom = $event"
+        >
+        </app-calendario>
+      </div>
+    </div>
+
+    <div *ngIf="maschera == 'EV' || maschera == 'NV' || maschera == 'AV' || maschera == 'ETLM' || maschera == 'DBO'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;To
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px">
+        <!-- <angular2-date-picker name="dateTo" [(ngModel)]="dateTo"
+          [settings]="{
+            bigBanner: true,
+            timePicker: true,
+            defaultOpen: false,
+            format: 'yyyy-MM-dd HH:mm'
+          }"
+          style="font-size: 13px !important;">
+        </angular2-date-picker> -->
+
+        <app-calendario
+          [Utils]="Utils"
+          [dataPassata]="dateTo"
+          [formatoPopup]="'DATAORA'"
+          [formato]="'yyyy-MM-dd HH:mm:ss'"
+          [chiusuraAutomatica]="true"
+          [larghezzaData]="175"
+
+          (dataSelezionata)="dateTo = $event"
+        >
+        </app-calendario>
+      </div>
+
+      <div *ngIf="maschera == 'NV' || maschera == 'AV'" style="width: 99%; float: left;">
+        <div style="width: 25%; float: left; margin-top: 7px;">
+          &nbsp;View Type
+        </div>
+        <div style="width: 75%; float: left; margin-top: 5px">
+          <select [(ngModel)]="filtroTipo" style="width: 100%; height: 22px; background-color: white; color: #353535;">
+            <option value="Current">Alarm Status</option>
+            <option value="History">Alarm History</option>
+            <option value="Notifications">Notifications</option>
+          </select>
+        </div>
+      </div>
+
+    <div *ngIf="maschera == 'NV' || maschera == 'AV'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;Auto update
+      </div>
+      <div style="width: 75%; float: left; margin-top: 9px">
+        <input type="checkbox" [(ngModel)]="autoUpdateAV" (click)="clickAutoUpdateAV()" />
+      </div>
+    </div>
+
+    <div *ngIf="maschera == 'AV'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;SLA Manager
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px; margin-left: -3px;">
+        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+            [src]="Utils.linkIcone + '/icons/square-edit-outline.png'" class="immagini" style="height: 25px; width: 25px;" 
+            (click)="slaManagerVisible = true">
+      </div>
+    </div>
+
+    <div *ngIf="maschera == 'EV'" style="width: 99%; float: left;">
+      <div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;Include Agn log
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px">
+        <input type="checkbox" [(ngModel)]="agnLog" />
+      </div>
+    </div>
+
+    <div *ngIf="maschera == 'DBO'" style="width: 99%; float: left;">
+      <!--<div style="width: 25%; float: left; margin-top: 7px;">
+        &nbsp;View Mode
+      </div>
+      <div style="width: 75%; float: left; margin-top: 5px">
+         <app-combo-component
+          *ngIf="userName && datiViewMode"
+          [data] = "datiViewMode"
+          [userName]="userName"
+          [NomeCombo]="'datiViewModeDBO_G'"
+          [campoId]="'id'"
+          [campoTesto]="'name'"
+          [valoreDefault]="viewMode"
+          [ricordaUltimoValore]="true"
+          [pulisceValoriDiBase]="true"
+          [pulisceFiltro]="pulisceFiltroVM"
+
+          (selezioneEffettuata)="nonChiudereDrawer2 = false; selectViewMode($event); impostaNonChiudere2(false); menuVisibile2 = false;"
+          (ritornoValoreAttuale)="ritornoValoreDaComboVM($event); leave2();"
+
+          (eventoOpen)="impostaNonChiudere2(true)"
+          (eventoClose)="impostaNonChiudere2(false)"
+        >
+        </app-combo-component> -->
+        <app-ants-grid-lib
+          *ngIf="datiViewMode"
+          [indirizzoServer]="indirizzoServer"
+          [modalita]="'Griglia'"
+          [title]="nomeGrigliaVM"
+          [titleDaDatiGriglia] = "true"
+          [data]="datiViewMode"
+          [userName]="userName"
+          [maskName]="userName + '_grigliaVMode'"
+          [newKeyVisibile]='false'
+          [refreshKeyVisibile]='false'
+          [editKeyVisibile]='false'
+          [deleteKeyVisibile]='false'
+          [infoKeyVisibile]='true'
+          [confirmKeyVisibile]="false"
+          [processKeyVisibile]="false"
+          [selezioneMultipla]='false'
+          [impostaSelezione]="selezioneVM"
+          [AutoResize]="true"
+          [righeAutomatiche]="false"
+          [paginazione]="'scrollable'"
+          [linkIcone]="Utils.linkIcone"
+          [DimensioneFont]="12"
+          [processKeyVisibile]="true"
+          [raggruppabile]="true"
+          [campiPerRaggruppamento]="'FOLDER'"
+
+          (cellClick)="clickSelezioneVM($event)"
+          (lastSelectedOfGrid)='lastSelectedOfGridVM($event)'
+          (ritornoDimensioniColonne)="ritornoDimensioniColonneVM($event)"
+        >
+        </app-ants-grid-lib>
+
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf = "userManualPrint" class="bloccaSfondo" style="z-index: 5050;"></div>

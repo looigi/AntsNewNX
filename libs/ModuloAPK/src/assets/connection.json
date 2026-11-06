@@ -1,0 +1,9 @@
+{
+	"Proxy": "false",
+	"facadeServerAddressViaProxy": "http://10.100.7.26:2727/",
+	"facadeServerAddressLocale": "http://10.100.7.26:2727/",
+	"serverPostRest": "http://10.100.7.67:3000",
+	"linkIcone": "http://10.100.7.132/assets/img",
+	"serverGEOServer": "http://10.100.7.70:8080/geoserver/",
+	"urlRoot": "http://10.100.7.132/"
+}

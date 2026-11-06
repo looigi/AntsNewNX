@@ -1,0 +1,243 @@
+<app-ants-grid-lib
+    *ngIf="datiDiProvaTree"
+    [modalita]="'Tree'"
+     [title]="'prova'"
+     [data]="datiDiProvaTree"
+     [userName]="'Looigi'"
+     [maskName]="'Tree1'"
+     (lastSelectedOfTree)='lastSelectedOfTree($event)'
+     (stateChange)='cellClickTree($event)'>
+</app-ants-grid-lib>
+
+<div ngDraggable ngResizable style="position: absolute; left: 5%; top: 150px; border: 1px solid #000; width: 90%;
+  height: 50%; overflow: hidden;"
+>
+<!--       (pubblicazioneRigheSelezionate)="arrivataListaEventiSE($event)"
+-->
+  <app-ants-grid-lib
+    *ngIf="datiDiProvaGrid"
+    [debug]="false"
+    [righePerPaginareAutomaticamente]="30"
+    [modalita]="'Griglia'"
+    [title]="'prova provetta provuzza'"
+    [data]="datiDiProvaGrid"
+    [userName]="'Looigi'"
+    [maskName]="'Griglia1'"
+    [newKeyVisibile]='tastoNewVisibile'
+    [editKeyVisibile]='tastoEditVisibile'
+    [editKeyVisibileN]='tastoEditVisibile'
+    [confirmKeyVisibile]='tastoConfermaVisibile'
+    [deleteKeyVisibile]='true'
+    [delete2KeyVisibile]='true'
+    [deleteKeyTcRunVisibile]='true'
+    [addKeyVisibile]='tastoDeleteVisibile'
+    [removeKeyVisibile]='tastoDeleteVisibile'
+    [copyKeyVisibile]='true'
+    [copyKeyPersistant]="true"
+    [tooltipCopy]="'W Pippo'"
+    [eliminaSelezioniSuClickRiga]="true"
+    [actSet]="'[NomeActSet]'"
+    [tooltipDelete]="'Sbrago tutto'"
+    [tastoMoveToPointVisibile]="true"
+    [eseguiAutoFitAutomatico]="true"
+
+    [ricordaSelezione]='false'
+    [pulisceSelezione]='false'
+    [rinfrescaGriglia]='rinfrescaGriglia'
+    [infoKeyVisibile]='true'
+    [refreshKeyVisibile]="true"
+    [impostaSelezione]="selezione"
+    [DimensioneFont]="12"
+    [AutoResize]="autoResize"
+    [ManualResize]="effettuaAutoResize"
+
+    [selezioneMultipla]='selezioneMultipla'
+    [selectAll]="true"
+    [possoSelezionareTutto]="true"
+    [selezionaTuttiPerFiltro]="false"
+
+    [tastoCopia]="true"
+    (pasteEmit)="pasteEmit($event)"
+
+    [raggruppabile]='raggruppabile'
+    [campiPerRaggruppamento]="'OPERATOR_NAME,FOLDER'"
+    [iconaFolderGroupVisibile]="true"
+    (groupClickEmit)="groupClickEmit($event)"
+    [collassaTutto]="true"
+    [espandiTutto]="false"
+    [CalcolaDelta]="true"
+    [CampoCalcolaDelta]="'delta'"
+    [visualizzaScrittaFolder]="false"
+
+    [visualizzaCampiUlterioriColumnSelector]="false"
+
+    [impostaPagina]="numeroPaginaImpostata"
+
+    [itemsMenu]="itemsMenu"
+    [tastoSync]="true"
+
+    [filtroEventi]="true"
+    [filtroAttivoPass]="'W il filtro'"
+
+    [filtroVisibile]="true"
+
+    [gestioneTicket]="true"
+    [sessioneAttuale]="sessioneID"
+
+    [titleDaDatiGriglia]="true"
+
+    [righeAutomatiche]="righeAutomatiche"
+
+    [paginazione]="paginazione"
+    [righePerPaginaVirtuale]="righePerPaginaVirtuale"
+
+    [PermetteDragDrop]="permetteDragDrop"
+    [toolbarVisibile]="true"
+
+    [datiNuovi]="datiDiProvaGrid && datiDiProvaGrid.DataTable"
+
+    [stampaTempiGrid]="false"
+
+    [excelEventi]="false"
+
+    [linkIcone]="'http://localhost:2727/assets/img'"
+
+    [nomiColonne]="nomiColonne"
+
+    [attesaClick] = "true"
+    [tempoRipristinoAttesa] = "500"
+    [visualizzaToolTipGrafici]="false"
+    [addToActSetOn]="true"
+
+    [runKeyVisibile]="true"
+    [processKeyVisibile]="true"
+
+    [keyWorkspace]="true"
+
+    [indirizzoServer]="indirizzoServer"
+
+    [backToSelectedKey] ="true"
+
+    [rePlayKeyVisibile] = "true"
+
+    [tastoTicket]="true"
+    [messaggioWarning]="warning"
+    [paginabile]="true"
+
+    [misureAddizionaliTCRUN]="misureAddizionaliTCRUN"
+    [gestisceComboTramiteCookie]="gestisceComboTramiteCookie"
+    
+    [getTcRunFilesKeyVisibile]="true"
+    (getTcRunFilesKeyTcRunPressed)="fGetTcRunFiles($event)"
+
+    [metteInPausaGrigliaDaAutoRun]="datiPerPausa"
+    (pausaGrigliaDaAutoRunEmit)="fPausaAutorun($event)"
+
+    [includeKeyVisibile]="true"
+    [excludeKeyVisibile]="true"
+    (includeClick)="includeClick($event)"
+    (excludeClick)="excludeClick($event)"
+
+    [tcRunInfoVisibile]="true"
+    (aperturaTcRunInfo)="aperturaTcRun()"
+
+    [tcRun2Refresh] = "true"
+    [tcRun2RefreshAttivo] = "true"
+    (refreshTcRunEmit)="refreshTcRun()"
+
+    [scrollAllaRiga]="scroll"
+
+    [impostaMisure]="misureCombo"
+
+    [newKeyPersistant]="true"
+    [deleteKeyPersistant]="true"
+    [listaElementi]="false"
+
+    [tastoAI]="true"
+    (ritornoQueryAI)="ritornoQueryAI($event)"
+
+    (emitAITutte)="ritornoTastoAiTutte($event)"
+
+    [coloreSfondoEliminazione]="'#EEEEEE'"
+    [titoloEliminazione]="'Vuoi eliminare ?'"
+    [coloreTestoEliminazione]="'#000000'"
+    [scriveQuanteSuEliminazione]="true"
+
+    [tcRunInfoTitle] = "'Tc Run Info'"
+
+    [downloadTDKey] = "true"
+    [downloadTDTitle] = "'Download TD'"
+    [modalitaTDDownload] = "'tutto'"
+
+    [mistralFilters] = "true"
+    (clickSuMistralFilter)="clickSuMistralFilters()"
+    
+    [tastoSpreadSheet] = "true"
+
+    (refresh)='refreshGrid1($event)'
+    (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+    (newKeyPressed)='premutoTastoNew($event)'
+    (editKeyPressed)='premutoTastoEdit($event)'
+    (editKeyNPressed)='premutoTastoEditN($event)'
+    (deleteKeyPressed)='premutoTastoDelete($event)'
+    (deleteKeyPressed2)='premutoTastoDelete2($event)'
+    (deleteKeyTcRunPressed)='premutoTastoDeleteTcRun($event)'
+    (addKeyPressed)='premutoTastoAdd($event)'
+    (removeKeyPressed)='premutoTastoRmove($event)'
+    (confirmKeyPressed)='premutoTastoConfirm($event)'
+    (cellClick)='cellClickGrid($event)'
+    (clickSelezioneSuCheckRiga)='fattoClickSuCheck1($event)'
+    (copyKeyPressed)='copyKeyPremuto($event)'
+    (detectFineDragDrop)="fineDragDrop($event)"
+    (detectCambioPagina)="cambioPagina($event)"
+    (detectSetDelta)="cambioDelta($event)"
+    (clickOnMenu)="premutoMenu($event)"
+    (synchroniseEmit)="premutoSync($event)"
+    (eventiFiltersEmit)="cambioFiltroEventi($event)"
+    (dimensioniGrigliaEmit)="dimensioniGriglia($event)"
+    (excelEventiEmit)="premutoExcelEventi($event)"
+    (clickSuIconaEmit)="premutoSuIcona($event)"
+    (numeroRighePagina)="numeroRighePagina($event)"
+
+    (stoPassandoSulGrafico)="scriveStoPSG($event)"
+    (addToActSetEmit)="scriveAddToActSet($event)"
+    (downloadTDEmit)="scriveDownloadTD($event)"
+
+    (runKeyPressed)="runPremuto($event)"
+    (processKeyPressed)="processKeyPremuto($event)"
+
+    (keyWorkspaceEmit)="premutoWorkSpace($event)"
+
+    (backToSelectedEmit) = "fBackToSelectedKey($event)"
+
+    (rePlayKeyPressed)="rePlayKeyPressed($event)"
+    (editTicketPressed)="editTicketPressed($event)"
+    (clickSuGrafico)="clickSuGrafico($event)"
+    (selectedAllRows)="selectedAllRows($event)"
+
+    (clickSuComboMisura)="clickSuComboMisura($event)"
+
+    [limitaRighe]="limitaRighePerDebug"
+
+    (ritornoDimensioniColonne)="ritornoDimensioniColonne($event)"
+  >
+  </app-ants-grid-lib>
+</div>
+
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n1.png'" width="32px" height="32px" title="Cambia nomi colonne" (click)="cambiaNomiColonne()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n2.png'" width="32px" height="32px" title="Imposta pagina" (click)="impostaPagina()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n3.png'" width="32px" height="32px" title="Rinfresca dati" (click)="rinfrescaDati()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n4.png'" width="32px" height="32px" title="Autoresize da tasto" (click)="effettuaAutoResize = !effettuaAutoResize" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n5.png'" width="32px" height="32px" title="Accendi spegni tasti"(click)="accendiSpegniTasti()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n6.png'" width="32px" height="32px" title="Seleziona Riga" (click)="selezionaRiga()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n7.png'" width="32px" height="32px" title="Imposta autorun" (click)="fImpostaAutorun()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n8.png'" width="32px" height="32px" title="Imposta selected" (click)="fImpostaSelected()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/n9.png'" width="32px" height="32px" title="Manda Warning" (click)="mandaWarning()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/arrow-expand-right.png'" width="32px" height="32px" title="Vai alla riga" (click)="scrollaAllaRiga()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/AdHocTests.png'" width="32px" height="32px" title="Imposta misure combo" (click)="impostaMisureCombo()" style="cursor: pointer; margin-right: 2px;">
+<img [src]="Utils.indirizzoServer + 'geoantsweb/assets/img/icons/close.png'" width="32px" height="32px" title="Distrugge tutto" (click)="distruggeTutto()" style="cursor: pointer; margin-right: 2px;">
+
+<br />
+AutoRun: {{autoRunAttivo}}
+<br />
+Time Mode: {{timeMode}}

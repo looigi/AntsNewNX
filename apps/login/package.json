@@ -1,0 +1,55 @@
+{
+  "name": "login",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "serve": "node --max_old_space_size=2048 node_modules/@angular/cli/bin/ng serve",
+    "build-prod": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --configuration production --aot",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.2.14",
+    "@angular/common": "^18.2.14",
+    "@angular/compiler": "^18.2.14",
+    "@angular/core": "^18.2.14",
+    "@angular/forms": "^18.2.14",
+    "@angular/platform-browser": "^18.2.14",
+    "@angular/platform-browser-dynamic": "^18.2.14",
+    "@angular/router": "^18.2.14",
+    "@progress/kendo-theme-default": "^3.7.0",
+    "bootstrap": "^5.3.8",
+    "hammerjs": "^2.0.8",
+    "menu": "file:menu-0.3.68.tgz",
+    "moduloapk": "file:modulo-apk-0.0.55.tgz",
+    "ngx-bootstrap": "^18.1.3",
+    "primeicons": "^7.0.0",
+    "primeng": "^18.0.2",
+    "rxjs": "^7.8",
+    "sweetalert2": "^11.7.3",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.14.10"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.2.21",
+    "@angular/cli": "~18.2.21",
+    "@angular/compiler-cli": "^18.2.14",
+    "@types/jasmine": "~4.3.0",
+    "jasmine-core": "~4.5.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "typescript": "~5.4.5"
+  },
+  "allowScripts": {
+    "esbuild@0.23.0": true,
+    "esbuild@0.21.5": true,
+    "lmdb@3.0.13": true,
+    "msgpackr-extract@3.0.4": true
+  }
+}

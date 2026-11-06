@@ -1,0 +1,16 @@
+.bottone2 {
+    width: 90%;
+    cursor: pointer;
+    float: left; 
+    overflow: hidden;
+    color: white; 
+    text-align: center; 
+    border: 1px solid #999; 
+    background-color: #cf4b11; 
+    border-radius: 3px;
+    padding-top: 7px;
+}
+
+.bottone2:hover {
+    background-color: #f06023; 
+}

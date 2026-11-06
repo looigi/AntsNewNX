@@ -1,0 +1,27 @@
+{
+  "name": "BarraSuperiore",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/BarraSuperiore/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/BarraSuperiore"
+      ],
+      "options": {
+        "project": "libs/BarraSuperiore/ng-package.json",
+        "tsConfig": "libs/BarraSuperiore/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/BarraSuperiore/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

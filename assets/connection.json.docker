@@ -1,0 +1,11 @@
+{
+        "Proxy": "false",
+        "facadeServerAddressViaProxy": "http://10.100.7.26:2727/",
+        "facadeServerAddressLocale": "http://10.100.7.26:2727/",
+	"serverPostRest": "https://antsk8sttest-1595377875.eu-south-1.elb.amazonaws.com",
+        "serverGEOServer": "https://antsk8sttest-1595377875.eu-south-1.elb.amazonaws.com/geoserver/",
+	"linkIcone": "https://antsk8sttest-1595377875.eu-south-1.elb.amazonaws.com/geoantsweb/assets/img",
+	"urlRoot": "https://antsk8sttest-1595377875.eu-south-1.elb.amazonaws.com/geoantsweb/",
+	"urlAnalytics": "https://ants-speedtest.kb.eu-west-1.aws.found.io:9243/s/coop-dev/app/dashboards#/view/bd804620-d5b5-11ec-a1b4-e3dfd7b74b8b?_g=(filters:!())",
+	"eventsDisplayedRows": 10
+}

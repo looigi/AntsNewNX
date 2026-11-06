@@ -1,0 +1,86 @@
+<div style="width: 100%; height: 100%;">
+  <!--     
+    [ManualResize]="effettuaAutoFit"
+  -->
+  <app-ants-grid-lib
+    *ngIf="datiGriglia"
+    [sessioneAttuale]="sessionID2"
+    [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+    [indirizzoServer]="indirizzoServer"
+    [modalita]="'Griglia'"
+    [title]="nomeGriglia"
+    [titleDaDatiGriglia] = "true"
+    [data]="datiGriglia"
+    [userName]="userName"
+    [maskName]="userName + '_grigliaGD'"
+    [newKeyVisibile]='false'
+    [refreshKeyVisibile]='true'
+    [editKeyVisibile]='true'
+    [deleteKeyVisibile]='false'
+    [infoKeyVisibile]='true'
+    [confirmKeyVisibile]="false"
+    [selezioneMultipla]='false'
+    [impostaSelezione]="selezione"
+    [AutoResize]="true"
+    [righeAutomatiche]="false"
+    [paginazione]="'scrollable'"
+    [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+    [messaggioWarning]="messaggioWarning"
+    [linkIcone]="Utils.linkIcone"
+    [raggruppabile]='true'
+    [campiPerRaggruppamento]="'FOLDER'"
+    [DimensioneFont]="12"
+    [visualizzaScrittaFolder]="false"
+
+    (cellClick)="clickSelezione($event)"
+    (lastSelectedOfGrid)='lastSelectedOfGrid($event)'
+    (refresh)='refreshGrid1($event, false)'
+    (editKeyPressed)="premutoEdit($event)"
+    (resetLayout)='refreshGrid1($event, true)'
+    (ritornoDimensioniColonne)="ritornoDimensioniColonneSM($event)"
+  >
+  </app-ants-grid-lib>
+
+  <div *ngIf="caricamentoDatiInCorso == true" class="k-i-loading"
+    style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+  ></div>
+</div>
+
+<ng-container *ngIf="mascheraEdit && rigaSelezionata && rigaSelezionata[0]">
+  <div class="oscura" style="position: fixed;"></div>
+  <div class="drag-boundary" ngDraggable [handle]="handleMenuMR"
+    style="
+      width: 35%;
+      height: auto;
+      top: 40%;
+      left: 30%;
+      border: 1px solid #999;
+      background-color: white;
+      position: fixed;
+      z-index: 9999;
+      border-radius: 3px;
+      box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+      padding: 3px;">
+      <div class="bottoniIntestazione" style="background-color: #565656; height: 33px;">
+        <div #handleMenuMR class="drag-block" style="width: calc(100% - 80px); float: left; text-align: left; color: white;">
+          Expected ID Edit
+        </div>
+        <div style="width: 80px; float: left; text-align: right; margin-top: -4px;">
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" 
+            [src]="Utils.linkIcone + '/icons/check-circle_white.png'" style="width: 30px; height: 30px; cursor: pointer;" 
+            title="Apply Filter" (click)="inviaModifica();" >
+          <!-- <img *ngIf="linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="linkIcone + '/icons/ResetLayout.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Delete filter" (click)="filtroAttivo = ''; eventFilterEmit();" > -->
+          <img *ngIf="Utils.linkIcone" [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+            [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="mascheraEdit = false" title="Close" class="immaginiIcone">
+        </div>
+      </div>
+      <div style="float: left; width: 100%; text-align: left; margin-top: 35px; height: 25px;">
+        <div style="width: 50%; float: left;">
+          {{rigaSelezionata[0].NAME}}
+        </div>
+        <div style="width: 50%; float: left;">
+          <input type="text" style="width: 100%;" [(ngModel)]="rigaSelezionata[0].EXPECTED_ID">
+        </div>
+      </div>
+    </div>
+  </ng-container>

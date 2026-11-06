@@ -1,0 +1,513 @@
+<!-- <div 
+  *ngIf="debugPivot"
+  style="
+    position: absolute;
+    width: auto; 
+    height: auto;
+    padding: 3px;
+    left: 0px;
+    bottom: 0px;
+    border: 1px solid red;
+    background-color: rgb(209, 209, 209);
+    margin: 2px;
+    z-index: 6000;
+  ">
+  Virtualization&nbsp;<input type="checkbox" [checked]="virtualization" (change)="checkVirt($event)" />
+</div> -->
+
+<div style="width: 100%; height: 100%;">
+  <as-split (dragEnd) = "dragEndVerticale($event)" direction="vertical" [gutterSize]="3"  [disabled]="layout != 3">
+    <as-split-area [size]="dimensioni.dimensioneVerticaleSopra" style="overflow: hidden;">
+      <!-- <as-split (dragEnd) = "dragEndOrizzontale1($event)" direction="horizontal" [gutterSize]="3">
+        <as-split-area [size]="dimensioni.dimensioneAggr" style="overflow: hidden;"> -->
+          <div style="width: 100%; height: 100%;">
+            <!--
+              [virtualizationAttiva]="virtualization"
+            -->
+            <div style="width: 100%; height: 100%; float: left;">
+              <pivot-component
+                [debug]="debugPivot"
+                [numeroFrame]="numeroFrame"
+                [frameAttivo]="frameAttivo"
+                [sessioneID]="sessionID"
+                [actSet]="act_set"
+                [tmsMin]="tmsMin"
+                [tmsMax]="tmsMax"
+                [tmsRangeMin]="tmsGlobaleMin"
+                [tmsRangeMax]="tmsGlobaleMax"
+                [fieldList]="listaCampiAttuale ? listaCampiAttuale : []"
+                [impostazioniPivot]="impostazioniPivot2"
+                [Utilities]="Utils"
+                [Titolo]="TitoloPivot"
+                [cambioDimensioneContenitore]="cambioDimensioneContenitorePivot"
+                [refreshDati]="refreshPivot"
+                [pulisceDati]="puliziaDati"
+                [expandAll]="expandAll"
+                [tipoDisplay]="tipoDisplay"
+                [debugEstremo]="debugEstremo"
+        
+                (ritornoSettings)="ritornoSettings($event)"
+                (clickCellaEmit)="clickCellaPivot($event)"
+              ></pivot-component>
+            </div>
+            <!-- <div style="width: 100%; height: 28px; padding: 2px; text-align: left; float: left;">
+              <button *ngIf="!expandAll" (click)="expandAll = !expandAll">Expand All</button>
+              <button *ngIf="expandAll" (click)="expandAll = !expandAll">Collapse All</button>
+              &nbsp;
+              <button *ngIf="tipoDisplay == 'Table'" (click)="tipoDisplay = 'Both'">Activate Chart</button>
+              <button *ngIf="tipoDisplay == 'Both'" (click)="tipoDisplay = 'Table'">De-Activate Chart</button>
+            </div> -->
+          </div>
+        <!-- </as-split-area>
+
+        <as-split-area [size]="dimensioni.dimensioneConfig" style="overflow: hidden;">
+          <div style="width: 100%; height: 100%;">
+            <span *ngIf="!datiConfig && !erroreConfig" style="width: 100%; text-align: left;">
+              {{frameName}} Config: No data to be displayed
+            </span>
+            
+            <span *ngIf="erroreConfig" style="width: 100%; text-align: left; color: red;">
+              {{frameName}} Config: {{erroreConfig}}
+            </span>
+
+            <app-ants-grid-lib
+              *ngIf="datiConfig && !erroreConfig"
+              [sessioneAttuale]="sessionID"
+              [debug]="debugConfig"
+              [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+              [indirizzoServer]="indirizzoServer"
+              [modalita]="'Griglia'"
+              [title]="frameName"
+              [titleDaDatiGriglia] = "true"
+              [data]="datiConfig"
+              [userName]="userName"
+              [maskName]="nomeGrigliaConfig[numeroFrame] + '_' + frameAttivo"
+              [newKeyVisibile]='false'
+              [refreshKeyVisibile]='true'
+              [editKeyVisibile]='false'
+              [deleteKeyTcRunVisibile]='false'
+              [infoKeyVisibile]='true'
+              [confirmKeyVisibile]="false"
+              [selezioneMultipla]='false'
+              [ricordaSelezione]='true'
+              [raggruppabile]='true'
+              [campiPerRaggruppamento]="'FOLDER'"
+              [impostaSelezione]="impostaSelezioneConfig"
+              [DimensioneFont]='12'
+              [AutoResize]="false"
+              [ManualResize]="effettuaAutoFitConfig"
+              [paginazione]="'scrollable'"
+              [linkIcone]="Utils.linkIcone"
+              [datiNuovi]="datiConfig && datiConfig.DataTable"
+              [cambioTitolo]="frameName"
+              
+              [tcRun2Refresh] = "true"
+              [tcRun2RefreshAttivo] = "tastoRefreshAttivo"
+              (refreshTcRunEmit)="propagaListaCampi()"
+
+              (clickSuIconaEmit)="clickIconaConfig($event)"
+              (cellClick)="clickRigaConfig($event)"
+              (refresh)="refreshConfig(false)"
+              (resetLayout)="refreshConfig(true)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoConfigInCorso == true && !modalitaRealTimeAttiva" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+            <div *ngIf="caricamentoConfigInCorso == true && modalitaRealTimeAttiva" class="k-i-loadingRT">
+              <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+            </div>
+          </div>
+        </as-split-area>
+
+        <as-split-area [size]="dimensioni.dimensioneConfigList" style="overflow: hidden;">
+          <div style="width: 100%; height: 100%;">
+            <span *ngIf="!datiConfigList && !erroreConfigList" style="width: 100%; text-align: left;">
+              {{frameName}} Config List: No data to be displayed
+            </span>
+            
+            <span *ngIf="erroreConfigList" style="width: 100%; text-align: left; color: red;">
+              {{frameName}} Config List: {{erroreConfigList}}
+            </span>
+
+            <app-ants-grid-lib
+              *ngIf="datiConfigList && !erroreConfigList"
+              [sessioneAttuale]="sessionID"
+              [debug]="debugConfigList"
+              [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+              [indirizzoServer]="indirizzoServer"
+              [modalita]="'Griglia'"
+              [title]="frameName"
+              [titleDaDatiGriglia] = "true"
+              [data]="datiConfigList"
+              [userName]="userName"
+              [maskName]="nomeGrigliaConfigList[numeroFrame] + '_' + frameAttivo"
+              [newKeyVisibile]='false'
+              [refreshKeyVisibile]='true'
+              [editKeyVisibile]='false'
+              [deleteKeyTcRunVisibile]='false'
+              [infoKeyVisibile]='true'
+              [confirmKeyVisibile]="false"
+              [selezioneMultipla]='false'
+              [ricordaSelezione]='true'
+              [impostaSelezione]="impostaSelezioneConfigList"
+              [DimensioneFont]='12'
+              [AutoResize]="false"
+              [ManualResize]="effettuaAutoFitConfigList"
+              [paginazione]="'scrollable'"
+              [linkIcone]="Utils.linkIcone"
+              [datiNuovi]="datiConfigList && datiConfigList.DataTable"
+              [cambioTitolo]="frameName"
+
+              (clickSuIconaEmit)="clickIconaConfigList($event)"
+              (cellClick)="clickRigaConfigList($event)"
+              (refresh)="refreshConfigList(false)"
+              (resetLayout)="refreshConfigList(true)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoConfigListInCorso == true && !modalitaRealTimeAttiva" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+            <div *ngIf="caricamentoConfigListInCorso == true && modalitaRealTimeAttiva" class="k-i-loadingRT">
+              <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+            </div>
+          </div>
+        </as-split-area>
+      </as-split> -->
+    </as-split-area>
+
+    <as-split-area [size]="dimensioni.dimensioneVerticaleSotto" style="overflow: hidden;">
+      <as-split (dragEnd) = "dragEndOrizzontale2($event)" direction="horizontal" [gutterSize]="3">
+        <as-split-area [size]="dimensioni.dimensioneList" style="overflow: hidden;">
+          <div style="width: 100%; height: 100%;">
+            <span *ngIf="!datiList && !erroreList" style="width: 100%; text-align: left;">
+              {{frameName}} List: No data to be displayed
+            </span>
+            
+            <span *ngIf="erroreList" style="width: 100%; text-align: left; color: red;">
+              {{frameName}} List: {{erroreList}}
+            </span>
+
+            <app-ants-grid-lib
+              *ngIf="datiList && !erroreList"
+              [sessioneAttuale]="sessionID"
+              [debug]="debugList"
+              [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+              [indirizzoServer]="indirizzoServer"
+              [modalita]="'Griglia'"
+              [title]="frameName"
+              [titleDaDatiGriglia] = "true"
+              [data]="datiList"
+              [userName]="userName"
+              [maskName]="nomeGrigliaList[numeroFrame] + '_' + frameAttivo"
+              [newKeyVisibile]='false'
+              [refreshKeyVisibile]='true'
+              [editKeyVisibile]='false'
+              [deleteKeyTcRunVisibile]='true'
+              [infoKeyVisibile]='true'
+              [confirmKeyVisibile]="false"
+              [selezioneMultipla]='true'
+              [ricordaSelezione]='true'
+              [impostaSelezione]="impostaSelezioneList"
+              [DimensioneFont]='12'
+              [AutoResize]="false"
+              [ManualResize]="effettuaAutoFitList"
+              [paginazione]="'scrollable'"
+              [linkIcone]="Utils.linkIcone"
+              [datiNuovi]="datiList && datiList.DataTable"
+              [cambioTitolo]="frameName"
+              [tastoTicket]="tcRunSelected"
+              [keyWorkspace]="tcRunSelected"
+              [listaWorkSpaces]="listaWorkspaces"
+              [tcRunInfoVisibile]="true"
+        
+              (cellClick)="clickRigaList($event)"
+              (refresh)="refreshList(false)"
+              (resetLayout)="refreshList(true)"
+              (aperturaTcRunInfo)="aperturaInfoFile()"
+              (deleteKeyTcRunPressed)='premutoTastoDeleteTCrun($event)'
+              (editTicketPressed)="premutoTastoTicket($event)"           
+              (keyWorkspaceEmit)="premutoWorkSpaceList($event)"
+              (ritornoDimensioniColonne)="ritornoDimensioniColonneList($event)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoListInCorso == true && !modalitaRealTimeAttiva" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+            <div *ngIf="caricamentoListInCorso == true && modalitaRealTimeAttiva" class="k-i-loadingRT">
+              <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+            </div>
+          </div>
+        </as-split-area>
+
+        <as-split-area [size]="dimensioni.dimensioneInfo" [visible]="dimensioni.apertoInfoFile" style="overflow: hidden;">
+          <kendo-tabstrip (tabSelect)="onTabChanged($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+          <!-- <mat-tab-group #tabgroup id="tabgroup" animationDuration="0ms" (selectedTabChange)="onTabChanged($event);">
+            <mat-tab label="TcRun Prm and Measr"> -->
+            <kendo-tabstrip-tab >
+              <ng-template kendoTabTitle>
+                <span>TcRun Prm and Measr</span>
+              </ng-template>
+              <ng-template kendoTabContent>
+                <div style="width: 100%; height: 100%;">
+                  <span *ngIf="!datiTcRunInfo && !erroreInfo" style="width: 100%; text-align: left;">
+                    {{frameName}} Info: No data to be displayed
+                  </span>
+                  
+                  <span *ngIf="erroreInfo" style="width: 100%; text-align: left; color: red;">
+                    {{frameName}} Info: {{erroreInfo}}
+                  </span>
+
+                  <!--
+                  -->
+                  <app-ants-grid-lib
+                    *ngIf="datiTcRunInfo && !erroreInfo"
+                    [sessioneAttuale]="sessionID"
+                    [debug]="debugInfo"
+                    [indirizzoServer]="indirizzoServer"
+                    [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                    [modalita]="'Griglia'"
+                    [title]="'Tc Run Info'"
+                    [data]="datiTcRunInfo"
+                    [userName]="userName"
+                    [maskName]="nomeGrigliaInfo[numeroFrame] + '_' + frameAttivo"
+                    [newKeyVisibile]='false'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [selezioneMultipla]='false'
+                    [ricordaSelezione]='false'
+                    [impostaSelezione]='selezionatoTII2'
+                    [DimensioneFont]='12'
+                    [paginazione]="'scrollable'"
+                    [AutoResize]="false"
+                    [datiNuovi]="datiTcRunInfo && datiTcRunInfo.DataTable"
+                    [ManualResize]="effettuaAutoFitInfo"
+                    [linkIcone]="Utils.linkIcone"
+                    [raggruppabile]="true"
+                    [campiPerRaggruppamento]="'SECTION_NAME'"
+      
+                    (cellClick)="clickRigaINFO($event)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneInfo($event)"
+                  >
+                  </app-ants-grid-lib>
+          
+                  <div *ngIf="caricamentoInfoInCorso == true" class="k-i-loading" style="position: absolute; width: 100%; height: 110%;"></div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+      
+            <kendo-tabstrip-tab>
+              <ng-template kendoTabTitle>
+                <span>TcRun Files</span>
+              </ng-template>
+              <ng-template kendoTabContent>
+                <div style="width: 100%; height: 100%;">
+                  <span *ngIf="!datiTcRunFile && !erroreFile" style="width: 100%; text-align: left;">
+                    {{frameName}} File: No data to be displayed
+                  </span>
+                  
+                  <span *ngIf="erroreFile" style="width: 100%; text-align: left; color: red;">
+                    {{frameName}} File: {{erroreFile}}
+                  </span>
+                  
+                  <!--
+                  -->
+                  <app-ants-grid-lib
+                    *ngIf="datiTcRunFile && !erroreFile"
+                    [debug]="debugFile"
+                    [sessioneAttuale]="sessionID"
+                    [indirizzoServer]="indirizzoServer"
+                    [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                    [modalita]="'Griglia'"
+                    [title]="'Tc Run Files'"
+                    [data]="datiTcRunFile"
+                    [userName]="userName"
+                    [maskName]="nomeGrigliaFile[numeroFrame] + '_' + frameAttivo"
+                    [newKeyVisibile]='false'
+                    [editKeyVisibile]='false'
+                    [deleteKeyVisibile]='false'
+                    [infoKeyVisibile]='true'
+                    [confirmKeyVisibile]="false"
+                    [selezioneMultipla]='false'
+                    [ricordaSelezione]='false'
+                    [impostaSelezione]='selezionatoTIF2'
+                    [DimensioneFont]='12'
+                    [paginazione]="'scrollable'"
+                    [righePerPaginaVirtuale]="999"
+                    [AutoResize]="false"
+                    [datiNuovi]="datiTcRunFile && datiTcRunFile.DataTable"
+                    [ManualResize]="effettuaAutoFitFile"
+                    [linkIcone]="Utils.linkIcone"
+        
+                    (cellClick)="clickRigaFile($event)"
+                    (ritornoDimensioniColonne)="ritornoDimensioniColonneTcRunFile($event)"
+                  >
+                  </app-ants-grid-lib>
+        
+                  <div *ngIf="caricamentoFileInCorso == true && !modalitaRealTimeAttiva" class="k-i-loading" style="position: sticky !important;"  style="position: sticky !important;"></div>
+                  <div *ngIf="caricamentoFileInCorso == true && modalitaRealTimeAttiva" class="k-i-loadingRT">
+                    <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+                  </div>
+                </div>
+              </ng-template>
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+        </as-split-area>
+      </as-split>
+    </as-split-area>
+  </as-split>
+
+  <div *ngIf="debug" class="mascheraDebug">
+    Debug:
+    &nbsp;Pivot&nbsp;&nbsp;<input type="checkbox" [checked]="debugPivot" (change)="checkDebug(0, $event)" />
+    &nbsp;List&nbsp;&nbsp;<input type="checkbox" [checked]="debugList" (change)="checkDebug(1, $event)" />
+    <!-- &nbsp;Config&nbsp;&nbsp;<input type="checkbox" [checked]="debugConfig" (change)="checkDebug(2, $event)" />
+    &nbsp;Config List&nbsp;&nbsp;<input type="checkbox" [checked]="debugConfigList" (change)="checkDebug(3, $event)" /> -->
+    &nbsp;Info&nbsp;&nbsp;<input type="checkbox" [checked]="debugInfo" (change)="checkDebug(4, $event)" />
+    &nbsp;File&nbsp;&nbsp;<input type="checkbox" [checked]="debugFile" (change)="checkDebug(5, $event)" />
+  </div>
+</div>
+
+<div *ngIf="mostraPopup" class="oscura"></div>
+<div *ngIf="mostraPopup" class="popup">
+  Please wait...<br />Downloading
+</div>
+
+<div *ngIf="mascheraModificaTicket" class="oscura"></div>
+<div #divCont2 *ngIf="mascheraModificaTicket" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;">
+  <div *ngIf="mascheraModificaTicket" class="mascheraModificaTicket drag-block" #myBoundsMT ngDraggable [handle]="handleMenuMT"
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+    (edge)="checkEdge($event)" [bounds]="divCont2" [inBounds]="true" class="resizable">
+    <div class="bottoniIntestazione" style="background-color: #565656;">
+      <div #handleMenuMT class="drag-block" style="width: calc(100% - 100px); float: left; text-align: left; color: white;">
+        {{TitoloMascheraModificaMT}}
+      </div>
+      <div style="width: 100px; float: left; text-align: right; margin-top: -2px;">
+        <img kendoTooltip *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle_white.png'" class="immaginiIcone" title="Save" (click)="salvaDatiTicket()">
+        <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMascheraTicket()" title="Close" class="immaginiIcone">
+      </div>
+    </div>
+
+    <div class="modificaDati">
+      <div class="rigaTicket">
+        <div class="titoloTicket">ID</div>
+        <div class="contenutoTicket">
+          <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.TCK_ID}}" [(ngModel)]="rigaModificataTicket.TCK_ID">
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket">Activity ID</div>
+        <div class="contenutoTicket">
+          <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.ACT_ID}}" [(ngModel)]="rigaModificataTicket.ACT_ID">
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket">Start time stamp</div>
+        <div class="contenutoTicket">
+          <input type="text" disabled class="testo" style="width: 100%;" value="{{rigaModificataTicket.START_TIME_STAMP}}" [(ngModel)]="rigaModificataTicket.START_TIME_STAMP">
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket" style="margin-top: 3px;">Title</div>
+        <div class="contenutoTicket">
+          <input type="text" class="testo" style="width: 100%;" maxlength="30" value="{{rigaModificataTicket.TCK_TITLE}}" [(ngModel)]="rigaModificataTicket.TCK_TITLE">
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket" style="margin-top: 3px;">Status</div>
+        <div class="contenutoTicket" style="margin-top: 3px;">
+          <app-combo-component
+            *ngIf = "datiLookUpStatus && datiLookUpStatus.DataTable"
+            [Tipologia]="'Dropdown'"
+            [userName]="userName"
+            [accettaNuovi]="false"
+            [data] = "datiLookUpStatus.DataTable"
+            [campoId]="'VALUE_STR'"
+            [campoTesto]="'VALUE_STR'"
+            [NomeCombo]="'cmbDatiStatus'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='true'
+            [valoreDefault]="rigaModificataTicket.TCK_STATUS"
+
+            (selezioneEffettuata)="selectStatus($event)"
+          >
+          </app-combo-component>
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket" style="margin-top: 3px;">Priority</div>
+        <div class="contenutoTicket" style="margin-top: 3px;">
+          <app-combo-component
+            *ngIf = "datiLookUpPriority && datiLookUpPriority.DataTable"
+            [Tipologia]="'Dropdown'"
+            [userName]="userName"
+            [accettaNuovi]="false"
+            [data] = "datiLookUpPriority.DataTable"
+            [campoId]="'VALUE_STR'"
+            [campoTesto]="'VALUE_STR'"
+            [NomeCombo]="'cmbDatiPriority'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='true'
+            [valoreDefault]="rigaModificataTicket.TCK_PRIORITY"
+
+            (selezioneEffettuata)="selectPriority($event)"
+          >
+          </app-combo-component>
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket" style="margin-top: 3px;">In Charge To</div>
+        <div class="contenutoTicket" style="margin-top: 3px;">
+          <app-combo-component
+            *ngIf = "datiOperatorGroup && datiOperatorGroup.DataTable"
+            [Tipologia]="'Dropdown'"
+            [userName]="userName"
+            [accettaNuovi]="false"
+            [data] = "datiOperatorGroup.DataTable"
+            [campoId]="'NAME'"
+            [campoTesto]="'NAME'"
+            [campoFiltro]="'NAME'"
+            [NomeCombo]="'cmbDatiTCK_OPERATOR'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='true'
+            [valoreDefault]="rigaModificataTicket.TCK_OPERATOR_NAME_IN_CHARGE_TO"
+
+            (selezioneEffettuata)="selectOperator($event)"
+          >
+          </app-combo-component>
+        </div>
+      </div>
+
+      <div class="rigaTicket">
+        <div class="titoloTicket">Associate currently checked events to this ticket</div>
+        <div class="contenutoTicket" style="text-align: left;">
+          <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/EventLog.png'" class="immagini" title="Associate selected events" (click)="associaEventiTcRun()">
+        </div>
+      </div>
+
+      <!-- *ngIf="rigaModificataTicket && rigaModificataTicket.TCK_EVENT_LIST && rigaModificataTicket.TCK_EVENT_LIST != ''" -->
+      <div class="rigaTicket">
+        <div class="titoloTicket">Retrieve events associated to this ticket: {{prendeJsonTicket(rigaModificataTicket)}}</div>
+        <div class="contenutoTicket" style="text-align: left;">
+          <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/Search.png'" class="immagini" title="Show associated events" (click)="visualizzaEventiTcRun()">
+        </div>
+      </div>
+
+      <div style="clear: both;"></div>
+
+      <div style="width: 100%; float: left; text-align: left;">Description</div>
+      <div style="width: 100%; float: left;">
+        <textarea
+          style="width: 100%; height: 150px;" rows="5" 
+          value="{{rigaModificataTicket.TCK_DESCRIPTION}}" 
+          [(ngModel)]="rigaModificataTicket.TCK_DESCRIPTION">
+        </textarea>
+      </div>
+    </div>
+  </div>
+</div>

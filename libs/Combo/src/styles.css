@@ -1,0 +1,18 @@
+.titolo {
+  width: 35%;
+  text-align: left;
+  float: left;
+}
+
+.contenuto {
+  width: 60%;
+  text-align: center;
+  float: left;
+}
+
+.riga {
+  width: 95%;
+  float: left;
+  height: 35px;
+  padding: 5px;
+}

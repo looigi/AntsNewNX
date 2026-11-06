@@ -1,0 +1,27 @@
+{
+  "name": "JsonComponent",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/JsonComponent/src",
+  "projectType": "library",
+  "tags": [
+    "type:library"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/JsonComponent"
+      ],
+      "options": {
+        "project": "libs/JsonComponent/ng-package.json",
+        "tsConfig": "libs/JsonComponent/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/JsonComponent/tsconfig.lib.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}

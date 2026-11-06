@@ -1,0 +1,76 @@
+{
+  "name": "UserManager",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/UserManager/src",
+  "projectType": "application",
+  "prefix": "app",
+  "tags": [
+    "type:application"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/UserManager",
+          "browser": ""
+        },
+        "index": "apps/UserManager/src/index.html",
+        "browser": "apps/UserManager/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/UserManager/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "apps/UserManager/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/UserManager/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "node_modules/angular2-draggable/css/resizable.min.css",
+          "node_modules/@progress/kendo-theme-default/dist/all.css",
+          "apps/UserManager/src/styles.css",
+          "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "node_modules/sweetalert2/src/sweetalert2.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "UserManager:build:production"
+        },
+        "development": {
+          "buildTarget": "UserManager:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

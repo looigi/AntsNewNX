@@ -1,0 +1,266 @@
+<!-- <span *ngIf="MappaOGrafico2 == 'M' && overviewZoom2 == true" style="width: 25px;">
+    <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/resetPosition.png'" title="Reset position" class="immaginiCombo" width="20px" height="20px" style="margin-top: 0px; cursor: pointer; margin-right: 5px;" (click)="resetPosition(); chiudeViews(); barraTitoloChiusa();">
+</span>
+{{userName}}: {{userName.indexOf('Pecce')}} -->
+<span *ngIf="!massimizzata  && !eseguitoInProgetto2" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/maximized.png'" title="Maximize frame" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(10, null);" />
+</span>
+
+<span *ngIf="massimizzata && !eseguitoInProgetto2" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/arrow-collapse-all.png'" title="Minimize frame" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(11, null);" />
+</span>
+
+<span *ngIf="accordionDebug == true && debug2 == true && userName.indexOf('Pecce') > -1" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '35'" [style.height.px]="platformType == 'WEB' ? '23' : '35'" [style.height.px]="platformType == 'WEB' ? '25' : '40'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+        [src]="Utils.linkIcone + '/icons/debugON.png'" title="Debug OFF" class="iconaSuperiore"
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'"
+        (click)="clickIcona(0, null);" />
+</span>
+
+<span *ngIf="accordionDebug == true && debug2 == false && userName.indexOf('Pecce') > -1" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '35'" [style.height.px]="platformType == 'WEB' ? '23' : '35'"  >
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+        [src]="Utils.linkIcone + '/icons/debugOFF.png'" title="Debug ON" 
+        class="iconaSuperiore" [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(1, null);" />
+</span>
+
+    <!-- <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/content-copy.png'" title="Screenshot" width="20px" height="20px" (click)="effettuaScreenShotFrame()"> -->
+
+<span *ngIf="MappaOGrafico2 == 'M' && dimensioniFinestraRicerca == 0" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/text-search.png'" title="Open search bar" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'"
+        (click)="clickIcona(2, null);" />
+</span>
+
+<span *ngIf="MappaOGrafico2 == 'M' && dimensioniFinestraRicerca > 0" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/text-search-present.png'" title="Close search bar" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(3, null);" />
+</span>
+
+<!-- <span *ngIf="MappaOGrafico2 == 'M' && dimensioniFinestraLegenda2 != 201"
+    class="contenitoreIconaSuperiore" 
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'"
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/no_legenda.png'" title="Hide legend" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(4, null);" />
+</span>
+
+<span *ngIf="MappaOGrafico2 == 'M' && dimensioniFinestraLegenda2 == 201"
+    class="contenitoreIconaSuperiore" [style.width.px]="platformType == 'WEB' ? '23' : '45'"
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'"  >
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/legenda.png'" title="Block legend" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(5, null);" />
+</span> -->
+
+<span *ngIf="MappaOGrafico2 == 'M' && exportKMLAttivo == true" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'" >
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/kml.png'" title="Export to Kml" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'"
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(6, null);" />
+</span>
+
+<span *ngIf="MappaOGrafico2 && MappaOGrafico2 != '--' &&
+    MappaOGrafico2 !== 'LA' && MappaOGrafico2 !== 'AI' &&
+    MappaOGrafico2 !== 'CD' && MappaOGrafico2 !== 'CV' &&
+    MappaOGrafico2 !== 'CM' && MappaOGrafico2 !== 'CG' &&
+    MappaOGrafico2 !== 'ES' && MappaOGrafico2 !== 'XX' &&
+    MappaOGrafico2 !== 'MD' && MappaOGrafico2 !== 'MG' &&
+    MappaOGrafico2 !== 'PT' && MappaOGrafico2 !== 'PK' &&
+    MappaOGrafico2 !== 'AE' && MappaOGrafico2 !== 'PM' &&
+    MappaOGrafico2 !== 'NB' && MappaOGrafico2 !== 'TI' &&
+    MappaOGrafico2 !== 'PL' && MappaOGrafico2 !== 'M' &&
+    MappaOGrafico2 !== 'AH' && MappaOGrafico2 !== 'PS' &&
+    MappaOGrafico2 !== 'PC' && MappaOGrafico2 !== 'TC'"
+    class="contenitoreIconaSuperiore"
+    style="width: 25px; cursor: pointer; margin-right: 5px;">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/file-delimited-outline.png'" title="Export to csv" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(7, null);" />
+</span>
+    <!-- <span *ngIf="MappaOGrafico2 && MappaOGrafico2 == 'MC'" style="width: 25px; cursor: pointer; margin-right: 5px;"><img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/report_md5.png'" title="Export and reports" class="iconaSuperiore" [style.width.px]="platformType == 'WEB' ? '23' : '35'" [style.height.px]="platformType == 'WEB' ? '23' : '35'" (click)="apreReportXls(); chiudeViews(); barraTitoloChiusa();"></span> -->
+
+<span *ngIf="MappaOGrafico2 && (MappaOGrafico2 == 'AH' || MappaOGrafico2 == 'PS' || MappaOGrafico2 == 'PC')" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/grid.png'" title="Export to csv" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(8, null);" />
+</span>
+
+<span *ngIf="frameEditorAttivo" 
+    class="contenitoreIconaSuperiore" 
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'"
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/tune.png'" title="Frame settings" class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(9, null);" />
+</span>
+
+    <!-- <span *ngIf="MappaOGrafico == 'AE' && rigaSelezionataDettaglioEvents" class="contenitoreIconaSuperiore" [style.width.px]="platformType == 'WEB' ? '23' : '45'" [style.height.px]="platformType == 'WEB' ? '23' : '35'"  ><img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/EventLog.png'" title="Open menù" class="iconaSuperiore" [style.width.px]="platformType == 'WEB' ? '23' : '35'" [style.height.px]="platformType == 'WEB' ? '23' : '35'" (click)="clickOnTreeView(rigaSelezionataDettaglioEvents)"/></span> -->
+
+<span *ngIf="!modalitaDrawPolygon && MappaOGrafico2 == 'M' && !eseguitoInProgetto2" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/draw_polygon_active.png'" title="Active Draw polygon modality" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(12, null);" />
+</span>
+
+<span *ngIf="modalitaDrawPolygon && MappaOGrafico2 == 'M' && !eseguitoInProgetto2" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/draw_polygon_disactive.png'" title="Disactive Draw polygon modality" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(13, null);" />
+</span>
+
+    <!-- <img *ngIf="Utils.linkIcone" class="iconaSuperiore" style="cursor: pointer;" title="Print Frame" [src]="Utils.linkIcone + '/icons/Report.png'" (click)="printFrame()"> -->
+
+<span *ngIf="MappaOGrafico2 == 'MC'"
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!Utils.linkIcone" 
+        class="iconaSuperiore" 
+        title="Exclude Time Interval" 
+        [src]="Utils.linkIcone + '/icons/excld.png'" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(14, null);" />
+
+    <img [hidden]="!Utils.linkIcone" 
+        class="iconaSuperiore" title="Include TimeInterval" 
+        [src]="Utils.linkIcone + '/icons/incld.png'" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(15, null);" />
+</span>
+
+<span *ngIf="!massimizzata && frameEditorAttivo && eseguitoInProgetto2 == false" 
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/close.png'" title="Close frame" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(16, null);" />
+</span>
+
+<span
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/Refresh.png'" title="Refresh frame" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(17, null);" />
+</span>
+
+<span *ngIf="MappaOGrafico2 == 'MC'"
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/ai.png'" title="Send datas to AI" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(19, null);" />
+</span>
+
+<span *ngIf="MappaOGrafico2 == 'M'"
+    class="contenitoreIconaSuperiore"
+    [style.width.px]="platformType == 'WEB' ? '23' : '45'" 
+    [style.height.px]="platformType == 'WEB' ? '23' : '35'">
+    <img [hidden]="!(Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/start_origin.png'" title="Set distance origin. Km shall start at this point" 
+        class="iconaSuperiore" 
+        [style.width.px]="platformType == 'WEB' ? '23' : '35'" 
+        [style.height.px]="platformType == 'WEB' ? '23' : '35'" 
+        (click)="clickIcona(18, null);" />
+</span>
+
+    <!--  <span *ngIf="MappaOGrafico2 === 'PS'" style="width: 150px; cursor: pointer; margin-right: 5px;">
+    <div style="width: 100%; float: left;">
+    <div style="width: 50%; float: left;">
+        Graphic Size:
+        </div>
+        <div style="width: 50%; float: left;">
+        <app-combo-component
+            [Tipologia]="'Combo'"
+            [userName]="userName"
+            [accettaNuovi]="false"
+            [data] = "datiPerc"
+            [campoId]="'id'"
+            [campoTesto]="'id'"
+            [NomeCombo]="'datiPerc'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='false'
+            [valoreDefault]="percentualeAltezzaGrafico"
+
+            (selezioneEffettuata)="selectPerc($event)"
+        >
+        </app-combo-component>
+        </div>
+    </div>
+    </span> -->

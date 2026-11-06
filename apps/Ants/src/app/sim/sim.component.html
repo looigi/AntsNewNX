@@ -1,0 +1,106 @@
+<as-split direction="horizontal" [gutterSize]="3">
+    <as-split-area [size]="25">
+        <div style="width: 100%; height: 100%">
+            <app-ants-grid-lib
+                *ngIf="datiGrigliaTree"
+                [sessioneAttuale]="sessioneID"
+                [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                [indirizzoServer]="Utils.serverPostRest"
+                [modalita]="'Griglia'"
+                [title]="nomeGrigliaTree"
+                [titleDaDatiGriglia] = "true"
+                [data]="datiGrigliaTree"
+                [userName]="userName"
+                [maskName]="userName + '_grigliaSimTree'"
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='true'
+                [editKeyVisibile]='false'
+                [deleteKeyVisibile]='false'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='false'
+                [impostaSelezione]="selezioneTree"
+                [AutoResize]="true"
+                [righeAutomatiche]="false"
+                [datiNuovi]="datiGrigliaTree && datiGrigliaTree.DataTable"
+                [messaggioWarning]="messaggioWarningTree"
+                [linkIcone]="Utils.linkIcone"
+
+                [paginazione]="'scrollable'"
+                [pageSize]="Utils.limitPerVirtual"
+                [DimensioneFont]='12'
+
+                (cellClick)="clickSelezioneTree($event)"
+                (lastSelectedOfGrid)='lastSelectedOfGridTree($event)'
+                (refresh)='refreshGridTree($event, false)'
+                (resetLayout)='refreshGridTree($event, true)'
+                (detectCambioPagina)="cambioPaginaTree($event)"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneGrigliaTree($event)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoDatiInCorsoTree == true" class="k-icon k-i-loading"
+                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+            ></div>
+        </div>
+    </as-split-area>
+    <as-split-area [size]="75">
+        <div style="width: 100%; height: 100%">
+            <app-ants-grid-lib
+                *ngIf="datiGrigliaGriglia"
+                [sessioneAttuale]="sessioneID"
+                [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                [indirizzoServer]="Utils.serverPostRest"
+                [modalita]="'Griglia'"
+                [title]="nomeGrigliaGriglia"
+                [titleDaDatiGriglia] = "true"
+                [data]="datiGrigliaGriglia"
+                [userName]="userName"
+                [maskName]="userName + '_grigliaSimGriglia'"
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='true'
+                [editKeyVisibile]='true'
+                [deleteKeyVisibile]='false'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='false'
+                [impostaSelezione]="selezioneGriglia"
+                [AutoResize]="true"
+                [righeAutomatiche]="false"
+                [datiNuovi]="datiGrigliaGriglia && datiGrigliaGriglia.DataTable"
+                [messaggioWarning]="messaggioWarningGriglia"
+                [linkIcone]="Utils.linkIcone"
+
+                [paginazione]="'scrollable'"
+                [pageSize]="Utils.limitPerVirtual"
+                [DimensioneFont]='12'
+
+                (cellClick)="clickSelezioneGriglia($event)"
+                (lastSelectedOfGrid)='lastSelectedOfGridGriglia($event)'
+                (refresh)='refreshGridGriglia($event, false)'
+                (editKeyPressed)="editPremuto($event)"
+                (resetLayout)='refreshGridGriglia($event, true)'
+                (detectCambioPagina)="cambioPaginaGriglia($event)"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneGrigliaGriglia($event)"
+            >
+            </app-ants-grid-lib>
+
+            <div *ngIf="caricamentoDatiInCorsoGriglia == true" class="k-icon k-i-loading"
+                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+            ></div>
+        </div>
+    </as-split-area>
+</as-split>
+
+<ng-container *ngIf="editDataVisible">
+    <edit_dataset-component
+        [sessioneID]="sessioneID"
+        [userName]="userName"
+        [Utils]="Utils"
+        [dataSet]="datiModifica"
+        [titoloMaschera]="'Edit SIM'"
+
+        (chiudeMaschera)="editDataVisible = false"
+        (passaggioModifiche)="passaggioModifiche($event)"
+    ></edit_dataset-component>
+</ng-container>

@@ -1,0 +1,101 @@
+<div style="width: 100%; height: 100%;">
+  <as-split direction="vertical" (dragEnd)="onDragEnd($event)">
+    <as-split-area [size]="dimensioneSplit1" [lockSize]="!graficiVisibili">
+        <app-ants-grid-lib
+        *ngIf="datiGriglia1"
+        [sessioneAttuale]="sessionID2"
+        [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+        [indirizzoServer]="indirizzoServer"
+        [modalita]="'Griglia'"
+        [title]="nomeGriglia"
+        [titleDaDatiGriglia]="true"
+        [data]="datiGriglia1"
+        [userName]="userName"
+        [maskName]="userName + '_grigliaGD1'"
+        [newKeyVisibile]='false'
+        [refreshKeyVisibile]='true'
+        [editKeyVisibile]='false'
+        [deleteKeyVisibile]='true'
+        [infoKeyVisibile]='true'
+        [confirmKeyVisibile]="false"
+        [selezioneMultipla]='true'
+        [eliminaSelezioniSuClickRiga]="true"
+        [impostaSelezione]="selezione"
+        [AutoResize]="true"
+        [righeAutomatiche]="false"
+        [paginazione]="'scrollable'"
+        [datiNuovi]="datiGriglia1 && datiGriglia1.DataTable"
+        [messaggioWarning]="messaggioWarning1"
+        [linkIcone]="Utils.linkIcone"
+        [DimensioneFont]="12"
+
+        (clickSelezioneSuCheckRiga)='clickSelezione1($event)'
+        (cellClick)="clickSelezione1(null)"
+        (lastSelectedOfGrid)='lastSelectedOfGrid1($event)'
+        (refresh)='refreshGrid1($event, false)'
+        (resetLayout)='refreshGrid1($event, true)'
+        (ritornoDimensioniColonne)="ritornoDimensioniColonneSM1($event)"
+        (deselectedAllRows)="deselAll()"
+        (deleteKeyPressed)="deleteRiga($event)"
+        (selectedAllRows)="selAll($event)"
+      >
+      <!--
+        (cellClick)="clickSelezione1($event)"
+      -->
+      </app-ants-grid-lib>
+
+      <div *ngIf="caricamentoDatiInCorso1 == true" class="k-i-loading"
+        style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+      ></div>
+    </as-split-area>
+    <as-split-area [size]="dimensioneSplit2" [lockSize]="!graficiVisibili">
+      <div #divGrafici id="divGrafici" class="tuttaAreaMappa"      
+        style="overflow-y: scroll; text-align: right; width: 100%; height: 100%;"
+        >
+        <span *ngIf="measureDaDisegnare.length == 0" style="width: 100%; text-align: left;">
+          Alarm Viewer: No data to be displayed
+        </span>
+
+        <div *ngIf="erroreGrafici[NumeroFrame2]" style="width: 100%; height: 100%; text-align: left; position: relative; color: red; padding: 5px;">
+          {{erroreGrafici[NumeroFrame2]}}
+        </div>
+
+        <div *ngIf="!erroreGrafici[NumeroFrame2]" 
+          id ="divGraficiInterno_{{NumeroFrame2}}" style="width: 100%; overflow: hidden;"
+          [style.height.px]="altezzaTotaleGrafici[NumeroFrame2]"
+          [style.border]="debug2 ? '1px solid blue' : '0px'"
+          >
+          <!--  
+            (click)="clickSuChart(nomiGrafici[NumeroFrame2][i])"
+          -->
+          <div *ngFor="let m of measureDaDisegnare[NumeroFrame2]; trackBy: trackByGrafici; let i = index" [attr.data-index]="i" 
+            style="width: 100%; cursor: pointer; display: block;"
+            [style.height.px]="altezzaGraficiChart[NumeroFrame2][i]" 
+            [style.border]="debug2 ? (altezzaGraficiChart[NumeroFrame2][i] > 0 ? '1px solid red' : '0px') : '0px'"
+            >
+
+            <span *ngIf="debug2" style="color: red; float: left; width: 100%;">
+              {{i}}: {{altezzaGraficiChart[NumeroFrame2][i]}}-
+              {{graficoVisibile[NumeroFrame2][i]}} Err: {{erroreGrafici[NumeroFrame2]}} A.T: {{altezzaTotaleGrafici[NumeroFrame2]}} L: {{larghezzaDiv[NumeroFrame2]}}
+            </span>
+
+            <div
+              id="chartContainers_{{frameAttivo2}}_{{NumeroFrame2}}_{{i}}" 
+              style="float: left; display: block; width: 100%;"
+              [style.height.px]="graficoVisibile[NumeroFrame2][i] ? altezzaGraficiChart[NumeroFrame2][i] : 0"
+              [style.border]="debug2 ? (altezzaGraficiChart[NumeroFrame2][i] > 0 ? '1px solid green' : '0px') : '0px'"
+            >
+              &nbsp;
+            </div>
+
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="caricamentoGraficiInCorso" style="position: sticky; left: 0px; bottom: 0px; width: 50px; height: 50px;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

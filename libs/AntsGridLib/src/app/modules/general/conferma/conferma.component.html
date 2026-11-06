@@ -1,0 +1,17 @@
+<div class="finestrella">
+  <h3 mat-dialog-title>GeoAnts</h3>
+  <hr />
+  <div mat-dialog-content>
+    <p>{{ data.messaggio }}</p>
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Favorite Animal</mat-label>
+      <input matInput [(ngModel)]="animal">
+    </mat-form-field> -->
+  </div>
+  <hr />
+  <div mat-dialog-actions style="text-align: center; display: block;">
+    <!-- <button mat-button [mat-dialog-close]="'OK'" cdkFocusInitial>Ok</button> -->
+    <button mat-button value="'OK'" cdkFocusInitial>Ok</button>
+    <button *ngIf="data.mostraAnnulla" mat-button (click)="onNoClick()">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+
+::ng-deep kendo-combobox .k-clear-value {
+  display: none !important;
+}
+
+.checkBox {
+  margin: 0;
+  padding-left: 20px;
+  min-height: 16px;
+  line-height: 17px;
+  vertical-align: text-top;
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  cursor: pointer;
+  -ms-transform: scale(1.3); /* IE */
+  -moz-transform: scale(1.3); /* FF */
+  -webkit-transform: scale(1.3); /* Safari and Chrome */
+  -o-transform: scale(1.3); /* Opera */
+  transform: scale(1.3);
+}
+
+.checkBox:checked {
+  accent-color: #ff5c5c !important;
+}

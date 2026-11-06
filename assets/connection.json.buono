@@ -1,0 +1,9 @@
+{ 
+	"Proxy": "false", 
+	"facadeServerAddressViaProxy": "http://10.100.7.26:2727/", 
+	"facadeServerAddressLocale": "http://10.100.7.26:2727/",
+	"serverPostRest": "https://geoants.aubay.it",
+	"linkIcone": "https://geoants.aubay.it:444/assets/img",
+	"serverGEOServer": "https://geoants.aubay.it/geoserver/",
+	"urlRoot": "https://geoants.aubay.it:444/"
+}

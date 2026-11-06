@@ -1,0 +1,23 @@
+<ng-template #templateC>
+  <!-- <div class="modal-header" style="z-index: 5001; position: relative;">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+  </div> -->
+
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <span style="color: black;">
+        {{title}}
+      </span>
+    </h4>
+  </div>
+
+  <div class="modal-body">
+    <p>{{messaggio}}</p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="ok()">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Cancel</button>
+  </div>
+</ng-template>

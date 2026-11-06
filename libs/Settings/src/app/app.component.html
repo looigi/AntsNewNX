@@ -1,0 +1,19 @@
+<input *ngIf="!settingsVisibileFlag" type="button" value="Apre" (click)="apreSettings()" />
+<input *ngIf="settingsVisibileFlag" type="button" value="Chiude" (click)="chiudeSettings('')" />
+
+<div style="position: absolute; top: 30px; left: 0%; width: 100%; height: calc(100% - 30px); border: 1 px solid #999999; overflow: hidden;">
+    <settings-component
+        *ngIf="settingsVisibileFlag"
+        [passaggioValori]="passaggioPerSettings"
+        
+        (visibileEmit)="chiudeSettings($event)"
+        (measureEmit)="misureCambiate($event)"
+        (viewAsEmit)="viewAsEmit($event)"
+        (geoFilterEmit)="geoFilterEmit($event)"
+        (squareMetersEmit)="squareMetersEmit($event)"
+        (tipoMappaEmit)="selectTipoMappa1($event)"
+        (listaEventi)="listaEventi($event)"
+        (viewModeMSEmit)="viewMode($event)"
+    >
+    </settings-component>
+</div>

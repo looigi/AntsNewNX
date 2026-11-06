@@ -1,0 +1,42 @@
+.titolo {
+  width: 100%;
+  display: block;
+  margin-top: 2px;
+  font-family: Arial;
+  padding: 3px;
+  /* background-color: #efefef; */
+  cursor: pointer;
+}
+
+.titolo:hover {
+  background-color: rgb(255, 198, 198);
+}
+
+.contenitoreTesto {
+   width: 250px;
+   float: left;
+   padding: 3px;
+   display: inline-table;
+}
+
+.as-horizontal > .as-split-gutter > .as-split-gutter-icon {
+  background-image: none !important;
+}
+
+.as-vertical > .as-split-gutter > .as-split-gutter-icon {
+  background-image: none !important;
+}
+
+.as-horizontal > .as-split-gutter {
+  flex-basis: 5px !important;
+}
+
+.as-vertical > .as-split-gutter {
+  flex-basis: 5px !important;
+}
+
+.divFloat {
+  width: 100%;
+  display: block;
+  height: 35px;
+}

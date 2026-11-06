@@ -1,0 +1,13 @@
+{
+  "Proxy": "false",
+  "facadeServerAddressViaProxy": "http://10.100.7.26:2727/",
+  "facadeServerAddressLocale": "http://10.100.7.26:2727/",
+	"serverPostRest": "https://geoants-007.ants-aubay.it",
+  "serverGEOServer": "https://geoants-007.ants-aubay.it/geoserver/",
+	"linkIcone": "https://geoants-007.ants-aubay.it/geoantsweb/assets/img",
+	"urlRoot": "https://geoants-007.ants-aubay.it/geoantsweb/",
+	"urlAnalytics": "https://ants-speedtest.kb.eu-west-1.aws.found.io:9243/s/coop-dev/app/dashboards#/view/bd804620-d5b5-11ec-a1b4-e3dfd7b74b8b?_g=(filters:!())",
+	"eventsDisplayedRows": 100,
+	"portable": true,
+	"pre": true
+}

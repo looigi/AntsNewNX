@@ -1,0 +1,181 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+.ui-accordion .ui-accordion-content {
+  overflow: auto;
+}
+
+.ui-accordion .ui-accordion-header {
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.ui-accordion .ui-accordion-header-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body .ui-accordion .ui-accordion-content {
+  border: 0px !important;
+  padding: 0px;
+}
+
+body .ui-accordion .ui-accordion-header a {
+  /* pannello non attivo */
+  background-color: #e4e4e4;
+  border: 0px;
+  height: 26px;
+  padding-top: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:hover a {
+  /* pannello non attivo */
+  background-color: #d00;
+  border: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  /* pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: #fff;
+  background-color: #f16221;
+  border: 0px;
+}
+
+.ui-accordion .ui-accordion-header {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+body .ui-corner-all {
+  border-radius: 0px;
+}
+
+body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
+  /* hover pannello attivo */
+  height: 26px;
+  padding-top: 3px;
+  color: rgb(87, 86, 86);
+  background-color: #929292;
+  border: 0px;
+}
+
+/* COLORI ALTERNATI PER LA GRIGLIA */
+.k-grid-content tr {
+  background-color: white !important;
+}
+
+.k-grid-content .k-alt {
+  background-color: white !important;
+}
+/* COLORI ALTERNATI PER LA GRIGLIA */
+
+/* INTESTAZIONE PIU' ALTA */
+.k-grid th {
+  border-left-width: 0 !important;
+  border: 2px solid transparent !important;
+}
+/* INTESTAZIONE PIU' ALTA */
+
+tbody .k-group-cell {
+  background-color: transparent !important;
+}
+
+.k-grid tr.k-al {
+  background: transparent ;
+}
+
+.k-tabstrip>.k-content.k-state-active {
+  height: 95%;
+}
+
+.k-tabstrip-items {
+  background: #fff;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.k-tabstrip-items .k-item {
+  color: #9c9b9b;
+}
+
+.k-button {
+  background-image: linear-gradient(#f6f6f6,#f6f6f6);
+}
+
+.k-grid-header-wrap {
+  border-color: #f6f6f6;
+}
+
+.k-widget {
+  line-height: 0.85;
+}
+
+.k-dropdown .k-dropdown-wrap {
+  background-image: linear-gradient(#f6f6f6,#f6f6f6);
+}
+
+.cellaDiv {
+  white-space: nowrap;
+  /* padding: 1px; */
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  margin-bottom: 1px;
+}
+
+/* COPIARE NEI VARI MODULI: ACCORDION */
+.p-accordion .p-accordionheader .p-accordionheader-toggle-icon,
+.p-accordion .p-accordionheader svg {
+    display: none !important;
+}
+
+.p-accordion .p-accordionheader {
+    padding-left: 10px !important;
+}
+
+/* Header accordion aperto */
+.p-accordionpanel-active > .p-accordionheader {
+    background-color: #f16221 !important;
+    color: white !important;
+    border-left: 4px solid #f15c21 !important;
+}
+
+/* Contenuto del pannello aperto */
+.p-accordionpanel-active > .p-accordioncontent {
+    background-color: #fafafa !important;
+}
+/* elimina spazio tra accordion */
+.p-accordion .p-accordionpanel {
+    margin-bottom: 0 !important;
+}
+
+/* elimina eventuale separazione dell'header */
+.p-accordion .p-accordionheader {
+    border-radius: 0 !important;
+    background-color: #e5e2e2 !important;
+    color: #353535 !important;
+    height: 30px !important;
+    margin-bottom: 2px !important;
+}
+
+/* elimina padding extra del contenuto */
+.p-accordion .p-accordioncontent-content {
+    padding: 0 !important;
+    background-color: white !important;
+}
+/* COPIARE NEI VARI MODULI: ACCORDION */
+
+input {
+  color: #353535 !important;
+  background-color: white !important;
+}
+
+input::placeholder {
+  color: #ff8888 !important
+}
+
+.k-checkbox:checked, .k-checkbox.k-checked {
+    border-color: #ff6358 !important;
+    color: white !important;
+    background-color: #ff6358 !important;
+}

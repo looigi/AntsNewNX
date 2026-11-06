@@ -1,0 +1,76 @@
+{
+  "name": "FleetManager",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/FleetManager/src",
+  "projectType": "application",
+  "prefix": "app",
+  "tags": [
+    "type:application"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/FleetManager",
+          "browser": ""
+        },
+        "index": "apps/FleetManager/src/index.html",
+        "browser": "apps/FleetManager/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/FleetManager/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "apps/FleetManager/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/FleetManager/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/angular2-draggable/css/resizable.min.css",
+          "node_modules/@progress/kendo-theme-default/dist/all.css",
+          "apps/FleetManager/src/styles.css",
+          "node_modules/sweetalert2/src/sweetalert2.scss",
+          "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "fleet-manager:build:production"
+        },
+        "development": {
+          "buildTarget": "fleet-manager:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

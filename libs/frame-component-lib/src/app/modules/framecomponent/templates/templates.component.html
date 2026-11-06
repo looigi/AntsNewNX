@@ -1,0 +1,486 @@
+<div #myBoundsTMP style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"></div>
+
+<!--
+  [style.transform]="!massimizzata ? mascheraTransform : ''"
+-->
+<div #maskTemplate
+  id="maskTemplate"
+  class="drag-boundary resizable" ngDraggable [handle]="handleMenuTMP"
+  [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  (edge)="checkEdge($event)" [bounds]="myBoundsTMP" [inBounds]="true"
+  [style.left]="!massimizzata ? mascheraLeft + 'px' : '5px'"
+  [style.top]="!massimizzata ? mascheraTop + 'px' : '2px'"
+  [style.width]="!massimizzata ? mascheraWidth + 'px' : 'calc(100% - 10px)'"
+  [style.height]="!massimizzata ? mascheraHeight + 'px' : 'calc(100% - 5px)'"  
+
+  style="
+    border: 1px solid #999;
+    background-color: white;
+    position: fixed;
+    z-index: 9999;
+    border-radius: 3px;
+    box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    padding: 3px;
+    overflow: hidden;">
+    <div class="bottoniIntestazione" style="background-color: #565656; height: 25px;">
+      <div #handleMenuTMP class="drag-block" style="width: calc(100% - 80px); float: left; text-align: left; color: white;">
+        AI-Powered Analysis
+      </div>
+      <div style="width: 80px; float: left; text-align: right; margin-top: -7px;">
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !massimizzata" [src]="Utils.linkIcone + '/icons/arrow-expand-all-custom.png'" style="width: 27px; height: 27px; cursor: pointer;" title="Maximize" (click)="massimizza(true)" >
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && massimizzata" [src]="Utils.linkIcone + '/icons/arrow-collapse-all-custom.png'" style="width: 27px; height: 27px; cursor: pointer;" title="Reduce" (click)="massimizza(false)" >
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera()" title="Close" class="immaginiIcone">
+      </div>
+  </div>
+
+  <!-- loadOnDemand: il contenuto di un tab viene creato la prima volta che lo si apre e poi mantenuto,
+       così tornando su un tab le griglie mostrano i dati già caricati invece di essere ricreate e ricaricate -->
+  <kendo-tabstrip (tabSelect)="onTabSelect($event)" [animate]="false" [keepTabContent]="true" style="overflow: hidden; width: 100%; height: calc(100% - 35px); margin-top: 35px;">
+    <kendo-tabstrip-tab [selected]="tabSelezionato == 0">
+      <ng-template kendoTabTitle>
+        <span
+          title="">
+          New Investigation
+        </span>
+      </ng-template>
+
+      <ng-template kendoTabContent>
+        <div style="float: left; width: 100%; overflow: auto; white-space: nowrap;">
+          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
+            Tc Run Code
+          </div>
+          <div style="float: left; width: 70%; overflow:hidden; white-space: nowrap; text-align: left;">
+            {{tc_run_code ? tc_run_code : ''}}
+          </div>
+          <div style="clear: both;"></div>
+          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
+            Investigation
+          </div>
+          <div style="float: left; width: 70%; overflow:hidden; white-space: nowrap; text-align: left;">
+            <input type="text" [(ngModel)]="tc_run_failure" style="width: calc(100% - 10px); resize: none; height: calc(100% - 25px);" />
+          </div>
+          <div style="clear: both;"></div>
+          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
+            Type
+          </div>
+          <div style="float: left; width: 30%;">
+            <app-combo-component
+              [Tipologia]="'Combo'"
+              [userName]="userName"
+              [data]="listaTypes"
+              [campoId]="'VALUE_STR'"
+              [accettaNuovi]="false"
+              [campoTesto]="'VALUE_STR'"
+              [NomeCombo]="'cmbFoldersLT'"
+              [pulisceValoriDiBase]="true"
+              [ricordaUltimoValore]='false'
+              [valoreDefault]="typeScelto"
+              [visibileElimina]="false"
+              [testoDisabilitato]="true"
+
+              (selezioneEffettuata)="selectType($event)"
+            >
+            </app-combo-component>
+          </div>
+          <div style="clear: both;"></div>
+          <div style="float: left; width: 30%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
+            Ver
+          </div>
+          <div style="float: left; width: 30%;">
+            <app-combo-component
+              [Tipologia]="'Combo'"
+              [userName]="userName"
+              [data]="listaFolders1"
+              [campoId]="'VALUE_STR'"
+              [accettaNuovi]="false"
+              [campoTesto]="'VALUE_STR'"
+              [NomeCombo]="'cmbFolders1'"
+              [pulisceValoriDiBase]="true"
+              [ricordaUltimoValore]='false'
+              [valoreDefault]="verDefaultNI"
+              [visibileElimina]="false"
+              [testoDisabilitato]="true"
+
+              (selezioneEffettuata)="selectFilterFolderNI($event)"
+            >
+            </app-combo-component>
+          </div>
+          <div style="clear: both;"></div>
+          <div style="width: 100%; text-align: center; height: auto; overflow: hidden;">
+            <div style = "width: 150px; margin: 0 auto; cursor: pointer; color: white; text-align: center; border: 1px solid #999; background-color: #cf4b11; border-radius: 3px;" (click)="startNI()">Start Investigation</div>
+          </div>
+        </div>
+      </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab [selected]="tabSelezionato == 1">
+      <ng-template kendoTabTitle>
+        <span
+          title="Create a new Investigation Case using a template from the Investigation Library or starting from scratch">
+          Investigation Node Library
+        </span>
+      </ng-template>
+
+      <ng-template kendoTabContent>
+        <as-split direction="vertical" [gutterSize]="3">
+          <as-split-area [size]="35" style="overflow: hidden !important;">
+            <div style="width: 100%; height: 100%;">
+              <div style="float: left; width: 100%; height: 30px; overflow:hidden; white-space: nowrap;">
+                <div style="float: left; width: 20%; height: 30px; overflow:hidden; white-space: nowrap; text-align: left;">
+                  Filter Folder
+                </div>
+                <div style="float: left; width: 30%;">
+                  <app-combo-component
+                    [Tipologia]="'Combo'"
+                    [userName]="userName"
+                    [data]="listaFolders1"
+                    [campoId]="'VALUE_STR'"
+                    [accettaNuovi]="false"
+                    [campoTesto]="'VALUE_STR'"
+                    [NomeCombo]="'cmbFolders1'"
+                    [pulisceValoriDiBase]="true"
+                    [ricordaUltimoValore]='false'
+                    [valoreDefault]="filterFolder"
+                    [visibileElimina]="false"
+                    [testoDisabilitato]="true"
+
+                    (selezioneEffettuata)="selectFilterFolder($event)"
+                  >
+                  </app-combo-component>
+                </div>
+              </div>
+              <div style="clear: both;"></div>
+              <div style="float: left; width: 100%; height: calc(100% - 30px); overflow:hidden; white-space: nowrap;">
+                <app-ants-grid-lib          
+                  [sessioneAttuale]="sessionID2"
+                  [debug]="debug2"
+                  [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                  [indirizzoServer]="indirizzoServer2"
+                  [modalita]="'Griglia'"
+                  [title]="frameName2"
+                  [titleDaDatiGriglia]="true"
+                  [data]="datiTemplate"
+                  [userName]="userName2"
+                  [maskName]="maskNameTemplate[NumeroFrame2]"
+                  [DimensioneFont]='12'
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='true'
+                  [raggruppabile]="true"
+                  [campiPerRaggruppamento]="'DOMAIN'"
+                  [visualizzaScrittaFolder]="false"
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="rigaSelezionataTemplate && rigaSelezionataTemplate.HASH_ID && rigaSelezionataTemplate.HASH_ID != '' ? true : false"
+                  [selezioneMultipla]='false'
+                  [ricordaSelezione]='false'
+                  [selezioneMultipla]='false'
+                  [eliminaSelezioniSuClickRiga]="true"
+                  [impostaSelezione]="selezioneTemplate"
+                  [AutoResize]="false"
+                  [ManualResize]="effettuaAutoFitTemplate"
+                  [righeAutomatiche]="false"
+                  [linkIcone]="Utils.linkIcone"
+                  [datiNuovi]="datiTemplate && datiTemplate.DataTable"
+                  [messaggioWarning]="messaggioWarningTemplate"
+                  
+                  (cellClick)="selezioneRigaTemplate($event, false)"
+                  (refresh)="refreshTemplate(false)"
+                  (resetLayout)="refreshTemplate(true)"
+                  (deleteKeyPressed)="eliminaTemplate($event)"
+                  (ritornoDimensioniColonne)="ritornoDimensioniColonneTemplate($event)"
+                  (confirmKeyPressed)='selezioneRigaTemplate2()'
+                >
+                </app-ants-grid-lib>
+
+                <div *ngIf="caricamentoEventiInCorso1" class="k-i-loading"
+                  style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                ></div>
+              </div>
+            </div>
+            <!-- </div> -->
+          </as-split-area>
+          <as-split-area [size]="65" style="overflow: hidden !important; position: relative;">
+           <div style="width: 100%; height: 100%; float: left; overflow: hidden;">
+              <kendo-tabstrip (tabSelect)="onTabSelect2($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%;">
+                <kendo-tabstrip-tab [selected]="tabSelezionato2 == 0">
+                  <ng-template kendoTabTitle>
+                    <span
+                      title="">
+                      Prompt
+                    </span>
+                  </ng-template>
+
+                  <ng-template kendoTabContent>
+                    <div style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        Name
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;" title="Identifies the “Analysis Template”, change the name before saving, to save it as a new Analysis Template">
+                        <input type="text" [(ngModel)]="title" style="width: 100%; resize: none; height: calc(100% - 25px);" />
+                      </div>
+                    </div>
+
+                    <div style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        Description
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;">
+                        <input type="text" [(ngModel)]="descrizione" style="width: 100%; resize: none; height: calc(100% - 25px);" />
+                      </div>
+                    </div>
+
+                    <div *ngIf="modalitaEventi" style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        Prompt Data Type
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;" title="If msg_list the overall content of the event grid is passed for the analysis, if msg_single only the currently selected msg is passed.">
+                        <!-- <input type="text" [(ngModel)]="prompt_dt" style="width: 100%; resize: none; height: calc(100% - 25px);" /> -->
+
+                        <app-combo-component
+                          [Tipologia]="'Dropdown'"
+                          [userName]="userName"
+                          [data] = "datiPDT"
+                          [campoId]="'name'"
+                          [accettaNuovi]="false"
+                          [campoTesto]="'name'"
+                          [NomeCombo]="'cmbDatiDataType'"
+                          [pulisceValoriDiBase]="true"
+                          [ricordaUltimoValore]='false'
+                          [valoreDefault]="prompt_dt"
+                          [visibileElimina]="false"
+
+                          (selezioneEffettuata)="selectDTT($event)"
+                        >
+                        </app-combo-component>
+
+                      </div>
+                    </div>
+
+                    <div style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        LLM Model
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;">
+                        <app-combo-component
+                          [Tipologia]="'Dropdown'"
+                          [userName]="userName"
+                          [data]="listaProfiliAI"
+                          [campoId]="'name'"
+                          [accettaNuovi]="false"
+                          [campoTesto]="'name'"
+                          [NomeCombo]="'cmbProfiliAIE'"
+                          [pulisceValoriDiBase]="true"
+                          [ricordaUltimoValore]='false'
+                          [valoreDefault]="llm_profile_id"
+                          [visibileElimina]="false"
+
+                          (selezioneEffettuata)="selectProfiloAI($event)"
+                        >
+                        </app-combo-component>
+                      </div>
+                    </div>
+
+                    <div style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        Investigation
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;">
+                        <input type="text" [(ngModel)]="investigation" style="width: calc(100% - 10px); resize: none; height: calc(100% - 25px);" />
+                      </div>
+                    </div>
+
+                    <div style="width: 100%; height: 30px; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
+                        Folder
+                      </div>
+                      <div style="width: calc(80% - 8px); float: left;">
+                        <app-combo-component
+                          [Tipologia]="'Dropdown'"
+                          [userName]="userName"
+                          [data]="listaFolders"
+                          [campoId]="'name'"
+                          [accettaNuovi]="true"
+                          [campoTesto]="'name'"
+                          [NomeCombo]="'cmbFolders'"
+                          [pulisceValoriDiBase]="true"
+                          [ricordaUltimoValore]='false'
+                          [valoreDefault]="folder_id"
+                          [visibileElimina]="false"
+                          [testoDisabilitato]="true"
+
+                          (selezioneEffettuata)="selectFolder($event)"
+                        >
+                        </app-combo-component>
+                      </div>
+                    </div>
+
+                    <div style="width: 20%; height: calc(100% - 120px); overflow: auto; float: left; text-align: left; white-space: nowrap;">
+                      <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addColumnDescription()">Add column description</div>
+                      <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addRagPrompt()">Add RAG Prompt</div>
+
+                      <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="saveTemplate()" 
+                          [style.background-color]="vecchioPrompt == prompt ? 'gray' : '#cf4b11'"
+                          title="Saves the current Analysis Template, defined by the fields above, plus the event grid configuration (i.e. filters, fields to be extracted from the messages and sampled measures).">
+                          Save this analysis template
+                      </div>
+                      <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" *ngIf="visualizzareTastoSubmit" (click)="ritornoQueryAI2()"                  
+                          title="Creates an Analysis Request and submits it to the external AI provider integrated with the GeoAnts platform. The list of requests and answers is displayed in the “Analysis” tab">
+                          Submit Request to AI
+                      </div>
+
+                      <!-- <div style="width: 95%; margin-top: 5px; padding: 2px; float: left;">
+                        <div style="float: left; width: 100%; height: 30px; overflow:hidden; white-space: nowrap;">
+                          Exec in folder
+                        </div>
+                        <div style="float: left; width: 100%;">
+                          <app-combo-component
+                            [Tipologia]="'Dropdown'"
+                            [userName]="userName"
+                            [data]="listaFolders"
+                            [campoId]="'name'"
+                            [accettaNuovi]="false"
+                            [campoTesto]="'name'"
+                            [NomeCombo]="'cmbFolders2'"
+                            [pulisceValoriDiBase]="true"
+                            [ricordaUltimoValore]='false'
+                            [valoreDefault]="folder_id2"
+                            [visibileElimina]="false"
+
+                            (selezioneEffettuata)="selectFolder2($event)"
+                          >
+                          </app-combo-component>
+                        </div>
+                      </div> -->
+                    </div>
+                    <div style="width: calc(80% - 6px); height: calc(100% - 120px); float: left;" title="defines the steps for the analysis, they are in human readable format, and can be executed by an external AI provider integrated with the GeoAnts platform">
+                      <!-- <textarea *ngIf="modalitaEdit" [(ngModel)]="prompt" style="line-height: 15px; width: 100%; height: 95%;"></textarea>
+
+                      <div *ngIf="!modalitaEdit" [innerHTML]="prompt | safeComment" style="float: left; line-height: 15px; width: 100%; text-align: left; height: 95%; overflow: auto; padding: 2px; border: 1px solid #cccccc;"></div> -->
+                      <textarea [(ngModel)]="prompt" 
+                        style="resize: none;
+                            float: left;
+                            width: 100%;
+                            height: 100%;
+                            padding: 6px;
+                            border: 1px solid #cccccc;
+                            overflow: auto;
+                            line-height: 1;
+                            font-size: 14px;
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
+                            box-sizing: border-box;"
+                      ></textarea>
+                    </div>
+                  </ng-template>
+                </kendo-tabstrip-tab>
+
+                <kendo-tabstrip-tab [selected]="tabSelezionato2 == 1">
+                  <ng-template kendoTabTitle>
+                    <span
+                      title="">
+                      Design
+                    </span>
+                  </ng-template>
+
+                  <ng-template kendoTabContent>
+                    <jsone-component                
+                      [debug]="debug2"
+                      [lista]="design"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame2"
+                      [frameAttivo]="frameAttivo2"
+                      [eseguiRondella]="false"
+                    >
+                    </jsone-component>
+                  </ng-template>
+                </kendo-tabstrip-tab>
+
+                <kendo-tabstrip-tab [selected]="tabSelezionato2 == 2">
+                  <ng-template kendoTabTitle>
+                    <span
+                      title="">
+                      Implementation
+                    </span>
+                  </ng-template>
+
+                  <ng-template kendoTabContent>
+                    <jsone-component                
+                      [debug]="debug2"
+                      [lista]="implementation"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame2"
+                      [frameAttivo]="frameAttivo2"
+                      [eseguiRondella]="false"
+                    >
+                    </jsone-component>
+                  </ng-template>
+                </kendo-tabstrip-tab>
+              </kendo-tabstrip>
+
+            </div>
+
+            <div *ngIf="eseguitoClickSuRiga == true || caricamentoEventiInCorso2" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.55);       
+                    display: flex; justify-content: center; align-items: center;">
+              <img [src]="Utils.linkIcone + '/spinner.gif'" style="width: 125px; height: 125px;" >
+            </div>
+          </as-split-area>
+        </as-split>
+      </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab *ngIf="visualizzareTastoSubmit" [selected]="tabSelezionato == 2" >
+      <ng-template kendoTabTitle>
+        <span
+          title="History of Investigation Cases executed on the current Data Set">
+          Investigation History
+        </span>
+      </ng-template>
+
+      <ng-template kendoTabContent>
+        <ai-component
+          [Utils]="Utils"
+          [sessionId]="sessionID2"
+          [frameName]="frameName2"
+          [userName]="userName2"
+          [frameAttivo]="frameAttivo2"
+          [debug]="debug2"
+          [NumeroFrame]="NumeroFrame2"
+          [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+          [indirizzoServer]="indirizzoServer2"
+          [act_id]='act_id2'
+          [tc_run_id]='tc_run_id2'
+          [tmsFrom]='tmsFrom2'
+          [tmsTo]='tmsTo2'
+          [tmrAttivo]="tmrAttivo"
+          [visibile]="tabSelezionato == 2"
+          [apiCall]="apiCall"
+          [dimensioneSchermo]="dimeSchermo"
+
+          [visualizzareTastoSubmit]="visualizzareTastoSubmit"
+          [tipologiaFrame]="tipologiaFrame"
+          [eventiSceltiES]="eventiSceltiES"
+          [eventsMeasure]="eventsMeasure"
+          [filtriEventi]="filtriEventi"
+          [isNonSyncEventTime]="isNonSyncEventTime"
+          [listaEventiDaPassare]="listaEventiDaPassare"
+          [listaEventiCheckatiES]="listaEventiCheckatiES"
+          [listaEventiSEPassata]="listaEventiSEPassata"
+          [timeFilter]="timeFilter"
+          [tipoEvento]="tipoEvento"
+          [ricercaJson]="ricercaJson"
+          [rigaEventoSelezionato]="rigaEventoSelezionato"
+          [gestioneTemplate]="gestioneTemplate"
+          [arrivatoJson]="arrivatoJson"
+          [caricamentoEventiInCorso]="caricamentoEventiInCorso"
+          [listaProfiliAI]="listaProfiliAI"
+          [tc_run_code]="tc_run_code"
+          [mappa_o_grafico]="mappa_o_grafico"
+
+          (templateSelezionatoDaPassare)="fTemplateSelezionatoDaPassare($event)"
+          (nuoveImpostazioni)="fNuoveImpostazioni($event)"
+          (inviaJson)="fInviaJson($event)"
+        ></ai-component>
+      </ng-template>
+    </kendo-tabstrip-tab>
+  </kendo-tabstrip>
+
+</div>

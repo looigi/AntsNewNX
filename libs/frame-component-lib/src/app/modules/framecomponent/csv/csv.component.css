@@ -1,0 +1,20 @@
+.mascheraGrigliaExport {
+  position: absolute;
+  z-index: 4999;
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 3px;
+  box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+}
+
+.barraSuperiore2 {
+  height: 26px;
+  width: 100%;
+  display: block;
+  /* margin-bottom: 2px; */
+  background-color: #565656;
+  color: white; /* #545454; */
+  float: left;
+  /* border: 1px solid #f6f6f6; */
+  text-align: center;
+}

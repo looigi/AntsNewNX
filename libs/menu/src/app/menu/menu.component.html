@@ -1,0 +1,539 @@
+<!-- <div *ngIf="debug === true" style="border: 1px solid #999; border-radius: 5px; padding: 5px; position: absolute; right: 1px; top: 1px; width: auto; height: auto; z-index: 9999; background-color: #ffffae;">
+  Visibile: {{MenuVisibile}}<br />
+  Posizione: {{posizione}}<br />
+  Full Screen: {{fullScreen}}
+</div> -->
+
+<div *ngIf="MenuVisibile === true"
+  [style.position]="posizione"
+  class="finestraMenu"
+  [style.background-color]="posizione === 'absolute' ? 'white' : 'transparent'"
+  [style.border]="posizione === 'absolute' ? '1px solid #999' : '0px'"
+  [style.top.px]="0"
+  [style.height]="posizione === 'absolute' ? '100%' : 'auto'"
+  [style.-webkit-box-shadow]="posizione === 'absolute' ? '3px 3px 10px 0px rgba(148,145,148,0.75)' : 'none'"
+  [style.-moz-box-shadow]="posizione === 'absolute' ? '3px 3px 10px 0px rgba(148,145,148,0.75)' : 'none'"
+  [style.box-shadow]="posizione === 'absolute' ? '3px 3px 10px 0px rgba(148,145,148,0.75)' : 'none'"
+  (mouseleave)="chiudeDrawer('TASTO')">
+
+  <!--   [style.width]="posizione === 'absolute' ? '250px' : '100%'" -->
+  <div style="width: 100%; height: auto;">
+    <div style="width: calc(100% - 30px); padding-top: 2px; float: left; text-align: left; background-color: #565656; color: white; height: 35px; margin-top: -2px;" >
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Home_white.png'" title="Home Page" height='35' width='35'  alt=''
+        style="cursor: pointer;" (click)="changePage('Home;Empty', '', false)" >&nbsp;&nbsp;
+
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" style="cursor: pointer;" title="F11 full screen" height='35' width='35'
+        [src]="linkIcone + '/icons/fullscreen_white.png'" style="cursor: pointer;" (click)="toggleFullScreen()" />
+    <!-- </div>
+    <div style="width: 50%; float: left; text-align: left;"> -->
+      &nbsp;<span style="padding-top: 2px;">Navigation menu</span>
+    </div>
+    <div style="width: 30px; float: left; padding-top: 2px; text-align: right; background-color: #565656; height: 35px; margin-top: -2px;">
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35'  alt=''
+        style="cursor: pointer;" (click)="chiudeDrawer('TASTO');">
+    </div>
+  </div>
+
+  <!-- {{ aperturaNavigazione }} -->
+  <p-accordion [multiple]="false" [(value)]="menuSelezionato" (valueChange)="changeStateAccordion($event)">
+    <p-accordion-panel *ngIf='visibilita.hideMaps=="false" && showButtons' value="menuApplicazioni">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Maps.png'" class="immagini" style="height: 20px; width: 20px;">
+          Dashboard
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='showButtons && newWorkSpaceVisibile' class="riga" style="cursor: pointer;" (contextmenu)="onrightClick('Mappe;Mappe', $event)">
+            <a (click)="changePage('Mappe;Mappe', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/Maps.png'" height='20' width='20'  alt=''> -->
+              New Workspace
+            </a>
+          </div>
+
+          <table *ngIf="gridDashboardSalvate" style="width: 100%; margin-left: 3px; height: auto;">
+            <tr *ngFor="let item of gridDashboardSalvate; index as i;" (click)="aprichiudi(i)">
+              <td>
+                <span class="titoloDB" style="font-size: 15px; cursor: pointer;"
+                [style.color]="item.SELECTED == true ? '#ff6358' : 'black'"
+                (mouseover)="item.SELECTED = true" (mouseout)="item.SELECTED = false">{{item.FOLDER}}</span>
+                <table *ngIf="item.VISIBLE" style="width: 100%; margin-left: 13px; height: auto;">
+                  <tr *ngFor="let item2 of item.DASHBOARD; index as ii;" (click)="caricaDashboard(i, ii, false)">
+                    <td>
+                      <span class="rigaDB" style="font-size: 15px; cursor: pointer;" (contextmenu)="onrightClickDB(i, ii, $event)"
+                        [style.color]="item2.SELECTED == true ? '#ff6358' : 'black'"
+                        (mouseover)="item2.SELECTED = true" (mouseout)="item2.SELECTED = false">{{item2.NAME}}</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel *ngIf='visibilita.hideFleetManager=="false" && showButtons' value="menuFM">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/fleet.png'" class="immagini" style="height: 20px; width: 20px;">
+          {{NomeFleetManager}}
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideFleetManagerTC=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;TC', $event)">
+            <a (click)="changePage('FM;TC', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;{{nomeTestCampaign}}
+            </a>
+          </div>
+          <!-- <div *ngIf='visibilita.hideFleetManagerAGD=="false" && showButtons' class="riga" style="cursor: pointer;" (contextmenu)="onrightClick('FM;AGD', $event)">
+            <a (click)="changePage('FM;AGD')">
+              &nbsp;Agent Group Definition
+            </a>
+          </div> -->
+          <div *ngIf='visibilita.hideFleetManagerAGC=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;AGC', $event)">
+            <a (click)="changePage('FM;AGC', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Agent Group Configuration
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideFleetManagerTDL=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;TDL', $event)">
+            <a (click)="changePage('FM;TDL', '', false)">
+              <!--<img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Test Design Library
+            </a>
+          </div>
+
+          <div *ngIf='visibilita.hideFleetManagerAGPL=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;AGPL', $event)">
+            <a (click)="changePage('FM;AGPL', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Agent Profiles Library
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideFleetManagerQPL=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;QPL', $event)">
+            <a (click)="changePage('FM;QPL', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;QueryPck Library
+            </a>
+          </div>
+
+          <div *ngIf='visibilita.hideFleetManagerDTUM=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;DTUM', $event)">
+            <a (click)="changePage('FM;DTUM', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Drive Test Units Mng
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideFleetManagerSAM=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('FM;SAM', $event)">
+            <a (click)="changePage('FM;SAM', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/fleet.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Single Agent Mode
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel *ngIf='visibilita.hideDataDictionaries=="false" && showButtons' value="menuDD">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone)" [src]="linkIcone + '/icons/data_dict.png'" class="immagini" style="height: 20px; width: 20px;">
+          Data Dictionaries
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideDataDictionariesAntenna=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('DD;Antenna', $event)">
+            <a (click)="changePage('DD;Antenna', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/data_dict.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Sites and Coverage
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideDataDictionariesCluster=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('DD;Cluster', $event)">
+            <a (click)="changePage('DD;Cluster', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/data_dict.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Cluster
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideDataDictionariesPLMN=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('DD;PLMN', $event)">
+            <a (click)="changePage('DD;PLMN', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/data_dict.png'" height='20' width='20'  alt='' > -->
+              &nbsp;PLMN
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel *ngIf='visibilita.hideUserManager=="false" && showButtons' value="menuUM">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/user_manager.png'" class="immagini" style="height: 20px; width: 20px;">
+          User Manager
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideUserManagerUsers=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('UM;Users', $event)">
+            <a (click)="changePage('UM;Users', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/account.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Users
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideUserManagerGroups=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('UM;Groups', $event)">
+            <a (click)="changePage('UM;Groups', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/account.png'" height='20' width='20'  alt='' > -->
+              &nbsp;User Groups
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideUserManagerUP=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('UM;UP', $event)">
+            <a (click)="changePage('UM;UP', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/account.png'" height='20' width='20'  alt='' > -->
+              &nbsp;User Profiles
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <!-- <p-accordion-panel *ngIf='visibilita.hideAI=="false" && showButtons' value="menuAI" (selectedChange)="changeStateAccordion(7)">
+      <p-accordion-header style="padding: 0px;">
+        <span style="margin-left: 10px;">
+          <img [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/ai.png'" class="immagini" style="height: 20px; width: 20px;">
+          AI
+        </span>
+      </p-accordion-header>
+      <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+        <div *ngIf='visibilita.hideAI=="false" && showButtons' class="riga" style="cursor: pointer;" (contextmenu)="onrightClick('AI;AI', $event)">
+          <a (click)="changePage('AI;AI', '', false)">
+            <!-- <img [src]="linkIcone + '/icons/account.png'" height='20' width='20'  alt='' > -- >
+            &nbsp;AI-Powered Analysis
+          </a>
+        </div>
+      </div>
+    </p-accordion-panel> -->
+
+    <p-accordion-panel *ngIf='visibilita.hideSystem=="false" && showButtons' value="menuS">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/system.png'" class="immagini" style="height: 20px; width: 20px;">
+          System
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideSystemSC=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;SC', $event)">
+            <a (click)="changePage('SY;SC', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;System Configuration
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideSystemEV=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;EV', $event)">
+            <a (click)="changePage('SY;EV', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Event Viewer
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideSystemSM=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;SM', $event)">
+            <a (click)="changePage('SY;SM', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;System Monitor
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideSystemAV=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;AV', $event)">
+            <a (click)="changePage('SY;AV', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Alarm Viewer
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideSystemETLM=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;ETLM', $event)">
+            <a (click)="changePage('SY;ETLM', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Activities Loading Monitor
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideAI=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('AI;AI', $event)">
+            <a (click)="changePage('AI;AI', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/account.png'" height='20' width='20'  alt='' > -->
+              &nbsp;AI-Powered Analysis
+            </a>
+          </div>
+          <div *ngIf='visibilita.hideSystemDBO=="false" && showButtons' class="riga" style="cursor: pointer;" 
+            (contextmenu)="onrightClick('SY;DBO', $event)">
+            <a (click)="changePage('SY;DBO', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;DB Monitor
+            </a>
+          </div>
+
+          <!-- <div *ngIf='visibilita.hideSystemSESS=="false" && showButtons' class="riga" style="cursor: pointer;" (contextmenu)="onrightClick('SY;SESS', $event)">
+            <a (click)="changePage('SY;SESS', '', false)">
+              &nbsp;Session Monitor
+            </a>
+          </div> -->
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel *ngIf='visibilita.hideSpreadSheet=="false" && showButtons' value="menuSpreadSheet">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/grid.png'" class="immagini" style="height: 20px; width: 20px;">
+          SpreadSheet
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideSpreadSheet=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('SS;SS', $event)">
+            <a (click)="changePage('SS;SS', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Spread Sheet
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel *ngIf='visibilita.hideAnts1=="false" && showButtons' value="menuAnts1">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/ants.png'" class="immagini" style="height: 20px; width: 20px;">
+          Ants
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+          <div *ngIf='visibilita.hideAnts1_SIM=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;SIM', $event)">
+            <a (click)="changePage('A1;SIM', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Sim Management
+            </a>
+          </div>
+        </div>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+          <div *ngIf='visibilita.hideAnts1_PORT=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;PORT', $event)">
+            <a (click)="changePage('A1;PORT', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Port Manager
+            </a>
+          </div>
+        </div>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+          <div *ngIf='visibilita.hideAnts1_LINE=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;LINE', $event)">
+            <a (click)="changePage('A1;LINE', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Line Manager
+            </a>
+          </div>
+        </div>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+          <div *ngIf='visibilita.hideAnts1_ADHOC=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;ADHOC', $event)">
+            <a (click)="changePage('A1;ADHOC', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Ad Hoc Test
+            </a>
+          </div>
+        </div>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+          <div *ngIf='visibilita.hideAnts1_ADHOC=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;TESTS', $event)">
+            <a (click)="changePage('A1;TESTS', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Monitoring Test
+            </a>
+          </div>
+        </div>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px;">
+          <div *ngIf='visibilita.hideAnts1_TESTDESIGN=="false" && showButtons' class="riga" 
+            style="cursor: pointer;" (contextmenu)="onrightClick('A1;TESTDESIGN', $event)">
+            <a (click)="changePage('A1;TESTDESIGN', '', false)">
+              <!-- <img [src]="linkIcone + '/icons/system.png'" height='20' width='20'  alt='' > -->
+              &nbsp;Test Design
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel header="Session" value="menuSession">
+      <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
+        <span style="margin-left: 10px;">
+          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/operator.png'" class="immagini" style="height: 20px; width: 20px;">
+          {{userName}}
+        </span>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
+
+          <!-- <div class="riga">
+            <img  style="height: 17px; margin-top: -5px;" [src]="linkIcone + '/img/no_image_user.png'">&nbsp;{{userName}}
+          </div> -->
+
+          <div class="riga" *ngIf="showButtons && device && device == 'ANDROID'"
+            [style.background-color]="posizione === 'absolute' ? 'white' : 'transparent'"
+            style="cursor: pointer;">
+            <a (click)="infoGPS = !infoGPS">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/gps.png'" height='20' width='20'  alt=''>
+                &nbsp;GPS Infos
+            </a>
+          </div>
+          <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <a (click)="profileComp.openModal(profileComp.template); chiudeDrawer('TASTO');">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/myprofile.png'" height='20' width='20'  alt=''>
+              &nbsp;My Profile
+            </a>
+          </div>
+          <div class="riga" *ngIf="visibilita.hideCambioPWD=='false' && showButtons" style="cursor: pointer;">
+            <a (click)="changePswComp.openModal(changePswComp.template); chiudeDrawer('TASTO');">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/ChangePassword.png'" height='20' width='20'  alt=''>
+              &nbsp;Change Password
+            </a>
+          </div>
+          <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <a (click)="confermaDialog.openModal(confermaDialog.template, 'The layout will be reset for all the Dashboards and you\'ll be logged out.', urlRoot); chiudeDrawer($event);">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/ResetLayout.png'" height='20' width='20'  alt=''>
+              &nbsp;Reset Layout
+            </a>
+          </div>
+          <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <a (click)="changeAbout.openModal(changeAbout.template); chiudeDrawer('TASTO');">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/About.png'" height='20' width='20'  alt=''>&nbsp;About
+            </a>
+          </div>
+
+          <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <a (click)="fDownloadUserManual(); chiudeDrawer('TASTO');">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/DLUserManual.png'" height='20' width='20'  alt=''>&nbsp;Download User Manual
+            </a>
+          </div>
+
+          <!-- <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <img *ngIf="MenuComponent && linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && applicazione2 == 'GeoAnts'" [src]="linkIcone + '/icons/UserManual.png'" title="Download user manual" height='35' width='35'  alt=''            
+              style="cursor: pointer;" (click)="fDownloadUserManual()" >&nbsp;Download User Manual
+          </div> -->
+
+          <div class="riga" *ngIf="showButtons" style="cursor: pointer;">
+            <a (click)="logout(); chiudeDrawer('TASTO');">
+              <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/logout.png'" height='20' width='20'  alt=''>
+              &nbsp;Logout
+            </a>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+
+  <div *ngIf="!bloccatoContext && contextmenu == true" (clickOutside)="chiudiContext()">
+    <app-contextmenu [x]="contextmenuX" [y]="contextmenuY" [Testo]="converteTesto(contextTesto)" 
+      (confermaClickEmit)="clickContextMenu($event)"></app-contextmenu>
+  </div>
+
+  <div *ngIf="!bloccatoContextDB && contextmenuDB == true" (clickOutside)="chiudiContextDB()">
+    <app-contextmenudb [x]="contextmenuDBX" [y]="contextmenuDBY" [Testo]="contextTestoDB" 
+      (confermaClickEmit)="clickContextMenuDB($event)"></app-contextmenudb>
+  </div>
+
+</div>
+
+<app-conferma #confermaDialog
+  [messaggio]="messaggioConferma"
+>
+</app-conferma>
+
+<app-profile #profileComp
+  [userName]="userName"
+  [groupName]="operatorGroupName"
+  [profileName]="operatorProfileName"
+  [profileDescription]="operatorProfileDesc"
+  [dbInfo]="platform_name1 + ' ' + platform_name2"
+  [PathIcone]="linkIcone"
+>
+</app-profile>
+
+<app-popup-requests></app-popup-requests>
+
+<app-change-password #changePswComp
+  [serverPostRest]="serverPostRest"
+  [PathIcone]="linkIcone"
+>
+</app-change-password>
+
+<app-dialog #changeAbout
+  [dataCompilazione]="dataCompilazione"
+  [versione]="versione"
+  [statoServer]="statoServer"
+  [statoManutenzione]="statoManutenzione"
+  [coloreStatoServer]="coloreStatoServer"
+  [platFormName]="platFormName"
+  [linkIcone]="linkIcone"
+>
+</app-dialog>
+
+<a #changeAbout2 (click)="changeAbout.openModal(changeAbout.template); chiudeDrawer('TASTO');" style="position: absolute; left: -100px; top: -100px;"></a>
+<a #changePsw2 (click)="changePswComp.openModal(changePswComp.template); chiudeDrawer('TASTO');" style="position: absolute; left: -150px; top: -100px;"></a>
+
+<!-- MODULO APK -->
+<div ngDraggable ngResizable
+  [style.left]="infoGPS ? '10%' : '-2000px'"
+  style="
+    position: absolute;
+    top: 20%;
+    z-index: 5001;
+    width: 80%;
+    height: 60%;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 3px;
+    box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    padding: 5px;
+    overflow: auto;
+  ">
+  <app-moduloapk
+    [debug]="debug"
+    [visualizzaMaschera]="infoGPS"
+    (connectionJSONEmit)="prendeConnectionJSON($event)"
+  >
+
+  <!-- (GPSEmit)="prendeGPS($event)"
+  (NetworkEmit)="prendeNetwork($event)"
+  (SatelliteEmit)="prendeSatellite($event)"
+  (CellInfoEmit)="prendeCellInfo($event)"
+  (CellLocationEmit)="prendeCellLocation($event)"
+  (SignalStrenghtEmit)="prendeSignalStrength($event)"
+  (InfoSistemaEmit)="prendeInfoSistema($event)"
+  (datiUlterioriEmit)="prendeDatiUlteriori($event)" -->
+
+  </app-moduloapk>
+
+  <div style="position: absolute; right: 5px; top: 5px; cursor: pointer;" (click)="infoGPS = false">
+    <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+      [src]="linkIcone + '/icons/close.png'" height='20' width='20'  alt=''>
+  </div>
+</div>
+<!-- MODULO APK -->

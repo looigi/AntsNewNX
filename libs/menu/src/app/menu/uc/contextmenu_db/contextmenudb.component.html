@@ -1,0 +1,25 @@
+<div style="
+    position: fixed;
+    z-index: 1900;
+    padding: 3px;
+    border: 1px solid;
+    border-color: #c1c1bf;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-color: white;
+    height: auto;
+    width: auto;
+    box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    min-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+  " [ngStyle]="{'left.px': x, 'top.px': y}">
+  <div style="width: 100%; white-space: nowrap;">
+    <div class="riga" (click)="clickOn1('1')" (mouseover)="chiude=false" (mouseout)="chiude=true">
+      Open in a new tab
+    </div>
+    <div class="riga" (click)="clickOn1('2')" (mouseover)="chiude=false" (mouseout)="chiude=true">
+      Delete
+    </div>
+  </div>
+</div>

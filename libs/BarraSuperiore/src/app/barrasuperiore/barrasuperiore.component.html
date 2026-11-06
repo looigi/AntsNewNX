@@ -1,0 +1,115 @@
+<div
+  style="width: 100%; height: 35px; float: left; z-index: 9999;"
+  [style.background-color]="coloreSfondo">
+  <div class="row" style="margin-left: 0px; margin-right: 0px; white-space: nowrap; height: 36px; display: flex; overflow: hidden;"
+    [style.background-color]="coloreSfondo">
+    <div *ngIf="Utils.linkIcone" style="width: 50%; float: left; text-align: left; margin-top: 2px;">
+      <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/hamburger.png'" style="height: 35px; margin-right: 5px; cursor: pointer;"
+        (mouseover)="apreMenu()" (click)="apreMenu()">
+
+      <img [hidden]="!(visualizzaSecondoMenu && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        [src]="Utils.linkIcone + '/icons/context_menu.png'" style="height: 35px; margin-right: 5px; cursor: pointer;"
+        (mouseover)="apreMenu2()" (click)="apreMenu2()">
+        
+      <span style="color:darkgray; font-size: 14px; margin-top: -15px; ">{{nomeApp}}</span>
+      &nbsp;
+      <span title="Platform Name" style="white-space: pre-wrap; color:darkgray; font-size: 14px; font-weight: bold;">{{platformName}} </span>
+      <span title="Server Time" style="white-space: pre-wrap; color:darkgray; font-size: 14px; font-weight: bold;">{{dataOraServer | date :'HH:mm'}} </span>
+      <!-- <span *ngIf="debug == true" title="Redirect." style="color:darkgray; font-size: 14px; ">{{Utils.userRedirect}}&nbsp;</span>
+      <span *ngIf="debug == true" title="Redirect." style="color:darkgray; font-size: 14px; ">{{Utils.urlRoot}}</span> -->
+    </div>
+
+    <!-- <div style="width: 49%; float: left; text-align: center; margin-top: 4px; top: -3px; overflow: hidden;  background-color: #fff;">
+      <div style="width: 100%; float: left; height: 25px;">
+        <span title="{{symb_TimeStamp}}" style="color:darkgray; font-size: 14px; ">{{dateNowH}}</span>
+        <span title="{{symb_TimeStamp}}" style="color:darkgray; font-size: 14px; "> / {{userName}}</span>
+      </div>
+    </div> -->
+
+    <div style="width: 49%; word-wrap: break-word; float: left; text-align: right; margin-top: 3px; top: -3px; overflow: hidden; line-height: 3px;"
+      [style.background-color]="coloreSfondo">
+      <!-- <img [src]="Utils.linkIcone + '/icons/Home.png'" style="height: 25px; margin-right: 5px;">
+      <span style="color: black; font-size: 12px; ">{{nomiMaschere[qualeGriglia]}}</span> -->
+      <div *ngIf="Utils.linkIcone" style="width: calc(100% - 130px); float: left; text-align: right;">
+        <!-- <div *ngIf="staiParlando === true"
+            style="width: 49%;
+                  float: left;
+                  height: 30px;
+                  background-color: rgb(244, 255, 212);
+                  padding-top: 10px;
+                  padding-left: 5px;
+                  border: 1px solid #999;
+                  word-wrap: break-word;
+                  padding-right: 5px;">
+          {{speech.text}}
+        </div> -->
+        <input
+          *ngIf="microAttivo"
+          type="text"
+          [style.background-color]="coloreTesto"
+          [(ngModel)]="testoVocale"
+          class="classeTesto"
+          [style.opacity]=" mouseOverCampo ? 1 : 0"
+          (mouseover)="mouseOverCampo = true"
+          (mouseout)="mouseOverCampo = false"
+          (focus)="onFocus()"
+          (blur)="campoTestoInFocus = false; esegueTestoVocale()"
+          (keyup.enter)="esegueTestoVocale()">
+
+        <div *ngIf="!microAttivo" class="classeTesto">&nbsp;</div>
+
+        <img [hidden]="!(!visualizzaMicrofono && !microAttivo && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          [src]="Utils.linkIcone + '/icons/Empty.png'" 
+          style="height: 35px; margin-right: 5px; margin-top: -2px; cursor: pointer;">
+
+        <img [hidden]="!(visualizzaMicrofono && microAttivo == true && staiParlando == false && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          (click)="speakRecognition()" [src]="Utils.linkIcone + '/icons/microphone.png'" 
+          title="Start Speak recognition" 
+          style="height: 35px; margin-right: 5px; margin-top: -2px; cursor: pointer;">
+
+        <img [hidden]="!(visualizzaMicrofono && microAttivo == true && staiParlando == true && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          (click)="speakRecognition()" [src]="Utils.linkIcone + '/icons/microphone_active.png'" 
+          title="Stop Speak recognition" 
+          style="height: 35px; margin-right: 5px; margin-top: -2px; cursor: pointer;">
+
+        <div [hidden]="!(visualizzaMicrofono && microAttivo === false || staiParlando === false)" style="width: calc(100% - 35px); height: 30px;">&nbsp;</div>
+      </div>
+      <div *ngIf="Utils.linkIcone" style="width: 130px; float: left; text-align: right;">
+        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          (click)="apreProduct()" [src]="Utils.linkIcone + '/BrandingElements/AntsIcon.png'" 
+          [title]="toolTipPP" style="height: 31px; margin-right: 5px; margin-top: 0px; cursor: pointer;">
+
+        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          (click)="apreSolutions()" [src]="Utils.linkIcone + '/BrandingElements/CompanyLogo.png'" 
+          title="Aubay solutions" style="height: 31px; margin-right: 5px; margin-top: 0px; cursor: pointer;">
+          
+        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+          (click)="apreCustomer()" [src]="Utils.linkIcone + '/icons/' + nomeIcona + '.png'" 
+          [title]="toolTipCP" (error)="checkImage($event)" 
+          style="height: 33px; margin-right: 5px; margin-top: 0px; cursor: pointer;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="errore" style="z-index: 9999; position: absolute; padding: 3px; right: 5px; width: auto; height: 35px; top: 40px; border: 1px solid #999; border-radius: 3px; background-color: #faa;">
+  <span style="font-family: Arial, Helvetica, sans-serif;">{{ errore }}</span>
+</div>
+
+<!-- <div *ngIf="staiParlando === true" style="position: absolute;
+            left: 20px;
+            top: 40px;
+            width: calc(100% - 40px);
+            min-height: 35px;
+            height: auto;
+            padding: 3px;
+            background-color: bisque;
+            border: 1px solid #999;
+            border-radius: 3px;
+            z-index: 9999;
+            -webkit-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+            -moz-box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);
+            box-shadow: 3px 3px 10px 0px rgba(148,145,148,0.75);">
+  {{speech.text}}
+</div> -->

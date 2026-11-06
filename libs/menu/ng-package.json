@@ -1,0 +1,31 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/menu",
+  "lib": {
+    "entryFile": "public_api.ts"
+  },
+  "allowedNonPeerDependencies": [
+    "@angular/animations",
+    "@angular/cdk",
+    "@angular/common",
+    "@angular/compiler",
+    "@angular/core",
+    "@angular/forms",
+    "@angular/platform-browser",
+    "@angular/platform-browser-dynamic",
+    "@angular/router",
+    "angular2-draggable",
+    "modulo-apk",
+    "ng-click-outside",
+    "ngx-bootstrap",
+	"ng-packagr",
+    "primeicons",
+    "primeng",
+    "rxjs",
+    "rxjs-compat",
+    "tslib",
+    "@primeuix/themes",
+    "zone.js",
+    "bootstrap"
+  ]
+}

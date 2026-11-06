@@ -1,0 +1,1013 @@
+<div class="contenitore">
+  <!-- <div style="width: calc(100% - 10px); height: 25px; text-align: right;">
+    <div style="float: left; width: calc(100% - 30px); text-align: left; margin-top: 7px;">
+      {{statTokens}}
+    </div>
+    <! -- <img [src]="Utils.linkIcone + '/icons/Refresh.png'" style="width: 25px; height: 25px;" (click)="richiedeCredito()"> -- >
+    <div style="float: left; width: 30px; text-align: right;">
+      <img [src]="Utils.linkIcone + '/icons/AddNew.png'" style="width: 25px; height: 25px;" (click)="apreMaschera(true)">
+    </div>
+  </div> -->
+
+  <as-split direction="vertical" [gutterSize]="3" (dragEnd)="onSplitDragEnd()">
+    <as-split-area [size]="30" style="overflow: hidden !important;">
+      <div style="width: 100%; margin-bottom: 5px; height: 100%;">
+        <as-split direction="horizontal" [gutterSize]="3" (dragEnd)="onSplitDragEnd()">
+          <as-split-area [size]="dimeGriglia1" [lockSize]="!apertaGriglia2">
+            <div style="width: 100%; height: 100%; overflow: hidden;">
+              <app-ants-grid-lib
+                *ngIf="datiGriglia"
+                [debug]="false"
+                [sessioneAttuale]="sessionId"
+                [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="nomeGriglia"
+                [titleDaDatiGriglia] = "true"
+                [data]="datiGriglia"
+                [userName]="userName"
+                [maskName]="userName + '_grigliaAI_' + maschera"
+                [newKeyVisibile]='false'
+                [refreshKeyVisibile]='true'
+                [editKeyVisibile]='true'
+                [deleteKeyVisibile]='true'
+                [infoKeyVisibile]='true'
+                [confirmKeyVisibile]="false"
+                [selezioneMultipla]='true'
+                [eliminaSelezioniSuClickRiga]="true"
+                [impostaSelezione]="selezione"
+                [AutoResize]="false"
+                [ManualResize]="effettuaAutoFit"
+                [righeAutomatiche]="false"
+                [newKeyVisibile]="true"
+                [newKeyPersistant]="true"
+                [editKeyVisibile]="true"
+                [paginazione]="'scrollable'"
+                [datiNuovi]="datiGriglia && datiGriglia.DataTable"
+                [linkIcone]="Utils.linkIcone"
+                [DimensioneFont]='12'
+                [raggruppabile]="false"
+                [campiPerRaggruppamento]="'FOLDER'"
+                [tcRunInfoVisibile]="true"
+                [tcRunInfoTitle]="'Shown content'"
+
+                (cellClick)="clickSelezione($event)"
+                (clickSelezioneSuCheckRiga)='clickSelezione($event)'
+                (refresh)='refreshGriglia($event, false)'
+                (resetLayout)='refreshGriglia($event, true)'
+                (deleteKeyPressed)="eliminaRiga($event)"
+                (editKeyPressed)="apreMaschera(true)"
+                (newKeyPressed)='apreMaschera(false)'
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneAI($event)"
+                (aperturaTcRunInfo)="gestioneGriglia2()"
+              >
+              </app-ants-grid-lib>
+
+              <div *ngIf="caricamentoDatiInCorso" class="k-i-loading"
+                style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+              ></div>
+            </div>
+          </as-split-area>
+          <as-split-area [size]="dimeGriglia2" style="overflow: hidden">
+            <as-split direction="horizontal" [gutterSize]="3" (dragEnd)="onSplitDragEnd()">
+              <as-split-area [size]="50">
+                <app-ants-grid-lib
+                  *ngIf="datiGriglia2"
+                  [debug]="false"
+                  [sessioneAttuale]="sessionId"
+                  [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                  [indirizzoServer]="indirizzoServer"
+                  [modalita]="'Griglia'"
+                  [title]="nomeGriglia2"
+                  [titleDaDatiGriglia]="true"
+                  [data]="datiGriglia2"
+                  [userName]="userName"
+                  [maskName]="userName + '_grigliaAI2_' + maschera"
+                  [newKeyVisibile]='false'
+                  [refreshKeyVisibile]='true'
+                  [editKeyVisibile]='false'
+                  [deleteKeyVisibile]='false'
+                  [infoKeyVisibile]='true'
+                  [confirmKeyVisibile]="false"
+                  [selezioneMultipla]='false'
+                  [impostaSelezione]="selezione2"
+                  [AutoResize]="false"
+                  [ManualResize]="effettuaAutoFit2"
+                  [righeAutomatiche]="false"
+                  [newKeyVisibile]="false"
+                  [newKeyPersistant]="false"
+                  [paginazione]="'scrollable'"
+                  [datiNuovi]="datiGriglia2 && datiGriglia2.DataTable"
+                  [linkIcone]="Utils.linkIcone"
+                  [DimensioneFont]='12'
+                  [selezioneMultipla]='true'
+                  [eliminaSelezioniSuClickRiga]="false"
+
+                  (cellClick)="clickSelezioneRiga2($event)"
+                  (clickSelezioneSuCheckRiga)='clickSelezione2($event)'
+                  (refresh)='refreshGriglia2($event, false)'
+                  (resetLayout)='refreshGriglia2($event, true)'
+                >
+                </app-ants-grid-lib>
+
+                <div *ngIf="caricamentoDatiInCorsoGriglia2 == true && apertaGriglia2" class="k-i-loadingRT">
+                  <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/spinner.gif'" style="width: 100%; height: 100%;">
+                </div>
+              </as-split-area>
+              <as-split-area [size]="50">
+                <div #graphWrapper class="graph-wrapper">
+                  <!-- Zoom: pulsanti oppure Ctrl + rotella (la rotella da sola fa scorrere il contenitore) -->
+                  <div *ngIf="graphReady" class="zoom-grafo">
+                    <button type="button" title="Zoom in (Ctrl + mouse wheel)" (click)="zoomGrafo(1.2)">+</button>
+                    <button type="button" title="Zoom out (Ctrl + mouse wheel)" (click)="zoomGrafo(1 / 1.2)">&minus;</button>
+                    <button type="button" title="Reset zoom" (click)="zoomGrafo(0)">{{ percentualeZoom }}%</button>
+                  </div>
+                  <ngx-graph
+                    #graph
+                    *ngIf="graphReady"
+                    class="chart-container"
+                    [view]="view"
+                    [links]="links"
+                    [nodes]="nodes"
+                    [autoZoom]="false"
+                    [autoCenter]="false"
+                    [panOnZoom]="false"
+                    [panningEnabled]="false"
+                    [enableZoom]="true"
+                    [minZoomLevel]="0.2"
+                    [maxZoomLevel]="3"
+                    (zoomChange)="zoomGrafoCambiato($event)"
+                    layout="dagre"
+                    [layoutSettings]="layoutSettings"
+                    (stateChange)="statoGrafoCambiato($event)"
+                    (select)="onSelectNode($event)">
+
+                    <!-- Definizione freccia -->
+                    <ng-template #defsTemplate>
+                      <svg:marker
+                        id="arrow"
+                        viewBox="0 -5 10 10"
+                        refX="8"
+                        refY="0"
+                        markerWidth="6"
+                        markerHeight="6"
+                        orient="auto">
+
+                        <svg:path d="M0,-5L10,0L0,5" fill="#666"></svg:path>
+                      </svg:marker>
+                    </ng-template>
+
+                    <!-- Template link -->
+                    <ng-template #linkTemplate let-link>
+                      <svg:g class="edge">
+                        <svg:path
+                          class="line"
+                          stroke="#666"
+                          stroke-width="2"
+                          fill="none"
+                          [attr.d]="percorsoArco(link)"
+                          marker-end="url(#arrow)">
+                        </svg:path>
+
+                        <!-- Descrizioni dell'arco, abbreviate; il testo completo è nel tooltip:
+                             vicino all'inizio la CONCLUSION del nodo di partenza (uscita),
+                             vicino alla fine l'INVESTIGATION_GOAL del nodo di arrivo (entrata) -->
+                        <ng-container *ngIf="link.tooltip">
+                          <!-- Linea trasparente più larga: rende facile passare sopra l'arco per vedere le descrizioni -->
+                          <svg:path
+                            [attr.d]="percorsoArco(link)"
+                            stroke="transparent"
+                            stroke-width="12"
+                            fill="none"
+                            style="cursor: help;">
+                            <svg:title>{{ link.tooltip }}</svg:title>
+                          </svg:path>
+                          <svg:text *ngIf="link.uscitaBreve"
+                            class="etichetta-arco etichetta-uscita"
+                            [attr.x]="puntoSuArco(link, 0.25).x"
+                            [attr.y]="puntoSuArco(link, 0.25).y"
+                            text-anchor="middle"
+                            dominant-baseline="central">
+                            <svg:title>Conclusion: {{ link.uscita }}</svg:title>
+                            {{ link.uscitaBreve }}
+                          </svg:text>
+                          <svg:text *ngIf="link.entrataBreve"
+                            class="etichetta-arco etichetta-entrata"
+                            [attr.x]="puntoSuArco(link, 0.75).x"
+                            [attr.y]="puntoSuArco(link, 0.75).y"
+                            text-anchor="middle"
+                            dominant-baseline="central">
+                            <svg:title>Investigation goal: {{ link.entrata }}</svg:title>
+                            {{ link.entrataBreve }}
+                          </svg:text>
+                        </ng-container>
+                      </svg:g>
+                    </ng-template>
+                    
+                    <ng-template #nodeTemplate let-node>
+                      <svg:g>
+                        <svg:rect
+                          [attr.width]="node.dimension.width"
+                          [attr.height]="node.dimension.height"
+                          rx="5"
+                          ry="5"
+                          fill="#1976d2"
+                          [attr.stroke]="selectedNodeId === node.id ? '#000000' : 'none'"
+                          [attr.stroke-width]="selectedNodeId === node.id ? 4 : 0">
+                        </svg:rect>
+
+                        <!-- Nodo iniziale: il suo INVESTIGATION_GOAL sopra il nodo, abbreviato (testo completo nel tooltip) -->
+                        <svg:text *ngIf="node.obiettivoInizialeBreve"
+                          class="etichetta-arco etichetta-entrata"
+                          [attr.x]="node.dimension.width / 2"
+                          y="-12"
+                          text-anchor="middle"
+                          dominant-baseline="central">
+                          <svg:title>Investigation goal: {{ node.obiettivoIniziale }}</svg:title>
+                          {{ node.obiettivoInizialeBreve }}
+                        </svg:text>
+
+                        <!-- Nodo finale: la sua CONCLUSION sotto il nodo, abbreviata (testo completo nel tooltip) -->
+                        <svg:text *ngIf="node.conclusioneFinaleBreve"
+                          class="etichetta-arco etichetta-uscita"
+                          [attr.x]="node.dimension.width / 2"
+                          [attr.y]="node.dimension.height + 14"
+                          text-anchor="middle"
+                          dominant-baseline="central">
+                          <svg:title>Conclusion: {{ node.conclusioneFinale }}</svg:title>
+                          {{ node.conclusioneFinaleBreve }}
+                        </svg:text>
+
+                        <!-- Valutazione 'inconclusive': riga rossa dentro il nodo, lungo il bordo inferiore
+                             (rientrata di 3 px ai lati per non uscire dagli angoli arrotondati) -->
+                        <svg:rect *ngIf="node.inconcludente"
+                          x="3"
+                          [attr.y]="node.dimension.height - 5"
+                          [attr.width]="node.dimension.width - 6"
+                          height="4"
+                          rx="2"
+                          ry="2"
+                          fill="#d32f2f">
+                          <svg:title>Inconclusive</svg:title>
+                        </svg:rect>
+
+                        <!-- Le icone stanno su un fondino rotondo chiaro (non bianco pieno), così restano leggibili sul colore del nodo -->
+
+                        <!-- Icona presa dalla colonna icona della griglia, in alto a sinistra -->
+                        <svg:g *ngIf="node.iconaSinistra" transform="translate(4, 4)">
+                          <svg:title>{{ node.titoloIconaSinistra }}</svg:title>
+                          <svg:circle cx="12" cy="12" r="12" [attr.fill]="node.iconaSinistra.indexOf('_white') > -1 ? '#43784a' : '#e4ebf3'" stroke="#0d47a1" stroke-opacity="0.35" stroke-width="1"></svg:circle>
+                          <svg:image [attr.href]="node.iconaSinistra" x="2" y="2" width="20" height="20"
+                            preserveAspectRatio="xMidYMid meet"></svg:image>
+                        </svg:g>
+
+                        <!-- Icona dello stato del nodo, in alto a destra (le gif restano animate) -->
+                        <svg:g *ngIf="node.icona" [attr.transform]="'translate(' + (node.dimension.width - 28) + ', 4)'">
+                          <svg:title>{{ node.riga?.STATUS }}</svg:title>
+                          <svg:circle cx="12" cy="12" r="12" [attr.fill]="node.icona.indexOf('_white') > -1 ? '#43784a' : '#e4ebf3'" stroke="#0d47a1" stroke-opacity="0.35" stroke-width="1"></svg:circle>
+                          <svg:image [attr.href]="node.icona" x="2" y="2" width="20" height="20"
+                            preserveAspectRatio="xMidYMid meet"></svg:image>
+                        </svg:g>
+
+                        <svg:text
+                          [attr.x]="node.dimension.width / 2"
+                          y="25"
+                          text-anchor="middle"
+                          alignment-baseline="central"
+                          fill="white">
+
+                          <tspan
+                            *ngFor="let line of (node.label || '').split('\n'); let i = index"
+                            [attr.x]="node.dimension.width / 2"
+                            [attr.dy]="i === 0 ? 0 : 18">
+                            {{ line }}
+                          </tspan>
+                        </svg:text>
+                      </svg:g>
+                    </ng-template>
+                  </ngx-graph>
+                </div>
+              </as-split-area>
+            </as-split>
+          </as-split-area>
+        </as-split>
+      </div>
+    </as-split-area>
+
+    <as-split-area [size]="70">
+      <kendo-tabstrip (tabSelect)="onTabSelect($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%; ">
+        <kendo-tabstrip-tab [selected]="tabSelezionato == 0">
+          <ng-template kendoTabTitle>
+            <span
+              title="Simplified conversational investigation interface. The AI analyzes the available evidence, provides conclusions, and suggests the next actions to continue the investigation">
+              Chat Mode
+            </span>
+          </ng-template>
+
+          <ng-template kendoTabContent>
+            <!-- Chat Mode in un'unica colonna scorrevole: sopra la risposta, sotto i Next Investigation Nodes -->
+            <div #contenitoreScroll
+              style="width: 100%; height: 100%; position: relative;"
+              [style.overflow]="caricamentoNodi ? 'hidden' : 'auto'">
+              <div style="width: 100%; position: relative;">
+                <div *ngIf="chatMode1" style="float: left; width: 100%; height: auto; overflow: hidden; padding-top: 3px; margin-bottom: 3px;">
+                  <div style="width: 40%; float: left;">
+                    <div style="float: left; text-align: left; padding-top: 5px; margin-right: 8px;">
+                      Vote
+                    </div>
+                    <!-- Voto con 5 stelle: clic su una stella per votare, clic sulla stella già scelta per togliere il voto -->
+                    <div style="float: left; text-align: left; white-space: nowrap; user-select: none;"
+                      (mouseleave)="votoEvidenziato = 0">
+                      <span *ngFor="let stella of [1, 2, 3, 4, 5]"
+                        (click)="impostaVoto(stella)"
+                        (mouseenter)="votoEvidenziato = stella"
+                        [title]="+voto === stella ? 'Remove vote' : 'Vote ' + stella + ' (1 = worst, 5 = best)'"
+                        [style.color]="stella <= (votoEvidenziato || +voto || 0) ? '#f5a623' : '#c8c8c8'"
+                        style="cursor: pointer; font-size: 24px; line-height: 28px; padding-right: 2px;">{{ stella <= (votoEvidenziato || +voto || 0) ? '★' : '☆' }}</span>
+                    </div>
+                  </div>
+                  <div style="width: 60%; float: left;">
+                    <div style="width: 20%; float: left; text-align: left; padding-top: 5px;">
+                      Comment
+                    </div>
+                    <div style="width: calc(80% - 10px); float: left;">
+                        <!-- <input type="text" [(ngModel)]="commento" (blur)="updateRow()" style="width: 100%; height: 24px; border: 1px solid #cccccc"/> -->
+                      <textarea [(ngModel)]="commento" 
+                            style = "width: 100%;
+                            height: 24px;
+                            border: 1px solid #cccccc;
+                            line-height: 1;
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
+                            box-sizing: border-box;"
+                      ></textarea>
+
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+                <div style="width: 100%; height: 40px; float: left; text-align: right;">
+                  <button *ngIf="chatMode1" class="bottoneNextNode primary" (click)="exportToHTML()">Export to HTML</button>
+                </div>
+                <div [innerHTML]="chatMode1"
+                    style="width: 100%;
+                    font-family: system-ui, sans-serif;
+                    user-select: auto;
+                    line-height: 15px;
+                    float: left;
+                    text-align: left;
+                    padding: 2px;
+                    box-sizing: border-box;
+                    background: #f3f4f6;">
+                </div>
+                <div style="clear: both;"></div>
+
+                <div *ngIf="salvataggioPDF" class="k-i-loading"
+                  style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                ></div>
+              </div>
+              <!-- Senza position: relative, lo spinner di caricamento copre l'intera colonna (che durante il caricamento
+                   torna in cima e non scorre) e non solo la parte dei nodi -->
+              <div
+                style="
+                  width: 100%;
+                  background:#eef2f7;
+                  font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                  color:#0f172a;">
+                <section class="section">
+                  <h2>Next Investigation Nodes</h2>
+                  <div class="subtitle">                
+                    Select the next investigation step. The generated prompt can be edited before execution.
+                  </div>
+                  <div class="node-list" style="line-height: 16.3px;">
+                    <label *ngFor="let node of nextNodes" (click)="selectNextNode(node)" [class.selected]="selectedNextNode === node">
+                      <input type="radio" name="nextNode" [value]="node" [checked]="selectedNextNode === node" style="margin-right: 5px;" />              
+                      <span style="font-weight: bold;">{{ node.title }}</span><br />
+                      {{ node.description }}
+                    </label>
+                  </div>
+                  <div class="actions">
+                    <!-- <button class="bottoneNextNode secondary" (click)="resetPrompt()">Reset</button> -->
+                    <button class="bottoneNextNode primary" (click)="executeFromNode('HOTL')">Continue autonomously</button>
+                    <button class="bottoneNextNode primary" (click)="executeFromNode('HITL')">Run selected investigation</button>
+                    <button class="bottoneNextNode primary" (click)="showPrompt = !showPrompt">Show Edit Prompt</button>
+                  </div>
+
+                  <div *ngIf="showPrompt" class="prompt-section">
+                    <!-- Titolo e campo sulla stessa riga: il campo prende tutto lo spazio rimasto -->
+                    <div class="prompt-header" style="justify-content: flex-start; gap: 10px;">
+                      <strong style="flex: 0 0 auto;">Investigation</strong>
+                      <input type="text" [(ngModel)]="investigation"
+                        style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; height: 26px;" />
+                    </div>
+
+                    <div class="prompt-header">
+                      <strong>Selected Investigation Prompt</strong>
+                      <span class="prompt-chip">Analyze nearby failures</span>
+                    </div>
+                    <textarea [(ngModel)]="promptNode" 
+                      style="width: 100%;
+                        display: block;
+                        min-height: 280px;
+                        border: 1px solid #cbd5e1;
+                        border-radius: 16px;
+                        padding: 16px;
+                        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+                        font-size: 13px;
+                        line-height: 1.45;
+                        background: #fbfdff;
+                        color: #172033;">
+                      </textarea>
+                  </div>
+
+                  <div *ngIf="caricamentoNodi || caricamentoEventiInCorso2" style="
+                    position: absolute; 
+                    left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.55);       
+                    display: flex; justify-content: center; align-items: center;">
+                    <img [src]="Utils.linkIcone + '/spinner.gif'" style="width: 125px; height: 125px;" >
+                  </div>
+                </section>
+              </div>
+            </div>
+          </ng-template>      
+        </kendo-tabstrip-tab>
+
+        <kendo-tabstrip-tab [selected]="tabSelezionato == 1">
+          <ng-template kendoTabTitle>
+            <span
+              title="">
+              Expert Investigation
+            </span>
+          </ng-template>
+
+          <ng-template kendoTabContent>
+            <kendo-tabstrip (tabSelect)="onTabSelect2($event)" [animate]="false" style="overflow: hidden; width: 100%; height: 100%; ">
+              <!-- Il numero in [selected] deve essere la posizione del tab (0 = primo): onTabSelect2 salva quella -->
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 0">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="System prompt sent to the LLM (parameter AIREQ_SYSTEM_PROMPT)">
+                    System Prompt
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <textarea [ngModel]="systemPrompt" disabled style="tab-size: 4; resize: none;overflow: auto; white-space: pre-wrap; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 1">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Instructions used to build the Investigation Memory (parameter AIREQ_SUMMARY_INSTRUCTION)">
+                    Investigation Memory Instructions
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <jsone-component                
+                    [debug]="debug"
+                    [lista]="summaryInstruction"
+                    [linkIcone]="Utils.linkIcone"
+                    [numeroFrame]="NumeroFrame"
+                    [frameAttivo]="frameAttivo"
+                    [dimensioneDiv]="dimeJsonWindow"
+                  >
+                  </jsone-component>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 2">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Defines the instruction or request executed by the Investigation Node">
+                    Prompt
+                  </span>
+                </ng-template>
+                
+                <ng-template kendoTabContent>
+                  <!-- <div style="float: left; width: 100%; height: 100%; overflow: auto; border: 1px solid #cccccc;"> -->
+                    <!-- <div [innerHTML]="domandaAVideo" style="overflow: auto; user-select: auto; line-height: 15px; text-align: left; height: 100%; padding: 2px;"></div> -->
+                    <textarea [(ngModel)]="domandaAVideo" disabled style="tab-size: 4; resize: none;overflow: auto; white-space: pre-wrap; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
+                  <!-- </div> -->
+                </ng-template>      
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 3">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="">
+                    Execution Context
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                    <jsone-component                
+                      [debug]="debug"
+                      [lista]="executionContext"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame"
+                      [frameAttivo]="frameAttivo"
+                      [dimensioneDiv]="dimeJsonWindow"
+                      [aCapoAutomatico]="true"
+                      [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
+                    >
+                    </jsone-component>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 4">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Semantic Investigation Memory received from previous nodes in the Investigation Graph. It displays the concatenation of the Investigation Memory generated by the parent nodes represented by the incoming arcs of the graph">
+                    Incoming Investigation Memory
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <div style="float: left; width: 100%; height: calc(100% - 35px); overflow: auto; border: 1px solid #cccccc;">
+                    <!-- <div [innerHTML]="summary_father_list | safeComment" style="tab-size: 4; line-height: 15px; user-select: auto; text-align: left; height: 100%; padding: 2px;"></div> -->
+
+                    <jsone-component                
+                      [debug]="debug"
+                      [lista]="summary_father_list"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame"
+                      [frameAttivo]="frameAttivo"
+                      [dimensioneDiv]="dimeJsonWindow"
+                      [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
+                    >
+                    </jsone-component>
+                  </div>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 5">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="">
+                    Reference Knowledge
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <textarea [ngModel]="referenceKnowledge" disabled style="tab-size: 4; resize: none;overflow: auto; white-space: pre-wrap; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 6">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Displays the retrieval execution used to collect the Data passed to the Investigation Node">
+                    Data Retrieval
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                    <jsone-component                
+                      [debug]="debug"
+                      [lista]="api_call"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame"
+                      [frameAttivo]="frameAttivo"
+                      [dimensioneDiv]="dimeJsonWindow"
+                      [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
+                    >
+                    </jsone-component>
+                </ng-template>      
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 7">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Structured data, events, KPIs, traces, and contextual information provided to the prompt execution">
+                    Prompt Data
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <!-- <div style="float: left; width: 100%; height: 100%; overflow: auto; border: 1px solid #cccccc;"> -->
+                    <!-- <div [innerHTML]="resultPrompt" style="overflow: auto; user-select: auto; line-height: 15px; text-align: left; height: 100%; padding: 2px;"></div> -->
+                    <textarea *ngIf="tipoResultPrompt == 'text'" [(ngModel)]="resultPrompt" disabled style="tab-size: 4; font-family: Courier; resize: none; white-space: pre; overflow: auto; user-select: auto; width: 100%; line-height: 15px; text-align: left; height: calc(100% - 10px); padding: 2px;"></textarea>
+                    <jsone-component  
+                      [debug]="debug"
+                      [lista]="resultPrompt"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame"
+                      [frameAttivo]="frameAttivo"
+                      [eseguiRondella]="false"
+                    >
+                    </jsone-component>
+                  <!-- </div> -->
+                </ng-template>      
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 8">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Semantic Investigation Memory propagated to subsequent Investigation Nodes">
+                    Output Investigation Memory
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <div style="float: left; width: 100%; height: calc(100% - 35px); overflow: auto; border: 1px solid #cccccc;">
+                    <!-- <div [innerHTML]="summary | safeComment" style="tab-size: 4; line-height: 15px; user-select: auto; text-align: left; height: 100%; padding: 2px;"></div> -->
+
+                    <jsone-component                
+                      [debug]="debug"
+                      [lista]="summary"
+                      [linkIcone]="Utils.linkIcone"
+                      [numeroFrame]="NumeroFrame"
+                      [frameAttivo]="frameAttivo"
+                      [dimensioneDiv]="dimeJsonWindow"
+                      [ritornaJsonFormattato]="scatenaEventoPerRitornoJson"
+                      [aCapoAutomatico]="true"
+                    >
+                    </jsone-component>
+                  </div>
+                </ng-template>
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 9">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="LLM response generated from the current prompt execution in a human-readable format">
+                    Answer
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <div style="float: left; width: 100%; height: auto; overflow: hidden; padding-top: 3px; margin-bottom: 3px;">
+                    <div style="width: 40%; float: left;">
+                      <div style="float: left; text-align: left; padding-top: 5px; margin-right: 8px;">
+                        Vote
+                      </div>
+                      <!-- Voto con 5 stelle: clic su una stella per votare, clic sulla stella già scelta per togliere il voto -->
+                      <div style="float: left; text-align: left; white-space: nowrap; user-select: none;"
+                        (mouseleave)="votoEvidenziato = 0">
+                        <span *ngFor="let stella of [1, 2, 3, 4, 5]"
+                          (click)="impostaVoto(stella)"
+                          (mouseenter)="votoEvidenziato = stella"
+                          [title]="+voto === stella ? 'Remove vote' : 'Vote ' + stella + ' (1 = worst, 5 = best)'"
+                          [style.color]="stella <= (votoEvidenziato || +voto || 0) ? '#f5a623' : '#c8c8c8'"
+                          style="cursor: pointer; font-size: 24px; line-height: 28px; padding-right: 2px;">{{ stella <= (votoEvidenziato || +voto || 0) ? '★' : '☆' }}</span>
+                      </div>
+                    </div>
+                    <div style="width: 60%; float: left;">
+                      <div style="width: 20%; float: left; text-align: left; padding-top: 5px;">
+                        Comment
+                      </div>
+                      <div style="width: calc(80% - 10px); float: left;">
+                         <!-- <input type="text" [(ngModel)]="commento" (blur)="updateRow()" style="width: 100%; height: 24px; border: 1px solid #cccccc"/> -->
+                        <textarea [(ngModel)]="commento" 
+                              style = "width: 100%;
+                              height: 24px;
+                              border: 1px solid #cccccc;
+                              line-height: 1;
+                              white-space: pre-wrap;
+                              word-wrap: break-word;
+                              box-sizing: border-box;"
+                        ></textarea>
+
+                      </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                  </div>
+                  <div style="float: left; width: 100%; height: calc(100% - 35px); overflow: auto; border: 1px solid #cccccc;">
+                    <div [innerHTML]="resultRisposta | safeComment" style="tab-size: 4; line-height: 15px; user-select: auto; text-align: left; height: 100%; padding: 2px;"></div>
+                  </div>
+                </ng-template>      
+              </kendo-tabstrip-tab>
+
+              <kendo-tabstrip-tab [selected]="tabSelezionato2 == 10">
+                <ng-template kendoTabTitle>
+                  <span
+                    title="Add a new Investigation Node to the current Investigation Case. Select in the grid the parent nodes whose Investigation Memory will be propagated to the new node">
+                    Add Next Investigation Node
+                  </span>
+                </ng-template>
+
+                <ng-template kendoTabContent>
+                  <as-split direction="vertical" [gutterSize]="3">
+                    <as-split-area [size]="35" style="overflow: hidden !important;">
+                      <!-- <div style="width: 100%; height: 185px; float: left; margin-top: 25px; border-bottom: 1px solid #999999;"> -->
+                        <app-ants-grid-lib          
+                          [sessioneAttuale]="sessionId"
+                          [debug]="debug"
+                          [righePerPaginareAutomaticamente]="righePerPaginareAutomaticamente"
+                          [indirizzoServer]="indirizzoServer"
+                          [modalita]="'Griglia'"
+                          [title]="frameName"
+                          [titleDaDatiGriglia] = "true"
+                          [data]="datiTemplate"
+                          [userName]="userName"
+                          [maskName]="maskNameTemplate[NumeroFrame]"
+                          [DimensioneFont]='12'
+                          [newKeyVisibile]='false'
+                          [refreshKeyVisibile]='true'
+                          [editKeyVisibile]='false'
+                          [deleteKeyVisibile]='true'
+                          [raggruppabile]="true"
+                          [campiPerRaggruppamento]="'FOLDER'"
+                          [infoKeyVisibile]='true'
+                          [confirmKeyVisibile]="false"
+                          [selezioneMultipla]='false'
+                          [ricordaSelezione]='false'
+                          [selezioneMultipla]='false'
+                          [eliminaSelezioniSuClickRiga]="true"
+                          [impostaSelezione]="selezioneTemplateAI"
+                          [AutoResize]="false"
+                          [ManualResize]="effettuaAutoFitTemplate"
+                          [righeAutomatiche]="false"
+                          [linkIcone]="Utils.linkIcone"
+                          [datiNuovi]="datiTemplate && datiTemplate.DataTable"
+                          [messaggioWarning]="messaggioWarningTemplate"
+                          
+                          (cellClick)="selezioneRigaTemplate($event, false)"
+                          (refresh)="refreshTemplate(false)"
+                          (resetLayout)="refreshTemplate(true)"
+                          (deleteKeyPressed)="eliminaTemplate($event)"
+                          (ritornoDimensioniColonne)="ritornoDimensioniColonneTemplate($event)"
+                        >
+                        </app-ants-grid-lib>
+
+                        <div *ngIf="eseguitoClickSuRiga == true" class="k-i-loading"
+                          style="position: sticky; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+                        ></div>
+                      <!-- </div> -->
+                    </as-split-area>
+                    <as-split-area [size]="65" style="overflow: auto;">
+                      <!-- <div style="width: 100%; height: calc(100% - 228px); float: left; margin-top: 8px;"> -->
+                        <div style="width: 100%; height: 30px; float: left;">
+                          <div style="width: 20%; float: left; text-align: left; margin-top: 5px;">
+                            Name
+                          </div>
+                          <div style="width: calc(40% - 8px); float: left;" title="Identifies the “Analysis Template”, change the name before saving, to save it as a new Analysis Template">
+                            <input type="text" [(ngModel)]="title" style="width: 100%; resize: none; height: calc(100% - 25px);" />
+                          </div>
+                          <div style="width: 20%; float: left; text-align: left; margin-left: 7px; margin-top: 5px;">
+                            Node Path
+                          </div>
+                          <div style="width: calc(20% - 8px); float: left;" title="Identifies the “Analysis Template”, change the name before saving, to save it as a new Analysis Template">
+                            <input type="text" [(ngModel)]="node_path" style="width: 100%; resize: none; height: calc(100% - 25px);" />
+                          </div>
+                        </div>
+
+                        <div style="width: 100%; height: 30px; float: left;">
+                          <div style="width: 20%; float: left; text-align: left; margin-top: 5px;">
+                            Description
+                          </div>
+                          <div style="width: calc(80% - 8px); float: left;">
+                            <input type="text" [(ngModel)]="descrizione" style="width: 100%; resize: none; height: calc(100% - 25px);" />
+                          </div>
+                        </div>
+
+                        <div *ngIf="modalitaEventi" style="width: 100%; height: 30px; float: left;">
+                          <div style="width: 20%; float: left; text-align: left; margin-top: 5px;">
+                            Prompt Data Type
+                          </div>
+                          <div style="width: calc(80% - 8px); float: left;" title="If msg_list the overall content of the event grid is passed for the analysis, if msg_single only the currently selected msg is passed.">
+                            <!-- <input type="text" [(ngModel)]="prompt_dt" style="width: 100%; resize: none; height: calc(100% - 25px);" /> -->
+
+                            <app-combo-component
+                              [Tipologia]="'Dropdown'"
+                              [userName]="userName"
+                              [data] = "datiPDT"
+                              [campoId]="'name'"
+                              [accettaNuovi]="false"
+                              [campoTesto]="'name'"
+                              [NomeCombo]="'cmbDatiDataType'"
+                              [pulisceValoriDiBase]="true"
+                              [ricordaUltimoValore]='false'
+                              [valoreDefault]="prompt_dt"
+                              [visibileElimina]="false"
+
+                              (selezioneEffettuata)="selectDTT($event)"
+                            >
+                            </app-combo-component>
+
+                          </div>
+                        </div>
+
+                        <div style="width: 100%; height: 30px; float: left;">
+                          <div style="width: 20%; float: left; text-align: left;">
+                            LLM Model
+                          </div>
+                          <div style="width: calc(80% - 8px); float: left;">
+                            <app-combo-component
+                              [Tipologia]="'Dropdown'"
+                              [userName]="userName"
+                              [altezzaMassima]="120"
+                              [data]="listaProfiliAI"
+                              [campoId]="'name'"
+                              [accettaNuovi]="false"
+                              [campoTesto]="'name'"
+                              [NomeCombo]="'cmbProfiliAIE'"
+                              [pulisceValoriDiBase]="true"
+                              [ricordaUltimoValore]='false'
+                              [valoreDefault]="llm_profile_id"
+                              [visibileElimina]="false"
+
+                              (selezioneEffettuata)="selectProfiloAI($event)"
+                            >
+                            </app-combo-component>
+                          </div>
+                        </div>
+
+                        <div style="width: 100%; height: calc(100% - 120px); float: left; overflow: auto;">
+                          <div style="width: 20%; height: 100%; overflow: auto; float: left; text-align: left;">
+                            Prompt
+                            <!-- <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && modalitaEdit" [src]="Utils.linkIcone + '/icons/Failed.png'" (click)="attivaEdit(false)" title="Close Edit" style="width: 20px; height: 20px; cursor: pointer;">
+                            <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !modalitaEdit" [src]="Utils.linkIcone + '/icons/Edit.png'" (click)="attivaEdit(true)" title="Edit Text" style="width: 20px; height: 20px; cursor: pointer;"> -->
+                            <br />
+                            <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addColumnDescription()">
+                              Add column description</div>
+                            <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addRagPrompt()">
+                              Add RAG Prompt</div>
+
+                            <div class="bottone2" style="width: 95%; height: auto; margin-top: 5px; padding: 2px;" 
+                              (click)="saveTemplate()" 
+                              title="Saves the current Analysis Template, defined by the fields above, plus the event grid configuration (i.e. filters, fields to be extracted from the messages and sampled measures).">
+                              Save this analysis template
+                            </div>
+                            <div *ngIf="visualizzareTastoSubmit" class="bottone2" style="width: 95%; height: auto; margin-top: 5px; padding: 2px;" 
+                              (click)="submitQuery(false, 'HITL')"
+                              title="Creates an Analysis Request and submits it to the external AI provider integrated with the GeoAnts platform. The list of requests and answers is displayed in the “Analysis” tab">
+                              Execute Request to AI
+                            </div>
+                            <div *ngIf="visualizzareTastoSubmit" class="bottone2" style="width: 95%; height: auto; margin-top: 5px; padding: 2px;" 
+                              (click)="submitQuery(true, 'HITL')"
+                              title="Creates an Analysis Request and submits it to the external AI provider integrated with the GeoAnts platform. The list of requests and answers is displayed in the “Analysis” tab">
+                              Execute Request to AI (only incoming memory)
+                            </div>                    
+                            <div *ngIf="visualizzareTastoSubmit" class="bottone2" style="width: 95%; height: auto; margin-top: 5px; padding: 2px;" 
+                              (click)="submitQuery(false, 'HOTL')"
+                              title="">
+                              Execute Autonomously
+                            </div>                    
+                          </div>
+
+                          <div style="width: calc(80% - 6px); height: calc(100% - 2px); float: left;" title="defines the steps for the analysis, they are in human readable format, and can be executed by an external AI provider integrated with the GeoAnts platform">
+                            <!-- <textarea *ngIf="modalitaEdit" [(ngModel)]="prompt" style="line-height: 15px; width: 100%; height: 95%;"></textarea>
+
+                            <div *ngIf="!modalitaEdit" [innerHTML]="prompt | safeComment" style="float: left; line-height: 15px; width: 100%; text-align: left; height: 95%; overflow: auto; padding: 2px; border: 1px solid #cccccc;"></div> -->
+                            <textarea [(ngModel)]="prompt" 
+                              style="resize: none;
+                                  float: left;
+                                  width: 100%;
+                                  height: 100%;
+                                  padding: 6px;
+                                  border: 1px solid #cccccc;
+                                  overflow: auto;
+                                  line-height: 1;
+                                  font-size: 14px;
+                                  white-space: pre-wrap;
+                                  word-wrap: break-word;
+                                  box-sizing: border-box;"
+                            ></textarea>
+                          </div>
+                        </div>
+
+                        <!-- <div style="width: 100%; height: 10%; padding-top: 3px; float: left;">
+                          <div style="width: 20%; height: 100%; float: left; text-align: left; overflow: hidden;">
+                            <div class="bottone" style="height: 20px;" (click)="saveTemplate()" 
+                              title="Saves the current Analysis Template, defined by the fields above, plus the event grid configuration (i.e. filters, fields to be extracted from the messages and sampled measures).">
+                              Save this analysis template
+                            </div>
+                            < !-- <div *ngIf="rigaSelezionataTemplate" class="bottone" style="height: 20px;" (click)="saveAsTemplate()">Save As</div>
+                            <div *ngIf="rigaSelezionataTemplate" class="bottone" style="height: 30%;" (click)="loadTemplate()">Load</div> -- >
+                          </div>
+                          <div style="width: calc(80% - 8px); height: 100%; float: left; overflow: hidden;">
+                            <div style="width: calc(100% - 3px); float: left; text-align: right;"> -->              
+                            <!-- </div>
+                            <div style="width: calc(50% - 6px); float: left; text-align: right; margin-left: 5px;">
+                              <div class="bottone" style="width: 100%; height: 20px;" (click)="gestioneTemplate = false;">Cancel</div>
+                            </div>
+                          </div>
+                        </div> -->
+                      <!-- </div> -->
+                    </as-split-area>
+                  </as-split>
+                </ng-template>      
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+          </ng-template>
+        </kendo-tabstrip-tab>
+
+      </kendo-tabstrip>
+    </as-split-area>
+  </as-split>
+</div>
+
+<div *ngIf="modalitaTest" 
+  class="drag-boundary" ngDraggable [handle]="handleMenuPL"
+  style="position: absolute; left: 5%; top: 5%; background-color: white; z-index: 20; width: 90%; height: auto;
+    border: 1px solid #999999; border-radius: 3px; box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);" class="resizable">
+  <div class="bottoniIntestazione" style="background-color: #565656; height: 30px; float: left; padding: 0px; width: 100%; border-bottom: 1px solid #999999;"
+    #handleMenuPL class="drag-block">
+    <div style="width: calc(100% - 60px); float: left; text-align: center; color: white;">
+      Submit AI Request
+    </div>
+
+    <div style="width: 30px; float: left; text-align: center;">
+      <img [src]="Utils.linkIcone + '/icons/check-circle_white.png'" style="width: 25px; height: 25px;" (click)="modificaRiga()">
+    </div>
+
+    <div style="width: 30px; float: left; text-align: center;">
+      <img [src]="Utils.linkIcone + '/icons/close_context.png'" style="width: 25px; height: 25px;" (click)="modalitaTest = false">
+    </div>
+  </div>
+  
+  <div style="width: calc(100% - 5px); height: calc(100% - 30px); margin-top: 30px;">
+    <!-- <div style="width: 100%; float: left; height: 50px; margin: 3px;"> -->
+    <div style="width: 10%; float: left; margin-top: 5px;">
+      Context
+    </div>
+    <div style="width: 90%; float: left; height: 30px; overflow: hidden;">
+      <input type="text" [(ngModel)]="context" style="width: 100%; height: 30px; border: 1px solid #cccccc"/>
+    </div>
+
+    <div style="width: 10%; float: left; margin-top: 5px;">
+      Hash ID
+    </div>
+    <div style="width: 90%; float: left; height: 30px; overflow: hidden;">
+      <input type="text" [(ngModel)]="hashID" style="width: 100%; height: 30px; border: 1px solid #cccccc"/>
+    </div>
+
+    <div style="width: 10%; float: left; margin-top: 5px;">
+      Answer
+    </div>
+    <div style="width: 90%; float: left; height: 30px; overflow: hidden;">
+      <input type="text" [(ngModel)]="answer" style="width: 100%; height: 30px; border: 1px solid #cccccc"/>
+    </div>
+
+    <div style="width: 10%; float: left; margin-top: 5px;">
+      Title
+    </div>
+    <div style="width: 90%; float: left; height: 30px; overflow: hidden;">
+      <input type="text" [(ngModel)]="titolo" style="width: 100%; height: 30px; border: 1px solid #cccccc"/>
+    </div>
+
+    <div style="width: 10%; float: left; margin-top: 5px;">
+      Summary
+    </div>
+    <div style="width: 90%; float: left; height: 30px; overflow: hidden;">
+      <input type="text" [(ngModel)]="summary2" style="width: 100%; height: 30px; border: 1px solid #cccccc"/>
+    </div>
+
+    <!-- <div style="width: 15%; float: left; margin-left: 5px;">
+          Description
+      </div>
+      <div style="width: calc(35% - 5px); float: left; height: 100%; overflow: hidden;">
+          <textarea type="text" [(ngModel)]="descrizione" style="width: 100%; height: 100%; border: 1px solid #cccccc"></textarea>
+      </div>
+      <div style="width: 10%; float: left; text-align: right;">
+          <input type="button" (click)="addQuery('HITL')" value="Send" />
+      </div>
+    </div>
+
+    <div style="width: 100%; float: left; height: 10%; margin: 3px;">
+    <div style="width: 10%; float: left;">
+        Cost
+    </div>
+    <div style="width: 23%; float: left; text-align: right;">
+        <input type="text" [(ngModel)]="cost" style="width: 100%; height: 30px; border: 1px solid #cccccc" />
+    </div>
+    <div style="width: calc(10% - 5px); float: left; margin-left: 5px;">
+        Duration
+    </div>
+    <div style="width: 23%; float: left; text-align: right;">
+        <input type="text" [(ngModel)]="duration" style="width: 100%; height: 30px; border: 1px solid #cccccc" />
+    </div>
+    <div style="width: calc(10% - 5px); float: left; margin-left: 5px;">
+        Status
+    </div>
+    <div style="width: 24%; float: left; text-align: right;">
+        <input type="text" [(ngModel)]="status" style="width: 100%; height: 30px; border: 1px solid #cccccc" />
+    </div>
+    </div>
+
+    <div style="width: 100%; float: left; height: calc(45% - 40px); margin: 3px;">
+    <div style="width: 10%; float: left;">
+        Prompt
+    </div>
+    <div style="width: 90%; float: left; height: 100%;">
+        <textarea type="text" [(ngModel)]="promptSingolo" style="width: 100%; height: 100%; border: 1px solid #cccccc;"></textarea>
+    </div>
+    </div>
+
+    <div style="width: 100%; float: left; height: calc(45% - 35px); margin: 3px;">
+    <div style="width: 10%; float: left;">
+        Prompt Data
+    </div>
+    <div style="width: 90%; float: left; height: 100%;">
+        <textarea type="text" [(ngModel)]="promptDataSingolo" style="width: 100%; height: 100%; border: 1px solid #cccccc;"></textarea>
+    </div>
+    </div> -->
+  </div>
+</div>
+
+<!-- <div *ngIf = "esecuzioneQuery" class="bloccaSfondo"></div> -->
+<img *ngIf = "esecuzioneQuery" [src]="Utils.linkIcone + '/spinner.gif'" 
+  style="position: absolute; right: 0px; bottom: 0px; width: 50px; height: 50px;">

@@ -1,0 +1,7 @@
+{ 
+	"linkIcone": "/geoantsweb/assets/img",
+	"portable": true,
+	"serverPostRest": "/rpc",
+    "serverGEOServer": "/geoserver/",
+	"urlRoot": "/"
+}

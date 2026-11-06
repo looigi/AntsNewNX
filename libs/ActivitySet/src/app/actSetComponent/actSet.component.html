@@ -1,0 +1,478 @@
+
+<!-- Maschera aggiunta ACTSET -->
+<div #divContenitoreAS style="left: 0px; top: 0px; width: 100%; height: 100%; z-index: 2000;"
+  [style.position]="modalitaApertura == 'CONTEXT' ? 'fixed' : 'absolute'">
+  <div #myBounds ngDraggable ngResizable class="boxActSet drag-boundary" [handle]="handleMenu" (edge)="checkEdge($event)"
+    [ngClass]="{ 'top-b': !Utils.edge?.top, 'bottom-b': !Utils.edge?.bottom, 'left-b': !Utils.edge?.left, 'right-b': !Utils.edge?.right }"
+    [bounds]="divContenitoreAS" [inBounds]="true">
+    <div class="drag-block" class="barraSuperiore2">
+      <div #handleMenu style="width: 90%; float: left;">
+        <span *ngIf="modalitaApertura == 'FRAME'" style="font-weight: bold;">Add Activity to Act Set</span>
+        <span *ngIf="modalitaApertura == 'CONTEXT'" style="font-weight: bold;">Activity Set Editor</span>
+      </div>
+      <div style="width: 10%; float: right; text-align: right;">
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" title="Cancel" width="25px" height="25px"
+          (click)="mostraNascondeMenu()" style="cursor: pointer; margin-top: -3px; z-index: 9999;">
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+
+    <div *ngIf="modalitaApertura == 'FRAME'" style="width: calc(100% - 10px);
+              float: left;
+              height: 25px;
+              padding: 5px;
+              text-align: center;">
+      Selected: {{codiceActSet}}
+    </div>
+
+    <div style="width: calc(100% - 10px);
+              float: left;
+              padding: 5px;"
+        [style.height]="modalitaApertura == 'FRAME' ? 'calc(100% - 148px)' : 'calc(100% - 23px)'"
+    >
+      <as-split #splitMenu direction="horizontal">
+        <as-split-area [size]="30">
+          <!--             
+            *ngIf="datiFolders"
+          -->
+          <app-ants-grid-lib
+            [debug]="debug"
+            [sessioneAttuale]="sessionID2"
+            [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+            [indirizzoServer]="indirizzoServer"
+            [modalita]="'Griglia'"
+            [title]="'Activity'"
+            [data]="datiFolders"
+            [userName]="userName"
+            [maskName]="'GrigliaFolderM'"
+            [DimensioneFont]='12'
+            [newKeyVisibile]="false"
+            [editKeyVisibile]="false"
+            [deleteKeyVisibile]="false"
+            [infoKeyVisibile]="infoKeyVisibileF"
+            [confirmKeyVisibile]="false"
+            [selezioneMultipla]='false'
+            [refreshKeyVisibile]="true"
+            [impostaSelezione]="folderSelezionatoID"
+            [ricordaSelezione]='false'
+            [linkIcone]="Utils.linkIcone"
+            (ritornoDimensioniColonne)="ritornoDimensioniColonneFolders($event)"
+
+            (cellClick)='cellClickGridFolders($event)'
+            (refresh)="refreshFolders(false)"
+            (resetLayout)="refreshFolders(true)"
+          >
+          </app-ants-grid-lib>
+
+          <div *ngIf="attendiSalvataggio == true" class="k-i-loading"
+            style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+          ></div>
+
+          <!-- <div *ngIf="attendiSalvataggio" ngDraggable class="popupAttesa">
+          </div> -->
+        </as-split-area>
+        <as-split-area [size]="70" style="overflow: hidden;">
+          <as-split #splitMenu direction="vertical">
+            <as-split-area [size]="40">
+              <!-- 
+              [campiPerRaggruppamento]="'FOLDER'" 
+              *ngIf="datiActivitySet"
+              -->
+              <app-ants-grid-lib
+                [debug]="debug"
+                [sessioneAttuale]="sessionID2"
+                [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                [indirizzoServer]="indirizzoServer"
+                [modalita]="'Griglia'"
+                [title]="'Activities Set'"
+                [data]="datiActivitySet"
+                [userName]="userName"
+                [maskName]="'GrigliaSetM'"
+                [DimensioneFont]='12'
+                [newKeyVisibile]='true'
+                [newKeyPersistant]='true'
+                [editKeyVisibile]='ultimaSelezionataCod ? true : false'
+                [deleteKeyVisibile]='ultimaSelezionataCod ? true : false'
+                [infoKeyVisibile]="visibileTastoInfoS"
+                [confirmKeyVisibile]="visibileTastoConfirmS"
+                [refreshKeyVisibile]="true"
+                [copyKeyVisibile]="true"
+                [selezioneMultipla]='false'
+                [ricordaSelezione]='false'
+                [raggruppabile]='false'
+                [impostaSelezione]="ultimaSelezionataCod"
+                [impostaPagina]="impostaPagina1"
+                [datiNuovi]="datiActivitySet && datiActivitySet.DataTable"
+                [messaggioWarning]="messaggioWarningAS"
+                [AutoResize]="false"
+                [ManualResize]="resizeSet"
+                [linkIcone]="Utils.linkIcone"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneActSet($event)"
+
+                (confirmKeyPressed)='premutoTastoConfirmActivitySet($event)'
+                (cellClick)='cellClickGridSet($event)'
+                (newKeyPressed)='premutoTastoNewActivity($event)'
+                (editKeyPressed)='premutoTastoEditActivity($event)'
+                (deleteKeyPressed)='premutoTastoDeleteActSet($event)'
+                (refresh)='refreshGridSet($event, false)'
+                (resetLayout)='refreshGridSet($event, true)'
+                (copyKeyPressed)='copyKeyPremuto($event)'
+              >
+              </app-ants-grid-lib>
+
+              <div *ngIf="attendiSalvataggio2 == true" class="k-i-loading"
+                style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+              ></div>
+            </as-split-area>
+            <as-split-area [size]="60">
+              <as-split #splitMenu direction="vertical">
+                <as-split-area [size]="50">
+                  <!-- <div style="width: 100%; height: 4%;">
+                    <img *ngIf="datiActivitySetRec" src="../assets/img/icons/New.png"
+                          title="New" (click)="nuovaActivityFilter()" class="immagini">
+                  </div>
+                  <div style="width: 100%; height: 96%">
+                      *ngIf="datiActivitySetRec"
+                    <span *ngIf="selectedActSetRec && selectedActSetRec.dati">{{selectedActSetRec.dati.length}}</span>
+                      [deleteKeyVisibile]="selectedActSetRec && selectedActSetRec.dati && selectedActSetRec.dati.length > 0 ? true : false"
+                    -->
+                    <app-ants-grid-lib
+                      [debug]="debug"
+                      [sessioneAttuale]="sessionID2"
+                      [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                      [modalita]="'Griglia'"
+                      [indirizzoServer]="indirizzoServer"
+                      [title]="'Activities Set Rec'"
+                      [data]="datiActivitySetRec"
+                      [userName]="userName"
+                      [maskName]="'GrigliaSetRec'"
+                      [DimensioneFont]='12'
+                      [titleDaDatiGriglia]="true"
+                      [newKeyVisibile]="false"
+                      [newKeyPersistant]='false'
+                      [addKeyVisibile]="true"
+                      [addKeyPersistant]="true"
+                      [righeAutomatiche]="false"
+                      [removeKeyVisibile]="attivaTastiEditSetRec"
+                      [infoKeyVisibile]="true"
+                      [confirmKeyVisibile]="false"
+                      [refreshKeyVisibile]="true"
+                      [impostaSelezione]="pulisceSelezioneActSetRec"
+                      [editKeyVisibile]="attivaTastiEditSetRec"
+                      [ricordaSelezione]='false'
+                      [datiNuovi]="datiActivitySetRec && datiActivitySetRec.DataTable"
+                      [messaggioWarning]="messaggioWarningASR"
+                      [eliminaSelezioniSuClickRiga]='true'
+                      [AutoResize]="false"
+                      [ManualResize]="resizeSetRec"
+                      [linkIcone]="Utils.linkIcone"
+                      [impostaPagina]="impostaPagina2"
+                      [selezioneMultipla]="true"
+                      (ritornoDimensioniColonne)="ritornoDimensioniColonneActSetRec($event)"
+
+                      [tastoCopia]="true"
+                      (pasteEmit)="premutoTastoPaste($event)"
+                                  
+                      (refresh)='refreshGridSetRec($event, false)'
+                      (resetLayout)='refreshGridSetRec($event, true)'
+                      (lastSelectedOfGrid)='lastSelectedOfGridSetRec($event)'
+                      (addKeyPressed)='premutoTastoNew($event)'
+                      (removeKeyPressed)='premutoTastoEliminaActSetRec($event)'
+                      (deleteKeyPressed)='premutoTastoDeleteActSetRec($event)'
+                      (editKeyPressed)="premutoTastoEditSetRec($event)"
+                      (clickSelezioneSuCheckRiga)='checkClickGridSetRec($event)'
+                      (cellClick)='cellClickGridSetRec($event, false)'
+                      (selectedAllRows)="selezionateTutteLeRigheActSetRec($event)"
+                      (deselectedAllRows)="deselezionateTutteLeRigheActSetRec($event)"
+                      >
+                    </app-ants-grid-lib>
+                    <!-- (deleteKeyPressed)="premutoDeleteActSetRec($event)"
+                      (addKeyPressed)='premutoTastoNew($event)'
+                    -->
+
+                    <div *ngIf="attendiSalvataggio3 == true" class="k-i-loading"
+                      style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+                    ></div>
+                  <!-- </div> -->
+                </as-split-area>
+                <as-split-area [size]="50">
+                  <mappa-component
+                    [quale]="'Primary'"
+                    [Session]="sessionID2"
+                    [Utils]="Utils2"
+                    [activity]="activityPerMappa"
+                    [tmsInizio]="tmsInizioPerMappa"
+                    [tmsFine]="tmsFinePerMappa"
+                    [pulisce]="pulisceLayer"
+                  ></mappa-component>
+                </as-split-area>
+              </as-split>
+            </as-split-area>
+          </as-split>
+        </as-split-area>
+      </as-split>
+    </div>
+    <div style="clear: both;"></div>
+    <!-- <div style="width: calc(100% - 10px);
+                height: 35px;
+                float: left;
+                margin-top: 5px;
+                padding: 5px;">
+        <div style="width: 30%; float: left;">
+          <span style="font-weight: bold;">Partition</span>
+        </div>
+        <div style="width: 70%; float: left;">
+          <app-combo-component
+            *ngIf = "datiPartitionLabel"
+            [Tipologia]="'Combo'"
+            [userName]="userName"
+            [data]="datiPartitionLabel"
+            [campoId]="'CODE_STR'"
+            [campoTesto]="'VALUE_STR'"
+            [campoFiltro]="'VALUE_STR'"
+            [accettaNuovi]="true"
+            [NomeCombo]="'cmbPartitionLabelM'"
+            [pulisceValoriDiBase]="true"
+            [ricordaUltimoValore]='false'
+            [valoreDefault]="partitionLabelSel"
+
+            (selezioneEffettuata)="selezionaPartLabel($event)"
+          >
+          </app-combo-component>
+        </div>
+    </div> -->
+
+    <div *ngIf="modalitaApertura == 'FRAME'" style="width: calc(100% - 10px);
+                height: 38px;
+                float: left;
+                padding: 5px;">
+      <!--<div style="width: 50%; float: left; text-align: center; margin-top: 8px;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/confirm.png'" title="Ok" width="25px" height="25px" (click)="confermaActSet(true);" style="cursor: pointer">
+        &nbsp;
+      </div> -->
+      <div *ngIf="modalitaApertura == 'FRAME'" style="width: 100%; float: left; text-align: center; margin-top: 8px;">
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/add_to_act_set.png'" title="Add the selected Activity to the selected Act Set" width="25px" height="25px" (click)="confermaActSet(false);" style="cursor: pointer">
+      </div>
+      <!-- v<div style="width: 33%; float: left; text-align: center; margin-top: 8px;">
+        <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close.png'" title="Cancel" width="25px" height="25px" (click)="chiudiMaschera()" style="cursor: pointer">
+      </div> -->
+    </div>
+  </div>
+
+<ng-container *ngIf="checkPopup">
+  <popupforcheck-component
+    [Utils]="Utils"
+    [sessionID]="sessionID2"
+    [datiGriglia]="datiGrigliaCheck"
+    [indirizzoServer]="indirizzoServer"
+    [userName]="userName"
+    [modalita]="modalitaCheckPopup"
+    [operazione]="operazioneCheckPopup"
+
+    (confermaPopup)="eseguiCheck($event);"
+    (chiudePopup)="checkPopup = false;"
+  ></popupforcheck-component>
+</ng-container>
+
+  <ng-container *ngIf="editVisibile">
+    <activity-edit-component      
+      [Debug]="debug"
+      [sessioneID]="sessionID2"
+      [nuovo]="Nuovo"
+      [visibile]="editVisibile"
+      [activityGroup]="activityGroup"
+      [userName]="userName"
+      [dati]="activitySelected2"
+      [Utils]="Utils"
+      [folderSelezionata]="folderSelezionata"
+      [indirizzoServer]="indirizzoServer"
+
+      (visibileEmit)="visibileDaMascheraActivityEdit($event)"
+      (refreshData)="refreshActivity($event)"
+    >
+    </activity-edit-component>
+  </ng-container>
+
+  <div *ngIf="visibileFilters" class="bloccaSfondo piano3"></div>
+
+  <div #myBounds *ngIf="visibileFilters" class="drag-boundary" style="position: absolute; left: 1px; top: 1px; width: 100%; height: 100%; z-index: 5006;"
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  >
+    <div *ngIf="visibileFilters" ngDraggable ngResizable [handle]="handleInfoFilter" class="popupAggiuntaFilter drag-block"
+      (edge)="checkEdge($event)" [bounds]="divContenitoreAS" [inBounds]="true"
+    >
+      <div class="drag-block-handle barraSuperiore2" style="float: left; text-align: left; white-space: nowrap;">
+        <div #handleInfoFilter style="text-align: center; width: 90%; float: left; margin-top: 4px;">Add Activities</div>
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="visibileFilters = false"
+          class="immaginiChiusura" style="z-index: 5006;">
+      </div>
+      <div style="float: left; height: 96%; width: 100%;">
+        <div style="width: 100%; height: 22px; float: left; text-align: right;">
+          Filter: <input name="testo" type="text" [(ngModel)] ="filtro" style="width: 25%; height: 16px;" 
+          placeholder="write strings separated by space to filter" (keydown)="cambioFiltro()">
+        </div>
+        <!--
+            [filtroVisibile]="false"
+            [datiNuovi]="datiActivityFilters && datiActivityFilters.DataTable"
+
+            (filterChanged)='cambioFiltro($event)'
+
+            *ngIf="datiActivityFilters"
+        -->
+        <div style="width: 100%; height: calc(100% - 22px); float: left;">
+          <as-split #splitMenu direction="vertical">
+            <as-split-area [size]="60">
+              <app-ants-grid-lib
+                [debug]="debug"
+                [sessioneAttuale]="sessionID2"
+                [righePerPaginareAutomaticamente]="righePerPaginazioneAutomatica"
+                [modalita]="'Griglia'"
+                [title]="'Activity'"
+                [indirizzoServer]="indirizzoServer"
+                [data]="datiActivityFilters"
+                [userName]="userName"
+                [maskName]="'GrigliaFilters'"
+                [DimensioneFont]='12'
+                [newKeyVisibile]="false"
+                [editKeyVisibile]="false"
+                [deleteKeyVisibile]="false"
+                [infoKeyVisibile]="infoKeyVisibileF"
+                [refreshKeyVisibile]="true"
+                [confirmKeyVisibile]="confirmKeyVisibileF"
+                [confirmKeyPersistant]="confirmKeyVisibileF"
+                [datiNuovi]="datiActivityFilters && datiActivityFilters.DataTable"
+                [messaggioWarning]="messaggioWarningAF"
+                [selezioneMultipla]='true'
+                [impostaSelezione]="rigaSelezionataAddAct"
+                [ricordaSelezione]='false'
+                [linkIcone]="Utils.linkIcone"
+                [eliminaSelezioniSuClickRiga]='false'
+                [AutoResize]="false"
+                [ManualResize]="effettuaAutoFitF"
+                [messaggioWarning]="warning"
+                (ritornoDimensioniColonne)="ritornoDimensioniColonneFilters($event)"
+
+                (refresh)='refreshGridFilters($event, false)'
+                (resetLayout)='refreshGridFilters($event, true)'
+                (confirmKeyPressed)='premutoTastoConfirmFilter($event)'
+                (lastSelectedOfGrid)='lastSelectedOfGridFilters($event)'
+                (cellClick)='checkClickGridFilters($event)'
+                (clickSelezioneSuCheckRiga)='cellClickGridFilters($event)'
+                (selectedAllRows)="selezionateTutteLeRigheFilters($event)"
+                (deselectedAllRows)="deselezionateTutteLeRigheFilters($event)"
+              >
+              </app-ants-grid-lib>
+
+              <div *ngIf="caricamentoAdd" class="k-i-loading"
+                style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 2000;"
+              ></div>
+            </as-split-area>
+            <as-split-area [size]="60">
+              <mappa-component
+                [quale]="'Secondary'"
+                [Session]="sessionID2"
+                [Utils]="Utils2"
+                [activity]="activityPerMappaSelected"
+                [tmsInizio]="tmsInizioPerMappaSelected"
+                [tmsFine]="tmsFinePerMappaSelected"
+                [pulisce]="pulisceLayer"
+              ></mappa-component>
+            </as-split-area>
+          </as-split>
+        </div>
+
+        <div *ngIf="visibileFilters && attendiSalvataggioAA" class="k-i-loading"
+          style="position: absolute; left: 0px; top: 0px; width: 100%; height: 110%; z-index: 5010;">
+        </div>
+        <!-- <div *ngIf="visibileFilters && attendiSalvataggioAA" ngDraggable class="popupAttesa">
+          Please Wait
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showPartitionLabel" class="oscura2"></div>
+
+  <div *ngIf="showPartitionLabel" ngDraggable ngResizable [handle]="handleBarraPS" [inBounds]="true"
+    (edge)="checkEdge($event)"
+    [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+    class="finestraPS drag-block">
+    <div class="barraSuperiore2" style="text-align: left;">
+      <div #handleBarraPS class="drag-block" style="width: calc(100% - 85px); float: left; padding-left: 5px;">
+        Activity Set Edit
+      </div>
+      <div style="width: 80px; float: left; text-align: right; margin-top: -3px;">
+        <!-- <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/content-save-outline.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Save" (click)="impostaPartitionLabel();"> -->
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/close_context.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Close" (click)="showPartitionLabel = false">
+      </div>
+    </div>
+  
+  <!-- <div *ngIf="showPartitionLabel" class="boxPartitionLabel"> -->
+    <div style="width: 100%; height: 30px;">
+      <div style="width: 30%; float: left; margin-top: 4px;">
+        Partition Label
+      </div>
+      <div style="width: calc(70% - 30px); float: left; text-align: center; margin-top: 5px;">
+        <!--
+          *ngIf = "datiPartitionLabel"
+        -->
+        <app-combo-component
+          [Debug]="debug"
+          [Tipologia]="'Combo'"
+          [userName]="userName"
+          [data]="datiPartitionLabel"
+          [campoId]="'CODE_STR'"
+          [campoTesto]="'VALUE_STR'"
+          [campoFiltro]="'VALUE_STR'"
+          [accettaNuovi]="true"
+          [NomeCombo]="'cmbPartitionLabel'"
+          [pulisceValoriDiBase]="true"
+          [ricordaUltimoValore]='false'
+          [valoreDefault]="partitionLabelSel"
+
+          (selezioneEffettuata)="selezionaPartitionLabel($event)"
+        >
+        </app-combo-component>
+      </div>
+      <div style="width: 30px; float: left; text-align: center;">
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Save" (click)="impostaPartitionLabel();">
+      </div>
+    </div>
+
+    <div style="width: 100%; height: 30px;">
+      <div style="width: 30%; float: left; margin-top: 4px;">
+        Tag 1
+      </div>
+      <div style="width: calc(70% - 30px); float: left; text-align: center; margin-top: 3px;">
+        <input type="text" class="testo" style="width: 100%" value="{{ACT_TAG1}}" [(ngModel)]="ACT_TAG1">
+      </div>
+      <div style="width: 30px; float: left; text-align: center; margin-top: 5px;">
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Save" (click)="impostaTag(1);">
+      </div>
+    </div>
+
+    <div style="width: 100%; height: 30px;">
+      <div style="width: 30%; float: left; margin-top: 4px;">
+        Tag 2
+      </div>
+      <div style="width: calc(70% - 30px); float: left; text-align: center; margin-top: 3px;">
+        <input type="text" class="testo" style="width: 100%" value="{{ACT_TAG2}}" [(ngModel)]="ACT_TAG2">
+      </div>
+      <div style="width: 30px; float: left; text-align: center; margin-top: 5px;">
+        <img [hidden]="!Utils.linkIcone" [src]="Utils.linkIcone + '/icons/check-circle.png'" class="immaginiIcone" style="width: 33px; height: 33px;" title="Save" (click)="impostaTag(2);">
+      </div>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    <!-- <div style="width: 100%; margin-top: 5px;">
+      <div style="width: 50%; float: left; text-align: center;">
+        <img [src]="Utils.linkIcone + '/icons/confirm.png'" title="Ok" width="25px" height="25px" (click)="impostaPartitionLabel2();" style="cursor: pointer">
+      </div>
+      <div style="width: 50%; float: left; text-align: center;">
+        <img [src]="Utils.linkIcone + '/icons/close.png'" title="Cancel" width="25px" height="25px" (click)="showPartitionLabel = false" style="cursor: pointer">
+      </div>
+    </div> -->
+
+  </div>
+</div>
