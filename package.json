@@ -22,7 +22,8 @@
     "pack:Settings": "node tools/release-version.mjs --projects=Settings && nx build Settings && npm pack ./dist/libs/Settings --pack-destination ./artifacts",
     "version:bump": "node tools/release-version.mjs",
     "version:check": "node tools/release-version.mjs --dry-run",
-    "version:init-tags": "node tools/release-version.mjs --init-tags"
+    "version:init-tags": "node tools/release-version.mjs --init-tags",
+    "build:report": "node tools/build-report.mjs"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.2.14",

@@ -29,6 +29,11 @@
             "glob": "favicon.ico",
             "input": "apps/Ants/src",
             "output": "/"
+          },
+          {
+            "glob": "web.config",
+            "input": "tools/iis",
+            "output": "/"
           }
         ],
         "styles": [

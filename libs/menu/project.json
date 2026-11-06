@@ -22,6 +22,65 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-demo": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/demo/menu",
+          "browser": ""
+        },
+        "index": "libs/menu/src/index.html",
+        "browser": "libs/menu/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "libs/menu/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/menu/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/menu/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "libs/menu/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "buildTarget": "menu:build-demo:development"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "menu:build-demo:production"
+        }
+      }
     }
   }
 }

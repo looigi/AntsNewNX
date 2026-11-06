@@ -2,7 +2,7 @@ import { logConsole } from '../../console-log';
 import { Injectable } from '@angular/core';
 // import Utils from '../Utilities.component';
 import { ExternalHttpClient } from './externalhttpclient.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 

@@ -22,6 +22,63 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-demo": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/demo/Calendario",
+          "browser": ""
+        },
+        "index": "libs/Calendario/src/index.html",
+        "browser": "libs/Calendario/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "libs/Calendario/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/Calendario/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/Calendario/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "libs/Calendario/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "buildTarget": "Calendario:build-demo:development"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "Calendario:build-demo:production"
+        }
+      }
     }
   }
 }

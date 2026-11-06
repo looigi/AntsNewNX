@@ -8,3 +8,4 @@ tmp/
 build-errors.txt
 *license*.txt
 !**/3rdpartylicenses.txt
+build-report.log

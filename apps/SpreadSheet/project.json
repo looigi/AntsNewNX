@@ -24,7 +24,13 @@
           "zone.js"
         ],
         "tsConfig": "apps/SpreadSheet/tsconfig.app.json",
-        "assets": [],
+        "assets": [
+          {
+            "glob": "web.config",
+            "input": "tools/iis",
+            "output": "/"
+          }
+        ],
         "styles": [
           "node_modules/@progress/kendo-theme-default/dist/all.css",
           "apps/SpreadSheet/src/styles.css"

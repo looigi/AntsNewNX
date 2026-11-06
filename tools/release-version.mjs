@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Incrementa la versione nel package.json SOLO dei progetti (apps/libs) i cui file
 // sono cambiati dall'ultimo tag "<progetto>@<versione>".
+// I file di configurazione (project.json, tsconfig*.json...) non contano: vedi IGNORED_FILES.
 // Poi delega a "nx release version" la scrittura del package.json, il commit e il tag.
 //
 // Uso:
@@ -19,6 +20,18 @@ const initTags = args.includes('--init-tags');
 const bump = args.find((a) => ['patch', 'minor', 'major'].includes(a)) ?? 'patch';
 const onlyArg = args.find((a) => a.startsWith('--projects='));
 const only = onlyArg ? new Set(onlyArg.slice('--projects='.length).split(',').filter(Boolean)) : null;
+
+// File di configurazione che NON fanno salire la versione: contano solo le modifiche al codice.
+const IGNORED_FILES = [
+  /(^|\/)project\.json$/,
+  /(^|\/)tsconfig[^/]*\.json$/,
+  /(^|\/)angular\.json$/,
+  /(^|\/)package-lock\.json$/,
+  /(^|\/)README\.md$/i,
+  /(^|\/)\.editorconfig$/,
+  /(^|\/)\.gitignore$/,
+];
+const isIgnored = (file) => IGNORED_FILES.some((re) => re.test(file));
 
 const sh = (cmd) => execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const tagExists = (tag) => {
@@ -75,10 +88,13 @@ for (const p of projects) {
     console.warn(`⚠ ${p.name}: tag "${p.tag}" non trovato, progetto saltato (lancia --init-tags).`);
     continue;
   }
-  const files = sh(`git diff --name-only "${p.tag}" HEAD -- "${p.root}"`).split('\n').filter(Boolean);
+  const all = sh(`git diff --name-only "${p.tag}" HEAD -- "${p.root}"`).split('\n').filter(Boolean);
+  const files = all.filter((f) => !isIgnored(f));
   if (files.length) {
     changed.push(p.name);
     console.log(`● ${p.name} (${p.version}): ${files.length} file modificati`);
+  } else if (all.length) {
+    console.log(`○ ${p.name}: cambiati solo file di configurazione (${all.length}), versione invariata`);
   }
 }
 

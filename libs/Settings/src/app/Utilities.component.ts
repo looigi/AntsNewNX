@@ -1,5 +1,5 @@
 import { logConsole } from './console-log';
-import { environment } from "src/environments/environment";
+import { environment } from "../environments/environment";
 
 export class Utils {
   userRedirect = '';

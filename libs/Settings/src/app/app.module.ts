@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Utils } from './Utilities.component';
-import { SettingsModule } from 'public_api';
+import { SettingsModule } from '../../public_api';
 
 @NgModule({
   declarations: [

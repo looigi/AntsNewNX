@@ -10,7 +10,7 @@ import { ApiService } from './db/api.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Utils } from './Utilities.component';
 import { AngularSplitModule } from 'angular-split';
-import { pivotModule } from 'dist';
+import { pivotModule } from '../../public_api';
 
 @NgModule({ declarations: [
         AppComponent

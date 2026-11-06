@@ -1,6 +1,7 @@
 npx nx reset
+
 -- builda tutto
-npx nx run-many -t build --all --skip-nx-cache
+npx nx run-many -t build --all --skip-nx-cache --configuration=production
 
 -- builda un componente
 npx nx build menu --configuration=production
@@ -13,3 +14,6 @@ npx nx build DataDictionaries --skip-nx-cache 2>&1 | Tee-Object -FilePath "build
 
 -- Per compilare solamente l'app senza le librerie
 npx nx build DataDictionaries --skip-nx-cache --excludeTaskDependencies
+
+-- Per aggiornare le versioni
+npm run version:bump

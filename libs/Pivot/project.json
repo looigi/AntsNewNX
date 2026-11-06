@@ -1,4 +1,3 @@
-
 {
   "name": "Pivot",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
@@ -23,6 +22,63 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-demo": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
+      "options": {
+        "outputPath": {
+          "base": "dist/demo/Pivot",
+          "browser": ""
+        },
+        "index": "libs/Pivot/src/index.html",
+        "browser": "libs/Pivot/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "libs/Pivot/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/Pivot/src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/Pivot/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "libs/Pivot/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "buildTarget": "Pivot:build-demo:development"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "Pivot:build-demo:production"
+        }
+      }
     }
   }
 }

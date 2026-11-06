@@ -18,17 +18,16 @@
 
   <!--   [style.width]="posizione === 'absolute' ? '250px' : '100%'" -->
   <div style="width: 100%; height: auto;">
-    <div style="width: calc(100% - 30px); padding-top: 2px; float: left; text-align: left; background-color: #565656; color: white; height: 35px; margin-top: -2px;" >
-      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Home_white.png'" title="Home Page" height='35' width='35'  alt=''
-        style="cursor: pointer;" (click)="changePage('Home;Empty', '', false)" >&nbsp;&nbsp;
-
-      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" style="cursor: pointer;" title="F11 full screen" height='35' width='35'
-        [src]="linkIcone + '/icons/fullscreen_white.png'" style="cursor: pointer;" (click)="toggleFullScreen()" />
+    <div style="width: calc(100% - 120px); padding-top: 10px; float: left; text-align: left; background-color: #063966; color: white; height: 35px; margin-top: -2px;" >
     <!-- </div>
     <div style="width: 50%; float: left; text-align: left;"> -->
-      &nbsp;<span style="padding-top: 2px;">Navigation menu</span>
+      &nbsp;Navigation menu
     </div>
-    <div style="width: 30px; float: left; padding-top: 2px; text-align: right; background-color: #565656; height: 35px; margin-top: -2px;">
+    <div style="width: 120px; float: left; padding-top: 2px; text-align: right; background-color: #063966; height: 35px; margin-top: -2px;">
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Home_white.png'" title="Home Page" height='35' width='35'  alt=''
+        style="cursor: pointer;" (click)="changePage('Home;Empty', '', false)" >
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" style="cursor: pointer;" title="F11 full screen" height='35' width='35'
+        [src]="linkIcone + '/icons/fullscreen_white.png'" style="cursor: pointer;" (click)="toggleFullScreen()" />
       <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35'  alt=''
         style="cursor: pointer;" (click)="chiudeDrawer('TASTO');">
     </div>
@@ -45,7 +44,8 @@
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
-          <div *ngIf='showButtons && newWorkSpaceVisibile' class="riga" style="cursor: pointer;" (contextmenu)="onrightClick('Mappe;Mappe', $event)">
+          <div *ngIf='showButtons && newWorkSpaceVisibile' 
+            class="rigaDB" style="font-size: 15px; cursor: pointer;" (contextmenu)="onrightClick('Mappe;Mappe', $event)">
             <a (click)="changePage('Mappe;Mappe', '', false)">
               <!-- <img [src]="linkIcone + '/icons/Maps.png'" height='20' width='20'  alt=''> -->
               New Workspace

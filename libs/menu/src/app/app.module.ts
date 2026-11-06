@@ -8,6 +8,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { providePrimeNG } from 'primeng/config';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { providePrimeNG } from 'primeng/config';
     AppComponent
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi())
   ]
 })
 export class AppModule { }
