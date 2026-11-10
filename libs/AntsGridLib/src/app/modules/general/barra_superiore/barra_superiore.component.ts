@@ -72,7 +72,7 @@ export class BarraSuperioreGrigliaComponent implements OnInit, OnChanges, OnDest
     @Input() addKeyVisibile2;
     @Input() addKeyPersistant;
     @Input() removeKeyVisibile2;
-    @Input() removeKeyPersistant;
+    @Input() removeKeyPersistant;
     @Input() editKeyVisibileN2;
     @Input() editKeyPersistantN;
     @Input() tastoTicket;
@@ -106,6 +106,7 @@ export class BarraSuperioreGrigliaComponent implements OnInit, OnChanges, OnDest
     @Input() openAdvancedFilter;
     // Nomi delle icone da nascondere, separati da virgola (es. "Excel.png,Refresh"): senza estensione vale .png
     @Input() IconExcludedList = '';
+    @Input() submittedAgainKeyVisibile = false;
 
     @Output() clickSuIcona: EventEmitter<any> = new EventEmitter<any>();
     @Output() invioFiltro: EventEmitter<any> = new EventEmitter<any>();

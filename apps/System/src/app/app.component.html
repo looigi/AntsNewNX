@@ -225,16 +225,18 @@
   (mouseleave)="leave2()"
   style="position: absolute; border-right: 1px solid #999; left: 0px; top: 35px; height: 100%; z-index: 5000;"
   >
+  <!-- Barra del titolo: stessi stili della barra "Navigation menu" della libreria menu (altezza 35px, nessun
+       margine/padding esterno, titolo centrato in verticale con 5px di rientro, icone 35x35 a destra) -->
   <div
-    style="width: 100%; height: 35px; z-index: 5005;
-      background-color: #4d6c87; padding: 2px; float: left;">
-    <div style="width: calc(100% - 35px); float: left; padding-left: 5px; color: white; padding-top: 5px;">
+    style="width: 100%; height: 35px; margin: 0; padding: 0; box-sizing: border-box; z-index: 5005;
+      background-color: #063966; display: flex; align-items: center; float: left;">
+    <div style="flex: 1; min-width: 0; padding-left: 5px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
       Context Menu
     </div>
-    <div style="width: 35px; float: left; text-align: right; margin-top: -2px;">
+    <div style="width: 35px; height: 35px; display: flex; justify-content: flex-end; align-items: center; gap: 2px;">
       <img *ngIf="Utils && Utils.linkIcone"
         [src]="Utils.linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35' alt=''
-        style="cursor: pointer;" (click)="chiudeDrawer2($event);">
+        style="cursor: pointer; display: block;" (click)="chiudeDrawer2($event);">
     </div>
   </div>
   <div

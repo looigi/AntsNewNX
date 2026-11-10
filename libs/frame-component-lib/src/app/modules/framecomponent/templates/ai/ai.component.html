@@ -171,8 +171,9 @@
 
                         <!-- Descrizioni dell'arco, abbreviate; il testo completo è nel tooltip:
                              vicino all'inizio la CONCLUSION del nodo di partenza (uscita),
-                             vicino alla fine l'INVESTIGATION_GOAL del nodo di arrivo (entrata) -->
-                        <ng-container *ngIf="link.tooltip">
+                             vicino alla fine l'INVESTIGATION_GOAL del nodo di arrivo (entrata) e, sotto,
+                             il suo EXPECTED_INFORMATION_GAIN -->
+                        <ng-container *ngIf="link.data?.tooltip">
                           <!-- Linea trasparente più larga: rende facile passare sopra l'arco per vedere le descrizioni -->
                           <svg:path
                             [attr.d]="percorsoArco(link)"
@@ -180,25 +181,34 @@
                             stroke-width="12"
                             fill="none"
                             style="cursor: help;">
-                            <svg:title>{{ link.tooltip }}</svg:title>
+                            <svg:title>{{ link.data?.tooltip }}</svg:title>
                           </svg:path>
-                          <svg:text *ngIf="link.uscitaBreve"
+                          <svg:text *ngIf="link.data?.uscitaBreve"
                             class="etichetta-arco etichetta-uscita"
                             [attr.x]="puntoSuArco(link, 0.25).x"
                             [attr.y]="puntoSuArco(link, 0.25).y"
                             text-anchor="middle"
                             dominant-baseline="central">
-                            <svg:title>Conclusion: {{ link.uscita }}</svg:title>
-                            {{ link.uscitaBreve }}
+                            <svg:title>Conclusion: {{ link.data?.uscita }}</svg:title>
+                            {{ link.data?.uscitaBreve }}
                           </svg:text>
-                          <svg:text *ngIf="link.entrataBreve"
+                          <svg:text *ngIf="link.data?.entrataBreve"
                             class="etichetta-arco etichetta-entrata"
                             [attr.x]="puntoSuArco(link, 0.75).x"
-                            [attr.y]="puntoSuArco(link, 0.75).y"
+                            [attr.y]="puntoSuArco(link, 0.75).y - (link.data?.guadagnoBreve ? 7 : 0)"
                             text-anchor="middle"
                             dominant-baseline="central">
-                            <svg:title>Investigation goal: {{ link.entrata }}</svg:title>
-                            {{ link.entrataBreve }}
+                            <svg:title>Investigation goal: {{ link.data?.entrata }}</svg:title>
+                            {{ link.data?.entrataBreve }}
+                          </svg:text>
+                          <svg:text *ngIf="link.data?.guadagnoBreve"
+                            class="etichetta-arco etichetta-entrata"
+                            [attr.x]="puntoSuArco(link, 0.75).x"
+                            [attr.y]="puntoSuArco(link, 0.75).y + (link.data?.entrataBreve ? 7 : 0)"
+                            text-anchor="middle"
+                            dominant-baseline="central">
+                            <svg:title>Expected gain: {{ link.data?.guadagno }}</svg:title>
+                            {{ link.data?.guadagnoBreve }}
                           </svg:text>
                         </ng-container>
                       </svg:g>
@@ -448,7 +458,7 @@
               <!-- Il numero in [selected] deve essere la posizione del tab (0 = primo): onTabSelect2 salva quella -->
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 0">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--marrone"
                     title="System prompt sent to the LLM (parameter AIREQ_SYSTEM_PROMPT)">
                     System Prompt
                   </span>
@@ -461,7 +471,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 1">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--marrone"
                     title="Instructions used to build the Investigation Memory (parameter AIREQ_SUMMARY_INSTRUCTION)">
                     Investigation Memory Instructions
                   </span>
@@ -482,7 +492,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 2">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--marrone"
                     title="Defines the instruction or request executed by the Investigation Node">
                     Node Prompt
                   </span>
@@ -500,7 +510,7 @@
                 <ng-template kendoTabTitle>
                   <span class="tab-categoria tab-categoria--verde"
                     title="Runtime context for this node execution, including the assigned goal, selection reason, and execution-specific metadata">
-                    Execution Context
+                    Node Execution Context
                   </span>
                 </ng-template>
 
@@ -620,7 +630,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 7">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--blu"
                     title="Semantic Investigation Memory propagated to subsequent Investigation Nodes">
                     Output Investigation Memory
                   </span>
@@ -647,7 +657,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 8">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--blu"
                     title="LLM response generated from the current prompt execution in a human-readable format">
                     Answer
                   </span>
@@ -698,7 +708,7 @@
 
               <kendo-tabstrip-tab [selected]="tabSelezionato2 == 9">
                 <ng-template kendoTabTitle>
-                  <span class="tab-categoria tab-categoria--verde"
+                  <span class="tab-categoria tab-categoria--viola"
                     title="Add a new Investigation Node to the current Investigation Case. Select in the grid the parent nodes whose Investigation Memory will be propagated to the new node">
                     Add Next Investigation Node
                   </span>

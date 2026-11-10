@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------------------------------------------------
+SOLO PER INFO: Per installare nx:
+
+npx nx@latest init
+
+E' una installazione locale che va ad aggiungere librerie al package.json e quindi fa parte del progetto. 
+Quindi non dovrebbe esserci bisogno di eseguirlo. Lo riporto solo per informazione.
+
+Per fermare il demone nx (che dovrebbe partire dopo il comando di compilazione):
+
+npx nx daemon --stop
+---------------------------------------------------------------------------------------------------------------------
+
+Visto che partite da una soluzione 'pulita', vi dovrete scaricare tutte le librerie e questo si fa come nel passato:
+
+npm install
+
+Con questo comando si creerà la cartella node_modules che sarà, ora, unica per tutti i componenti.
+In realtà, l'operazione di preparazione per la compilazione è terminata. Bisognerà quindi lanciare la build di tutti i progetti con:
+
+npx nx run-many -t build --all --skip-nx-cache --configuration=production
+
+che creerà nella cartella dist le compilazioni (divise per tipologia apps e libs - anche se le libs ovviamente non serviranno a nulla, già sono incluse nei progetti).
+
+Ho risolto anche tutti i piccoli problemi che c'erano in passato (vedi tema Aura che doveva essere duplicato).

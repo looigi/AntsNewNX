@@ -165,10 +165,12 @@
 
                       <div style="width: 50%; float: left; margin-top: 3px; text-align: right; height: 35px;">
 
+                        <!-- I tre campi (start, cursor, end) hanno contenitori identici: stessa larghezza, margini e padding.
+                             [style.width] vuole solo il valore (es. 'calc(33% - 3px)'), non 'width: ...;' -->
                         <div *ngIf="timestampVisibile" style="margin-right: 3px; float: left; overflow: hidden;"
-                          [style.width]="showTimeCursor == true ? 'width: calc(33% - 3px);' : 'width: calc(50% - 3px);'">
+                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">Start&nbsp;</div> -->
-                          <div style="width: 100%; float: left; margin-top: 3px; text-align: left;" >
+                          <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
                               [Utils]="Utilities"
                               [dataPassata]="Utilities.tmsInizio"
@@ -184,9 +186,10 @@
                         </div>
 
                         <!-- style="float: left;" [style.width.%]="timestampVisibile ? '33' : '100' "  -->
-                        <div *ngIf="showTimeCursor == true" style="width: calc(33% - 3px); margin-right: 3px; float: left; overflow: hidden;">
+                        <div *ngIf="showTimeCursor == true" style="margin-right: 3px; float: left; overflow: hidden;"
+                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">Cursor&nbsp;</div> -->
-                          <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;" >
+                          <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
                               [Utils]="Utilities"
                               [dataPassata]="Utilities.tmsSelezionato"
@@ -201,7 +204,7 @@
                         </div>
                         
                         <div *ngIf="timestampVisibile" style="margin-right: 3px; float: left; overflow: hidden;"
-                          [style.width]="showTimeCursor == true ? 'width: calc(33% - 3px);' : 'width: calc(50% - 3px);'">
+                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">End&nbsp;</div> -->
                           <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
@@ -3792,27 +3795,23 @@
   (mouseover)="over2()"
   (mouseleave)="leave2()"
 >
+  <!-- Barra del titolo: stessi stili della barra "Navigation menu" della libreria menu (altezza 35px, nessun
+       margine/padding esterno, titolo centrato in verticale con 5px di rientro, icone 35x35 a destra) -->
   <div
-    style="width: 100%; height: 35px;
-      background-color: #063966; padding: 2px; float: left;">
-    <div style="width: calc(100% - 120px); float: left; padding-left: 5px; color: white; padding-top: 5px;">
-      <div style="width: 30%; float: left;">
-        Context Menu
-      </div>
-      <div kendoTooltip style="width: 70%; float: left; white-space: nowrap; overflow: hidden;" title='{{nomeWorkSpace}}'>
-        {{nomeWorkSpace}}
-      </div>
+    style="width: 100%; height: 35px; margin: 0; padding: 0; box-sizing: border-box; background-color: #063966; display: flex; align-items: center; float: left;">
+    <div style="flex: 1; min-width: 0; padding-left: 5px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      Context Menu<span *ngIf=""></span><span kendoTooltip title='{{nomeWorkSpace}}'>{{nomeWorkSpace}}</span>
     </div>
-    <div style="width: 120px; float: left; text-align: right; margin-top: -2px">
+    <div style="width: 120px; height: 35px; display: flex; justify-content: flex-end; align-items: center; gap: 2px;">
       <img *ngIf="linkIcone" [hidden]="!(iconeValide)"
         [src]="linkIcone + '/icons/duplicate_workspace.png'" title="Duplicate this workspace" height='35' width='35' alt=''
-        style="cursor: pointer;" (click)="apreWorkspace();">
+        style="cursor: pointer; display: block;" (click)="apreWorkspace();">
       <img *ngIf="linkIcone" [hidden]="!(iconeValide)"
         [src]="linkIcone + '/icons/content-save-outline.png'" title="Save this workspace" height='35' width='35' alt=''
-        style="cursor: pointer;" (click)="salvaFavorito();">
+        style="cursor: pointer; display: block;" (click)="salvaFavorito();">
       <img *ngIf="linkIcone" [hidden]="!(iconeValide)"
         [src]="linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35' alt=''
-        style="cursor: pointer; margin-left: -3px;" (click)="chiudeDrawer2($event);">
+        style="cursor: pointer; display: block;" (click)="chiudeDrawer2($event);">
     </div>
   </div>
   <div

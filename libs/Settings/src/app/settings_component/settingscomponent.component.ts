@@ -289,6 +289,7 @@ export class SettingsComponentFrame implements OnInit, AfterViewInit, OnChanges,
     { name: 'mistral_rbcscc'},
     { name: 'mistral_rbcixl'},
     { name: 'mistral_imsi'},
+    { name: 'mistral_call_lu_imsiAttach'},
   ]
 
   DatiSquareMeters = [

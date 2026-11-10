@@ -203,6 +203,7 @@ export class AntsGridLibraryComponent implements OnChanges, OnInit, AfterViewChe
   @Input() espandiTutto = false;
   @Input() excelEventi = false;
   @Input() linkIcone = 'http://localhost:2727/assets/img';
+  @Input() submittedAgainKeyVisibile = false;
 
   // Sostituisce nel template linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1, rivalutata a ogni
   // change detection: il controllo sulla stringa si rifà solo quando linkIcone cambia
@@ -358,6 +359,7 @@ export class AntsGridLibraryComponent implements OnChanges, OnInit, AfterViewChe
   @Output() clickSuMistralFilter: EventEmitter<string> = new EventEmitter<string>();
   @Output() spreadSheetEmit: EventEmitter<string> = new EventEmitter<string>();
   @Output() groupClickEmit: EventEmitter<string> = new EventEmitter<string>();
+  @Output() submittedAgainKey: EventEmitter<any> = new EventEmitter<any>();
   
   // @ViewChild(DialogComponent, {static: true}) errorMsg: DialogComponent;
   @ViewChild(TooltipDirective, {static: false}) public tooltipDir: TooltipDirective;
@@ -12231,7 +12233,7 @@ autoFitta1Riga = false;
       return;
     }
 
-    // logConsole('click su icona: ', e);
+    // console.log('click su icona: ', e);
 
     switch (e.id) {
       case 1: this.refreshTcRun(); break;
@@ -12313,6 +12315,7 @@ autoFitta1Riga = false;
       case 63: this.collapseAll(); break;
       case 64: this.expandAll(); break;
       case 65: this.fOpenAdvancedFilter(); break;
+      case 66: this.fSubmittedAgainKey(); break;
 
       case 98: this.exportCSV(); break;
       case 99: this.exportExcel(); break;
@@ -12593,6 +12596,15 @@ autoFitta1Riga = false;
     }
 
     this.gestisceSplit();
+  }
+
+  fSubmittedAgainKey() {
+    const selezionati = new Array();
+    this.mySelection.forEach(element => {
+      selezionati.push(element);
+    });
+    console.log('Righe selezionate per submit again: ', selezionati);
+    this.submittedAgainKey.emit(selezionati);
   }
 
   @ViewChild('filterAvanzato')

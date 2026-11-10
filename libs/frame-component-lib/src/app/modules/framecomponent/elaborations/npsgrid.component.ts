@@ -323,7 +323,8 @@ export class NPSComponent {
                 // t.impostaPaginaTC = 0;
 
                 this.staDisegnandoTCRunGrid[t.NumeroFrame2] = false;
-                t.caricamentoNPSInCorso = false;
+                // Solo il frame corrente: assegnare false all'intero array lo trasformava in un booleano
+                t.caricamentoNPSInCorso[t.NumeroFrame2] = false;
               } else {
                 if (t.debug2 === true) {
                   t.debug2 && t.Log?.scriveLog(t, t.debug2, t.Log.getMethodName(), false, 'Ricarico Dati griglia Tc Run Grid');

@@ -36,6 +36,18 @@
         "4296"
       ],
       "port": 4296
+    },
+    {
+      "name": "AntsGridLib",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nx",
+        "serve",
+        "AntsGridLib",
+        "--port",
+        "4295"
+      ],
+      "port": 4295
     }
   ]
 }

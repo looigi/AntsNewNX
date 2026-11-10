@@ -22,9 +22,12 @@
     box-shadow:0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
     padding: 3px;
     overflow: hidden;">
-    <div class="bottoniIntestazione" style="background-color: #565656; height: 25px;">
+    <div class="bottoniIntestazione" style="background-color: #063966;">
       <div #handleMenuTMP class="drag-block" style="width: calc(100% - 80px); float: left; text-align: left; color: white;">
-        AI-Powered Analysis
+        <div style="width: 30px; height: 25px; float: left; text-align: center;">
+          <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/NexusIcon_bianca.png'" style="width: 30px; height: 30px;" >
+        </div>
+        <div style="width: calc(100% - 30px); float: left; margin-top: 4px;">Nexus | AI-Powered Analysis</div>
       </div>
       <div style="width: 80px; float: left; text-align: right; margin-top: -7px;">
           <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !massimizzata" [src]="Utils.linkIcone + '/icons/arrow-expand-all-custom.png'" style="width: 27px; height: 27px; cursor: pointer;" title="Maximize" (click)="massimizza(true)" >
@@ -109,13 +112,13 @@
             </div>
           </div>
 
-          <div class="ni-messaggio">
+          <!-- <div class="ni-messaggio">
             <img *ngIf="Utils.linkIcone" class="ni-icona-ai" [src]="Utils.linkIcone + '/gif/start_investigation_V01_sfondo_variabile.gif'" />
             <div class="ni-separatore"></div>
             <div class="ni-testo-messaggio">Investigation will start for this Tc Run.</div>
-          </div>
+          </div> -->
 
-          <div class="ni-pulsante" (click)="startNI()">
+          <div class="ni-pulsante" style="margin-top: 5px;" (click)="startNI()">
             <span class="ni-play">&#9654;</span>
             <span>Start Investigation</span>
           </div>

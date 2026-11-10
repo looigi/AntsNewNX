@@ -1,5 +1,7 @@
 npx nx reset
 
+npx nx daemon --stop
+
 -- builda tutto
 npx nx run-many -t build --all --skip-nx-cache --configuration=production
 

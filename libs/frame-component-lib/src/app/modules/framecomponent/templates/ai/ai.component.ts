@@ -1892,6 +1892,31 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
     return valore === undefined || valore === null ? '' : String(valore).trim();
   }
 
+  // Misura un testo con un canvas: funziona anche quando il grafo non è visibile (getBBox lì restituisce 0)
+  private contestoMisura?: CanvasRenderingContext2D | null;
+  larghezzaTesto(testo: string, font: string): number {
+    if (!testo) {
+      return 0;
+    }
+    if (this.contestoMisura === undefined) {
+      this.contestoMisura = document.createElement('canvas').getContext('2d');
+    }
+    if (!this.contestoMisura) {
+      return testo.length * 7;
+    }
+    this.contestoMisura.font = font;
+    return this.contestoMisura.measureText(testo).width;
+  }
+
+  // Font usato dai testi del grafo (ereditato dal contenitore)
+  fontGrafo(): string {
+    const el = this.graphWrapper?.nativeElement as HTMLElement;
+    const stile = el ? getComputedStyle(el) : null;
+    const dimensione = stile?.fontSize || '12px';
+    const famiglia = stile?.fontFamily || 'Arial, sans-serif';
+    return `${dimensione} ${famiglia}`;
+  }
+
   // Testo abbreviato per l'arco (il testo completo va nel tooltip)
   abbreviaEtichetta(testo: string): string {
     if (!testo) {
@@ -1933,7 +1958,47 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
         }
       }
     }
-    return this.campoRiga(riga, nome);
+    const diretto = this.campoRiga(riga, nome);
+    if (diretto) {
+      return diretto;
+    }
+    // Ultimo tentativo: il campo può essere annidato più in profondità (es. ai_req.output.expected_information_gain)
+    // o in un'altra colonna che contiene JSON
+    return this.cercaCampoAnnidato(riga, nome, 0);
+  }
+
+  // Cerca un campo a qualsiasi livello di oggetti, array e stringhe JSON (al massimo 6 livelli)
+  cercaCampoAnnidato(valore, nome: string, livello: number): string {
+    if (valore === undefined || valore === null || livello > 6) {
+      return '';
+    }
+    if (typeof valore === 'string') {
+      const t = valore.trim();
+      if (!(t.startsWith('{') || t.startsWith('['))) {
+        return '';
+      }
+      try {
+        valore = JSON.parse(t);
+      } catch (e) {
+        return '';
+      }
+    }
+    if (typeof valore !== 'object') {
+      return '';
+    }
+    if (!Array.isArray(valore)) {
+      const trovato = this.campoRiga(valore, nome);
+      if (trovato) {
+        return trovato;
+      }
+    }
+    for (const figlio of (Array.isArray(valore) ? valore : Object.values(valore))) {
+      const trovato = this.cercaCampoAnnidato(figlio, nome, livello + 1);
+      if (trovato) {
+        return trovato;
+      }
+    }
+    return '';
   }
 
   // Punto dell'arco a una frazione t del percorso (0 = inizio, 1 = fine): 0.25 per la descrizione in uscita,
@@ -2029,20 +2094,30 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
             const nodoPartenza = nodiPerId.get(sorgente);
             const uscita = this.campoRiga(nodoPartenza && nodoPartenza.riga, 'CONCLUSION');
             const entrata = this.campoRiga(element.riga, 'INVESTIGATION_GOAL');
+            // Expected gain del nodo di arrivo (da aireq_msg__grid), scritto sotto il suo INVESTIGATION_GOAL
+            const guadagno = this.campoAiReq(element.riga, 'EXPECTED_INFORMATION_GAIN');
             const tooltip = [
               uscita ? 'Conclusion: ' + uscita : '',
-              entrata ? 'Investigation goal: ' + entrata : ''
+              entrata ? 'Investigation goal: ' + entrata : '',
+              guadagno ? 'Expected gain: ' + guadagno : ''
             ].filter(t => t).join('\n\n');
             links.push({
               id: 'Nodo' + indice2,
               source: sorgente,
               target: element.id,
               label: '',
-              uscita: uscita,
-              uscitaBreve: this.abbreviaEtichetta(uscita),
-              entrata: entrata,
-              entrataBreve: this.abbreviaEtichetta(entrata),
-              tooltip: tooltip
+              // Le descrizioni stanno in "data": ridisegnando, ngx-graph riusa l'arco già esistente tra gli stessi
+              // nodi e ne aggiorna solo "data"; messe direttamente sull'arco resterebbero quelle del primo disegno
+              // (es. expected gain calcolato dal backend dopo il primo caricamento)
+              data: {
+                uscita: uscita,
+                uscitaBreve: this.abbreviaEtichetta(uscita),
+                entrata: entrata,
+                entrataBreve: this.abbreviaEtichetta(entrata),
+                guadagno: guadagno,
+                guadagnoBreve: guadagno ? this.abbreviaEtichetta('Expected gain: ' + guadagno) : '',
+                tooltip: tooltip
+              }
             });
           });
         } // else {
@@ -2077,13 +2152,27 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
       }
     });
 
-    let nodi2 = nodi.map(n => ({
-      ...n,
-      dimension: {
-        width: n.label.width * 20,
-        height: ((n.label.split('\n').length) + 1) * 20
-      }
-    }));
+    // Larghezza iniziale del nodo calcolata come fa ngx-graph (testo più largo del nodo + 20): ngx-graph la ricalcola
+    // misurando l'SVG, ma se in quel momento il grafo non è visibile (es. tab nascosto) la misura salta e resta
+    // questo valore. Prima era n.label.width * 20, cioè NaN (label è una stringa), e i nodi diventavano strettissimi.
+    const fontNodo = this.fontGrafo();
+    const fontEtichette = fontNodo.replace(/\d+(\.\d+)?px/, '11px');
+    let nodi2 = nodi.map(n => {
+      const righe = (n.label || '').split('\n');
+      const larghezzaTesti = Math.max(
+        ...righe.map(r => this.larghezzaTesto(r, fontNodo)),
+        this.larghezzaTesto(n.obiettivoInizialeBreve, fontEtichette),
+        this.larghezzaTesto(n.guadagnoAttesoBreve, fontEtichette),
+        this.larghezzaTesto(n.conclusioneFinaleBreve, fontEtichette)
+      );
+      return {
+        ...n,
+        dimension: {
+          width: Math.max(Math.ceil(larghezzaTesti) + 20, 60),
+          height: (righe.length + 1) * 20
+        }
+      };
+    });
 
     logConsole('Nodi', nodi2);
     logConsole('Links', links);

@@ -857,3 +857,10 @@ a[target="_blank"] {
   height: 30px;
   text-align: right;
 }
+
+/* Tooltip Kendo (kendoTooltip sulle icone): il tema li mette in un contenitore con z-index 100, quindi finiscono
+   dietro i pannelli delle app (z-index fino a 11510) e non si vedono. Qui solo i tooltip salgono sopra tutto,
+   restando sotto i messaggi SweetAlert (99999). Il componente ha ViewEncapsulation.None: la regola è globale. */
+.k-animation-container:has(.k-tooltip) {
+  z-index: 12000 !important;
+}

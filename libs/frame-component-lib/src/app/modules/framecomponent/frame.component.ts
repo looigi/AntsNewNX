@@ -22106,12 +22106,34 @@ caricaTcRunGrid(daDove) {
   }
 
   downloadMF() {
-    logConsole('Download MF', this.impostaSelezioneMF);
     if (this.impostaSelezioneMF.length === 0) {
       alert('Please select a row');
       return;
     }
-    this.downloadMF2();
+    const quanti = this.impostaSelezioneMF.length;
+    logConsole('Download MF', this.impostaSelezioneMF, quanti);
+    if (quanti >= 10) {
+      Swal.fire({
+        title: 'Confirm',
+        html: "You are about to download " + quanti + " messages. One file will be created for each message. Do you want to continue?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+        showClass: {
+          backdrop: 'swal2-noanimation', // disable backdrop animation
+          popup: '',                     // disable popup animation
+          // icon: ''                       // disable icon animation
+        },
+      }).then((result) => {
+        if (result.value) {
+          this.downloadMF2();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      });
+    } else {
+      this.downloadMF2();
+    }
   }
 
   staSalvando = false;
@@ -23083,5 +23105,42 @@ caricaTcRunGrid(daDove) {
     logConsole('Click selezione AGNoACT', e);
 
     this.impostaAGNoACT.emit(e);
+  }
+
+  submittedAgainMF(e) {
+    console.log('Submit again MF arrivo', e);
+    if (!e) { return; }
+    let selezionati = '';
+    e.forEach((element: any) => {
+      selezionati += element + ',';
+    });
+    if (selezionati.length > 0) {
+      selezionati = selezionati.substring(0, selezionati.length - 1);
+    } else {
+      return;
+    }
+    console.log('Submit again MF preparazione', selezionati);
+    const nomeTabella = 'mistral_flow_segment_to_dispatch__upd';
+    const params = {
+      v_cntx_id: this.sessionID2,
+      v_id_list: selezionati,
+      v_status: 1
+    };
+
+    this.apiService.chiamataPost(this.Utils, '' + nomeTabella, params)
+    // .map(response => response)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data2: any) => {
+      // const data2 = JSON.parse(data);
+      ExternalUtilities.checkRitornoChiamata(this, this.Utils, data2);
+      if (data2.err_code && data2.err_code !== 0) {
+        ExternalUtilities.visualizzaAlert(data2.failure_reason);
+      } else {
+        this.refreshMistralMF(false);
+      }
+    }, error => {
+      // ExternalUtilities.messaggioDiErrore(t.datiActivities, error);
+      console.error('POST ERROR ' + nomeTabella + ': ', error, error.message);
+    });
   }
 }

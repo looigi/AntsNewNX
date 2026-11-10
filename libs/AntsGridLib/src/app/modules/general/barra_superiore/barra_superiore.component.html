@@ -197,22 +197,6 @@
                 />
             </div>
 
-            <div style="float: left;" title="{{downloadTDTitle}}" >
-                <img 
-                    [hidden]="!(downloadTDKey)"
-                    [src]="linkIcone + '/icons/download.png'" class="icona" 
-                    (click)="invioPressione(18, undefined);"
-                />
-            </div>
-
-            <div style="float: left;" title="Download TcRun" >
-                <img 
-                    [hidden]="!(downloadTcRun)"
-                    [src]="linkIcone + '/icons/download.png'" class="icona" 
-                    (click)="invioPressione(19, undefined);"
-                />
-            </div>
-
             <div style="float: left;" title="Play Autorun" >
                 <img 
                     [hidden]="!(pausaGrigliaDaAutorun && pausaGrigliaDaAutorun.autoRunAttivo == true && 
@@ -280,6 +264,14 @@
                     [hidden]="!(addToActSetOn)"
                     [src]="linkIcone + '/icons/arrow-up.png'" class="icona" 
                     (click)="invioPressione(27, undefined);"
+                />
+            </div>
+
+            <div style="float: left;" title="Submitted again checked messages to the dispatcher" >
+                <img 
+                    [hidden]="!(submittedAgainKeyVisibile)"
+                    [src]="linkIcone + '/icons/MessaggioReinvio.png'" class="icona" 
+                    (click)="invioPressione(66, undefined);"
                 />
             </div>
 
@@ -537,7 +529,7 @@
             <div style="float: left;" title="AI-Powered Analysis of grid data" >
                 <img 
                     [hidden]="!(tastoAITutte)"
-                    [src]="linkIcone + '/icons/ai.png'" class="icona" 
+                    [src]="linkIcone + '/icons/NexusIcon_nera.png'" class="icona" 
                     (click)="invioPressione(60, undefined);"
                 />
             </div>
@@ -594,6 +586,22 @@
                 />
               </div>
             </div>
+            <div style="float: right;" title="{{downloadTDTitle}}" >
+                <img 
+                    [hidden]="!(downloadTDKey)"
+                    [src]="linkIcone + '/icons/download.png'" class="icona" 
+                    (click)="invioPressione(18, undefined);"
+                />
+            </div>
+
+            <div style="float: right;" title="Download TcRun" >
+                <img 
+                    [hidden]="!(downloadTcRun)"
+                    [src]="linkIcone + '/icons/download.png'" class="icona" 
+                    (click)="invioPressione(19, undefined);"
+                />
+            </div>
+
         </ng-container>
     </div>
 

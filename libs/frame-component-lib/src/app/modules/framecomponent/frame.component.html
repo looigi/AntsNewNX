@@ -945,8 +945,12 @@
       <!-- (mouseover)="entraFrame()" (mouseleave)="esceFrame()" -->
       <ng-container *ngIf="MappaOGrafico2 == 'ES'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiEventSummary && !erroreEventSummary[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiEventSummary && !erroreEventSummary[NumeroFrame2] && !caricamentoEventSummaryInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiEventSummary && !erroreEventSummary[NumeroFrame2] && caricamentoEventSummaryInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreEventSummary[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1119,8 +1123,12 @@
       <!-- (mouseover)="entraFrame()" (mouseleave)="esceFrame()" -->
       <ng-container *ngIf="MappaOGrafico2 == 'TC'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiTcRun && !erroreTcRun[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiTcRun && !erroreTcRun[NumeroFrame2] && !caricamentoTcRunInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiTcRun && !erroreTcRun[NumeroFrame2] && caricamentoTcRunInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreTcRun[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1234,8 +1242,12 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'NP'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiNPS && !erroreNPS" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiNPS && !erroreNPS && !caricamentoNPSInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiNPS && !erroreNPS && caricamentoNPSInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreNPS" style="width: 100%; text-align: left; color: red;">
@@ -1321,12 +1333,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'PL'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiPointLayerInfo && !errorePLI[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiPointLayerInfo && !errorePLI[NumeroFrame2] && !caricamentoPLI[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiPointLayerInfo && !errorePLI[NumeroFrame2] && caricamentoPLI[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="errorePLI[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{errorePLI[NumeroFrame]}}
+          <span *ngIf="errorePLI[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{errorePLI[NumeroFrame2]}}
           </span>
 
           <app-ants-grid-lib
@@ -1383,12 +1399,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'AP'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiArfcnPoint && !erroreArfcnPoint[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiArfcnPoint && !erroreArfcnPoint[NumeroFrame2] && !caricamentoArfcnPointsInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiArfcnPoint && !erroreArfcnPoint[NumeroFrame2] && caricamentoArfcnPointsInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreArfcnPoint[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreArfcnPoint[NumeroFrame]}}
+          <span *ngIf="erroreArfcnPoint[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreArfcnPoint[NumeroFrame2]}}
           </span>
 
           <app-ants-grid-lib
@@ -1447,8 +1467,12 @@
       -->
       <ng-container *ngIf="MappaOGrafico2 == 'PK'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiPointCellMeasures && errorePCM[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiPointCellMeasures && !errorePCM[NumeroFrame2] && !caricamentoPCM[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiPointCellMeasures && !errorePCM[NumeroFrame2] && caricamentoPCM[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="errorePCM[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1510,8 +1534,12 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'AI'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiAreaInfo && !erroreAreaInfo[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiAreaInfo && !erroreAreaInfo[NumeroFrame2] && !caricamentoAreaInfo[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiAreaInfo && !erroreAreaInfo[NumeroFrame2] && caricamentoAreaInfo[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreAreaInfo[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1578,8 +1606,12 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'AR'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiArfcn && !erroreArfcn[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiArfcn && !erroreArfcn[NumeroFrame2] && !caricamentoArfcn[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiArfcn && !erroreArfcn[NumeroFrame2] && caricamentoArfcn[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreArfcn[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1650,8 +1682,12 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'AA'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiArfcnAM && !erroreArfcnAM[NumeroFrame2]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiArfcnAM && !erroreArfcnAM[NumeroFrame2] && !caricamentoArfcnAM[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiArfcnAM && !erroreArfcnAM[NumeroFrame2] && caricamentoArfcnAM[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <span *ngIf="erroreArfcnAM[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -1723,16 +1759,20 @@
       <!-- (mouseover)="entraFrame()" (mouseleave)="esceFrame()" -->
       <ng-container *ngIf="MappaOGrafico2 == 'MD'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiPointMeasureDFN && !erroreDFN[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiPointMeasureDFN && !erroreDFN[NumeroFrame2] && !caricamentoMeasureDFN[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
+          </span>
+          <span *ngIf="!datiPointMeasureDFN && !erroreDFN[NumeroFrame2] && caricamentoMeasureDFN[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
           </span>
 
           <!-- [paginazione]="'virtual'"
                   [datiNuovi]="datiPointMeasureDFN && datiPointMeasureDFN.DataTable"
             [impostaPagina]="impostaPaginaMeasureDFN"
           -->
-          <span *ngIf="erroreDFN[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreDFN[NumeroFrame]}}
+          <span *ngIf="erroreDFN[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreDFN[NumeroFrame2]}}
           </span>
 
           <!--         
@@ -1793,12 +1833,16 @@
       <!-- (mouseover)="entraFrame()" (mouseleave)="esceFrame()" -->
       <ng-container *ngIf="MappaOGrafico2 == 'MG'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiMosaicGrid && !erroreMosaic[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiMosaicGrid && !erroreMosaic[NumeroFrame2] && !caricamentoMosaicGrid[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiMosaicGrid && !erroreMosaic[NumeroFrame2] && caricamentoMosaicGrid[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreMosaic[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreMosaic[NumeroFrame]}}
+          <span *ngIf="erroreMosaic[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreMosaic[NumeroFrame2]}}
           </span>
 
           <!--
@@ -1938,12 +1982,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'CM'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiCellMeasure && !erroreCellM[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiCellMeasure && !erroreCellM[NumeroFrame2] && !caricamentoCellMeasuresInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiCellMeasure && !erroreCellM[NumeroFrame2] && caricamentoCellMeasuresInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreCellM[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreCellM[NumeroFrame]}}
+          <span *ngIf="erroreCellM[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreCellM[NumeroFrame2]}}
           </span>
 
           <app-ants-grid-lib
@@ -1999,12 +2047,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'M2'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiMistralCDR && !erroreMistralCDR[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiMistralCDR && !erroreMistralCDR[NumeroFrame2] && !caricamentoMC[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiMistralCDR && !erroreMistralCDR[NumeroFrame2] && caricamentoMC[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreMistralCDR[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreMistralCDR[NumeroFrame]}}
+          <span *ngIf="erroreMistralCDR[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreMistralCDR[NumeroFrame2]}}
           </span>
 
           <app-ants-grid-lib
@@ -2060,12 +2112,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'MF'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiMistralFS && !erroreMistralFS[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiMistralFS && !erroreMistralFS[NumeroFrame2] && !caricamentoMF[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiMistralFS && !erroreMistralFS[NumeroFrame2] && caricamentoMF[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreMistralFS[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreMistralFS[NumeroFrame]}}
+          <span *ngIf="erroreMistralFS[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreMistralFS[NumeroFrame2]}}
           </span>
 
           <as-split direction="horizontal" [gutterSize]="3">
@@ -2240,6 +2296,7 @@
                     [cambioTitolo]="frameName2"
                     [tcRunInfoVisibile]="true"
                     [tcRunInfoTitle]="'Shown content'"
+                    [submittedAgainKeyVisibile]="true"
 
                     [limitaRighe]="limitaRighePerDebug"
                     (ritornoDimensioniColonne)="ritornoDimensioniColonneMF($event)"
@@ -2262,6 +2319,7 @@
 
                     [impostaPagina]="impostaPaginaMF2"
                     (detectCambioPagina)="cambioPaginaMF($event)"
+                    (submittedAgainKey)="submittedAgainMF($event)"
                   >
                   </app-ants-grid-lib>
                 </as-split-area>
@@ -2302,12 +2360,16 @@
 
       <ng-container *ngIf="MappaOGrafico2 == 'MQ'">
         <div class="tuttaAreaMappa">
-          <span *ngIf="!datiMistralFQ && !erroreMistralFQ[NumeroFrame]" style="width: 100%; text-align: left;">
+          <span *ngIf="!datiMistralFQ && !erroreMistralFQ[NumeroFrame2] && !caricamentoMQ[NumeroFrame2]" style="width: 100%; text-align: left;">
             {{frameName2}}: No data to be displayed
           </span>
+          <span *ngIf="!datiMistralFQ && !erroreMistralFQ[NumeroFrame2] && caricamentoMQ[NumeroFrame2]" style="width: 100%; text-align: left;">
+            <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+            {{frameName2}}: Retrieving records...
+          </span>
 
-          <span *ngIf="erroreMistralFQ[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-            {{frameName2}}: {{erroreMistralFQ[NumeroFrame]}}
+          <span *ngIf="erroreMistralFQ[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+            {{frameName2}}: {{erroreMistralFQ[NumeroFrame2]}}
           </span>
 
           <app-ants-grid-lib
@@ -2359,12 +2421,16 @@
         <div class="tuttaAreaMappa">
           <as-split direction="vertical" [gutterSize]="3">
             <as-split-area [size]="50">
-              <span *ngIf="!datiMistralFStat && !erroreMistralFStat[NumeroFrame]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiMistralFStat && !erroreMistralFStat[NumeroFrame2] && !caricamentoMStat[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
               </span>
+              <span *ngIf="!datiMistralFStat && !erroreMistralFStat[NumeroFrame2] && caricamentoMStat[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
+              </span>
 
-              <span *ngIf="erroreMistralFStat[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-                {{frameName2}}: {{erroreMistralFStat[NumeroFrame]}}
+              <span *ngIf="erroreMistralFStat[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+                {{frameName2}}: {{erroreMistralFStat[NumeroFrame2]}}
               </span>
 
               <app-ants-grid-lib
@@ -2414,12 +2480,16 @@
               </app-ants-grid-lib>
             </as-split-area>
             <as-split-area [size]="50">
-              <span *ngIf="!datiMistralFStat2 && !erroreMistralFStat2[NumeroFrame]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiMistralFStat2 && !erroreMistralFStat2[NumeroFrame2] && !caricamentoMStat2[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
               </span>
+              <span *ngIf="!datiMistralFStat2 && !erroreMistralFStat2[NumeroFrame2] && caricamentoMStat2[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
+              </span>
 
-              <span *ngIf="erroreMistralFStat2[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-                {{frameName2}}: {{erroreMistralFStat2[NumeroFrame]}}
+              <span *ngIf="erroreMistralFStat2[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+                {{frameName2}}: {{erroreMistralFStat2[NumeroFrame2]}}
               </span>
 
               <app-ants-grid-lib
@@ -2578,12 +2648,16 @@
               </div>
             </as-split-area>
             <as-split-area [size]="sizeStandAlone1">
-              <span *ngIf="!datiMistralR && !erroreMistralMR[NumeroFrame]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiMistralR && !erroreMistralMR[NumeroFrame2] && !caricamentoMR[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
               </span>
+              <span *ngIf="!datiMistralR && !erroreMistralMR[NumeroFrame2] && caricamentoMR[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
+              </span>
 
-              <span *ngIf="erroreMistralMR[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-                {{frameName2}}: {{erroreMistralMR[NumeroFrame]}}
+              <span *ngIf="erroreMistralMR[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+                {{frameName2}}: {{erroreMistralMR[NumeroFrame2]}}
               </span>
 
               <app-ants-grid-lib
@@ -2644,15 +2718,19 @@
         <div class="tuttaAreaMappa">
           <!-- <as-split direction="horizontal" [gutterSize]="7">
             <as-split-area [size]="50"> -->
-              <span *ngIf="!datiActivities && !erroreActivities[NumeroFrame]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiActivities && !erroreActivities[NumeroFrame2] && !caricamentoActivitiesInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
+              </span>
+              <span *ngIf="!datiActivities && !erroreActivities[NumeroFrame2] && caricamentoActivitiesInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
               </span>
 
               <!--
                             
               -->
-              <span *ngIf="erroreActivities[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-                {{frameName2}}: {{erroreActivities[NumeroFrame]}}
+              <span *ngIf="erroreActivities[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+                {{frameName2}}: {{erroreActivities[NumeroFrame2]}}
               </span>
               <!-- <as-split direction="vertical" [gutterSize]="7">
                 <as-split-area [size]="45"> 
@@ -2727,8 +2805,12 @@
         <div class="tuttaAreaMappa">
           <as-split direction="horizontal" [gutterSize]="3" (dragEnd)="dragEndCdrData($event)">
             <as-split-area [size]="sizeCdrDataA">
-              <span *ngIf="!datiCdrData && !erroreCDR[NumeroFrame2]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiCdrData && !erroreCDR[NumeroFrame2] && !caricamentoCdrDataInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
+              </span>
+              <span *ngIf="!datiCdrData && !erroreCDR[NumeroFrame2] && caricamentoCdrDataInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
               </span>
 
               <span *ngIf="erroreCDR[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
@@ -2850,12 +2932,16 @@
         <div class="tuttaAreaMappa">
           <as-split direction="horizontal" [gutterSize]="3" (dragEnd)="dragEndCdrVoice($event)">
             <as-split-area [size]="sizeCdrVoiceA">
-              <span *ngIf="!datiCdrSummary && !erroreCDV[NumeroFrame]" style="width: 100%; text-align: left;">
+              <span *ngIf="!datiCdrSummary && !erroreCDV[NumeroFrame2] && !caricamentoCdrVoiceInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
                 {{frameName2}}: No data to be displayed
               </span>
+              <span *ngIf="!datiCdrSummary && !erroreCDV[NumeroFrame2] && caricamentoCdrVoiceInCorso[NumeroFrame2]" style="width: 100%; text-align: left;">
+                <img *ngIf="Utils.linkIcone" [src]="Utils.linkIcone + '/grid_loading.gif'" style="width: 35px; height: 35px;">
+                {{frameName2}}: Retrieving records...
+              </span>
 
-              <span *ngIf="erroreCDV[NumeroFrame]" style="width: 100%; text-align: left; color: red;">
-                {{frameName2}}: {{erroreCDV[NumeroFrame]}}
+              <span *ngIf="erroreCDV[NumeroFrame2]" style="width: 100%; text-align: left; color: red;">
+                {{frameName2}}: {{erroreCDV[NumeroFrame2]}}
               </span>
 
               <app-ants-grid-lib

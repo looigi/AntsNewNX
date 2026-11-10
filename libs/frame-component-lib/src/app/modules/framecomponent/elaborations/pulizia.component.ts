@@ -135,6 +135,7 @@ export class PuliziaComponent {
           t.filtroEventiCol8 = '';
           t.filtroEventiCol9 = '';
           t.filtroEventiCol10 = '';
+          t.testoDettaglioEventi = undefined;
 
           t.eventsComponent.pulisceAppoggi(t);
           break;

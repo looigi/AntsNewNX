@@ -158,9 +158,9 @@ export class MistralGridComponent {
     }
 
     // logConsole('Cell measure 6', actualCall);
-    // logConsole('Cell measure 6 Accendo rotella');
-    t.caricamentoMC[t.NumeroFrame2] = true;
     if (actualCall !== t.lastCallMC[t.NumeroFrame2]) {
+      console.log('Cell measure 6 Accendo rotella');
+      t.caricamentoMC[t.NumeroFrame2] = true;
       t.lastCallMC[t.NumeroFrame2] = actualCall;
 
       if (t.debug2 === true) {
@@ -222,7 +222,7 @@ export class MistralGridComponent {
           t.lastCallMC[t.NumeroFrame2] = '';
 
           t.caricamentoMC[t.NumeroFrame2] = false;
-          // logConsole('Cell measure 6 Spengo rotella 2');
+          console.log('Cell measure 6 Spengo rotella 2');
 
           // logConsole('Cell measure 8');
           return;
@@ -275,7 +275,7 @@ export class MistralGridComponent {
           }
 
           t.caricamentoMC[t.NumeroFrame2] = false;
-          // logConsole('Cell measure 6 Spengo rotella 3');
+          console.log('Cell measure 6 Spengo rotella 3');
           // this.staDisegnandoCellMeasures[t.NumeroFrame2] = false;
         }
       }, error => {
@@ -285,7 +285,7 @@ export class MistralGridComponent {
         t.lastCallMC[t.NumeroFrame2] = '';
         
         t.caricamentoMC[t.NumeroFrame2] = false;
-        // logConsole('Cell measure 6 Spengo rotella 4');
+        console.log('Cell measure 6 Spengo rotella 4');
         // this.staDisegnandoCellMeasures[t.NumeroFrame2] = false;
         // logConsole('Cell measure 11');
       });
@@ -303,8 +303,8 @@ export class MistralGridComponent {
         t.datiMistralCDR = t.vecchidatiMistralCDR;
       }, 100); */
       // t.staDisegnandoCellMeasures[t.NumeroFrame2] = false;
-      t.caricamentoMC[t.NumeroFrame2] = false;
-      // logConsole('Cell measure 6 Spengo rotella 5');
+      // t.caricamentoMC[t.NumeroFrame2] = false;
+      // console.log('Cell measure 6 Spengo rotella 5');
     }
   }
 }

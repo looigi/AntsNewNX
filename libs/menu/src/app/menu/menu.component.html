@@ -17,19 +17,19 @@
   (mouseleave)="chiudeDrawer('TASTO')">
 
   <!--   [style.width]="posizione === 'absolute' ? '250px' : '100%'" -->
-  <div style="width: 100%; height: auto;">
-    <div style="width: calc(100% - 120px); padding-top: 10px; float: left; text-align: left; background-color: #063966; color: white; height: 35px; margin-top: -2px;" >
-    <!-- </div>
-    <div style="width: 50%; float: left; text-align: left;"> -->
-      &nbsp;Navigation menu
+  <!-- Barra del titolo: stessi stili della barra "Context Menu" delle app (altezza 35px, nessun margine/padding esterno,
+       titolo centrato in verticale con 5px di rientro, icone 35x35 a destra) -->
+  <div style="width: 100%; height: 35px; margin: 0; padding: 0; box-sizing: border-box; background-color: #063966; display: flex; align-items: center;">
+    <div style="flex: 1; min-width: 0; padding-left: 5px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      Navigation menu
     </div>
-    <div style="width: 120px; float: left; padding-top: 2px; text-align: right; background-color: #063966; height: 35px; margin-top: -2px;">
+    <div style="width: 120px; height: 35px; display: flex; justify-content: flex-end; align-items: center; gap: 2px;">
       <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Home_white.png'" title="Home Page" height='35' width='35'  alt=''
-        style="cursor: pointer;" (click)="changePage('Home;Empty', '', false)" >
-      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" style="cursor: pointer;" title="F11 full screen" height='35' width='35'
-        [src]="linkIcone + '/icons/fullscreen_white.png'" style="cursor: pointer;" (click)="toggleFullScreen()" />
+        style="cursor: pointer; display: block;" (click)="changePage('Home;Empty', '', false)" >
+      <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" title="F11 full screen" height='35' width='35'
+        [src]="linkIcone + '/icons/fullscreen_white.png'" style="cursor: pointer; display: block;" (click)="toggleFullScreen()" />
       <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/close_context.png'" title="Close menu" height='35' width='35'  alt=''
-        style="cursor: pointer;" (click)="chiudeDrawer('TASTO');">
+        style="cursor: pointer; display: block;" (click)="chiudeDrawer('TASTO');">
     </div>
   </div>
 
