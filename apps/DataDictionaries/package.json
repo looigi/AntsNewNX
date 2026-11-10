@@ -1,14 +1,14 @@
 {
   "name": "DataDictionaries",
-  "version": "0.0.90",
+  "version": "0.0.91",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "serve": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve",
-	"build-prod": "npx kendo-ui-license activate && node --max_old_space_size=4096 ../../node_modules/@angular/cli/bin/ng build --configuration production --aot",
-	"test": "ng test",
+    "build-prod": "npx kendo-ui-license activate && node --max_old_space_size=4096 ../../node_modules/@angular/cli/bin/ng build --configuration production --aot",
+    "test": "ng test",
     "postinstall": "npx kendo-ui-license activate"
   },
   "private": true,
