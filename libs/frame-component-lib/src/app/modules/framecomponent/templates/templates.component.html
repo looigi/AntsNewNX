@@ -29,10 +29,14 @@
         </div>
         <div style="width: calc(100% - 30px); float: left; margin-top: 4px;">Nexus | AI-Powered Analysis</div>
       </div>
-      <div style="width: 80px; float: left; text-align: right; margin-top: -7px;">
+      <div style="width: 80px; float: left; text-align: right; margin-top: -3px;">
+        <div style="width: 35px; height: 35px; float: left; text-align: center; margin-top: 3px;">
           <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && !massimizzata" [src]="Utils.linkIcone + '/icons/arrow-expand-all-custom.png'" style="width: 27px; height: 27px; cursor: pointer;" title="Maximize" (click)="massimizza(true)" >
           <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1 && massimizzata" [src]="Utils.linkIcone + '/icons/arrow-collapse-all-custom.png'" style="width: 27px; height: 27px; cursor: pointer;" title="Reduce" (click)="massimizza(false)" >
+        </div>
+        <div style="width: 35px; height: 35px; float: left; text-align: center;">
           <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/close_context.png'" (click)="chiudeMaschera()" title="Close" class="immaginiIcone">
+        </div>
       </div>
   </div>
 

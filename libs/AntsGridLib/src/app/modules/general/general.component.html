@@ -1839,11 +1839,11 @@
     <as-split-area [size]="dimeArea4" [visible]="openAdvancedFilter" [lockSize]="!openAdvancedFilter" style="overflow: hidden;">
       <div class="mascheraFiltroAvanzato">
         <div class="titoloFiltroAvanzato">
-          <div style="width: calc(100% - 35px); float: left; text-align: left;">
-            &nbsp;Advanced Filter
-          </div>
-          <div style="width: 35px; float: left; text-align: center;">
+          <div style="width: 35px; float: left; text-align: center; margin-top: -2px;">
             <img [hidden]="!(iconeValide)" [src]="linkIcone + '/icons/close.png'" style="width: 25px; height: 25px; cursor: pointer;" title="Cancel" (click)="openAdvancedFilter = false;" >
+          </div>
+          <div style="width: calc(100% - 35px); float: left; text-align: left; margin-top: -1px;">
+            &nbsp;Advanced Filter
           </div>
         </div>
         <div class="contenutoFiltroAvanzato">

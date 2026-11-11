@@ -227,22 +227,22 @@
 
 .confirmed {
   background: #dcfce7;
-  color: #2fb315;
+  color: #2fb31586;
 }
 
 .excluded {
     background: #f3f081;
-    color: #2fb315;
+    color: #2fb31586;
  }
 
 .inconclusive {
   background: #bdf9f6;
-  color: #1ce3f1;
+  color: #1ce3f17a;
 }
 
 .not_applicable {
   background: #f9bdbd;
-  color: #edf11c;
+  color: #edf11c70;
 }
 
 /* SEZIONE DESTRA CHAT */

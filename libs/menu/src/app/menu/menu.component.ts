@@ -715,8 +715,12 @@ export class MenuComponent implements  OnInit, OnChanges, OnDestroy, AfterViewIn
     }
   }
 
+  menuSelezionato2 = '';
+
   changeStateAccordion(n) {
     // UtilsInterna.scriveLog('Cambio stato accordion')
+    console.log('Cambio stato accordion: ' + n);
+    this.menuSelezionato2 = n;
     return;
     
     const tm = setTimeout(() => {

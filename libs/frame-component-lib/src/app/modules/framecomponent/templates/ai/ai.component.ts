@@ -3152,8 +3152,9 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
             dati1.forEach(element => {
               const titolo = "<div class='row-user'><div class='user-bubble'>" + element.title + "</div></div><br />";
               const summary = JSON.parse(element.summary);
-              let confidenza = '';
+              // let confidenza = '';
               let testoConfidenza = '';
+              let conclusion = '';
 
               /* let valConfidenza = 0;
               if (summary && summary.executive_summary && summary.executive_summary.confidence) {
@@ -3169,6 +3170,10 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
                   }
                 }
               } */
+
+                if (summary && summary.executive_summary && summary.executive_summary.conclusion) {
+                conclusion = summary.executive_summary.conclusion;
+              }
 
               if (summary && summary.executive_summary && summary.executive_summary.goal_assessment) {
                 testoConfidenza = summary.executive_summary.goal_assessment;
@@ -3190,13 +3195,13 @@ export class AIComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy 
                     element.answer + 
                     "<hr />" +
                     "<h5>Executive summary</h5>" +
-                    "<div style='width: 100%; height: auto; margin-top: 5px;'>" +
-                    "<strong>Most problem root cause:</strong> " + causa + "<br />" +
-                    "<strong>Problem:</strong> " + problema + "<br />" +
-                    "</div>" +
-                    "Conclusion:<br />" +
+                    // "<div style='width: 100%; height: auto; margin-top: 5px;'>" +
+                    // "<strong>Most problem root cause:</strong> " + causa + "<br />" +
+                    // "<strong>Problem:</strong> " + problema + "<br />" +
+                    // "</div>" +
+                    "<strong>Conclusion:</strong> " + conclusion + "<br />" +
                     "<div style='width: 100%;'>" + 
-                      "<div style='float: left; padding-top: 6px;'>Assessment:&nbsp;</div>" +
+                      // "<div style='float: left; padding-top: 6px;'>Assessment:&nbsp;</div>" +
                       "<div style='float: left' class='chips'>" +
                         "<div class='chip " + testoConfidenza + "'>" + testoConfidenza + "</div>" +
                       "</div>" +

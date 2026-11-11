@@ -7461,8 +7461,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
     return p ? p.valore : null;
   }
 
+  menuSelezionato = '0';
+
   // Apertura/chiusura di un pannello con il clic sull'intestazione: si aggiornano i flag come faceva il vecchio selectedChange
   cambioPannelloContext(valore) {
+    this.menuSelezionato = valore;
+    // console.log('Cambio menù: ', valore);
+
     const p = AppComponent.PANNELLI_CONTEXT.find(x => x.valore === valore);
     if (p) {
       if (this[p.flag] !== true) {

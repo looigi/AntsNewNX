@@ -54,6 +54,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
   messaggioLogin;
   coloreSfondo = 'white';
   errore = '';
+  errorePerIcona = '';
   staiParlando = false;
   microAttivo = false;
   testoVocale = '';
@@ -484,6 +485,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
         Utilities.checkRitornoChiamata(this.Utils2, data2);
 
         this.errore = '';
+        this.errorePerIcona = '';
         this.coloreSfondo = 'white';
 
         if (this.debug === true) {
@@ -537,12 +539,15 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
         switch (this.statoManutenzione) {
           case 'LOGIN_WARNING':
             this.coloreSfondo = '#faeea2';
+            this.errorePerIcona = 'WARNING';
             break;
           case 'LOGIN_RESTRICTED':
             this.coloreSfondo = '#faa2a2';
+            this.errorePerIcona = 'RESTRICTED';
             break;
           case 'LOGIN_OK':
             this.coloreSfondo = 'white';
+            this.errorePerIcona = '';
             break;
         }
         this.coloreSfondoEmit.emit(this.coloreSfondo);
@@ -555,6 +560,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
       } else {
         // alert('Read symbolic null');
         this.coloreSfondo = '#faa2a2';
+        this.errorePerIcona = 'RESTRICTED';
 
         this.errore = data2.message;
         // this.chiudeErrore();
@@ -562,6 +568,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
     }, error => {
       this.coloreSfondo = '#faa2a2';
       // alert('Read symbolic: ' + error);
+      this.errorePerIcona = 'RESTRICTED';
       this.errore = 'No access to the platform';
       this.chiudeErrore();
     });

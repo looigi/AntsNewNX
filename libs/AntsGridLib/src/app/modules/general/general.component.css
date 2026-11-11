@@ -823,9 +823,10 @@ a[target="_blank"] {
 .titoloFiltroAvanzato {
   float: left;
   width: 100%;
-  height: 25px;
+  height: 20px;
   background-color: #b7b7ab;
   color: #f5f4df;
+  border: 1px solid #999;
 }
 
 .contenutoFiltroAvanzato222 {
@@ -858,9 +859,52 @@ a[target="_blank"] {
   text-align: right;
 }
 
-/* Tooltip Kendo (kendoTooltip sulle icone): il tema li mette in un contenitore con z-index 100, quindi finiscono
-   dietro i pannelli delle app (z-index fino a 11510) e non si vedono. Qui solo i tooltip salgono sopra tutto,
-   restando sotto i messaggi SweetAlert (99999). Il componente ha ViewEncapsulation.None: la regola è globale. */
-.k-animation-container:has(.k-tooltip) {
+/* Advanced Filter (kendo-filter): Kendo dà larghezze fisse ai campi (campo 140px, operatore 210px, valore 140px)
+   e manda a capo la riga se non c'è spazio. Qui il filtro occupa tutta la maschera e i tre campi si dividono
+   la riga in parti uguali, seguendo il ridimensionamento della maschera.
+   Tra li e .k-filter-toolbar Kendo mette un contenitore senza classe: niente selettori ">" su quel livello. */
+.contenutoFiltroAvanzato .k-filter {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contenutoFiltroAvanzato .k-filter-toolbar {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contenutoFiltroAvanzato .k-filter-toolbar > .k-toolbar {
+  flex: 1 1 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Riga di una condizione (campo, operatore, valore, cestino): sempre su una sola riga */
+.contenutoFiltroAvanzato .k-filter-item .k-toolbar:has(> .k-filter-field) {
+  flex-wrap: nowrap;
+}
+
+.contenutoFiltroAvanzato .k-filter-field,
+.contenutoFiltroAvanzato .k-filter-operator,
+.contenutoFiltroAvanzato .k-filter-value {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto !important;
+}
+
+.contenutoFiltroAvanzato .k-filter-field > *,
+.contenutoFiltroAvanzato .k-filter-operator > *,
+.contenutoFiltroAvanzato .k-filter-value > * {
+  width: 100% !important;
+  min-width: 0;
+}
+
+/* Popup Kendo (tooltip delle icone, tendine delle combo, calendari, menu): il tema li mette in un contenitore con
+   z-index 100, quindi finiscono dietro i pannelli delle app (z-index fino a 11510, es. Advanced Filter) e non si
+   vedono. Qui salgono sopra tutto, restando sotto i messaggi SweetAlert (99999).
+   Il componente ha ViewEncapsulation.None: la regola è globale. */
+.k-animation-container {
   z-index: 12000 !important;
 }

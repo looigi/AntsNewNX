@@ -37,9 +37,21 @@
   <p-accordion [multiple]="false" [(value)]="menuSelezionato" (valueChange)="changeStateAccordion($event)">
     <p-accordion-panel *ngIf='visibilita.hideMaps=="false" && showButtons' value="menuApplicazioni">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb;">
-        <span style="margin-left: 10px;">
-          <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/Maps.png'" class="immagini" style="height: 20px; width: 20px;">
-          Dashboard
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/Maps.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">Dashboard</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuApplicazioni'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
         </span>
       </p-accordion-header>
       <p-accordion-content>
@@ -76,10 +88,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideFleetManager=="false" && showButtons' value="menuFM">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/fleet.png'" class="immagini" style="height: 20px; width: 20px;">
           {{NomeFleetManager}}
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/fleet.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">{{NomeFleetManager}}</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuFM'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -145,10 +174,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideDataDictionaries=="false" && showButtons' value="menuDD">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone)" [src]="linkIcone + '/icons/data_dict.png'" class="immagini" style="height: 20px; width: 20px;">
-          Data Dictionaries
-        </span>
+            
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/data_dict.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">Data Dictionaries</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuDD'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -179,10 +225,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideUserManager=="false" && showButtons' value="menuUM">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/user_manager.png'" class="immagini" style="height: 20px; width: 20px;">
           User Manager
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/user_manager.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">User Manager</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuUM'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -230,10 +293,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideSystem=="false" && showButtons' value="menuS">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/system.png'" class="immagini" style="height: 20px; width: 20px;">
           System
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/system.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">System</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuS'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -298,10 +378,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideSpreadSheet=="false" && showButtons' value="menuSpreadSheet">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/grid.png'" class="immagini" style="height: 20px; width: 20px;">
           SpreadSheet
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/grid.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">Spreadsheet</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuSpreadSheet'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -318,10 +415,27 @@
 
     <p-accordion-panel *ngIf='visibilita.hideAnts1=="false" && showButtons' value="menuAnts1">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/ants.png'" class="immagini" style="height: 20px; width: 20px;">
           Ants
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/ants.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">Ants</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuAnts1'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
@@ -383,10 +497,27 @@
 
     <p-accordion-panel header="Session" value="menuSession">
       <p-accordion-header style="padding: 0px; background-color: #dbdbdb; margin-top: 2px;">
-        <span style="margin-left: 10px;">
+        <!-- <span style="margin-left: 10px;">
           <img *ngIf="linkIcone" [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" [src]="linkIcone + '/icons/operator.png'" class="immagini" style="height: 20px; width: 20px;">
           {{userName}}
-        </span>
+        </span> -->
+
+        <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+            <img *ngIf="linkIcone"
+                [hidden]="!(linkIcone && linkIcone.toUpperCase().indexOf('UNDEFINED') == -1)"
+                [src]="linkIcone + '/icons/operator.png'"
+                class="immagini"
+                style="height: 20px; width: 20px;">
+
+            <span style="margin-left: 5px;">{{userName}}</span>
+
+            <i class="pi"
+              [ngClass]="menuSelezionato2 === 'menuSession'
+                  ? 'pi-chevron-up'
+                  : 'pi-chevron-down'"
+              style="margin-left: auto; margin-right: 10px;">
+            </i>
+        </span>        
       </p-accordion-header>
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
