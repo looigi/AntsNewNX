@@ -69,10 +69,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "fleet-manager:build:production"
+          "buildTarget": "FleetManager:build:production"
         },
         "development": {
-          "buildTarget": "fleet-manager:build:development"
+          "buildTarget": "FleetManager:build:development"
         }
       },
       "defaultConfiguration": "development"

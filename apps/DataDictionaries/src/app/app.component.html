@@ -13,6 +13,8 @@
   [fullScreen]="fullScreen"
   [urlRoot]="Utils.urlRoot"
 
+  [menuAperto]="menuVisibile"
+  [menu2Aperto]="menuVisibile2"
   (apreMenuEmit)="apreMenu()"
   (apreMenu2Emit)="apreMenu2()"
   (statoServerEmit)="statoServer = $event"
@@ -159,7 +161,7 @@
     style="width: 100%; height: 35px; margin: 0; padding: 0; box-sizing: border-box; z-index: 5005;
       background-color: #063966; display: flex; align-items: center; float: left;">
     <div style="flex: 1; min-width: 0; padding-left: 5px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-      Context Menu
+      <strong>Context Menu</strong>
     </div>
     <div style="width: 35px; height: 35px; display: flex; justify-content: flex-end; align-items: center; gap: 2px;">
       <img *ngIf="Utils && Utils.linkIcone"
@@ -181,12 +183,19 @@
 
       <div *ngIf="mascheraAntenne" style="width: 100%; height: auto;">
         <div style="width: 100%; height: 200px; float: left;">
-          <p-accordion [multiple]="false" (valueChange)="changeStateAccordion(1)">
+          <p-accordion [multiple]="false" (valueChange)="changeStateAccordion(1); pannelloContextSelezionato = $event">
             <p-accordion-panel value="menu1">
               <p-accordion-header style="padding: 0px;">
-                <span style="margin-left: 10px;">
-                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/EventLog.png'" class="immagini" style="height: 20px; width: 20px;">
-                  Cell Set
+                <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1"
+                    [src]="Utils.linkIcone + '/icons/EventLog.png'"
+                    class="immagini"
+                    style="height: 20px; width: 20px;">
+                  <span style="margin-left: 5px;">Cell Set</span>
+                  <i class="pi"
+                    [ngClass]="pannelloContextSelezionato === 'menu1' ? 'pi-chevron-up' : 'pi-chevron-down'"
+                    style="margin-left: auto; margin-right: 10px;">
+                  </i>
                 </span>
               </p-accordion-header>
 
@@ -239,9 +248,16 @@
 
             <p-accordion-panel value="menu2">
               <p-accordion-header style="padding: 0px;">
-                <span style="margin-left: 10px;">
-                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/Filter.png'" class="immagini" style="height: 20px; width: 20px;">
-                  Filter
+                <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1"
+                    [src]="Utils.linkIcone + '/icons/Filter.png'"
+                    class="immagini"
+                    style="height: 20px; width: 20px;">
+                  <span style="margin-left: 5px;">Filter</span>
+                  <i class="pi"
+                    [ngClass]="pannelloContextSelezionato === 'menu2' ? 'pi-chevron-up' : 'pi-chevron-down'"
+                    style="margin-left: auto; margin-right: 10px;">
+                  </i>
                 </span>
               </p-accordion-header>
               <p-accordion-content>
@@ -560,9 +576,16 @@
 
             <p-accordion-panel value="menu3">
               <p-accordion-header style="padding: 0px;">
-                <span style="margin-left: 10px;">
-                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1" [src]="Utils.linkIcone + '/icons/UnselectAll.png'" class="immagini" style="height: 20px; width: 20px;">
-                  View
+                <span style="margin-left: 10px; display: flex; align-items: center; width: 100%;">
+                  <img *ngIf="Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1"
+                    [src]="Utils.linkIcone + '/icons/UnselectAll.png'"
+                    class="immagini"
+                    style="height: 20px; width: 20px;">
+                  <span style="margin-left: 5px;">View</span>
+                  <i class="pi"
+                    [ngClass]="pannelloContextSelezionato === 'menu3' ? 'pi-chevron-up' : 'pi-chevron-down'"
+                    style="margin-left: auto; margin-right: 10px;">
+                  </i>
                 </span>
               </p-accordion-header>
               <p-accordion-content>

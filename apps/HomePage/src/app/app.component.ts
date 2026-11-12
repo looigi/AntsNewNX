@@ -471,8 +471,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           if (Utils.visibilita.hideAnts1 === 'true') { quanti++ }
           Utils.visibilita.hideSpreadSheet = 'false';
           Utils.visibilita.hideAnts1 = 'false';
-          quanti --;
         }
+        quanti --;
         this.dimensioneBottone = Math.floor(100 / quanti);
         // alert('Maschere visibili: ' + quanti + ' -> ' + this.dimensioneBottone);
 

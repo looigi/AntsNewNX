@@ -138,7 +138,31 @@
     user-select: none;
 }
 
+.ni-pulsante-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 95%;
+    margin-top: 5px;
+    height: 48px;
+    margin: 0 auto;
+    border-radius: 6px;
+    background: linear-gradient(#f07a24, #dc5f0e);
+    box-shadow: 0 3px 8px rgba(220, 95, 14, 0.35);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    margin: 3px;
+}
+
 .ni-pulsante:hover {
+    background: linear-gradient(#f68a3a, #e5691a);
+}
+
+.ni-pulsante-2:hover {
     background: linear-gradient(#f68a3a, #e5691a);
 }
 

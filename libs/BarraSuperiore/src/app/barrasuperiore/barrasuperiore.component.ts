@@ -32,6 +32,18 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
   @Input() fullScreen;
   @Input() urlRoot;
   @Input() dataOraServer;
+  // Stato dei due menu (passato dall'app): l'icona del menu aperto diventa arancione, bianca quando è chiuso
+  @Input() menuAperto = false;
+  @Input() menu2Aperto = false;
+
+  // Le icone sono PNG nere: questi filtri le colorano di bianco o di arancione (#FF8C00)
+  static readonly FILTRO_ICONA_BIANCA = 'brightness(0) invert(1)';
+  static readonly FILTRO_ICONA_ARANCIONE =
+    'brightness(0) invert(33%) sepia(56%) saturate(2008%) hue-rotate(14deg) brightness(145%) contrast(156%)';
+
+  filtroIcona(aperto: boolean): string {
+    return aperto ? BarraSuperioreComponent.FILTRO_ICONA_ARANCIONE : BarraSuperioreComponent.FILTRO_ICONA_BIANCA;
+  }
 
   @Output() apreMenuEmit: EventEmitter<string> = new EventEmitter<string>();
   @Output() apreMenu2Emit: EventEmitter<string> = new EventEmitter<string>();
@@ -52,6 +64,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
   itr;
   statoManutenzione;
   messaggioLogin;
+  descrizioneManutenzione = '';
   coloreSfondo = 'white';
   errore = '';
   errorePerIcona = '';
@@ -61,6 +74,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
   coloreTesto = '#fff1ea';
   campoTestoInFocus = true;
   visualizzaMicrofono = false;
+  puoVisualizzareIcone = false;
 
   destroy$ = new Subject<void>();
 
@@ -280,6 +294,11 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
       if (this.debug === true) {
         // logConsole('Barra: Arrivato gruppo', this.nomeIcona);
       }
+      const t = setTimeout(() => {
+        clearTimeout(t);
+
+        this.puoVisualizzareIcone = true;
+      }, 300);
     }
   }
   
@@ -487,6 +506,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
         this.errore = '';
         this.errorePerIcona = '';
         this.coloreSfondo = 'white';
+        this.descrizioneManutenzione = '';
 
         if (this.debug === true) {
           // logConsole('Barra: simbolici', data2);
@@ -500,6 +520,7 @@ export class BarraSuperioreComponent implements  OnInit, OnChanges, OnDestroy {
             case 'SYS_MAINTENANCE_STATUS':
               // // logConsole(this.statoManutenzione);
               this.statoManutenzione = element.VALUE;
+              this.descrizioneManutenzione = element.DESCRIPTION;
               this.statoManutenzioneEmit.emit(element.VALUE);
               break;
             case 'server time':

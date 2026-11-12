@@ -232,7 +232,7 @@
                       <div style="width: 20%; float: left; text-align: left; white-space: nowrap;">
                         Name
                       </div>
-                      <div style="width: calc(80% - 8px); float: left;" title="Identifies the “Analysis Template”, change the name before saving, to save it as a new Analysis Template">
+                      <div style="width: 80%; float: left;" title="Identifies the “Analysis Template”, change the name before saving, to save it as a new Analysis Template">
                         <input type="text" [(ngModel)]="title" style="width: 100%; resize: none; height: calc(100% - 25px);" />
                       </div>
                     </div>
@@ -332,7 +332,26 @@
                     </div>
 
                     <div style="width: 20%; height: calc(100% - 120px); overflow: auto; float: left; text-align: left; white-space: nowrap;">
-                      <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addColumnDescription()">Add column description</div>
+                      <div class="ni-pulsante-2" (click)="addColumnDescription()">
+                        <span>Add column description</span>
+                      </div>
+                      <div class="ni-pulsante-2" (click)="addColumnDescription()">
+                        <span>Add RAG Prompt</span>
+                      </div>
+                      <div class="ni-pulsante-2" (click)="addColumnDescription()">
+                        <span>Add RAG Prompt</span>
+                      </div>
+                      <div class="ni-pulsante-2" (click)="saveTemplate()"
+                          [style.background-color]="vecchioPrompt == prompt ? 'gray' : '#cf4b11'"
+                          title="Saves the current Analysis Template, defined by the fields above, plus the event grid configuration (i.e. filters, fields to be extracted from the messages and sampled measures).">
+                          <span>Save this analysis template</span>
+                      </div>
+                      <div class="ni-pulsante-2" *ngIf="visualizzareTastoSubmit" (click)="ritornoQueryAI2()"                  
+                          title="Creates an Analysis Request and submits it to the external AI provider integrated with the GeoAnts platform. The list of requests and answers is displayed in the “Analysis” tab">
+                          <span>Submit Request to AI</span>
+                      </div>
+
+                      <!--c <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addColumnDescription()">Add column description</div>
                       <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="addRagPrompt()">Add RAG Prompt</div>
 
                       <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" (click)="saveTemplate()" 
@@ -343,7 +362,7 @@
                       <div class="bottone2" style="width: 95%; margin-top: 5px; padding: 2px;" *ngIf="visualizzareTastoSubmit" (click)="ritornoQueryAI2()"                  
                           title="Creates an Analysis Request and submits it to the external AI provider integrated with the GeoAnts platform. The list of requests and answers is displayed in the “Analysis” tab">
                           Submit Request to AI
-                      </div>
+                      </div> -->
 
                       <!-- <div style="width: 95%; margin-top: 5px; padding: 2px; float: left;">
                         <div style="float: left; width: 100%; height: 30px; overflow:hidden; white-space: nowrap;">

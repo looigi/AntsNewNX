@@ -1058,7 +1058,6 @@ body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:
 
 .p-accordion .p-accordionheader {
     padding-left: 10px !important;
-    height: 35px !important;
 }
 
 /* Header accordion aperto */

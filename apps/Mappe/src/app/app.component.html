@@ -12,6 +12,8 @@
       [fullScreen]="false"
       [urlRoot]="Utils.urlRoot"
 
+      [menuAperto]="menuVisibile"
+      [menu2Aperto]="menuVisibile2"
       (apreMenuEmit)="apreMenu()"
       (apreMenu2Emit)="apreMenu2()"
       (statoServerEmit)="statoServer=$event"
@@ -44,7 +46,7 @@
             </as-split-area> -->
   <!-- {{schermoStretto}}:{{dimeX}}-{{dimeY}} -->
 
-            <div class="barraHeader">
+            <div class="barraHeader" style="background-color: #afb9c1;">
               <div *ngIf="dashboardSelected != null && schermoStretto" style="width: 100%; height: 100%; z-index: 1900; padding-top: 3px; white-space: nowrap;">
                 <div style="float: left; text-align: right; margin-top: -2px; max-height: 28px; white-space: nowrap; margin-left: 5px;">
                   <!-- <img *ngIf="linkIcone && datiDashboard && dashboardSelezionata && impostazioni.framesPinnati && impostazioni.maskSizeHor[1] > 0 && !impostazioni.nascoste123" class="immaginiIcone" title="Pin Frames" [src]="linkIcone + '/icons/pinFrames.png'" style="width: 25px; height: 25px;" (click)="disattivaPin()" >
@@ -81,7 +83,7 @@
                     <span *ngIf="pageSelector > -1 && dashboardName">{{pageSelector}})&nbsp;</span>
                     
                     <span *ngIf="dashboardName">{{dashboardName}}&nbsp;/&nbsp;{{nomePaginaSelezionata}}</span>
-                    <span *ngIf="!dashboardName" style="color:red;">Click to select a dashboard</span>
+                    <span *ngIf="!dashboardName" style="color:#cd1515;">Click to select a dashboard</span>
                   </div>
 
                   <div class="titolo" style="width: 60px; margin-left: 3px; text-align: left; overflow: hidden; float: left; font-weight: bold;"
@@ -89,7 +91,7 @@
                   <div *ngIf="nomeSet1 && nomeSet1 != ''" style="width: calc(50% - 75px); margin-left: 3px; text-align: left; overflow: hidden; float: left; cursor: pointer;" (click)="apreMenuSuDataSet()" title="{{nomeSet1}}">
                     {{nomeSet1}}
                   </div>
-                  <div *ngIf="!nomeSet1 || nomeSet1 == ''" style="width: calc(50% - 75px); margin-left: 3px; text-align: left; overflow: hidden; float: left; color: red;" (click)="apreMenuSuDataSet()" title="Click to select a dataset">
+                  <div *ngIf="!nomeSet1 || nomeSet1 == ''" style="width: calc(50% - 75px); margin-left: 3px; text-align: left; overflow: hidden; float: left; color: #cd1515;" (click)="apreMenuSuDataSet()" title="Click to select a dataset">
                     Click to select a dataset
                   </div>
                 </div>
@@ -108,7 +110,8 @@
 
                 <div style="width: 55%; float: left; text-align: right; margin-top: -5px;
                   max-height: calc(25% - 5px); white-space: nowrap;">
-                  <div *ngIf="dashboardSelected != null && dashboardSelected !== 'start'" style="width: 100%;">
+                  <!-- Riga flex: le date occupano solo lo spazio che serve, i pulsanti di navigazione prendono il resto -->
+                  <div *ngIf="dashboardSelected != null && dashboardSelected !== 'start'" style="width: 100%; display: flex; align-items: flex-start;">
                     <!-- <div style="width: 30px; float: left;">
                         <span *ngIf="!messaggioDierrore">&nbsp;</span>
                         <img *ngIf="linkIcone && messaggioDiErrore" [src]="linkIcone + '/icons/Alarm.png'" style="width: 20px; cursor: pointer;" title="Error in dashboard">
@@ -163,12 +166,11 @@
 
                     <div style="width: calc(100% - 45px); float: left;"> -->
 
-                      <div style="width: 50%; float: left; margin-top: 3px; text-align: right; height: 35px;">
+                      <div style="flex: 0 0 auto; margin-top: 3px; text-align: right; height: 35px;">
 
                         <!-- I tre campi (start, cursor, end) hanno contenitori identici: stessa larghezza, margini e padding.
-                             [style.width] vuole solo il valore (es. 'calc(33% - 3px)'), non 'width: ...;' -->
-                        <div *ngIf="timestampVisibile" style="margin-right: 3px; float: left; overflow: hidden;"
-                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
+                             125px bastano per 'aaaa-mm-gg hh:mm:ss' a 10px: niente spazio bianco che toglie posto ai pulsanti -->
+                        <div *ngIf="timestampVisibile" style="width: 125px; margin-right: 3px; float: left; overflow: hidden;">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">Start&nbsp;</div> -->
                           <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
@@ -186,8 +188,7 @@
                         </div>
 
                         <!-- style="float: left;" [style.width.%]="timestampVisibile ? '33' : '100' "  -->
-                        <div *ngIf="showTimeCursor == true" style="margin-right: 3px; float: left; overflow: hidden;"
-                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
+                        <div *ngIf="showTimeCursor == true" style="width: 125px; margin-right: 3px; float: left; overflow: hidden;">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">Cursor&nbsp;</div> -->
                           <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
@@ -203,8 +204,7 @@
                           </div>
                         </div>
                         
-                        <div *ngIf="timestampVisibile" style="margin-right: 3px; float: left; overflow: hidden;"
-                          [style.width]="showTimeCursor == true ? 'calc(33% - 3px)' : 'calc(50% - 3px)'">
+                        <div *ngIf="timestampVisibile" style="width: 125px; margin-right: 3px; float: left; overflow: hidden;">
                           <!-- <div style="font-size: 12px; width: 20%; float: left; text-align: left; line-height: 10px; margin-top: 10px;">End&nbsp;</div> -->
                           <div style="width: 100%; float: left; margin-top: 3px; text-align: left; overflow: hidden;">
                             <app-calendario
@@ -224,7 +224,7 @@
 
                       </div>
 
-                      <div style="width: 40%; float: left; text-align: right; margin-top: 3px;"
+                      <div style="flex: 1 1 auto; min-width: 0; text-align: right; margin-top: 3px;"
                         (mouseover)="tastiVisibiliSalva = true" (mouseout)="tastiVisibiliSalva = false"
                         [style.opacity]="tastiVisibiliSalva == true ? '1' : '0'"
                       >
@@ -242,7 +242,7 @@
                         <img *ngIf="linkIcone" [hidden]="!(iconeValide)" class="immaginiIcone" title="Forwards 5 seconds" [src]="linkIcone + '/icons/step-forward-2.png'" (click)="avanti2()">
                         <img *ngIf="linkIcone" [hidden]="!(iconeValide)" class="immaginiIcone" title="Next Page" [src]="linkIcone + '/icons/skip-next-circle.png'" (click)="avantiTR()">
                       </div>
-                      <div style="width: 10%; float: left; text-align: right; margin-top: 3px;">
+                      <div style="flex: 0 0 10%; text-align: right; margin-top: 3px;">
                         <img *ngIf="linkIcone" [hidden]="!(datiDashboard && stampaPagine)" [src]="linkIcone + '/BrandingElements/AntsIcon.png'" title="Product page" style="height: 22px; width: 42px; margin-right: 5px; margin-left: -13px; margin-top: -3px; cursor: pointer;">
                         <img *ngIf="linkIcone" [hidden]="!(datiDashboard && stampaPagine)" [src]="linkIcone + '/BrandingElements/CompanyLogo.png'" title="Aubay solutions" style="height: 28px; margin-right: 5px; margin-top: 0px; cursor: pointer;">
                 

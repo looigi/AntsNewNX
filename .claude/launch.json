@@ -48,6 +48,18 @@
         "4295"
       ],
       "port": 4295
+    },
+    {
+      "name": "FleetManager",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nx",
+        "serve",
+        "FleetManager",
+        "--port",
+        "4294"
+      ],
+      "port": 4294
     }
   ]
 }

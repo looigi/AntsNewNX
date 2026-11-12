@@ -35,6 +35,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ultimaVoltaClickMenu2 = -1;
   menuVisibile = false;
   menuVisibile2 = false;
+  // Pannello aperto del Context Menu (per la freccia su/giu negli header, come in Mappe)
+  pannelloContextSelezionato: any = 'dashboardAccordionOpen';
   platformName = '';
   dateNowH = '';
   symb_TimeStamp = '';

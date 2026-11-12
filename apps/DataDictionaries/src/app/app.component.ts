@@ -37,6 +37,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ultimaVoltaClickMenu2 = -1;
   menuVisibile = false;
   menuVisibile2 = false;
+  // Pannello aperto del Context Menu (per la freccia su/giu negli header, come in Mappe)
+  pannelloContextSelezionato: any = null;
   comboVisibile = true;
   platformName = '';
   mascheraScelta = 'CellList';

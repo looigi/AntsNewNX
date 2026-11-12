@@ -575,6 +575,12 @@ input[type=number]::-webkit-outer-spin-button {
   width: 50px;
 }
 
+/* Campo del numero di pagina nel paginatore: in Kendo 21 non ha più la classe .k-widget, quindi la regola sopra
+   non lo raggiunge e resta stretto (circa 40px) */
+.k-pager-input .k-numerictextbox {
+  width: 55px !important;
+}
+
 .k-pager-wrap {
   color: #656565;
   height: 35px;
@@ -847,7 +853,7 @@ a[target="_blank"] {
 
 .filtro {
   width: 100%;
-  height: calc(100% - 30px);;
+  height: auto; /* calc(100% - 30px); */
   float: left;
   overflow: auto;
 }
@@ -856,12 +862,12 @@ a[target="_blank"] {
   float: left;
   width: 100%;
   height: 30px;
-  text-align: right;
+  text-align: center;
 }
 
 /* Advanced Filter (kendo-filter): Kendo dà larghezze fisse ai campi (campo 140px, operatore 210px, valore 140px)
-   e manda a capo la riga se non c'è spazio. Qui il filtro occupa tutta la maschera e i tre campi si dividono
-   la riga in parti uguali, seguendo il ridimensionamento della maschera.
+   e manda a capo la riga se non c'è spazio. Qui il filtro occupa tutta la maschera: campo e operatore restano
+   a 110px e 120px, il valore (con la casella interna) si allarga a tutto lo spazio e segue il ridimensionamento.
    Tra li e .k-filter-toolbar Kendo mette un contenitore senza classe: niente selettori ">" su quel livello. */
 .contenutoFiltroAvanzato .k-filter {
   display: block;
@@ -886,12 +892,24 @@ a[target="_blank"] {
   flex-wrap: nowrap;
 }
 
-.contenutoFiltroAvanzato .k-filter-field,
-.contenutoFiltroAvanzato .k-filter-operator,
-.contenutoFiltroAvanzato .k-filter-value {
-  flex: 1 1 0;
+/* Campo e operatore a larghezza fissa; il valore prende tutto lo spazio rimanente.
+   Con 120px le voci più lunghe dell'operatore (es. "Does not contain") vengono troncate con "…" */
+.contenutoFiltroAvanzato .k-filter-field {
+  flex: 0 0 110px;
+  width: 110px !important;
   min-width: 0;
+}
+
+.contenutoFiltroAvanzato .k-filter-operator {
+  flex: 0 0 120px;
+  width: 120px !important;
+  min-width: 0;
+}
+
+.contenutoFiltroAvanzato .k-filter-value {
+  flex: 1 1 auto;
   width: auto !important;
+  min-width: 0;
 }
 
 .contenutoFiltroAvanzato .k-filter-field > *,
@@ -899,6 +917,12 @@ a[target="_blank"] {
 .contenutoFiltroAvanzato .k-filter-value > * {
   width: 100% !important;
   min-width: 0;
+}
+
+/* Casella del valore (testo, numero o data) al 100%: senza questa resterebbe a 90px per la regola globale
+   .k-textbox più sopra, oppure a 140px (larghezza predefinita di Kendo per numeri e date) */
+.contenutoFiltroAvanzato .k-filter-value > * > .k-input {
+  width: 100% !important;
 }
 
 /* Popup Kendo (tooltip delle icone, tendine delle combo, calendari, menu): il tema li mette in un contenitore con

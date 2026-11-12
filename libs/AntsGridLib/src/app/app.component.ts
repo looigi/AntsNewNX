@@ -353,7 +353,10 @@ export class AppComponent implements OnInit {
     let nome = '';
     let params;
     let modalita;
-    let tipo: string = 'alarm_grid'; // 'eventi'; // 'mistral_flow_segment'; // 'ants1_td_sched_tree__grid'; // 'mistral_flow_stat';; 
+
+    // PER CAMBIARE LA CONNESSIONE ANDARE SU UTILITIES.COMPONENT.TS E MODIFICARE LA VARIABILE STATIC INDIRIZZOSERVER
+    
+    let tipo: string = 'eventi'; // 'alarm_grid'; // 'mistral_flow_segment'; // 'ants1_td_sched_tree__grid'; // 'mistral_flow_stat';; 
     // // 'tcrungrid'; // 'agn_grid'; // 'aireq_template_grid'; // 
       // 'aireq_template_grid'; // 'rbcixl'; // 'thr'; 
       // 'sim_full'; // ;

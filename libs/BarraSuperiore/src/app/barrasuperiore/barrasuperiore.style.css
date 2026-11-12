@@ -30,7 +30,7 @@ ul {
   width: calc(100% - 35px);
   height: 30px;
   text-align: right;
-  border: 1px solid white;
+  border: 0px solid white;
   color: #c33600;
   opacity: .5;
   padding: 2px;

@@ -4,12 +4,14 @@
     <div *ngIf="Utils.linkIcone" style="width: 50%; float: left; text-align: left; margin-top: 2px;">
     <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
         [src]="Utils.linkIcone + '/icons/hamburger.png'"
-        style="height: 35px; margin-right: 5px; cursor: pointer; filter: brightness(0) invert(1);"
+        style="height: 35px; margin-right: 5px; cursor: pointer;"
+        [style.filter]="filtroIcona(menuAperto)"
         (mouseover)="apreMenu()"
         (click)="apreMenu()">
 
-      <img [hidden]="!(visualizzaSecondoMenu && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
-        [src]="Utils.linkIcone + '/icons/context_menu.png'" style="height: 35px; margin-right: 5px; cursor: pointer; filter: brightness(0) invert(1);"
+      <img [hidden]="!(visualizzaSecondoMenu && Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)"
+        [src]="Utils.linkIcone + '/icons/context_menu.png'" style="height: 35px; margin-right: 5px; cursor: pointer;"
+        [style.filter]="filtroIcona(menu2Aperto)"
         (mouseover)="apreMenu2()" (click)="apreMenu2()">
         
       <span style="color:white; font-size: 14px; margin-top: -15px; ">{{nomeApp}}</span>
@@ -75,25 +77,25 @@
         <div [hidden]="!(visualizzaMicrofono && microAttivo === false || staiParlando === false)" style="width: calc(100% - 35px); height: 30px;">&nbsp;</div>
       </div>
       <div *ngIf="Utils.linkIcone" style="width: 160px; float: left; text-align: right; margin-top: 3px;">
-        <div *ngIf="!errorePerIcona" style="width: 33px; height: 33px; float: right;">
+        <div *ngIf="!errorePerIcona && puoVisualizzareIcone" style="width: 33px; height: 33px; float: right;">
           &nbsp;
         </div>
 
-        <img *ngIf="errorePerIcona" [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        <img *ngIf="errorePerIcona && puoVisualizzareIcone" [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
           [src]="Utils.linkIcone + '/gif/icons8-notification.gif'" 
-          [title]="statoManutenzione" (error)="checkImage($event)" 
+          [title]="descrizioneManutenzione" (error)="checkImage($event)" 
           style="height: 33px; margin-top: 0px; cursor: pointer; float: right;">
           
-        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        <img *ngIf="puoVisualizzareIcone" [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
           (click)="apreCustomer()" [src]="Utils.linkIcone + '/icons/' + nomeIcona + '.png'" 
           [title]="toolTipCP" (error)="checkImage($event)" 
           style="height: 33px; margin-top: 0px; cursor: pointer; filter: brightness(0) invert(1); float: right;">
 
-        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        <img *ngIf="puoVisualizzareIcone" [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
           (click)="apreSolutions()" [src]="Utils.linkIcone + '/BrandingElements/CompanyLogo.png'" 
           title="Aubay solutions" style="height: 31px; margin-top: -3px; cursor: pointer; float: right;">
 
-        <img [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
+        <img *ngIf="puoVisualizzareIcone" [hidden]="!(Utils && Utils.linkIcone && Utils.linkIcone.toUpperCase().indexOf('UNDEFINED')==-1)" 
           (click)="apreProduct()" [src]="Utils.linkIcone + '/BrandingElements/AntsIcon.png'" 
           [title]="toolTipPP" style="height: 31px; margin-top: -3px; cursor: pointer; filter: brightness(0) invert(1); float: right;">        
       </div>

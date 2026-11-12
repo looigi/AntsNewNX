@@ -452,8 +452,13 @@ export class TemplatesComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           clearTimeout(t);
           // All'avvio si carica subito la griglia della Node Library con il folder selezionato, senza aspettare
           // l'evento della combo (che non sempre arriva, e con il tab Node Library non ancora aperto non c'è proprio)
+          // Filter Folder riparte dall'ultimo valore scelto, se è ancora tra i folder disponibili; altrimenti 'default'
+          const ultimoFolder = this.leggeUltimoValoreNI('FilterFolder');
+          const esisteUltimoFolder = !!ultimoFolder && this.listaFolders1.some(f => f.VALUE_STR === ultimoFolder);
           const esisteDefault = this.listaFolders1.some(f => f.VALUE_STR === 'default');
-          this.filterFolder = esisteDefault ? 'default' : (this.listaFolders1[0]?.VALUE_STR || 'default');
+          this.filterFolder = esisteUltimoFolder
+            ? ultimoFolder
+            : (esisteDefault ? 'default' : (this.listaFolders1[0]?.VALUE_STR || 'default'));
           this.ultimoValueStr = this.filterFolder;
           this.caricaTemplates('Avvio maschera');
 
@@ -839,6 +844,7 @@ export class TemplatesComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.ultimoValueStr = e.VALUE_STR;
 
       this.filterFolder = e.VALUE_STR;
+      this.salvaUltimoValoreNI('FilterFolder', this.filterFolder);
       this.caricaTemplates('Select filter folder');
     }
   }
@@ -1286,7 +1292,7 @@ export class TemplatesComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.salvaUltimoValoreNI('Type', this.typeScelto);
   }
 
-  // Ultimi valori di Type e Ver della New Investigation, salvati nel browser per utente
+  // Ultimi valori scelti (Type e Ver della New Investigation, Filter Folder della Node Library), salvati nel browser per utente
   private chiaveUltimoValoreNI(campo: string) {
     return 'Templates_NI_' + campo + '_' + (this.userName2 || this.userName || '');
   }

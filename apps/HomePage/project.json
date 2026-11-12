@@ -66,10 +66,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "home-page:build:production"
+          "buildTarget": "HomePage:build:production"
         },
         "development": {
-          "buildTarget": "home-page:build:development"
+          "buildTarget": "HomePage:build:development"
         }
       },
       "defaultConfiguration": "development"

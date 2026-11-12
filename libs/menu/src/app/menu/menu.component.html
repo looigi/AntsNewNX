@@ -57,7 +57,7 @@
       <p-accordion-content>
         <div style="white-space: nowrap; height: auto; padding-left: 40px; background-color: white;">
           <div *ngIf='showButtons && newWorkSpaceVisibile' 
-            class="rigaDB" style="font-size: 15px; cursor: pointer;" (contextmenu)="onrightClick('Mappe;Mappe', $event)">
+            class="rigaDB" style="font-size: 15px; cursor: pointer; margin-left: 4px;" (contextmenu)="onrightClick('Mappe;Mappe', $event)">
             <a (click)="changePage('Mappe;Mappe', '', false)">
               <!-- <img [src]="linkIcone + '/icons/Maps.png'" height='20' width='20'  alt=''> -->
               New Workspace
