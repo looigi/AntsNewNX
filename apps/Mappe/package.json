@@ -1,6 +1,6 @@
 {
   "name": "mappe",
-  "version": "1.0.100",
+  "version": "1.0.101",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
